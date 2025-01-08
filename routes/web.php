@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -22,6 +23,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::controller(PublicController::class)->group(function () {
+    Route::get('/', 'index')->name('root.page');
+    Route::get('/map', 'map')->name('map.page');
+    Route::get('/region/{id}', 'region')->name('region.page');
+    Route::get('/water/{id}', 'water')->name('water.page');
 });
 
 require __DIR__.'/auth.php';

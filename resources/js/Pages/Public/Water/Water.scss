@@ -1,0 +1,203 @@
+@use '/resources/css/app.scss';
+
+main:has(.Water) {
+    padding: 0 !important;
+}
+
+.Water {
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: .5em;
+
+    .fish-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 4em 4em 4em;
+        overflow-y: auto;
+        position: relative;
+        padding: 0 0.5em;
+        max-height: 100%;
+        font-size: 0.8em;
+
+        @screen sm {
+            grid-template-columns: 1fr 1fr auto auto auto;
+            padding: 0 1em;
+            font-size: 1em;
+            .header {
+                br {
+                    display: none;
+                }
+            }
+        }
+
+        .loading-spinner-container {
+            grid-column: span 5;
+            display: flex;
+            justify-content: center;
+            padding: 2em;
+            .LoadingSpinner {
+                height: 50px;
+                width: 50px;
+            }
+        }
+
+        .body {
+            display: contents;
+        }
+
+        .header {
+            display: contents;
+
+            .date-range {
+                grid-column: span 2;
+            }
+
+            > * {
+                position: sticky;
+                top: 0;
+                z-index: 2;
+                background-color: var(--background-color);
+                padding: 0 0.5em 0.25em 0.5em;
+                font-weight: bold;
+                text-align: center;
+                display: flex;
+                align-items: end;
+                color: var(--heading-color);
+                &:first-child {
+                    text-align: left;
+                    font-size: 1.2em;
+                }
+                span {
+                    display: inline-block;
+                }
+            }
+        }
+
+        button.fish-name {
+            grid-column: span 5;
+            cursor: pointer;
+            user-select: text;
+            border: 1px solid transparent;
+            border-radius: 0.5em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.25em 0.5em;
+            margin: 0.25em 0 0 0;
+
+            &:hover {
+                border: 1px solid var(--highlight-color);
+            }
+
+            .fish-season {
+                display: flex;
+                align-items: center;
+                text-align: left;
+                gap: 0 0.5em;
+
+                strong {
+                    display: flex;
+                    font-size: 1.2em;
+                }
+            }
+
+            .open-indicator {
+                margin: .25em .75em 0 0;
+                width: 1em;
+                height: 1em;
+                transform: rotate(0deg);
+                transform-origin: 50% 50%;
+                transition: 300ms ease;
+            }
+            &.open {
+                border-radius: 0.5em 0.5em 0 0;
+                .open-indicator {
+                    transform: rotate(90deg);
+                }
+            }
+        }
+
+        .limits {
+            display: contents;
+            color: var(--heading-color);
+            .limit > *, .water-description {
+                text-align: center;
+                transition: opacity, max-height 300ms ease;
+                max-height: 0;
+                overflow: hidden;
+            }
+
+            .water-description {
+                grid-column: span 5;
+                text-align: left;
+                &:last-child {
+                    border-radius: 0 0 0.5em 0.5em;
+                }
+            }
+
+            .limit {
+                display: contents; 
+                
+                > * {
+                    &.season-exception {
+                        grid-column: span 2;
+                        text-align: left;
+                        .date-span:nth-child(2) {
+                            display: inline-block;
+                            min-width: 4.5em;
+                        }
+                    }
+                    .invalid {
+                        text-decoration: line-through;
+                        text-decoration-color: var(--error);
+                    }
+                }
+
+                &:last-child {
+                    :nth-last-child(-n + 1) {
+                        border-radius: 0 0 0.5em 0;
+                    }
+                    :nth-last-child(-4n + 4) {
+                        border-radius: 0 0 0 0.5em;
+                    }
+                }
+            }
+
+
+            &.open {
+                .limit > *, .water-description {
+                    padding: 0 0.5em 0.25em 0.5em;
+                    border-top: 2px solid var(--highlight-color-transparent);
+                    opacity: 1;
+                    visibility: visible;
+                    max-height: 8em;
+                    overflow: visible;
+                }
+                .limit.group > *, .water-description {
+                    border-top: 0;
+                }
+            }
+        }
+
+        .even,
+        .even .water-description,
+        .even .limit > * {
+            background-color: var(--background-color);
+        }
+
+        .odd,
+        .odd .water-description,
+        .odd .limit > * {
+            background-color: var(--highlight-color-lighter);
+        }
+
+        .alert {
+            width: 1.5em;
+            height: 1.5em;
+            display: inline-block;
+            margin: 0;
+            color: var(--actionable-color);
+        }
+    }
+}

@@ -1,0 +1,62 @@
+.Region {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+
+    .autocomplete {
+        display: flex;
+        flex-direction: column;
+        grid-template-rows: auto 1fr;
+
+        header {
+            flex-grow: 0;
+            input {
+                font-size: 1rem;
+
+                &::placeholder {
+                    font-weight: 300;
+                }
+                width: 100%;
+                @media (min-width: 920px) {
+                    width: 20em;
+                    font-size: 2rem;
+                }
+            }
+            label {
+                display: flex;
+                flex-direction: column;
+                font-size: 2rem;
+            }
+        }
+
+        .results {
+            flex-grow: 1;
+            transition: 800ms ease;
+            &.has-results {
+                overflow-y: auto;
+            }
+            li {
+                line-height: 1;
+                padding: 2px 0 2px 2px;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                a {
+                    padding: 2px 0;
+                    font-size: 20px;
+                    text-decoration: none;
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.BreadCrumb {
+    &.depth-2 {
+        @media (min-width: 920px) {
+            padding-top: 2em;
+        }
+    }
+}

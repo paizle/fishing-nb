@@ -1,0 +1,43 @@
+.Breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1em 0 0.25em 0;
+    transition: 300ms ease;
+    gap: 0.5em 0;
+
+    @screen sm {
+        padding: 1em 0 1em 0;
+    }
+
+    @screen md {
+        font-size: 2em;
+    }
+
+    .breadcrumb-item {
+        transition: 300ms ease;
+
+        &:before {
+            content: '>';
+            margin: 0 0.5em;
+        }
+        &:first-child {
+            &:before {
+                content: '';
+                margin: 0;
+            }
+        }
+
+        &:last-child {
+            font-weight: 600;
+            &:before {
+                font-weight: normal;
+            }
+            a {
+                cursor: auto;
+                text-decoration: none;
+                font-weight: bold;
+            }
+        }
+    }
+}
