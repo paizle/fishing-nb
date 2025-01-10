@@ -1,25 +1,25 @@
-import Checkbox from '@/Components/Checkbox';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import Checkbox from '@/Components/Checkbox'
+import InputError from '@/Components/InputError'
+import InputLabel from '@/Components/InputLabel'
+import PrimaryButton from '@/Components/PrimaryButton'
+import TextInput from '@/Components/TextInput'
+import GuestLayout from '@/Layouts/GuestLayout'
+import { Head, Link, useForm } from '@inertiajs/react'
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
         remember: false,
-    });
+    })
 
     const submit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
 
         post(route('login'), {
             onFinish: () => reset('password'),
-        });
-    };
+        })
+    }
 
     return (
         <GuestLayout>
@@ -96,5 +96,5 @@ export default function Login({ status, canResetPassword }) {
                 </div>
             </form>
         </GuestLayout>
-    );
+    )
 }

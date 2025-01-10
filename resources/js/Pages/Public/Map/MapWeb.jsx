@@ -50,7 +50,9 @@ export default function MapWeb({ locations }) {
                     {Object.keys(pathSelectorToLocationName).map((key) => (
                         <li key={key} data-path-id={key}>
                             <Link
-                                href={route('region.page', { id: getLocationFromPathId(key).id })}
+                                href={route('region.page', {
+                                    id: getLocationFromPathId(key).id,
+                                })}
                                 onClick={(event) => {
                                     if (
                                         !locationsIndexed?.[

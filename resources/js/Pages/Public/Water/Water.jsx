@@ -8,10 +8,9 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
 import Tooltip from '@/Components/Tooltip/Tooltip'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
-import Breadcrumb from '@/Components/Breadcrumb/Breadcrumb';
+import Breadcrumb from '@/Components/Breadcrumb/Breadcrumb'
 
 export default function Region({ limits, breadcrumb }) {
-
     const dataTableRef = useRef(null)
 
     const [results, setResults] = useState(limits)
@@ -40,7 +39,6 @@ export default function Region({ limits, breadcrumb }) {
     }
 
     const renderSeasonDateSpan = (o, inGroup = false) => {
-        console.log(format(o.seasonStart, config.displayDayMonthShortFormat))
         return (
             <>
                 <span>
@@ -141,13 +139,18 @@ export default function Region({ limits, breadcrumb }) {
 
     return (
         <PublicLayout>
-            <header><Breadcrumb breadcrumb={breadcrumb} /></header>
+            <header>
+                <Breadcrumb breadcrumb={breadcrumb} />
+            </header>
             <main>
                 <div className="Water">
                     <div className="fish-grid" ref={dataTableRef}>
                         <div className="header">
                             <div className="column-header date-range">
-                                Season/Restrictions
+                                <span class="hidden sm:inline">
+                                    Fish/Season/
+                                </span>
+                                Restrictions
                             </div>
                             <div className="column-header">Bag Limit</div>
                             <div className="column-header">Min. Size</div>
@@ -160,45 +163,52 @@ export default function Region({ limits, breadcrumb }) {
                                     <LoadingSpinner />
                                 </div>
                             ) : (
-                                Object.keys(fishes ?? {}).map((fishName, index) => (
-                                    <>
-                                        <button
-                                            onClick={openDetail}
-                                            value={fishName}
-                                            className={`fish-name ${index % 2 === 0 ? 'even' : 'odd'} ${detailsOpen?.[fishName] ? 'open' : ''}`}
-                                        >
-                                            <div className="fish-season">
-                                                <strong>
-                                                    <PlayIcon className="open-indicator" />
-                                                    {fishName}
-                                                </strong>
-                                                <em>
-                                                    (
-                                                    {renderSeasonDateSpan(
-                                                        fishes[fishName],
-                                                    )}
-                                                    )
-                                                </em>
-                                            </div>
-                                            <div className="flex">
-                                                {fishes[fishName].limits.length > 1 ? (
-                                                    <Tooltip
-                                                        message="Some Restrictions"
-                                                        containerRef={dataTableRef}
-                                                    >
-                                                        <ExclamationTriangleIcon className="alert" />
-                                                    </Tooltip>
-                                                ) : null}
-                                            </div>
-                                        </button>
+                                Object.keys(fishes ?? {}).map(
+                                    (fishName, index) => (
+                                        <>
+                                            <button
+                                                onClick={openDetail}
+                                                value={fishName}
+                                                className={`fish-name ${index % 2 === 0 ? 'even' : 'odd'} ${detailsOpen?.[fishName] ? 'open' : ''}`}
+                                            >
+                                                <div className="fish-season">
+                                                    <strong>
+                                                        <PlayIcon className="open-indicator" />
+                                                        {fishName}
+                                                    </strong>
+                                                    <em>
+                                                        (
+                                                        {renderSeasonDateSpan(
+                                                            fishes[fishName],
+                                                        )}
+                                                        )
+                                                    </em>
+                                                </div>
+                                                <div className="flex">
+                                                    {fishes[fishName].limits
+                                                        .length > 1 ? (
+                                                        <Tooltip
+                                                            message="Some Restrictions"
+                                                            containerRef={
+                                                                dataTableRef
+                                                            }
+                                                        >
+                                                            <ExclamationTriangleIcon className="alert" />
+                                                        </Tooltip>
+                                                    ) : null}
+                                                </div>
+                                            </button>
 
-                                        <div
-                                            className={`limits ${index % 2 === 0 ? 'even' : 'odd'} ${detailsOpen?.[fishName] ? 'open' : ''}`}
-                                        >
-                                            {renderFishLimits(fishes[fishName].limits)}
-                                        </div>
-                                    </>
-                                ))
+                                            <div
+                                                className={`limits ${index % 2 === 0 ? 'even' : 'odd'} ${detailsOpen?.[fishName] ? 'open' : ''}`}
+                                            >
+                                                {renderFishLimits(
+                                                    fishes[fishName].limits,
+                                                )}
+                                            </div>
+                                        </>
+                                    ),
+                                )
                             )}
                         </div>
                     </div>

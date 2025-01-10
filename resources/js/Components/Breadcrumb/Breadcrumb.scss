@@ -1,3 +1,5 @@
+@use '/resources/css/app.scss';
+
 .Breadcrumb {
     display: flex;
     flex-wrap: wrap;
@@ -5,6 +7,7 @@
     padding: 1em 0 0.25em 0;
     transition: 300ms ease;
     gap: 0.5em 0;
+    color: var(--heading-color);
 
     @screen sm {
         padding: 1em 0 1em 0;
@@ -18,7 +21,7 @@
         transition: 300ms ease;
 
         &:before {
-            content: '>';
+            content: '<';
             margin: 0 0.5em;
         }
         &:first-child {

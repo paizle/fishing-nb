@@ -1,9 +1,9 @@
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import InputError from '@/Components/InputError'
+import InputLabel from '@/Components/InputLabel'
+import PrimaryButton from '@/Components/PrimaryButton'
+import TextInput from '@/Components/TextInput'
+import GuestLayout from '@/Layouts/GuestLayout'
+import { Head, Link, useForm } from '@inertiajs/react'
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -11,15 +11,15 @@ export default function Register() {
         email: '',
         password: '',
         password_confirmation: '',
-    });
+    })
 
     const submit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
 
         post(route('register'), {
             onFinish: () => reset('password', 'password_confirmation'),
-        });
-    };
+        })
+    }
 
     return (
         <GuestLayout>
@@ -116,5 +116,5 @@ export default function Register() {
                 </div>
             </form>
         </GuestLayout>
-    );
+    )
 }

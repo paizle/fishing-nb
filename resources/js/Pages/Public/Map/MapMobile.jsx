@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import { pathSelectorToLocationName } from '@/Components/NewBrunswickMap/NewBrunswickMap'
 import NewBrunswickMapMobile from '@/Components/NewBrunswickMap/NewBrunswickMapMobile'
 import { ArrowRightCircleIcon, XCircleIcon } from '@heroicons/react/24/solid'
-import { Link } from '@inertiajs/react';
+import { Link } from '@inertiajs/react'
 
 export default function MapMobile({ locations }) {
     const containerRef = useRef(null)
@@ -80,7 +80,9 @@ export default function MapMobile({ locations }) {
                         {Object.keys(pathSelectorToLocationName).map((key) => (
                             <li key={key} data-path-id={key}>
                                 <Link
-                                    href={route('region.page', { id: getLocationFromPathId(key).id })}
+                                    href={route('region.page', {
+                                        id: getLocationFromPathId(key).id,
+                                    })}
                                     onClick={(event) => {
                                         if (
                                             !locationsIndexed?.[
@@ -112,7 +114,9 @@ export default function MapMobile({ locations }) {
                     {selectedPathId && (
                         <Link
                             className="go"
-                            href={route('region.page', { id: getLocationFromPathId(selectedPathId).id })}
+                            href={route('region.page', {
+                                id: getLocationFromPathId(selectedPathId).id,
+                            })}
                         >
                             {locationsIndexed?.[
                                 pathSelectorToLocationName[selectedPathId]

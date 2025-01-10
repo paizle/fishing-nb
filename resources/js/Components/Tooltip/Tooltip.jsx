@@ -2,7 +2,6 @@ import React, { useState, useRef, useLayoutEffect } from 'react'
 import './Tooltip.scss'
 
 const Tooltip = ({ message = null, children }) => {
-    
     const messageRef = useRef(null)
 
     const [hoverAndPosition, setHoverAndPosition] = useState({
@@ -26,7 +25,7 @@ const Tooltip = ({ message = null, children }) => {
             setHoverAndPosition(() => {
                 return {
                     hover: hoverAndPosition.hover,
-                    flowLeft: shouldFlowLeft(messageRef.current)
+                    flowLeft: shouldFlowLeft(messageRef.current),
                 }
             })
         }

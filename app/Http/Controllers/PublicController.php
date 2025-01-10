@@ -12,39 +12,40 @@ use Illuminate\Support\Facades\Route;
 
 class PublicController extends Controller
 {
-
     public function index()
     {
         return Redirect::route('map.page');
     }
 
-    private function getBreadcrumbMap() {
+    private function getBreadcrumbMap()
+    {
         return [
             'href' => route('map.page'),
-            'title' => 'New Brunswick'
+            'title' => 'New Brunswick',
         ];
     }
 
-    private function getBreadcrumbRegion($id) {
+    private function getBreadcrumbRegion($id)
+    {
         $location = Location::find($id);
         return [
             'href' => route('region.page', $id),
-            'title' => $location->name
+            'title' => $location->name,
         ];
     }
 
-    private function getBreadcrumbWater($id) {
+    private function getBreadcrumbWater($id)
+    {
         $water = Water::find($id);
 
         return [
             'href' => route('water.page', $id),
-            'title' => $water->name
+            'title' => $water->name,
         ];
     }
 
     public function map()
     {
-
         $breadcrumb = [$this->getBreadcrumbMap()];
 
         return Inertia::render('Public/Map/Map', [
@@ -57,7 +58,7 @@ class PublicController extends Controller
     {
         $breadcrumb = [
             $this->getBreadcrumbMap(),
-            $this->getBreadcrumbRegion($id)
+            $this->getBreadcrumbRegion($id),
         ];
 
         $limits = FishLimit::query()
@@ -89,7 +90,6 @@ class PublicController extends Controller
 
     public function water($id)
     {
-
         $location_id = null;
 
         $results_ids = [];
@@ -122,7 +122,7 @@ class PublicController extends Controller
                         ->orWhereNull('boundary_id');
                 });
             }
-            
+
             $related_limits = $related_limits->get();
 
             foreach ($related_limits->toArray() as $related_limit) {
@@ -144,16 +144,15 @@ class PublicController extends Controller
             ->get()
             ->toArray();
 
-        
         $breadcrumb = [
             $this->getBreadcrumbMap(),
             $this->getBreadcrumbRegion($location_id),
-            $this->getBreadcrumbWater($id)
+            $this->getBreadcrumbWater($id),
         ];
 
         return Inertia::render('Public/Water/Water', [
             'breadcrumb' => $breadcrumb,
-            'limits' => $limits_by_water
+            'limits' => $limits_by_water,
         ]);
     }
 
@@ -161,7 +160,14 @@ class PublicController extends Controller
     {
         $limits = FishLimit::query()
             ->where('fish_id', $id)
-            ->with(['location', 'boundary', 'water', 'waters_category', 'tidal_category', 'fishing_method'])
+            ->with([
+                'location',
+                'boundary',
+                'water',
+                'waters_category',
+                'tidal_category',
+                'fishing_method',
+            ])
             ->get();
 
         return ['limits' => $limits];

@@ -1,20 +1,20 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
 
 export default forwardRef(function TextInput(
     { type = 'text', className = '', isFocused = false, ...props },
     ref,
 ) {
-    const localRef = useRef(null);
+    const localRef = useRef(null)
 
     useImperativeHandle(ref, () => ({
         focus: () => localRef.current?.focus(),
-    }));
+    }))
 
     useEffect(() => {
         if (isFocused) {
-            localRef.current?.focus();
+            localRef.current?.focus()
         }
-    }, [isFocused]);
+    }, [isFocused])
 
     return (
         <input
@@ -26,5 +26,5 @@ export default forwardRef(function TextInput(
             }
             ref={localRef}
         />
-    );
-});
+    )
+})

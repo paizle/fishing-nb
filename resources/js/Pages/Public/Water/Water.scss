@@ -9,7 +9,7 @@ main:has(.Water) {
     height: 100%;
     overflow-x: auto;
     overflow-y: hidden;
-    padding-bottom: .5em;
+    padding-bottom: 0.5em;
 
     .fish-grid {
         display: grid;
@@ -68,9 +68,6 @@ main:has(.Water) {
                     text-align: left;
                     font-size: 1.2em;
                 }
-                span {
-                    display: inline-block;
-                }
             }
         }
 
@@ -103,7 +100,7 @@ main:has(.Water) {
             }
 
             .open-indicator {
-                margin: .25em .75em 0 0;
+                margin: 0.25em 0.75em 0 0;
                 width: 1em;
                 height: 1em;
                 transform: rotate(0deg);
@@ -121,9 +118,12 @@ main:has(.Water) {
         .limits {
             display: contents;
             color: var(--heading-color);
-            .limit > *, .water-description {
+            .limit > *,
+            .water-description {
                 text-align: center;
-                transition: opacity, max-height 300ms ease;
+                transition:
+                    opacity,
+                    max-height 300ms ease;
                 max-height: 0;
                 overflow: hidden;
             }
@@ -137,9 +137,10 @@ main:has(.Water) {
             }
 
             .limit {
-                display: contents; 
-                
+                display: contents;
+
                 > * {
+                    padding: 0 0.5em 0 0.5em;
                     &.season-exception {
                         grid-column: span 2;
                         text-align: left;
@@ -164,9 +165,9 @@ main:has(.Water) {
                 }
             }
 
-
             &.open {
-                .limit > *, .water-description {
+                .limit > *,
+                .water-description {
                     padding: 0 0.5em 0.25em 0.5em;
                     border-top: 2px solid var(--highlight-color-transparent);
                     opacity: 1;
@@ -174,7 +175,8 @@ main:has(.Water) {
                     max-height: 8em;
                     overflow: visible;
                 }
-                .limit.group > *, .water-description {
+                .limit.group > *,
+                .water-description {
                     border-top: 0;
                 }
             }

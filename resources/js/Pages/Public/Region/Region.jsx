@@ -1,13 +1,12 @@
 import './Region.scss'
-import React, {useState, useRef, useEffect} from 'react'
-import PublicLayout from '@/Layouts/PublicLayout/PublicLayout';
-import Breadcrumb from '@/Components/Breadcrumb/Breadcrumb';
+import React, { useState, useRef, useEffect } from 'react'
+import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
+import Breadcrumb from '@/Components/Breadcrumb/Breadcrumb'
 import { Link } from '@inertiajs/react'
 
 export default function Region({ waters, breadcrumb }) {
-
     console.log(waters)
-    
+
     const [results, setResults] = useState(waters)
 
     const [filteredResults, setFilteredResults] = useState([])
@@ -55,7 +54,9 @@ export default function Region({ waters, breadcrumb }) {
 
     return (
         <PublicLayout>
-            <header><Breadcrumb breadcrumb={breadcrumb} /></header>        
+            <header>
+                <Breadcrumb breadcrumb={breadcrumb} />
+            </header>
             <main>
                 <div className="Region">
                     <div className="autocomplete">
@@ -77,7 +78,11 @@ export default function Region({ waters, breadcrumb }) {
                                 filteredResults.map((result) =>
                                     result?.water ? (
                                         <li>
-                                            <Link href={route('water.page', { id: result.water.id })}>
+                                            <Link
+                                                href={route('water.page', {
+                                                    id: result.water.id,
+                                                })}
+                                            >
                                                 {result.water.name}
                                             </Link>
                                         </li>
