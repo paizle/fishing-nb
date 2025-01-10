@@ -24,7 +24,7 @@ main:has(.Water) {
         justify-content: center;
 
         @screen sm {
-            grid-template-columns: minmax(auto,362px) minmax(auto,362px) minmax(4em,100px) minmax(4em,100px) minmax(4em,100px);
+            grid-template-columns: minmax(auto,322px) minmax(auto,322px) minmax(4em,100px) minmax(4em,140px) minmax(4em,140px);
             padding: 0 1em;
             font-size: 1em;
             .header {
@@ -69,7 +69,9 @@ main:has(.Water) {
                 color: var(--heading-color);
                 &:first-child {
                     text-align: left;
-                    font-size: 1.2em;
+                    @screen md {
+                        font-size: 1.2em;
+                    }
                 }
             }
         }

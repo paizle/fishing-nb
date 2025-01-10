@@ -10,8 +10,12 @@ import Tooltip from '@/Components/Tooltip/Tooltip'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import Breadcrumb from '@/Components/Breadcrumb/Breadcrumb'
 
+import useScreenOrientation from '@/Hooks/useScreenOrientation'
+
 export default function Region({ limits, breadcrumb }) {
     const dataTableRef = useRef(null)
+
+    const screenOrientation = useScreenOrientation()
 
     const [results, setResults] = useState(limits)
     const [fishes, setFishes] = useState({})
@@ -42,10 +46,10 @@ export default function Region({ limits, breadcrumb }) {
         return (
             <>
                 <span>
-                    {format(o.seasonStart, config.displayDayMonthShortFormat)}{' '}
+                    {format(o.seasonStart, screenOrientation.isMobile ? config.displayDayMonthShortFormat : config.displayDayMonthFormat)}{' '}
                 </span>
                 <span>
-                    - {format(o.seasonEnd, config.displayDayMonthShortFormat)}
+                    - {format(o.seasonEnd, screenOrientation.isMobile ? config.displayDayMonthShortFormat : config.displayDayMonthFormat)}
                     {inGroup ? ',' : ''}
                 </span>
             </>
@@ -147,14 +151,14 @@ export default function Region({ limits, breadcrumb }) {
                     <div className="fish-grid" ref={dataTableRef}>
                         <div className="header">
                             <div className="column-header date-range">
-                                <span class="hidden sm:inline">
-                                    Fish/Season/
-                                </span>
+                                {!screenOrientation.isMobile && (
+                                    <>Fish/Season/</>
+                                )}
                                 Restrictions
                             </div>
                             <div className="column-header">Bag Limit</div>
-                            <div className="column-header">Min. Size</div>
-                            <div className="column-header">Max. Size</div>
+                            <div className="column-header">{screenOrientation.isMobile ? 'Min.' : 'Minimum'} Size</div>
+                            <div className="column-header">{screenOrientation.isMobile ? 'Max.' : 'Maximum'} Size</div>
                         </div>
 
                         <div className="body">
