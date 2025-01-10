@@ -19,9 +19,12 @@ main:has(.Water) {
         padding: 0 0.5em;
         max-height: 100%;
         font-size: 0.8em;
+        width: 100%;
+        margin: auto;
+        justify-content: center;
 
         @screen sm {
-            grid-template-columns: 1fr 1fr auto auto auto;
+            grid-template-columns: minmax(auto,362px) minmax(auto,362px) minmax(4em,100px) minmax(4em,100px) minmax(4em,100px);
             padding: 0 1em;
             font-size: 1em;
             .header {
