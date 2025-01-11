@@ -18,7 +18,8 @@
     main {
         grid-area: main;
         overflow: auto;
-        display: flex;
+        display: grid;
+        grid-template-rows: 100%;
         align-items: stretch;
         justify-content: center;
         padding: 0 1em 1em 1em;
