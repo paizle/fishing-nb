@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import Breadcrumb from '@/Components/Breadcrumb/Breadcrumb'
 import { Link } from '@inertiajs/react'
+import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 
 export default function Region({ waters, breadcrumb }) {
     console.log(waters)
@@ -55,7 +56,9 @@ export default function Region({ waters, breadcrumb }) {
     return (
         <PublicLayout>
             <header>
-                <Breadcrumb breadcrumb={breadcrumb} />
+                <PublicNav>
+                    <Breadcrumb breadcrumb={breadcrumb} />
+                </PublicNav>
             </header>
             <main>
                 <div className="Region">

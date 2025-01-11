@@ -8,7 +8,7 @@ import { createRoot } from 'react-dom/client'
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: (title) => `${appName}`,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.jsx`,
@@ -19,6 +19,6 @@ createInertiaApp({
         root.render(<App {...props} />)
     },
     progress: {
-        color: '#4B5563',
+        color: '#70b9b0',
     },
 })

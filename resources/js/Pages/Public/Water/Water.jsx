@@ -9,7 +9,7 @@ import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
 import Tooltip from '@/Components/Tooltip/Tooltip'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import Breadcrumb from '@/Components/Breadcrumb/Breadcrumb'
-
+import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 import useScreenOrientation from '@/Hooks/useScreenOrientation'
 
 export default function Region({ limits, breadcrumb }) {
@@ -144,7 +144,9 @@ export default function Region({ limits, breadcrumb }) {
     return (
         <PublicLayout>
             <header>
-                <Breadcrumb breadcrumb={breadcrumb} />
+                <PublicNav>
+                    <Breadcrumb breadcrumb={breadcrumb} />
+                </PublicNav>
             </header>
             <main>
                 <div className="Water">
