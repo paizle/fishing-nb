@@ -4,25 +4,18 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 1em 0 0.25em 0;
     transition: 300ms ease;
-    gap: 0.5em 0;
+    gap: 0;
     color: var(--heading-color);
 
-    @screen sm {
-        padding: 1em 0 1em 0;
-    }
-
-    @screen md {
-        font-size: 2em;
-    }
+    
 
     .breadcrumb-item {
         transition: 300ms ease;
 
         &:before {
             content: '<';
-            margin: 0 0.5em;
+            margin: 0 0.25em;
         }
         &:first-child {
             &:before {

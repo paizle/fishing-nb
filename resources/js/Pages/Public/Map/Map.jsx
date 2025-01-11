@@ -5,6 +5,7 @@ import MapMobile from './MapMobile'
 import MapWeb from './MapWeb'
 import Breadcrumb from '@/Components/Breadcrumb/Breadcrumb'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
+import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 
 export default function Map({ locations, breadcrumb }) {
     console.log(breadcrumb)
@@ -20,9 +21,10 @@ export default function Map({ locations, breadcrumb }) {
 
     return (
         <PublicLayout>
-            <Head title="Fishing Regulations" />
             <header>
-                <Breadcrumb breadcrumb={breadcrumb} />
+                <PublicNav>
+                    <Breadcrumb breadcrumb={breadcrumb} />
+                </PublicNav>
             </header>
             <main>
                 {screenOrientation.isPortrait ? (

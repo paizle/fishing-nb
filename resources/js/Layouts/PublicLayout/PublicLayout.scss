@@ -11,19 +11,8 @@
 
     background-color: var(--background-color);
 
-    .PublicAppMenu {
-        @apply border-b border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-800;
-        display: none;
-    }
-
     > header {
         grid-area: header;
-
-        .BreadCrumb {
-            .InternalLink {
-                color: var(--heading-color);
-            }
-        }
     }
 
     main {
@@ -34,36 +23,16 @@
         justify-content: center;
         padding: 0 1em 1em 1em;
     }
-}
 
-.data-grid {
-    display: grid;
 
-    .header {
-        display: contents;
-        @apply table-heading;
-        em {
-            font-size: 1em;
+    .Breadcrumb {
+
+        @screen sm {
+            padding: .5rem 0 .5rem 0;
         }
-    }
-
-    .row-header {
-        grid-column: 1 / -1;
-    }
-
-    .row-start:nth-child(2n + 1) {
-        &,
-        + *,
-        + * + *,
-        + * + * + *,
-        + * + * + * + *,
-        + * + * + * + * + *,
-        + * + * + * + * + * + * {
-            background-color: var(--highlight-color-transparent);
+    
+        @screen lg {
+            font-size: 2em;
         }
-    }
-
-    em {
-        font-size: 0.8em;
     }
 }
