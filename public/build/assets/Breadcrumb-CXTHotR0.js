@@ -1,1 +1,0 @@
-import{j as e,x as a}from"./app-CLyy3tIZ.js";function t({breadcrumb:s}){return e.jsx("div",{className:"Breadcrumb",children:(s??[]).map((r,i)=>e.jsx("div",{className:"breadcrumb-item",children:e.jsx(a,{href:r.href,children:r.title},r.title)}))})}export{t as B};
