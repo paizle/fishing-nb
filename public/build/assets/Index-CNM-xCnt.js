@@ -1,1 +1,0 @@
-import{j as e}from"./app-BijqEIKl.js";import{P as r}from"./PublicLayout-3kndEO_b.js";function i(){return e.jsxs(r,{children:[e.jsx("header",{children:"* header *"}),e.jsx("main",{children:"* test *"})]})}export{i as default};
