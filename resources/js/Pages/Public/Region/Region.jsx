@@ -73,7 +73,7 @@ export default function Region({ waters, breadcrumb }) {
                                 />
                             </label>
                         </header>
-                        <div className='results has-results'>
+                        <div className={`results ${filteredResults.length || waterName ? 'has-results' : null}`}>
                             <ul
                                 ref={resultsRef}
                                 className={``}

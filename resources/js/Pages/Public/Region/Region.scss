@@ -1,22 +1,26 @@
+.PublicLayout {
+    
+}
+
 main:has(.Region) {
     overflow: hidden;
 }
 
 .Region {
     width: 100%;
-    height: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: hidden;
     padding-bottom: 0.5em;
 
     display: flex;
-    align-items: stretch;
-    justify-content: center;
-
+    flex-direction: column;
+    align-items: flex-start;
+    
     .autocomplete {
         display: flex;
         flex-direction: column;
-        grid-template-rows: auto 1fr;
+        overflow-x: auto;
+        overflow-y: hidden;
+        
 
         header {
             flex-grow: 0;
@@ -40,33 +44,31 @@ main:has(.Region) {
         }
 
         .results {
-            flex-grow: 1;
-            transition: 800ms ease;
+            transition: 300ms ease;
+            overflow-y: auto;
+            max-height: 0;
             &.has-results {
-                overflow-y: auto;
+                max-height: 12em;
             }
-            li {
-                line-height: 1;
-                padding: 2px 0 2px 2px;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                a {
-                    padding: 2px 0;
-                    font-size: 20px;
-                    text-decoration: none;
-                    &:hover {
-                        text-decoration: underline;
+            border-bottom: 1px solid var(--border-color);
+            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            ul {
+                li {
+                    line-height: 1;
+                    padding: .25em 0 .25em .25em;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    a {
+                        padding: 2px 0;
+                        font-size: 20px;
+                        text-decoration: none;
+                        &:hover {
+                            text-decoration: underline;
+                        }
                     }
                 }
             }
-        }
-    }
-}
-
-.BreadCrumb {
-    &.depth-2 {
-        @media (min-width: 920px) {
-            padding-top: 2em;
         }
     }
 }
