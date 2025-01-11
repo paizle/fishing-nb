@@ -7,7 +7,7 @@ import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 
 export default function Region({ waters, breadcrumb }) {
     console.log(waters)
-
+    
     const [results, setResults] = useState(waters)
 
     const [filteredResults, setFilteredResults] = useState([])
@@ -32,8 +32,8 @@ export default function Region({ waters, breadcrumb }) {
             const newFilteredResults = results.filter((result) =>
                 result.water
                     ? result.water.name
-                          .toLowerCase()
-                          .includes(value.trim().toLowerCase())
+                            .toLowerCase()
+                            .includes(value.trim().toLowerCase())
                     : false,
             )
             setFilteredResults(newFilteredResults)
@@ -73,28 +73,30 @@ export default function Region({ waters, breadcrumb }) {
                                 />
                             </label>
                         </header>
-                        <ul
-                            ref={resultsRef}
-                            className={`results ${filteredResults.length || waterName ? 'has-results' : null}`}
-                        >
-                            {filteredResults.length ? (
-                                filteredResults.map((result) =>
-                                    result?.water ? (
-                                        <li>
-                                            <Link
-                                                href={route('water.page', {
-                                                    id: result.water.id,
-                                                })}
-                                            >
-                                                {result.water.name}
-                                            </Link>
-                                        </li>
-                                    ) : null,
-                                )
-                            ) : waterName ? (
-                                <div>(no results)</div>
-                            ) : null}
-                        </ul>
+                        <div className='results has-results'>
+                            <ul
+                                ref={resultsRef}
+                                className={``}
+                            >
+                                {filteredResults.length ? (
+                                    filteredResults.map((result) =>
+                                        result?.water ? (
+                                            <li>
+                                                <Link
+                                                    href={route('water.page', {
+                                                        id: result.water.id,
+                                                    })}
+                                                >
+                                                    {result.water.name}
+                                                </Link>
+                                            </li>
+                                        ) : null,
+                                    )
+                                ) : waterName ? (
+                                    <div>(no results)</div>
+                                ) : null}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </main>
