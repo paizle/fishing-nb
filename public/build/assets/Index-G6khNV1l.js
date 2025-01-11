@@ -1,0 +1,1 @@
+import{j as e}from"./app-odsY8-e7.js";import{P as r}from"./PublicLayout-CYY72ayM.js";function i(){return e.jsxs(r,{children:[e.jsx("header",{children:"* header *"}),e.jsx("main",{children:"* test *"})]})}export{i as default};
