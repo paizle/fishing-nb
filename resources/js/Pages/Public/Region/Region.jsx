@@ -93,7 +93,7 @@ export default function Region({ waters, breadcrumb }) {
                                         ) : null,
                                     )
                                 ) : waterName ? (
-                                    <div>(no results)</div>
+                                    <div className="p-4">(no results)</div>
                                 ) : null}
                             </ul>
                         </div>

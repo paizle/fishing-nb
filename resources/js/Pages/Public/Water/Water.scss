@@ -61,7 +61,7 @@ main:has(.Water) {
                 top: 0;
                 z-index: 2;
                 background-color: var(--background-color);
-                padding: 0 0.5em 0.25em 0.5em;
+                padding: 0.25em 0.5em 0.25em 0.5em;
                 font-weight: bold;
                 text-align: center;
                 display: flex;
@@ -72,6 +72,10 @@ main:has(.Water) {
                     @screen md {
                         font-size: 1.2em;
                     }
+                    border-radius: 0.5em 0 0 0.5em;
+                }
+                &:last-child {
+                    border-radius: 0 0.5em 0.5em 0;
                 }
             }
         }
