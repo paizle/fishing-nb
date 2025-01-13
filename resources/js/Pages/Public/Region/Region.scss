@@ -13,7 +13,7 @@ main:has(.Region) {
 
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     
     .autocomplete {
         display: flex;

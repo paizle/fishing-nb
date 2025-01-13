@@ -6,9 +6,6 @@
     justify-content: center;
     transition: 300ms ease;
     gap: 0;
-    color: var(--heading-color);
-
-    
 
     .breadcrumb-item {
         transition: 300ms ease;
@@ -25,6 +22,7 @@
         }
 
         &:last-child {
+            pointer-events: none;
             font-weight: 600;
             &:before {
                 font-weight: normal;

@@ -14,45 +14,7 @@ class PublicController extends Controller
 {
     public function index()
     {
-        return Redirect::route('map.page');
-    }
-
-    private function getBreadcrumbMap()
-    {
-        return [
-            'href' => route('map.page'),
-            'title' => 'New Brunswick',
-            'shortTitle' => 'NB'
-        ];
-    }
-
-    private function getBreadcrumbRegion($id)
-    {
-        $location = Location::find($id);
-        return [
-            'href' => route('region.page', $id),
-            'title' => $location->name,
-            'shortTitle' => $this->getAcronym($location->name)
-        ];
-    }
-
-    private function getAcronym($string) {
-        $words = explode(' ', $string);
-        $acronym = '';
-        foreach ($words as $word) {
-            $acronym .= substr($word, 0, 1);
-        }
-        return $acronym;
-    }
-
-    private function getBreadcrumbWater($id)
-    {
-        $water = Water::find($id);
-
-        return [
-            'href' => route('water.page', $id),
-            'title' => $water->name,
-        ];
+        return Redirect::route('location.map');
     }
 
     public function map()
@@ -167,20 +129,57 @@ class PublicController extends Controller
         ]);
     }
 
-    public function limitsByFish($id)
+    public function fish()
     {
-        $limits = FishLimit::query()
-            ->where('fish_id', $id)
-            ->with([
-                'location',
-                'boundary',
-                'water',
-                'waters_category',
-                'tidal_category',
-                'fishing_method',
-            ])
-            ->get();
+        return Inertia::render('Public/Fish/Fish', [
+            'breadcrumb' => [],
+            'fish' => [],
+        ]);
+    }
 
-        return ['limits' => $limits];
+    public function settings()
+    {
+        return Inertia::render('Public/Settings/Settings', [
+            'settings' => [],
+        ]);
+    }
+
+    
+    private function getBreadcrumbMap()
+    {
+        return [
+            'href' => route('location.map'),
+            'title' => 'New Brunswick',
+            'shortTitle' => 'NB'
+        ];
+    }
+
+    private function getBreadcrumbRegion($id)
+    {
+        $location = Location::find($id);
+        return [
+            'href' => route('location.region', $id),
+            'title' => $location->name,
+            'shortTitle' => $this->getAcronym($location->name)
+        ];
+    }
+
+    private function getAcronym($string) {
+        $words = explode(' ', $string);
+        $acronym = '';
+        foreach ($words as $word) {
+            $acronym .= substr($word, 0, 1);
+        }
+        return $acronym;
+    }
+
+    private function getBreadcrumbWater($id)
+    {
+        $water = Water::find($id);
+
+        return [
+            'href' => route('location.water', $id),
+            'title' => $water->name,
+        ];
     }
 }

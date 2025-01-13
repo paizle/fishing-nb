@@ -83,7 +83,7 @@ export default function Region({ waters, breadcrumb }) {
                                         result?.water ? (
                                             <li>
                                                 <Link
-                                                    href={route('water.page', {
+                                                    href={route('location.water', {
                                                         id: result.water.id,
                                                     })}
                                                 >

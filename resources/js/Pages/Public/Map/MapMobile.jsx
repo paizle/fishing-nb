@@ -80,7 +80,7 @@ export default function MapMobile({ locations }) {
                         {Object.keys(pathSelectorToLocationName).map((key) => (
                             <li key={key} data-path-id={key}>
                                 <Link
-                                    href={route('region.page', {
+                                    href={route('location.region', {
                                         id: getLocationFromPathId(key).id,
                                     })}
                                     onClick={(event) => {
@@ -114,7 +114,7 @@ export default function MapMobile({ locations }) {
                     {selectedPathId && (
                         <Link
                             className="go"
-                            href={route('region.page', {
+                            href={route('location.region', {
                                 id: getLocationFromPathId(selectedPathId).id,
                             })}
                         >
