@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useLayoutEffect } from 'react'
 
 import { debounce } from 'lodash'
 
@@ -11,7 +11,7 @@ const useScreenOrientation = () => {
 
     const [isMobile, setIsMobile] = useState(false)
 
-    React.useEffect(() => {
+    useLayoutEffect(() => {
         const handleResize = () => {
             setIsPortrait(
                 window.innerWidth / window.innerHeight <= portraitRatio,

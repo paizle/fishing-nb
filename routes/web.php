@@ -35,9 +35,14 @@ Route::middleware('auth')->group(function () {
 
 Route::controller(PublicController::class)->group(function () {
     Route::get('/', 'index')->name('root.page');
-    Route::get('/map', 'map')->name('map.page');
-    Route::get('/region/{id}', 'region')->name('region.page');
-    Route::get('/water/{id}', 'water')->name('water.page');
+    Route::get('/map', 'map')->name('location.map');
+    Route::get('/region/{id}', 'region')->name('location.region');
+    Route::get('/water/{id}', 'water')->name('location.water');
+
+    Route::get('/fish', 'fish')->name('fish.fish');
+
+    Route::get('/settings', 'settings')->name('settings.edit');
+
 });
 
 require __DIR__ . '/auth.php';

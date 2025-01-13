@@ -7,11 +7,15 @@ main:has(.Water) {
 .Water {
     width: 100%;
     height: 100%;
+    padding-top: .25em;
     overflow-x: auto;
     overflow-y: hidden;
-    padding-bottom: 0.5em;
 
     .fish-grid {
+        &:after {
+            content: '';
+            padding-bottom: 1em;
+        }
         display: grid;
         grid-template-columns: 1fr 1fr 4em 4em 4em;
         overflow-y: auto;
@@ -61,7 +65,7 @@ main:has(.Water) {
                 top: 0;
                 z-index: 2;
                 background-color: var(--background-color);
-                padding: 0 0.5em 0.25em 0.5em;
+                padding: 0.25em 0.5em 0.25em 0.5em;
                 font-weight: bold;
                 text-align: center;
                 display: flex;
@@ -72,6 +76,10 @@ main:has(.Water) {
                     @screen md {
                         font-size: 1.2em;
                     }
+                    border-radius: 0.5em 0 0 0.5em;
+                }
+                &:last-child {
+                    border-radius: 0 0.5em 0.5em 0;
                 }
             }
         }
