@@ -18,14 +18,15 @@ export default function PublicNav({children}) {
     return (
         <nav className="border-b border-gray-100 dark:border-gray-700 dark:bg-gray-800">
             <div className="mx-auto max-w-7xl">
-                <div className="flex justify-between">
+                <div className="flex justify-between relative">
 
-                    <div className="flex grow items-center justify-center">
-                        {children}
+                    <div className="title">
+                        <div className="child-wrapper">
+                            {children}
+                        </div>
                     </div>
 
-                    {/*
-                    <div className="hidden sm:ms-6 sm:flex sm:items-center pr-4 sm:pr-6 lg:pr-8">
+                    <div className="hidden sm:ms-6 sm:flex ">
                         <div className="relative ms-3">
                             <Dropdown>
                                 <Dropdown.Trigger>
@@ -64,14 +65,14 @@ export default function PublicNav({children}) {
                     </div>
                     
 
-                    <div className="-me-2 flex items-center sm:hidden">
+                    <div className=" right-0 flex items-center sm:hidden sm:items-center sm:pr-6 lg:pr-8">
                         <button
                             onClick={() =>
                                 setShowingNavigationDropdown(
                                     (previousState) => !previousState,
                                 )
                             }
-                            className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none dark:text-gray-500 dark:hover:bg-gray-900 dark:hover:text-gray-400 dark:focus:bg-gray-900 dark:focus:text-gray-400"
+                            className="menu-icon"
                         >
                             <svg
                                 className="h-6 w-6"
@@ -104,7 +105,6 @@ export default function PublicNav({children}) {
                             </svg>
                         </button>
                     </div>
-                    */}
                 </div>
             </div>
 

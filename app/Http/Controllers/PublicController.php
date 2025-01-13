@@ -22,6 +22,7 @@ class PublicController extends Controller
         return [
             'href' => route('map.page'),
             'title' => 'New Brunswick',
+            'shortTitle' => 'NB'
         ];
     }
 
@@ -31,7 +32,17 @@ class PublicController extends Controller
         return [
             'href' => route('region.page', $id),
             'title' => $location->name,
+            'shortTitle' => $this->getAcronym($location->name)
         ];
+    }
+
+    private function getAcronym($string) {
+        $words = explode(' ', $string);
+        $acronym = '';
+        foreach ($words as $word) {
+            $acronym .= substr($word, 0, 1);
+        }
+        return $acronym;
     }
 
     private function getBreadcrumbWater($id)

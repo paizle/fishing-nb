@@ -189,36 +189,36 @@ em {
 }
 
 .gradient-background {
-    background-color: hsla(155, 80%, 60%, 1);
+    background-color: hsla(185, 100%, 60%, .6);
     background-image: radial-gradient(
-            at 40% 20%,
-            hsla(155, 100%, 74%, 1) 0px,
+            at 10% 60%,
+            hsla(175, 100%, 65%, 1) 0px,
             transparent 50%
         ),
         radial-gradient(
             at 40% 0%,
-            hsla(189, 100%, 56%, 1) 0px,
-            transparent 50%
-        ),
-        radial-gradient(
-            at 0% 50%,
-            hsla(180, 70%, 73%, 1) 0px,
-            transparent 50%
+            hsla(180, 100%, 66%, 1) 0px,
+            transparent 60%
         ),
         radial-gradient(
             at 80% 50%,
-            hsla(150, 100%, 55%, 1) 0px,
+            hsla(180, 100%, 55%, 1) 0px,
             transparent 50%
         ),
         radial-gradient(
-            at 0% 100%,
-            hsla(122, 100%, 67%, 1) 0px,
-            transparent 50%
+            at 10% 100%,
+            hsla(142, 100%, 74%, 1) 0px,
+            transparent 70%
         ),
         radial-gradient(
-            at 80% 100%,
-            hsla(142, 100%, 70%, 1) 0px,
-            transparent 50%
+            at 40% 90%,
+            hsla(152, 100%, 70%, 1) 0px,
+            transparent 70%
         ),
-        radial-gradient(at 0% 0%, hsla(143, 100%, 76%, 1) 0px, transparent 50%);
+        radial-gradient(
+            at 90% 10%,
+            hsla(150, 100%, 70%, 1) 0px,
+            transparent 40%
+        ),
+        radial-gradient(at 25% 65%, hsla(120, 100%, 80%, 1) 0px, transparent 30%);
 }
