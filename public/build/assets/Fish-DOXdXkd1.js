@@ -1,0 +1,1 @@
+import{j as i}from"./app-D7cm--Ip.js";import{P as r}from"./PublicLayout-BWWHuv7A.js";import{P as s}from"./PublicNav-DopoB0Q1.js";import"./ResponsiveNavLink-qhBAGbVR.js";import"./transition-C248DujF.js";function n({}){return i.jsxs(r,{children:[i.jsx("header",{children:i.jsx(s,{children:"Fish"})}),i.jsx("main",{children:i.jsx("div",{className:"Fish"})})]})}export{n as default};
