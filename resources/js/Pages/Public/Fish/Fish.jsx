@@ -3,20 +3,14 @@ import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 
 export default function Settings({}) {
-
     return (
         <PublicLayout>
             <header>
-                <PublicNav>
-                    Fish
-                </PublicNav>
+                <PublicNav>Fish</PublicNav>
             </header>
             <main>
-                <div className="Fish">
-                    
-                </div>
+                <div className="Fish"></div>
             </main>
         </PublicLayout>
-        
     )
 }

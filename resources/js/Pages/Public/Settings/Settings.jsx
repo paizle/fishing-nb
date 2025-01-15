@@ -6,8 +6,7 @@ import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
 
 export default function Settings({}) {
-
-    const [, setStateTrigger] = useState(false); // Dummy state
+    const [, setStateTrigger] = useState(false) // Dummy state
     const localStorage = useLocalStorageDefaults()
     const settings = localStorage.getItem('settings')
 
@@ -28,9 +27,7 @@ export default function Settings({}) {
     return (
         <PublicLayout>
             <header>
-                <PublicNav>
-                    Settings
-                </PublicNav>
+                <PublicNav>Settings</PublicNav>
             </header>
             <main>
                 <div className="Settings">
@@ -47,6 +44,5 @@ export default function Settings({}) {
                 </div>
             </main>
         </PublicLayout>
-        
     )
 }

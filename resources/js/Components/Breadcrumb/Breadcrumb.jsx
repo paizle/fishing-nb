@@ -9,7 +9,11 @@ export default function BreadCrumb({ breadcrumb }) {
             {(breadcrumb ?? []).map((item, index) => (
                 <div className="breadcrumb-item" key={item.title}>
                     <Link href={item.href}>
-                        {screenOrientation.isMobile && item.shortTitle && breadcrumb.length - index > 1 ? item.shortTitle : item.title}
+                        {screenOrientation.isMobile &&
+                        item.shortTitle &&
+                        breadcrumb.length - index > 1
+                            ? item.shortTitle
+                            : item.title}
                     </Link>
                 </div>
             ))}

@@ -1,5 +1,4 @@
 .PublicLayout {
-    
 }
 
 main:has(.Region) {
@@ -14,7 +13,7 @@ main:has(.Region) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+
     .autocomplete {
         display: flex;
         flex-direction: column;
@@ -61,7 +60,7 @@ main:has(.Region) {
             border-right: 1px solid var(--border-color);
             ul {
                 li {
-                    padding-left: .25em;
+                    padding-left: 0.25em;
                     white-space: nowrap;
                     text-overflow: ellipsis;
                     a {

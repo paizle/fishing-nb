@@ -25,22 +25,22 @@ export default function MapWeb({ locations }) {
                 containerRef={containerRef}
                 onMouseEnterLocation={(event, pathId) => {
                     const title = locationTitlesRef.current.querySelector(
-                        `[data-path-id=${pathId}]`,
+                        `[data-path-id=${pathId}] a`,
                     )
                     title.classList.add('highlighted')
                 }}
                 onMouseLeaveLocation={(event, pathId) => {
                     const title = locationTitlesRef.current.querySelector(
-                        `[data-path-id=${pathId}]`,
+                        `[data-path-id=${pathId}] a`,
                     )
                     title.classList.remove('highlighted')
                 }}
                 onClickLocation={(event, pathId) => {
                     if (locationTitlesRef.current) {
                         const title = locationTitlesRef.current.querySelector(
-                            `[data-path-id=${pathId}]`,
+                            `[data-path-id=${pathId}] a`,
                         )
-                        title.querySelector('a').click()
+                        title.click()
                     }
                 }}
             />

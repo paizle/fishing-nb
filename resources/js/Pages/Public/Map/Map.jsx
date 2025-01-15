@@ -8,7 +8,8 @@ import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 
 export default function Map({ locations, breadcrumb }) {
-    console.log(breadcrumb)
+    
+    const screenOrientation = useScreenOrientation()
 
     locations = locations.map((location) => {
         location.hasData = ['Lower Saint John', 'Southwest'].includes(
@@ -16,8 +17,6 @@ export default function Map({ locations, breadcrumb }) {
         )
         return location
     })
-
-    const screenOrientation = useScreenOrientation()
 
     return (
         <PublicLayout>

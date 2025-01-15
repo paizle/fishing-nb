@@ -7,7 +7,7 @@ $icon-color: #70b9b0; // highlights and icons
 $icon-color-lighter: #e2f1ef;
 $background-color: #ffffff; // background
 $card-background-color: #f4f4f4; //card backgrounds and dividers
-$text-color: #7d8799; // text or secondary elements
+$text-color: #6a7475; // text or secondary elements
 $hover-color: #34b8d9; // hover-effects
 $actionable-color: #f4d03f; // highlight actionable items
 $error: #ba3232;
@@ -189,9 +189,9 @@ em {
 }
 
 .water-background {
-    background-color: hsla(175, 100%, 60%, .8);
+    background-color: hsla(170, 100%, 70%, .7);
     background-image: radial-gradient(
-            at 10% 60%,
+            at 0% 60%,
             hsla(175, 100%, 65%, 1) 0px,
             transparent 50%
         ),
@@ -203,22 +203,22 @@ em {
         radial-gradient(
             at 85% 55%,
             hsla(180, 100%, 70%, 1) 0px,
+            transparent 60%
+        ),
+        radial-gradient(
+            at 20% 100%,
+            hsla(147, 100%, 74%, 1) 0px,
+            transparent 60%
+        ),
+        radial-gradient(
+            at 25% 60%,
+            hsla(137, 100%, 70%, 1) 0px,
             transparent 50%
         ),
         radial-gradient(
-            at 10% 100%,
-            hsla(142, 100%, 74%, 1) 0px,
-            transparent 70%
-        ),
-        radial-gradient(
-            at 25% 50%,
-            hsla(152, 100%, 70%, 1) 0px,
-            transparent 30%
-        ),
-        radial-gradient(
             at 95% 0%,
-            hsla(160, 100%, 70%, 1) 0px,
-            transparent 40%
+            hsla(155, 100%, 70%, 1) 0px,
+            transparent 45%
         ),
         radial-gradient(at 25% 65%, hsla(120, 100%, 80%, 1) 0px, transparent 30%);
 }

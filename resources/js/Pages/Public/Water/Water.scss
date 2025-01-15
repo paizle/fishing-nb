@@ -7,7 +7,7 @@ main:has(.Water) {
 .Water {
     width: 100%;
     height: 100%;
-    padding-top: .25em;
+    padding-top: 0.25em;
     overflow-x: auto;
     overflow-y: hidden;
 
@@ -28,7 +28,10 @@ main:has(.Water) {
         justify-content: center;
 
         @screen sm {
-            grid-template-columns: minmax(auto,322px) minmax(auto,322px) minmax(4em,100px) minmax(4em,140px) minmax(4em,140px);
+            grid-template-columns: minmax(auto, 322px) minmax(
+                    auto,
+                    322px
+                ) minmax(4em, 100px) minmax(4em, 140px) minmax(4em, 140px);
             padding: 0 1em;
             font-size: 1em;
             .header {
@@ -51,6 +54,9 @@ main:has(.Water) {
 
         .body {
             display: contents;
+            > .fish-row-container {
+                display: contents;
+            }
         }
 
         .header {
@@ -101,12 +107,14 @@ main:has(.Water) {
             }
 
             .fish-season {
+                
                 display: flex;
                 align-items: center;
                 text-align: left;
                 gap: 0 0.5em;
 
                 strong {
+                    
                     display: flex;
                     font-size: 1.2em;
                 }
@@ -118,9 +126,10 @@ main:has(.Water) {
                 height: 1em;
                 transform: rotate(0deg);
                 transform-origin: 50% 50%;
-                transition: 300ms ease;
+                transition: transform 300ms ease;
             }
             &.open {
+                color: var(--heading-color);
                 border-radius: 0.5em 0.5em 0 0;
                 .open-indicator {
                     transform: rotate(90deg);
@@ -204,7 +213,7 @@ main:has(.Water) {
         .odd,
         .odd .water-description,
         .odd .limit > * {
-            background-color: var(--highlight-color-lighter);
+            background-color: var(--highlight-color-transparent);
         }
 
         .alert {

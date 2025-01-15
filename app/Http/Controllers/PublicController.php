@@ -144,13 +144,12 @@ class PublicController extends Controller
         ]);
     }
 
-    
     private function getBreadcrumbMap()
     {
         return [
             'href' => route('location.map'),
             'title' => 'New Brunswick',
-            'shortTitle' => 'NB'
+            'shortTitle' => 'NB',
         ];
     }
 
@@ -160,11 +159,12 @@ class PublicController extends Controller
         return [
             'href' => route('location.region', $id),
             'title' => $location->name,
-            'shortTitle' => $this->getAcronym($location->name)
+            'shortTitle' => $this->getAcronym($location->name),
         ];
     }
 
-    private function getAcronym($string) {
+    private function getAcronym($string)
+    {
         $words = explode(' ', $string);
         $acronym = '';
         foreach ($words as $word) {

@@ -42,7 +42,6 @@ Route::controller(PublicController::class)->group(function () {
     Route::get('/fish', 'fish')->name('fish.fish');
 
     Route::get('/settings', 'settings')->name('settings.edit');
-
 });
 
 require __DIR__ . '/auth.php';
