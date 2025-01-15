@@ -32,11 +32,10 @@ const Tooltip = ({ message = null, children }) => {
     }, [hoverAndPosition.hover])
 
     return (
-        <div
+        <a
             className={`Tooltip ${hoverAndPosition.hover && 'show'}`}
             onMouseEnter={setIsHovering(true)}
             onMouseLeave={setIsHovering(false)}
-            onTouchStart={(e) => e.stopPropagation()}
         >
             {children}
             <div
@@ -45,7 +44,7 @@ const Tooltip = ({ message = null, children }) => {
             >
                 <div className="message-content">{message}</div>
             </div>
-        </div>
+        </a>
     )
 }
 

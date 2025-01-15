@@ -1,28 +1,24 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink/ResponsiveNavLink';
-import { Link, usePage } from '@inertiajs/react';
-import { useState } from 'react';
+import ApplicationLogo from '@/Components/ApplicationLogo'
+import Dropdown from '@/Components/Dropdown'
+import NavLink from '@/Components/NavLink'
+import ResponsiveNavLink from '@/Components/ResponsiveNavLink/ResponsiveNavLink'
+import { Link, usePage } from '@inertiajs/react'
+import { useState } from 'react'
 import { Cog6ToothIcon } from '@heroicons/react/24/outline'
 
-export default function PublicNav({children}) {
-
+export default function PublicNav({ children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
-        useState(false);
+        useState(false)
 
     return (
         <nav className="border-b border-gray-100 dark:border-gray-700 dark:bg-gray-800">
             <div className="mx-auto max-w-7xl">
-                <div className="flex justify-between items-center relative">
-
+                <div className="relative flex items-center justify-between">
                     <div className="title">
-                        <div className="child-wrapper">
-                            {children}
-                        </div>
+                        <div className="child-wrapper">{children}</div>
                     </div>
 
-                    <div className="hidden sm:flex ">
+                    <div className="hidden sm:flex">
                         <div className="relative">
                             <Dropdown className="Dropdown">
                                 <Dropdown.Trigger>
@@ -82,20 +78,19 @@ export default function PublicNav({children}) {
                                     <Dropdown.Link
                                         href={route('settings.edit')}
                                         active={route().current('settings.*')}
-                                        className="flex justify-between" 
+                                        className="flex justify-between"
                                     >
                                         <div>Settings</div>
                                         <Cog6ToothIcon className="h-5 w-5" />
                                     </Dropdown.Link>
-
                                 </Dropdown.Content>
                             </Dropdown>
                         </div>
                     </div>
-                    
 
                     <div className="right-0 flex items-center sm:hidden">
-                        <button className="menu-icon"
+                        <button
+                            className="menu-icon"
                             onClick={() =>
                                 setShowingNavigationDropdown(
                                     (previousState) => !previousState,
@@ -137,7 +132,8 @@ export default function PublicNav({children}) {
             </div>
 
             <div
-                className={'navigation-drop-down ' +
+                className={
+                    'navigation-drop-down ' +
                     (showingNavigationDropdown ? 'block' : 'hidden') +
                     ' sm:hidden'
                 }
@@ -160,15 +156,17 @@ export default function PublicNav({children}) {
                     </ResponsiveNavLink>
                 </div>
 
-                <div className="border-t border-gray-200 ">
+                <div className="border-t border-gray-200">
                     <div className="py-1">
-                        <ResponsiveNavLink className="justify-between" href={route('settings.edit')}>
+                        <ResponsiveNavLink
+                            className="justify-between"
+                            href={route('settings.edit')}
+                        >
                             <div>Settings</div>
                             <Cog6ToothIcon className="h-5 w-5" />
                         </ResponsiveNavLink>
                     </div>
                 </div>
-
             </div>
         </nav>
     )

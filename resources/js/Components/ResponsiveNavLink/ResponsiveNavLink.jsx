@@ -11,9 +11,7 @@ export default function ResponsiveNavLink({
         <Link
             {...props}
             className={`ResponsiveNavLink ${
-                active
-                    ? 'active'
-                    : ''
+                active ? 'active' : ''
             } ${className}`}
         >
             {children}

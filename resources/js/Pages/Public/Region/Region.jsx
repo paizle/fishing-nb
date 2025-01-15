@@ -6,9 +6,8 @@ import { Link } from '@inertiajs/react'
 import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 
 export default function Region({ waters, breadcrumb }) {
-    console.log(waters)
     
-    const [results, setResults] = useState(waters)
+    const results = waters
 
     const [filteredResults, setFilteredResults] = useState([])
 
@@ -27,13 +26,12 @@ export default function Region({ waters, breadcrumb }) {
     const changeWaterName = (e) => {
         const value = e.target.value
         setWaterName(value)
-        console.log(value)
         if (value.length) {
             const newFilteredResults = results.filter((result) =>
                 result.water
                     ? result.water.name
-                            .toLowerCase()
-                            .includes(value.trim().toLowerCase())
+                          .toLowerCase()
+                          .includes(value.trim().toLowerCase())
                     : false,
             )
             setFilteredResults(newFilteredResults)
@@ -41,17 +39,6 @@ export default function Region({ waters, breadcrumb }) {
             setFilteredResults([])
         }
     }
-
-    useEffect(() => {
-        if (resultsRef.current) {
-            const size = 28
-            if (waterName && filteredResults.length === 0) {
-                //resultsRef.current.style.height = size + 'px'
-            } else {
-                //resultsRef.current.style.height = filteredResults.length * size + 'px'
-            }
-        }
-    }, [filteredResults, waterName])
 
     return (
         <PublicLayout>
@@ -73,28 +60,28 @@ export default function Region({ waters, breadcrumb }) {
                                 />
                             </label>
                         </header>
-                        <div className={`results ${filteredResults.length || waterName ? 'has-results' : null}`}>
-                            <ul
-                                ref={resultsRef}
-                                className={``}
-                            >
-                                {filteredResults.length ? (
-                                    filteredResults.map((result) =>
-                                        result?.water ? (
-                                            <li>
-                                                <Link
-                                                    href={route('location.water', {
+                        <div
+                            className={`results ${filteredResults.length || waterName ? 'has-results' : null}`}
+                        >
+                            <ul ref={resultsRef} className={``}>
+                                {filteredResults.length ?
+                                    filteredResults.map((result) => (                                       
+                                        <li key={result.water.id}>
+                                            <Link
+                                                href={route(
+                                                    'location.water',
+                                                    {
                                                         id: result.water.id,
-                                                    })}
-                                                >
-                                                    {result.water.name}
-                                                </Link>
-                                            </li>
-                                        ) : null,
-                                    )
-                                ) : waterName ? (
+                                                    },
+                                                )}
+                                            >
+                                                {result.water.name}
+                                            </Link>
+                                        </li>
+                                    ))
+                                : waterName && (
                                     <div className="p-4">(no results)</div>
-                                ) : null}
+                                )}
                             </ul>
                         </div>
                     </div>

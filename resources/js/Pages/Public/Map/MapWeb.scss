@@ -31,47 +31,48 @@
                 a {
                     display: block;
                     text-decoration: none;
-                }
-                h3 {
-                    display: inline-block;
-                    position: relative;
-                    font-size: 1.25em;
-                    margin: 0;
-                    font-weight: bold;
 
-                    &:after {
-                        visibility: hidden;
-                        transition: 300ms ease;
-                        content: '';
-                        border: 1px solid black;
-                        width: 0%;
-                        position: absolute;
-                        bottom: 0;
-                        left: 50%;
-                        transform-origin: 0 50%;
-                        transform: translateX(-50%);
+                    h3 {
+                        display: inline-block;
+                        position: relative;
+                        font-size: 1.25em;
+                        margin: 0;
+                        font-weight: bold;
+
+                        &:after {
+                            content: '';
+                            position: absolute;
+                            bottom: .25em;
+                            left: 50%;
+                            transform-origin: 0 50%;
+                            transform: translateX(-50%);
+                            transition: 300ms ease;
+                            border: 1px solid black;
+                            width: 0%;
+                            visibility: hidden;
+                        }
                     }
-                }
 
-                em {
-                    display: block;
-                    max-height: 0.5em;
-                    transition: 1000ms ease-in-out;
-                    overflow: hidden;
-                    opacity: 0;
-                }
+                    em {
+                        display: block;
+                        max-height: 0.5em;
+                        transition: 1000ms ease-in-out;
+                        overflow: hidden;
+                        opacity: 0;
+                    }
 
-                &.highlighted em,
-                &:hover em {
-                    opacity: 1;
-                    max-height: 500px;
-                }
+                    &.highlighted em,
+                    &:hover em {
+                        opacity: 1;
+                        max-height: 500px;
+                    }
 
-                &.highlighted h3,
-                &:hover h3 {
-                    &:after {
-                        visibility: visible;
-                        width: 100%;
+                    &.highlighted h3,
+                    &:hover h3 {
+                        &:after {
+                            width: 100%;
+                            visibility: visible;
+                        }
                     }
                 }
             }
