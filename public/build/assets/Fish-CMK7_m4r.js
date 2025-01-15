@@ -1,0 +1,1 @@
+import{j as i}from"./app-DhjhTIrp.js";import{P as r}from"./PublicLayout-CJ0ohSHj.js";import{P as s}from"./PublicNav-DzWCUJD7.js";import"./ResponsiveNavLink-D-aIb1UO.js";import"./transition-EMjWzN9p.js";function n({}){return i.jsxs(r,{children:[i.jsx("header",{children:i.jsx(s,{children:"Fish"})}),i.jsx("main",{children:i.jsx("div",{className:"Fish"})})]})}export{n as default};
