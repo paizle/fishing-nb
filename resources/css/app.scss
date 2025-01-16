@@ -4,7 +4,8 @@
 
 $heading-color: #1a2b48; // headers, tabs, and accents
 $icon-color: #70b9b0; // highlights and icons
-$icon-color-lighter: #e2f1ef;
+$icon-color-lighter: #d7f0ee;
+$icon-color-lightest: #e2f1ef;
 $background-color: #ffffff; // background
 $card-background-color: #f4f4f4; //card backgrounds and dividers
 $text-color: #6a7475; // text or secondary elements
@@ -19,6 +20,8 @@ $error: #ba3232;
     --icon-color: #{$icon-color};
     --highlight-color: #{$icon-color};
     --highlight-color-lighter: #{$icon-color-lighter};
+    --highlight-color-lightest: #{$icon-color-lightest};
+
     --highlight-color-transparent: #{rgba($icon-color, 0.2)};
     --highlight-color-translucent: #{rgba($icon-color, 0.7)};
     --highlight-color-contrast: var(--background-color);
@@ -189,36 +192,45 @@ em {
 }
 
 .water-background {
-    background-color: hsla(170, 100%, 70%, .7);
+    background-color: hsla(190, 76%, 90%, .9);
     background-image: radial-gradient(
             at 0% 60%,
-            hsla(175, 100%, 65%, 1) 0px,
-            transparent 50%
+            hsla(175, 100%, 75%, .5) 0px,
+            transparent 80%
         ),
         radial-gradient(
             at 40% 0%,
-            hsla(180, 100%, 66%, 1) 0px,
-            transparent 60%
-        ),
-        radial-gradient(
-            at 85% 55%,
-            hsla(180, 100%, 70%, 1) 0px,
-            transparent 60%
-        ),
-        radial-gradient(
-            at 20% 100%,
-            hsla(147, 100%, 74%, 1) 0px,
-            transparent 60%
-        ),
-        radial-gradient(
-            at 25% 60%,
-            hsla(137, 100%, 70%, 1) 0px,
+            hsla(180, 100%, 86%, 1) 0px,
             transparent 50%
         ),
+        
+        radial-gradient(
+            at 20% 5%,
+            hsla(180, 100%, 86%, 1) 0px,
+            transparent 40%
+        ),
+        radial-gradient(
+            at 95% 95%,
+            hsla(180, 100%, 86%, 1) 0px,
+            transparent 40%
+        ),
+        
+        radial-gradient(
+            at -10% 60%,
+            hsla(140, 100%, 70%, 1) 0px,
+            transparent 30%
+        ),
+
+        radial-gradient(
+            at 5% 90%,
+            hsla(145, 100%, 74%, 1) 0px,
+            transparent 20%
+        ),
+        
         radial-gradient(
             at 95% 0%,
-            hsla(155, 100%, 70%, 1) 0px,
-            transparent 45%
+            hsla(145, 100%, 70%, 1) 0px,
+            transparent 40%
         ),
         radial-gradient(at 25% 65%, hsla(120, 100%, 80%, 1) 0px, transparent 30%);
 }

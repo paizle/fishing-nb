@@ -21,8 +21,6 @@ export default function MapMobile({ locations }) {
         return a
     }, {})
 
-    console.log(locationsIndexed)
-
     const getLocationFromPathId = (pathId) => {
         const name = pathSelectorToLocationName[pathId]
         const location = locationsIndexed[name]
@@ -34,17 +32,6 @@ export default function MapMobile({ locations }) {
     }
 
     const onTouchLocation = (event, pathId) => {
-        if (selectedPathIdRef?.current === pathId) {
-            const location = getLocationFromPathId(pathId)
-            internalRouting.setView('location', {
-                id: location.id,
-                breadCrumb: {
-                    position: 1,
-                    label: location.name,
-                },
-            })
-        }
-
         locationTitlesRef.current
             .querySelectorAll('.highlighted')
             .forEach((element) => element.classList.remove('highlighted'))
