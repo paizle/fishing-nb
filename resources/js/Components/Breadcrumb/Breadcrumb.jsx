@@ -2,7 +2,7 @@ import './Breadcrumb.scss'
 import { Link } from '@inertiajs/react'
 import useScreenOrientation from '@/Hooks/useScreenOrientation'
 
-export default function BreadCrumb({ breadcrumb }) {
+export default function Breadcrumb({ breadcrumb }) {
     const screenOrientation = useScreenOrientation()
     return (
         <div className={`Breadcrumb`}>

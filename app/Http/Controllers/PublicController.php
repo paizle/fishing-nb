@@ -14,7 +14,7 @@ class PublicController extends Controller
 {
     public function index()
     {
-        return Redirect::route('location.map');
+        return Inertia::render('Public/Index');
     }
 
     public function map()
@@ -128,13 +128,41 @@ class PublicController extends Controller
             'limits' => $limits_by_water,
         ]);
     }
-
-    public function fish()
+    public function fishes()
     {
-        return Inertia::render('Public/Fish/Fish', [
-            'breadcrumb' => [],
-            'fish' => [],
+        return Inertia::render('Public/Fishes/Fishes', [
+            'breadcrumb' => [$this->getBreadcrumbFishes()],
+            'fishes' => Fish::all(),
         ]);
+    }
+
+    public function fish($id)
+    {
+        $fish = Fish::find($id);
+
+        $limits = FishLimit::query()
+            ->where('fish_id', $id)
+            ->with([
+                'location',
+                'boundary',
+                'water',
+                'waters_category',
+                'tidal_category',
+                'fishing_method',
+            ])
+            ->get();
+
+            return Inertia::render('Public/Fish/Fish', [
+                'fish' => $fish,
+                'limits' => $limits,
+                'breadcrumb' => [
+                    $this->getBreadcrumbFishes(),
+                    [
+                        'href' => route('fish.fish', $fish->id),
+                        'title' => $fish->name
+                    ]
+                ]
+            ]);
     }
 
     public function settings()
@@ -150,6 +178,14 @@ class PublicController extends Controller
             'href' => route('location.map'),
             'title' => 'New Brunswick',
             'shortTitle' => 'NB',
+        ];
+    }
+
+    private function getBreadcrumbFishes()
+    {
+        return [
+            'href' => route('fish.fishes'),
+            'title' => 'Fish',
         ];
     }
 

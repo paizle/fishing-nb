@@ -1,0 +1,95 @@
+.Fishes {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    .fishes-grid {
+
+        .fishes-grid-body {
+            overflow-y: auto;
+        }
+
+        .fish-list {
+            display: inline-grid;
+            margin: 0 auto;
+            .InternalLink {
+                border-radius: 0.5em;
+                text-align: center;
+                &:hover {
+                    @apply shadow;
+                }
+            }
+            &.one-up {
+                grid-template-columns: 100%;
+                > a {
+                    padding: 0 1em;
+                    text-align: center;
+                    img {
+                        padding: 1em 1em 1em 0;
+                        max-width: 100%;
+                        min-height: 4em;
+                        display: block;
+                    }
+                    strong {
+                    }
+                }
+            }
+
+            &.two-up {
+                grid-template-columns: 50% 50%;
+
+                > a {
+                    display: flex;
+                    flex-direction: column;
+                    &:nth-child(odd) {
+                        img {
+                            transform: scaleX(-1);
+                        }
+                    }
+
+                    img {
+                        padding: 1em;
+                        max-width: 400px;
+                    }
+                    strong {
+                        text-align: center;
+                        padding: 1em;
+                    }
+                }
+            }
+
+            &.three-up {
+                grid-template-columns: 33% 33% 33%;
+
+                > .InternalLink {
+                    display: flex;
+                    flex-direction: column;
+
+                    img {
+                        margin: 1em;
+                    }
+                    strong {
+                        text-align: center;
+                        padding: 1em;
+                    }
+                }
+            }
+
+            &.four-up {
+                grid-template-columns: 25% 25% 25% 25%;
+
+                > .InternalLink {
+                    display: flex;
+                    flex-direction: column;
+                    img {
+                        padding: 0.5em;
+                    }
+                    strong {
+                        text-align: center;
+                        margin: 0 0.5em;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -72,7 +72,7 @@ export default function PublicNav({ children }) {
                                     </Dropdown.Link>
 
                                     <Dropdown.Link
-                                        href={route('fish.fish')}
+                                        href={route('fish.fishes')}
                                         active={route().current('fish.*')}
                                         className="flex justify-between"
                                     >
@@ -155,7 +155,7 @@ export default function PublicNav({ children }) {
 
                 <div className="py-1">
                     <ResponsiveNavLink
-                        href={route('fish.fish')}
+                        href={route('fish.fishes')}
                         active={route().current('fish.*')}
                     >
                         Search By Fish
