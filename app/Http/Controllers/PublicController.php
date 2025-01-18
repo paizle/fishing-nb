@@ -14,7 +14,7 @@ class PublicController extends Controller
 {
     public function index()
     {
-        return Redirect::route('location.map');
+        return Inertia::render('Public/Index');
     }
 
     public function map()
@@ -128,12 +128,69 @@ class PublicController extends Controller
             'limits' => $limits_by_water,
         ]);
     }
-
-    public function fish()
+    public function fishes()
     {
+        return Inertia::render('Public/Fishes/Fishes', [
+            'breadcrumb' => [$this->getBreadcrumbFishes()],
+            'fishes' => Fish::all(),
+        ]);
+    }
+
+    public function fish($id)
+    {
+        $fish = Fish::find($id);
+
+        $limits = FishLimit::query()
+            ->where('fish_id', $id)
+            
+            ->get()
+            ->toArray();
+
+        $ids = [];
+        foreach ($limits as $limit) {
+            if (!in_array($limit['id'], $ids)) {
+                $ids[] = $limit['id'];
+            }
+        }
+
+        $ids = array_map(function ($item) {
+            return $item['id'];
+        }, $limits);
+
+        $limits = FishLimit::query()
+            ->whereIn('id', $ids)
+            ->with([
+                'location',
+                'boundary',
+                'water',
+                'waters_category',
+                'tidal_category',
+                'fishing_method',
+            ])
+            ->orderBy(
+                Location::select('name')->whereColumn(
+                    'id',
+                    'fish_limits.location_id'
+                )
+            )
+            ->orderByRaw("
+                CASE
+                    WHEN fish_limits.water_id IS NULL THEN 0
+                    ELSE 1
+                END ASC
+            ")
+            ->get();
+
         return Inertia::render('Public/Fish/Fish', [
-            'breadcrumb' => [],
-            'fish' => [],
+            'fish' => $fish,
+            'limits' => $limits,
+            'breadcrumb' => [
+                $this->getBreadcrumbFishes(),
+                [
+                    'href' => route('fish.fish', $fish->id),
+                    'title' => $fish->name
+                ]
+            ]
         ]);
     }
 
@@ -150,6 +207,14 @@ class PublicController extends Controller
             'href' => route('location.map'),
             'title' => 'New Brunswick',
             'shortTitle' => 'NB',
+        ];
+    }
+
+    private function getBreadcrumbFishes()
+    {
+        return [
+            'href' => route('fish.fishes'),
+            'title' => 'Fish',
         ];
     }
 

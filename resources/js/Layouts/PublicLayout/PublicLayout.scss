@@ -74,7 +74,13 @@
                 }
             }
             .navigation-drop-down {
-                background-color: var(--highlight-color-transparent);
+                background-color: var(--highlight-color-lightest);
+                max-height: 0;
+                overflow: hidden;
+                transition: 500ms ease-out;
+                &.open {
+                    max-height: 1000px;
+                }
             }
         }
 

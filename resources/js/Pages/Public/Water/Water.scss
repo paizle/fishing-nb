@@ -213,7 +213,7 @@ main:has(.Water) {
         .odd,
         .odd .water-description,
         .odd .limit > * {
-            background-color: var(--highlight-color-transparent);
+            background-color: var(--highlight-color-lighter);
         }
 
         .alert {

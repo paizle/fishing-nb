@@ -4,7 +4,7 @@ import NavLink from '@/Components/NavLink'
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink/ResponsiveNavLink'
 import { Link, usePage } from '@inertiajs/react'
 import { useState } from 'react'
-import { Cog6ToothIcon } from '@heroicons/react/24/outline'
+import { MapIcon, MapPinIcon, Cog6ToothIcon } from '@heroicons/react/24/outline'
 
 export default function PublicNav({ children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
@@ -64,15 +64,20 @@ export default function PublicNav({ children }) {
                                     <Dropdown.Link
                                         href={route('location.map')}
                                         active={route().current('location.*')}
+                                        className="flex justify-between"
                                     >
                                         Search By Location
+                                        <MapIcon className="h-5 w-5" />
+                                        
                                     </Dropdown.Link>
 
                                     <Dropdown.Link
-                                        href={route('fish.fish')}
+                                        href={route('fish.fishes')}
                                         active={route().current('fish.*')}
+                                        className="flex justify-between"
                                     >
                                         Search By Fish
+                                        <MapPinIcon className="h-5 w-5" />
                                     </Dropdown.Link>
 
                                     <Dropdown.Link
@@ -80,7 +85,7 @@ export default function PublicNav({ children }) {
                                         active={route().current('settings.*')}
                                         className="flex justify-between"
                                     >
-                                        <div>Settings</div>
+                                        Settings
                                         <Cog6ToothIcon className="h-5 w-5" />
                                     </Dropdown.Link>
                                 </Dropdown.Content>
@@ -134,7 +139,7 @@ export default function PublicNav({ children }) {
             <div
                 className={
                     'navigation-drop-down ' +
-                    (showingNavigationDropdown ? 'block' : 'hidden') +
+                    (showingNavigationDropdown ? 'open' : '') +
                     ' sm:hidden'
                 }
             >
@@ -144,25 +149,28 @@ export default function PublicNav({ children }) {
                         active={route().current('location.*')}
                     >
                         Search By Location
+                        <MapIcon className="h-5 w-5" />
                     </ResponsiveNavLink>
                 </div>
 
                 <div className="py-1">
                     <ResponsiveNavLink
-                        href={route('fish.fish')}
+                        href={route('fish.fishes')}
                         active={route().current('fish.*')}
                     >
                         Search By Fish
+                        <MapPinIcon className="h-5 w-5" />
                     </ResponsiveNavLink>
                 </div>
 
                 <div className="border-t border-gray-200">
                     <div className="py-1">
                         <ResponsiveNavLink
-                            className="justify-between"
+                            className=""
                             href={route('settings.edit')}
+                            active={route().current('settings.*')}
                         >
-                            <div>Settings</div>
+                            Settings
                             <Cog6ToothIcon className="h-5 w-5" />
                         </ResponsiveNavLink>
                     </div>
