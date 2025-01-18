@@ -18,11 +18,15 @@ export default function Index() {
             break;
         }
     }, [])
-    
+
     return (
         <PublicLayout>
             <header></header>
-            <main></main>
+            <main>
+                <div className="flex items-center">
+                    <img src="/images/logo.png" />
+                </div>
+            </main>
         </PublicLayout>
     )
 }

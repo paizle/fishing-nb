@@ -142,6 +142,23 @@ class PublicController extends Controller
 
         $limits = FishLimit::query()
             ->where('fish_id', $id)
+            
+            ->get()
+            ->toArray();
+
+        $ids = [];
+        foreach ($limits as $limit) {
+            if (!in_array($limit['id'], $ids)) {
+                $ids[] = $limit['id'];
+            }
+        }
+
+        $ids = array_map(function ($item) {
+            return $item['id'];
+        }, $limits);
+
+        $limits = FishLimit::query()
+            ->whereIn('id', $ids)
             ->with([
                 'location',
                 'boundary',
@@ -150,19 +167,31 @@ class PublicController extends Controller
                 'tidal_category',
                 'fishing_method',
             ])
+            ->orderBy(
+                Location::select('name')->whereColumn(
+                    'id',
+                    'fish_limits.location_id'
+                )
+            )
+            ->orderByRaw("
+                CASE
+                    WHEN fish_limits.water_id IS NULL THEN 0
+                    ELSE 1
+                END ASC
+            ")
             ->get();
 
-            return Inertia::render('Public/Fish/Fish', [
-                'fish' => $fish,
-                'limits' => $limits,
-                'breadcrumb' => [
-                    $this->getBreadcrumbFishes(),
-                    [
-                        'href' => route('fish.fish', $fish->id),
-                        'title' => $fish->name
-                    ]
+        return Inertia::render('Public/Fish/Fish', [
+            'fish' => $fish,
+            'limits' => $limits,
+            'breadcrumb' => [
+                $this->getBreadcrumbFishes(),
+                [
+                    'href' => route('fish.fish', $fish->id),
+                    'title' => $fish->name
                 ]
-            ]);
+            ]
+        ]);
     }
 
     public function settings()

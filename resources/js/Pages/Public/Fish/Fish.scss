@@ -2,7 +2,7 @@
 
 main.Fish {
 
-    
+    padding: 0 .5em !important;
     @screen sm {
         padding: 0 0 0 1em !important;
     }
@@ -58,11 +58,9 @@ main.Fish {
                 &:first-child {
                     text-align: left;
                     border-radius: 0 0 0 0.5em;
-                    padding-left: 0;
                 }
                 &:last-child {
                     border-radius: 0 0 0.5em 0;
-                    padding-right: 0;
                 }
             }
         }
@@ -88,21 +86,18 @@ main.Fish {
 
                 .row {
                     display: contents;
+                    .water-description {
+                        grid-column: span 6;
+                    }
                     > * {
                         padding: .25em;
-                        &:first-child {
-                            padding-left: 0;
-                        }
-                        &:last-child {
-                            padding-right: 0;
-                        }
                     }
-                    &:nth-child(odd) {
+                    &.odd {
                         > * {
                             background-color: var(--background-color);
                         }
                     }
-                    &:nth-child(even) {
+                    &.even {
                         > * {
                             background-color: var(--highlight-color-lighter);
                         }

@@ -25,17 +25,29 @@ export default function Fish({fish, limits, breadcrumb}) {
             extra.push(row.waters_category.name)
         }
 
-        extra.push(': ')
+        
 
-        if (row.boundary) {
-            extra.push(row.boundary.name)
+        if (!row.water_description) {
+                
+            extra.push(': ')
+
+            if (row.boundary) {
+                extra.push(row.boundary.name)
+            }
+
+            if (row.tidal_category) {
+                extra.push(', ' + row.tidal_category.name + ' waters')
+            }
         }
 
-        if (row.tidal_category) {
-            extra.push(', ' + row.tidal_category.name + ' waters')
-        }
 
         if (row.fishing_method) {
+
+            if (!row.water_description) {
+                
+                extra.push(': ')
+            }
+
             if (
                 row.fishing_method.name ===
                 'May only be angled by artificial fly or baited barbless hook with a single point'
@@ -46,8 +58,31 @@ export default function Fish({fish, limits, breadcrumb}) {
             }
         }
 
+        return (
+            <>
+                {extra.map((text) => (
+                    <span className="extra">{text}</span>
+                ))}
+            </>
+        )
+    }
+
+    const renderWaterDescriptionColumn = (row) => {
+        let extra = []
+
         if (row.water_description) {
-            extra.push(' ' + row.water_description)
+                
+            if (row.boundary) {
+                extra.push(row.boundary.name)
+            }
+
+            if (row.tidal_category) {
+                extra.push(', ' + row.tidal_category.name + ' waters')
+            }
+                
+            if (row.water_description) {
+                extra.push(' ' + row.water_description)
+            }
         }
 
         return (
@@ -57,6 +92,35 @@ export default function Fish({fish, limits, breadcrumb}) {
                 ))}
             </>
         )
+    }
+
+    function renderGroup(limit) {
+        return limit.group.map((groupLimit) => renderRow(groupLimit))
+    }
+
+    function renderRow(limit, group = false) {
+
+        return (
+            <>
+            <div className="">{limit.id} {group ? 'true' : null} {renderWaterColumn(limit)}</div>
+            <div>{limit.minimum_size}</div>
+            <div>{limit.maximum_size}</div>
+            <div>{limit.bag_limit}</div>
+            <div>{
+                format(
+                    parseMySqlDate(limit.season_start),
+                    config.displayDayMonthShortFormat
+                )}
+            </div>
+            <div>{
+                format(
+                    parseMySqlDate(limit.season_end),
+                    config.displayDayMonthShortFormat
+                )}
+            </div>
+            </>
+        )
+        
     }
 
     return (
@@ -85,23 +149,14 @@ export default function Fish({fish, limits, breadcrumb}) {
                                 <div className="location-name">{location}</div>
                                 
                                 {results[location].map((limit, index) => (
-                                    <div className="row">
-                                        <div className="">{renderWaterColumn(limit)}</div>
-                                        <div>{limit.minimum_size}</div>
-                                        <div>{limit.maximum_size}</div>
-                                        <div>{limit.bag_limit}</div>
-                                        <div>{
-                                            format(
-                                                parseMySqlDate(limit.season_start),
-                                                config.displayDayMonthShortFormat
-                                            )}
-                                        </div>
-                                        <div>{
-                                            format(
-                                                parseMySqlDate(limit.season_end),
-                                                config.displayDayMonthShortFormat
-                                            )}
-                                        </div>
+                                    <div className={`row ${index % 2 ? 'even' : 'odd'}`}>
+                                        {renderRow(limit)}
+                                        {limit.group ? renderGroup(limit) : null}
+                                        {limit.water_description
+                                            ? <div className="water-description">{renderWaterDescriptionColumn(limit)}</div> 
+                                            : null
+                                        }
+                                        
                                     </div>
                                 ))}
                             </div>
