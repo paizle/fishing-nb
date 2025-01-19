@@ -14,29 +14,6 @@
 
     position: relative;
     z-index: 2;
-
-    .title {
-        text-align: center;
-        display: flex;
-        width: 100%;
-        position: relative;
-        margin: 0 0 0 0;
-        transform: translate(0);
-        text-align: center;
-        margin-left: -2.5em;
-        transform: translateX(0);
-        padding: 0 1.75em;
-        .child-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            width: calc(100%);
-            transform: translateX(2.5em);
-            color: var(--heading-color);
-        }
-    }
-
     background-color: var(--background-color);
 
     &.gradient-background {
@@ -57,26 +34,57 @@
         z-index: 3;
         @apply shadow;
 
-        h1.hero {
-            font-family: "Montserrat", serif;
-            text-transform: uppercase;
-            text-align: center;
-            font-weight: 900;
-            font-size: 4em;
-            padding: 0 1em;
-            line-height: 1;
-            span {
-                color: var(--highlight-color);
-            }
-        }
-
         nav {
-            align-self: flex-start;
+            position: relative;
             .open {
                 color: var(--heading-color);
             }
+            .title {
+                position: relative;
+                z-index: 1;
+                text-align: center;
+                display: flex;
+                width: 100%;
+                position: relative;
+                margin: 0 0 0 0;
+                transform: translate(0);
+                text-align: center;
+                margin-left: -2.5em;
+                transform: translateX(0);
+                padding: 0 1.75em;
+                .child-wrapper {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    text-align: center;
+                    width: calc(100%);
+                    transform: translateX(2.5em);
+                    color: var(--heading-color);
+                    h1.hero {
+                        font-family: "Montserrat", serif;
+                        text-transform: uppercase;
+                        text-align: center;
+                        font-weight: 900;
+                        font-size: 4em;
+                        padding: 0 1em;
+                        line-height: 1;
+                        span {
+                            color: var(--highlight-color);
+                        }
+                    }
+                }
+            }
             .menu-icon {
+                position: relative;
+                right: 0;
+                z-index: 3;
+                
                 align-self: flex-start;
+                display: flex;
+                align-items: center;
+                @screen sm {
+                    display: none;
+                }
                 button {
                     @apply inline-flex items-center justify-center rounded-md p-2 transition duration-150 ease-in-out focus:outline-none;
                     cursor: pointer;

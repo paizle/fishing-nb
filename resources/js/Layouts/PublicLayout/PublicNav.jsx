@@ -96,7 +96,7 @@ export default function PublicNav({ children }) {
                     <div className={`${showingNavigationDropdown
                                             ? 'open'
                                             : ''}
-                                       menu-icon right-0 flex items-center sm:hidden`}>
+                                       menu-icon`}>
                         <button
                             onClick={() =>
                                 setShowingNavigationDropdown(
