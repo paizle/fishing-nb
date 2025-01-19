@@ -2,12 +2,15 @@
 
 .PublicLayout {
     height: 100%;
+    width: 100%;
+    overflow: hidden;
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
+    grid-template-columns: 100%;
+    grid-template-rows: auto 1fr auto;
     grid-template-areas:
         'header'
-        'main';
+        'main'
+        'footer';
 
     position: relative;
     z-index: 2;
@@ -34,9 +37,6 @@
         }
     }
 
-    .menu-icon {
-        @apply inline-flex items-center justify-center rounded-md p-2 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none dark:text-gray-500 dark:hover:bg-gray-900 dark:hover:text-gray-400 dark:focus:bg-gray-900 dark:focus:text-gray-400;
-    }
     background-color: var(--background-color);
 
     &.gradient-background {
@@ -57,18 +57,40 @@
         z-index: 3;
         @apply shadow;
 
+        h1.hero {
+            font-family: "Montserrat", serif;
+            text-transform: uppercase;
+            text-align: center;
+            font-weight: 900;
+            font-size: 4em;
+            padding: 0 1em;
+            line-height: 1;
+            span {
+                color: var(--highlight-color);
+            }
+        }
+
         nav {
+            align-self: flex-start;
+            .open {
+                color: var(--heading-color);
+            }
             .menu-icon {
-                cursor: pointer;
-                padding: 0.5em;
-                &:focus {
-                    background-color: var(--highlight-color-transparent);
-                }
-                &:hover {
-                    background-color: var(--highlight-color-transparent);
+                align-self: flex-start;
+                button {
+                    @apply inline-flex items-center justify-center rounded-md p-2 transition duration-150 ease-in-out focus:outline-none;
+                    cursor: pointer;
+                    padding: 0.5em;
+                    &:focus {
+                        background-color: var(--highlight-color-transparent);
+                    }
+                    &:hover {
+                        background-color: var(--highlight-color-transparent);
+                    }
                 }
             }
             .Dropdown {
+                padding-right: .5em;
                 .content {
                     background-color: var(--background-color);
                 }
@@ -93,6 +115,13 @@
                 font-size: 2em;
             }
         }
+    }
+
+    > footer {
+        grid-area: footer;
+        position: relative;
+        z-index: 3;
+        @apply shadow-inverted;
     }
 
     main {

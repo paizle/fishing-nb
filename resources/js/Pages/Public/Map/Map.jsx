@@ -15,7 +15,7 @@ export default function Map({ locations, breadcrumb }) {
     const localStorage = useLocalStorageDefaults()
     useEffect(() => {
         const settings = localStorage.getItem('settings')
-        settings.searchBy = 'location'
+        settings.landingPage = 'location'
         localStorage.setItem('settings', settings)
     }, [])
 

@@ -9,12 +9,15 @@ export default function Index() {
     useLayoutEffect(() => {
         const settings = localStorage.getItem('settings')
         
-        switch (settings.searchBy) {
+        switch (settings.landingPage) {
             case 'location':
                 window.location.href = route('location.map')
             break;
             case 'fishes':
                 window.location.href = route('fish.fishes')
+            break;
+            case 'home':
+                window.location.href = route('home.home')
             break;
         }
     }, [])
