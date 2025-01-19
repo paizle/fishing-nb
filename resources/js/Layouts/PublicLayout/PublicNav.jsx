@@ -4,7 +4,7 @@ import NavLink from '@/Components/NavLink'
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink/ResponsiveNavLink'
 import { Link, usePage } from '@inertiajs/react'
 import { useState } from 'react'
-import { MapIcon, MapPinIcon, Cog6ToothIcon } from '@heroicons/react/24/outline'
+import { MapIcon, MapPinIcon, Cog6ToothIcon, DevicePhoneMobileIcon } from '@heroicons/react/24/outline'
 
 export default function PublicNav({ children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
@@ -93,9 +93,11 @@ export default function PublicNav({ children }) {
                         </div>
                     </div>
 
-                    <div className="right-0 flex items-center sm:hidden">
+                    <div className={`${showingNavigationDropdown
+                                            ? 'open'
+                                            : ''}
+                                       menu-icon right-0 flex items-center sm:hidden`}>
                         <button
-                            className="menu-icon"
                             onClick={() =>
                                 setShowingNavigationDropdown(
                                     (previousState) => !previousState,
@@ -160,6 +162,16 @@ export default function PublicNav({ children }) {
                     >
                         Search By Fish
                         <MapPinIcon className="h-5 w-5" />
+                    </ResponsiveNavLink>
+                </div>
+
+                <div className="py-1">
+                    <ResponsiveNavLink
+                        href={route('home.home')}
+                        active={route().current('home.*')}
+                    >
+                        Smart Fish
+                        <DevicePhoneMobileIcon className="h-5 w-5" />
                     </ResponsiveNavLink>
                 </div>
 

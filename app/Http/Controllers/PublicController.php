@@ -17,6 +17,16 @@ class PublicController extends Controller
         return Inertia::render('Public/Index');
     }
 
+    public function home()
+    {
+        return Inertia::render(
+            'Public/Home/Home',
+            [
+                'fishes' => Fish::all()
+            ]
+        );
+    }
+
     public function map()
     {
         $breadcrumb = [$this->getBreadcrumbMap()];

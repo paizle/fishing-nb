@@ -35,6 +35,8 @@ Route::middleware('auth')->group(function () {
 
 Route::controller(PublicController::class)->group(function () {
     Route::get('/', 'index')->name('root.page');
+
+    Route::get('/home', 'home')->name('home.home');
     
     Route::get('/map', 'map')->name('location.map');
     Route::get('/region/{id}', 'region')->name('location.region');

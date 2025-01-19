@@ -12,7 +12,7 @@ export default function Fishes({fishes, breadcrumb}) {
     const localStorage = useLocalStorageDefaults()
     useEffect(() => {
         const settings = localStorage.getItem('settings')
-        settings.searchBy = 'fishes'
+        settings.landingPage = 'fishes'
         localStorage.setItem('settings', settings)
     }, [])
 
