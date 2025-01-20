@@ -4,13 +4,28 @@ import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
 
+import Combobox from '@/Components/Combobox/Combobox'
+
 export default function Home({fishes}) {
+
+    const [locations, setLocations] = useState([])
 
     const [selectedFish, setSelectedFish] = useState(null)
 
     const storage = useLocalStorageDefaults()
 
     const fishListRef = useRef(null)
+
+    useEffect(() => {
+        axios.get(route('locations') + '?v=10')
+            .then((request) => {
+                console.log(request.data['cache-version'])
+                console.log(request)
+                const data = request.data.locations
+                setLocations(Object.keys(data).map((key) => ({value: data[key], label: key})))
+            })
+            .catch((e) => console.error(e))
+    }, [])
 
     useEffect(() => {
         if (fishListRef.current) {
@@ -46,6 +61,13 @@ export default function Home({fishes}) {
         setSelectedFish(newSelectedFish)
     }
 
+    const handleLocationFocus = (e) => {
+        setTimeout(() => {
+            console.log('test')
+            e.target.scrollIntoView({behavior: 'smooth', block: 'start'})
+        }, 100)
+    }
+
     return (
         <PublicLayout className="Home">
             <header>
@@ -54,6 +76,11 @@ export default function Home({fishes}) {
                 </PublicNav>
             </header>
             <main>
+                <Combobox 
+                    items={locations}
+                    onFocus={handleLocationFocus}
+                    placeholder="Location: filter by river, lake or region"
+                />
                 <div className="logo">
                     <img src="/images/logo.png" />
                 </div>

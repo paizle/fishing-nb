@@ -1,0 +1,25 @@
+.Combobox {
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 100%;
+    label {
+        flex-grow: 0;
+            
+        .input-wrapper {
+            input {
+                width: 100%;
+            }
+            
+        }
+    }
+    .results {
+        flex-grow: 1;
+        overflow-y: auto;
+        visibility: hidden;
+        &.open {
+            visibility: visible;
+        }
+    }  
+}

@@ -1,10 +1,12 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PublicController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicController;
+use App\Http\Controllers\ApiController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -46,6 +48,10 @@ Route::controller(PublicController::class)->group(function () {
     Route::get('/fish/{id}', 'fish')->name('fish.fish');
 
     Route::get('/settings', 'settings')->name('settings.edit');
+});
+
+Route::controller(ApiController::class)->group(function () {
+    Route::get('/locations', 'locations')->name('locations');
 });
 
 require __DIR__ . '/auth.php';
