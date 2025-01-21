@@ -18,14 +18,14 @@ export default function PublicNav({ children }) {
                         <div className="child-wrapper">{children}</div>
                     </div>
 
-                    <div className="hidden sm:flex">
+                    <div className="desktop-menu hidden sm:flex">
                         <div className="relative">
                             <Dropdown className="Dropdown">
                                 <Dropdown.Trigger>
-                                    <span className="inline-flex rounded-md">
+                                    <span className="menu-icon inline-flex rounded-md">
                                         <button
                                             type="button"
-                                            className="menu-icon"
+                                            className=""
                                         >
                                             <svg
                                                 className="h-6 w-6"
@@ -93,10 +93,10 @@ export default function PublicNav({ children }) {
                         </div>
                     </div>
 
-                    <div className={`${showingNavigationDropdown
+                    <div className={`mobile-menu menu-icon ${showingNavigationDropdown
                                             ? 'open'
                                             : ''}
-                                       menu-icon`}>
+                                       `}>
                         <button
                             onClick={() =>
                                 setShowingNavigationDropdown(

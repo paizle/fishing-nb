@@ -19,12 +19,7 @@ class PublicController extends Controller
 
     public function home()
     {
-        return Inertia::render(
-            'Public/Home/Home',
-            [
-                'fishes' => Fish::all()
-            ]
-        );
+        return Inertia::render('Public/Home/Home');
     }
 
     public function map()

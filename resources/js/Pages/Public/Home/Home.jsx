@@ -1,12 +1,14 @@
 import './Home.scss'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useLayoutEffect, useRef } from 'react'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
 
 import Combobox from '@/Components/Combobox/Combobox'
 
-export default function Home({fishes}) {
+export default function Home() {
+
+    const [fishes, setFishes] = useState([])
 
     const [locations, setLocations] = useState([])
 
@@ -17,16 +19,17 @@ export default function Home({fishes}) {
     const fishListRef = useRef(null)
 
     useEffect(() => {
+        axios.get('/api/fishes')
+            .then((request) => setFishes(request.data.fishes))
+            .catch((e) => console.error(e))
+
         axios.get('/api/locations')
-            .then((request) => {
-                const data = request.data.locations
-                setLocations(Object.keys(data).map((key) => ({value: data[key], label: key})))
-            })
+            .then((request) => setLocations(request.data.locations))
             .catch((e) => console.error(e))
     }, [])
 
-    useEffect(() => {
-        if (fishListRef.current) {
+    useLayoutEffect(() => {
+        if (fishListRef.current && Object.keys(locations).length) {
             const settings = storage.getItem('settings')
             if (settings.selectedFish) {
                 setSelectedFish(settings.selectedFish)
@@ -37,7 +40,7 @@ export default function Home({fishes}) {
                 })
             }
         }
-    }, [fishListRef.current])
+    }, [fishListRef.current, locations])
 
     const localStorage = useLocalStorageDefaults()
     useEffect(() => {
@@ -75,9 +78,9 @@ export default function Home({fishes}) {
             </header>
             <main>
                 <Combobox 
-                    items={locations}
+                    items={Object.keys(locations).map((key) => ({value: locations[key], label: key}))}
                     onFocus={handleLocationFocus}
-                    placeholder="Location: filter by river, lake or region"
+                    placeholder="Search by river, lake or region"
                 />
                 <div className="logo">
                     <img src="/images/logo.png" />

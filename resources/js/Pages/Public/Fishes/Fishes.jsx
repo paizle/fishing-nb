@@ -26,27 +26,27 @@ export default function Fishes({fishes, breadcrumb}) {
     const columnLayout = ['one-up', 'two-up', 'three-up', 'four-up']
 
     return (
-        <PublicLayout>
+        <PublicLayout className="Fishes">
             <header>
                 <PublicNav>
                     <Breadcrumb breadcrumb={breadcrumb} />
                 </PublicNav>
             </header>
-            <main className="Fishes">
-                <div className="fishes-grid">
-                    <div className={`fish-list ${columnLayout[columns]}`}>
-                        {results.map((fish) => (
-                            <Link
-                                key={fish.name}
-                                href={route('fish.fish', fish.id)}
-                            >
-                                <img
-                                    src={`/images/fish/${getFileName(fish.name)}`}
-                                />
-                                <strong>{fish.name}</strong>
-                            </Link>
-                        ))}
-                    </div>
+            <main>
+                <div className={`fish-list ${columnLayout[columns]}`}>
+                    {results.map((fish) => (
+                        <div>
+                        <Link
+                            key={fish.name}
+                            href={route('fish.fish', fish.id)}
+                        >
+                            <img
+                                src={`/images/fish/${getFileName(fish.name)}`}
+                            />
+                            <strong>{fish.name}</strong>
+                        </Link>
+                        </div>
+                    ))}
                 </div>
             </main>
         </PublicLayout>

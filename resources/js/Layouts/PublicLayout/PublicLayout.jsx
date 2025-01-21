@@ -1,7 +1,7 @@
 import './PublicLayout.scss'
 import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
 
-export default function PublicLayout({ className, children }) {
+export default function PublicLayout({ className = '', children }) {
     const localStorage = useLocalStorageDefaults()
 
     return (
