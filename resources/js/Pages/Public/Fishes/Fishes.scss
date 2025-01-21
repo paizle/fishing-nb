@@ -1,14 +1,20 @@
 .Fishes {
-    width: 100%;
-    margin: 0;
 
-    .fishes-grid {
-
+    main {
+        display: flex;
+        
+        padding: 0 1em;
         .fish-list {
-            display: inline-grid;
-            margin: 0 auto;
-            padding: 1em 0;
-            > a {
+            display: grid;
+            width: 100%;
+            > div {
+                display: flex;
+                align-items: stretch;
+                padding: .5em 0;
+            }
+            a {
+                display: flex;
+                flex-direction: column;
                 text-decoration: none;
                 border-radius: 1em;
                 background-color: rgba(255, 255, 255, 0);
@@ -22,76 +28,39 @@
             }
             &.one-up {
                 grid-template-columns: 100%;
-                > a {
-                    padding: 0 10%;
-                    margin: 1em 0;
+                a {
+                    padding: 1em 10%;
                     text-align: center;
-                    
-                    
+                
                     img {
-                        padding: 1em 1em 1em 0;
                         max-width: 100%;
                         min-height: 4em;
                         display: block;
                     }
                     strong {
+                        padding-top: 1.5em;
                     }
                 }
             }
 
             &.two-up {
                 grid-template-columns: 50% 50%;
-
-                > a {
-                    display: flex;
-                    flex-direction: column;
-                    &:nth-child(odd) {
-                        img {
-                            transform: scaleX(-1);
-                        }
+                div:nth-child(odd) {
+                    img {
+                        transform: scaleX(-1);
                     }
-
+                }
+                a {
                     img {
                         padding: 1em;
+                        display: block;
                         margin: auto;
+                        width: 100%;
                         max-width: 400px;
                     }
                     strong {
                         text-align: center;
                         padding: 1em;
-                    }
-                }
-            }
-
-            &.three-up {
-                grid-template-columns: 33% 33% 33%;
-
-                > .InternalLink {
-                    display: flex;
-                    flex-direction: column;
-
-                    img {
-                        margin: 1em;
-                    }
-                    strong {
-                        text-align: center;
-                        padding: 1em;
-                    }
-                }
-            }
-
-            &.four-up {
-                grid-template-columns: 25% 25% 25% 25%;
-
-                > .InternalLink {
-                    display: flex;
-                    flex-direction: column;
-                    img {
-                        padding: 0.5em;
-                    }
-                    strong {
-                        text-align: center;
-                        margin: 0 0.5em;
                     }
                 }
             }

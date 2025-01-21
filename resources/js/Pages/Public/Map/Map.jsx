@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Head } from '@inertiajs/react'
+import './Map.scss'
+import { useEffect } from 'react'
 import useScreenOrientation from '@/Hooks/useScreenOrientation'
 import MapMobile from './MapMobile'
 import MapWeb from './MapWeb'
@@ -27,7 +27,7 @@ export default function Map({ locations, breadcrumb }) {
     })
 
     return (
-        <PublicLayout>
+        <PublicLayout className="Map">
             <header>
                 <PublicNav>
                     <Breadcrumb breadcrumb={breadcrumb} />

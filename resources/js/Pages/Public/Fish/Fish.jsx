@@ -102,7 +102,7 @@ export default function Fish({fish, limits, breadcrumb}) {
 
         return (
             <>
-            <div className="">{limit.id} {group ? 'true' : null} {renderWaterColumn(limit)}</div>
+            <div className="">{group ? 'true' : null} {renderWaterColumn(limit)}</div>
             <div>{limit.minimum_size}</div>
             <div>{limit.maximum_size}</div>
             <div>{limit.bag_limit}</div>
@@ -124,13 +124,13 @@ export default function Fish({fish, limits, breadcrumb}) {
     }
 
     return (
-        <PublicLayout>
+        <PublicLayout className="Fish">
             <header>
                 <PublicNav>
                     <Breadcrumb breadcrumb={breadcrumb} />
                 </PublicNav>
             </header>
-            <main className="Fish">
+            <main>
 
                 <img className="fish-image" src={getFishImage(fish.name)} />
 

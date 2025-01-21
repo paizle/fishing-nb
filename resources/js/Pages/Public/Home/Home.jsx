@@ -1,10 +1,16 @@
 import './Home.scss'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useLayoutEffect, useRef } from 'react'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
 
-export default function Home({fishes}) {
+import Combobox from '@/Components/Combobox/Combobox'
+
+export default function Home() {
+
+    const [fishes, setFishes] = useState([])
+
+    const [locations, setLocations] = useState([])
 
     const [selectedFish, setSelectedFish] = useState(null)
 
@@ -13,7 +19,17 @@ export default function Home({fishes}) {
     const fishListRef = useRef(null)
 
     useEffect(() => {
-        if (fishListRef.current) {
+        axios.get('/api/fishes')
+            .then((request) => setFishes(request.data.fishes))
+            .catch((e) => console.error(e))
+
+        axios.get('/api/locations')
+            .then((request) => setLocations(request.data.locations))
+            .catch((e) => console.error(e))
+    }, [])
+
+    useLayoutEffect(() => {
+        if (fishListRef.current && Object.keys(locations).length) {
             const settings = storage.getItem('settings')
             if (settings.selectedFish) {
                 setSelectedFish(settings.selectedFish)
@@ -24,7 +40,7 @@ export default function Home({fishes}) {
                 })
             }
         }
-    }, [fishListRef.current])
+    }, [fishListRef.current, locations])
 
     const localStorage = useLocalStorageDefaults()
     useEffect(() => {
@@ -46,6 +62,13 @@ export default function Home({fishes}) {
         setSelectedFish(newSelectedFish)
     }
 
+    const handleLocationFocus = (e) => {
+        setTimeout(() => {
+            console.log('test')
+            e.target.scrollIntoView({behavior: 'smooth', block: 'start'})
+        }, 100)
+    }
+
     return (
         <PublicLayout className="Home">
             <header>
@@ -54,6 +77,11 @@ export default function Home({fishes}) {
                 </PublicNav>
             </header>
             <main>
+                <Combobox 
+                    items={Object.keys(locations).map((key) => ({value: locations[key], label: key}))}
+                    onFocus={handleLocationFocus}
+                    placeholder="Search by river, lake or region"
+                />
                 <div className="logo">
                     <img src="/images/logo.png" />
                 </div>

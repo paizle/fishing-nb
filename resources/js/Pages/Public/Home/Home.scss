@@ -3,50 +3,97 @@
 
 .Home {
 
-    .logo {
-        display: flex;
+    main {
+        padding: 0 1.5em;
+        margin: .75em 0 0 0;
 
-        img {
-            margin: auto;
-            padding: 3em;
+        .Combobox {
+            align-items: center;
+            .input-wrapper {
+                padding: 1px;
+                input {
+                    border-radius: 2em;
+                    width: 20em;
+                    &::placeholder {
+                        opacity: .75;
+                        text-align: center;
+                    }
+                    margin-bottom: .25em;
+                }
+            }
+            .results {
+                border-radius: .5em .5em 0 0;
+                li.item {
+                    &:first-child {
+                        padding-top: .25em;
+                    }
+                    &:last-child {
+                        border-radius: 0 0 .5em .5em;
+                        padding-bottom: .25em;
+                        margin-bottom: 2em;
+                        border-bottom: none;
+                    }
+                    border-bottom: 1px dashed var(--border-color);
+                    padding: 0 .25em;
+                    &:hover {
+                        background-color: var(--highlight-color-transparent);
+                    } 
+                }
+            }
         }
-    }
+    
+        .logo {
+            position: fixed;
+            left: 0;
+            display: flex;
+            opacity: .7;
 
-    .fishes {
-        display: flex;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        width: 100%;
-        background-color: var(--background-color);
-        .fish {
-            font-size: .8em;
-            flex-shrink: 0;
-            line-height: 1;
-            text-align: center;
-            flex-basis: 8em;
-            height: 8em;
-            border-right: 1px solid black;
             img {
-                height: 2em;
-                padding: 0 16px;
-                object-fit: contain;
-                margin: 1em auto 0 auto;
+                margin: auto;
+                padding: 3em;
             }
-            .name {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                height: 4em;
-                padding: 0 1em;
-                color: var(--heading-color);
-            }
-            &.selected {
-                background-color: var(--highlight-color);
+        }
+
+        
+        
+    }
+    footer {
+        .fishes {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            width: 100%;
+            background-color: var(--background-color);
+            .fish {
+                font-size: .8em;
+                flex-shrink: 0;
+                line-height: 1;
+                text-align: center;
+                flex-basis: 8em;
+                height: 8em;
+                border-right: 1px solid black;
                 img {
-                    filter: invert(1);
+                    height: 2em;
+                    padding: 0 16px;
+                    object-fit: contain;
+                    margin: 1em auto 0 auto;
                 }
                 .name {
-                    color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 4em;
+                    padding: 0 1em;
+                    color: var(--heading-color);
+                }
+                &.selected {
+                    background-color: var(--highlight-color);
+                    img {
+                        filter: invert(1);
+                    }
+                    .name {
+                        color: white;
+                    }
                 }
             }
         }
