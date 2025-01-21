@@ -44,7 +44,7 @@ export default function Combobox({items = [], label=null, placeholder=null, onFo
                             ? items
                                 .filter(item => !inputValue || (item?.label || item.value).toLowerCase().includes(inputValue.toLowerCase()))
                                 .map((item, index) => (
-                                    <li key={item?.label || item.value}
+                                    <li key={item?.label || item.value} className="item"
                                         {...getItemProps({
                                             index,
                                             item,

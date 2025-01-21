@@ -10,12 +10,13 @@ class ApiController extends Controller
     
     public function locations(Request $request)
     {
-        $last_modified = new DateTime();
-        $last_modified->setDate(2025, 1, 19);
-        $last_modified->setTime(0, 0);
-
-        if ($request->header('If-Modified-Since') === $last_modified->format('D, d M Y H:i:s') . ' GMT') {
-            return response('', 304); // No content, not modified
+        $cache_date = new DateTime();
+        $cache_date->setDate(2025, 1, 20);
+        $cache_date->setTime(0, 0);
+        $last_modified = $cache_date->format('D, d M Y H:i:s') . ' GMT';
+        $if_modified_since = $request->headers->get('If-Modified-Since');
+        if ($if_modified_since === $last_modified) {
+            return response('', 304);
         }
 
         $limits = FishLimit::query()
@@ -24,7 +25,6 @@ class ApiController extends Controller
 
         $limits_by_location = [];
 
-        // remove duplicate waters
         foreach ($limits as $limit) {
             $location = $limit->location->name ?? '';
             $water = $limit->water->name ?? '';
@@ -46,21 +46,11 @@ class ApiController extends Controller
         ksort($limits_by_location);
 
         $data = [
-            'cache-version' => '13',
             'locations' => $limits_by_location
         ];
 
-        $etag = md5(json_encode($data));
-
-        if ($request->headers->get('If-None-Match') === $etag) {
-            // Data has not changed, return a 304 Not Modified response
-            return response('', 304);
-        }
-
-        
-
         return response($data, 200)
             ->header('Cache-Control', 'no-cache')
-            ->header('Last-Modified', $last_modified->format('D, d M Y H:i:s') . ' GMT');
+            ->header('Last-Modified', $last_modified);
     }
 }

@@ -50,8 +50,4 @@ Route::controller(PublicController::class)->group(function () {
     Route::get('/settings', 'settings')->name('settings.edit');
 });
 
-Route::controller(ApiController::class)->group(function () {
-    Route::get('/locations', 'locations')->name('locations');
-});
-
 require __DIR__ . '/auth.php';

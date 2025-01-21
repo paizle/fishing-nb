@@ -17,10 +17,8 @@ export default function Home({fishes}) {
     const fishListRef = useRef(null)
 
     useEffect(() => {
-        axios.get(route('locations') + '?v=10')
+        axios.get('/api/locations')
             .then((request) => {
-                console.log(request.data['cache-version'])
-                console.log(request)
                 const data = request.data.locations
                 setLocations(Object.keys(data).map((key) => ({value: data[key], label: key})))
             })
