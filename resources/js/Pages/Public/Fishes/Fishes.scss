@@ -3,14 +3,17 @@
     main {
         display: flex;
         
-        padding: 0 1em;
         .fish-list {
             display: grid;
             width: 100%;
+            @apply max-w-screen-lg;
+            margin: 0 auto;
+            padding: 0 1em;
             > div {
                 display: flex;
                 align-items: stretch;
                 padding: .5em 0;
+                justify-content: center;
             }
             a {
                 display: flex;

@@ -25,26 +25,26 @@ export default function Fish({fish, limits, breadcrumb}) {
             extra.push(row.waters_category.name)
         }
 
-        
-
         if (!row.water_description) {
-                
-            extra.push(': ')
+            if (extra.length) {            
+                extra.push(': ')
+            }
 
             if (row.boundary) {
                 extra.push(row.boundary.name)
             }
 
             if (row.tidal_category) {
-                extra.push(', ' + row.tidal_category.name + ' waters')
+                if (extra.length) {
+                    extra.push(', ')
+                }
+                extra.push(row.tidal_category.name + ' waters')
             }
         }
-
 
         if (row.fishing_method) {
 
             if (!row.water_description) {
-                
                 extra.push(': ')
             }
 

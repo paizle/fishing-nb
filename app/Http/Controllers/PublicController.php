@@ -7,8 +7,6 @@ use App\Models\Fish;
 use App\Models\Water;
 use Inertia\Inertia;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Route;
 
 class PublicController extends Controller
 {
@@ -147,7 +145,6 @@ class PublicController extends Controller
 
         $limits = FishLimit::query()
             ->where('fish_id', $id)
-            
             ->get()
             ->toArray();
 
