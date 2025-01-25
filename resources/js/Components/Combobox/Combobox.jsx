@@ -1,16 +1,52 @@
 import './Combobox.scss'
 import Downshift from 'downshift'
+import { useState, useRef, useEffect, useLayoutEffect } from 'react'
 
-export default function Combobox({items = [], label=null, placeholder=null, onFocus=() => null}) {
+export default function Combobox({
+    items = [],
+    label,
+    placeholder=null,
+    onChange,
+    onFocus,
+}) {
 
-    console.log(items)
+    const ref = useRef(null)
+
+    const [isInit, setIsInit] = useState(false)
+
+    useEffect(() => {
+        if (ref.current) {
+            setTimeout(() => {
+                setIsInit(true)
+            }, 0)
+        }
+    }, [ref.current])
+
+    const [hasFocus, setHasFocus] = useState(false)
+
+    const handleFocus = (e) => {
+        setHasFocus(false)
+        if (onFocus) {
+            onFocus(e)
+        }
+        setTimeout(() => setHasFocus(true), 1)
+    }
+
+    const handleBlur = (e) => {
+        setHasFocus(false)
+    }
+
+    const handleChange = (selection) => {
+        console.log(selection)
+        if (onChange) {
+            onChange(selection)
+        }
+    }
 
     return (
 
         <Downshift
-            onChange={selection =>
-                alert(selection ? `You selected ${selection?.label || selection.value}` : 'Selection Cleared')
-            }
+            onChange={handleChange}
             itemToString={item => (item ? (item?.label || item.value) : '')}
         >
             {({
@@ -24,7 +60,7 @@ export default function Combobox({items = [], label=null, placeholder=null, onFo
                 selectedItem,
                 getRootProps,
             }) => (
-                <div className="Combobox">
+                <div ref={ref} className={`Combobox ${isInit ? 'init' : ''} ${hasFocus ? 'open' : ''}`}>
                     <label {...getLabelProps()}>
                         {label}
                         <div 
@@ -34,23 +70,24 @@ export default function Combobox({items = [], label=null, placeholder=null, onFo
                             <input 
                                 {...getInputProps()}
                                 placeholder={placeholder}
-                                onFocus={onFocus}
-                                onClick={onFocus}
+                                onFocus={handleFocus}
+                                onClick={handleFocus}
+                                onBlur={handleBlur}
                             />
                         </div>
                     </label>
-                    <ul className={`results ${isOpen || true ? 'open' : ''}`} {...getMenuProps()}>
-                        {items.length
+                    <ul className={`results ${hasFocus ? 'open' : ''}`} {...getMenuProps()}>
+                        {items.length && hasFocus
                             ? items
                                 .filter(item => !inputValue || (item?.label || item.value).toLowerCase().includes(inputValue.toLowerCase()))
                                 .map((item, index) => (
-                                    <li key={item?.label || item.value} className="item"
+                                    <li 
+                                        key={item?.label || item.value}
+                                        className={`item ${highlightedIndex === index ? 'highlighted' : ''}`}
                                         {...getItemProps({
                                             index,
                                             item,
                                             style: {
-                                                backgroundColor:
-                                                highlightedIndex === index ? 'lightgray' : 'white',
                                                 fontWeight: selectedItem === item ? 'bold' : 'normal',
                                             },
                                         })}
@@ -58,7 +95,7 @@ export default function Combobox({items = [], label=null, placeholder=null, onFo
                                         {item?.label || item.value}
                                     </li>
                                 ))
-                            : Array.from({length: 50}, () => null).map((_, index) => (<li key={index}></li>))}
+                            : null}
                     </ul>
                 </div>
             )}

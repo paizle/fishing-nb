@@ -3,17 +3,86 @@
 
 .Home {
 
+    header nav .title .child-wrapper h1.hero {
+        transition: 700ms;    
+    }
+
+    &.location-selected {
+        header nav .title .child-wrapper h1.hero {
+            font-size: 1.5em;    
+        }   
+    }
+
     main {
-        padding: 0 1.5em;
-        margin: .75em 0 0 0;
+        padding: 0 0 0 0;
+        overflow: hidden;
+        position: relative;
+        height: 100%;
+
+        .layout {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-rows: auto 1fr;
+            overflow: hidden;
+            height: 100%;
+            > .header {
+                display: flex;
+                justify-content: center;
+                margin: 0;
+
+                .selected-location {
+                    border-color: var(--highlight-color);
+                    background-color: white;
+                    padding: .25em .5em;
+                    margin: .25em;
+                    border-radius: .5em;
+                    color: var(--heading-color);
+                    font-size: 1.25em;
+
+                    svg {
+                        color: var(--error);
+                    }
+                }
+            }
+            > .body {
+                overflow-y: auto;
+                position: relative;
+            }
+        }
+
+        .FishLimitsGrid {
+            position: absolute;
+            top: 0;
+        }
 
         .Combobox {
-            align-items: center;
+            position: relative;
+            padding-top: 0;
+            transition: 300ms;
             .input-wrapper {
-                padding: 1px;
+                padding: 4px 0;
+                input {
+                    font-size: 1em;
+                }
+            }
+            &.init {
+                padding-top: 50%;
+                .input-wrapper input {
+                    translate: transformY(-50%);
+                }
+                &.open {
+                    padding-top: 0;
+                    .input-wrapper input {
+                        translate: transformY(0%);
+                    }
+                }
+            }
+            
+            .input-wrapper {
+                margin: 1px;
                 input {
                     border-radius: 2em;
-                    width: 20em;
                     &::placeholder {
                         opacity: .75;
                         text-align: center;
@@ -36,25 +105,28 @@
                     border-bottom: 1px dashed var(--border-color);
                     padding: 0 .25em;
                     &:hover {
-                        background-color: var(--highlight-color-transparent);
+                        background-color: var(--highlight-color-lighter);
                     } 
                 }
             }
         }
     
         .logo {
-            position: fixed;
+            position: absolute;
+            z-index: 1;
+            top: 0;
             left: 0;
             display: flex;
             opacity: .7;
+            width: 100%;
+            height: 100%;
 
             img {
                 margin: auto;
-                padding: 3em;
+                padding: 2em;
             }
         }
 
-        
         
     }
     footer {

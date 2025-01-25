@@ -21,5 +21,16 @@ export default function useLocalStorageDefaults() {
         }
     }
 
-    return { setItem, getItem, removeItem, clearStorage, storageChange }
+    const set = (key, setter) => {
+        const value = getItem(key)
+        setter(value)
+        setItem(key, value)
+    }
+
+    const get = (key, getter) => {
+        const value = getItem(key)
+        return getter(value)
+    }
+
+    return { setItem, getItem, removeItem, clearStorage, storageChange, set, get }
 }
