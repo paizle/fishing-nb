@@ -13,8 +13,10 @@ function convertLimit(limit) {
         minSize: limit.minimum_size,
         maxSize: limit.maximum_size,
         fishingMethod: formatFishingMethod(limit),
-        tidal: formatTidal(limit),
+        tidal: limit?.tidal_category?.name ?? '',
         water: limit?.water?.name ?? '',
+        watersCategory: limit?.waters_category?.name ?? '',
+        boundary: limit?.boundary?.name ?? '',
         waterDescription: limit.water_description ?? '',
     }
 }
@@ -35,10 +37,7 @@ function formatFishingMethod(limit) {
 function formatTidal(limit) {
     let text = ''
     if (limit.tidal_category) {
-        if (text) {
-            text += ' in '
-        }
-        text += limit.tidal_category.name + ' waters'
+        text += limit.tidal_category.name
     }
     return text
 }

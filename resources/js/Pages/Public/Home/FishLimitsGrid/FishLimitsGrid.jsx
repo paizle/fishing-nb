@@ -40,34 +40,50 @@ export default function FishLimitsGrid({ limits }) {
         )
     }
 
-    const renderWaterStretch = (limit) => {
+    const renderGroupWaterStretch = (limit) => {
         return limit.waterDescription ? (
-            <em className="water-description">
-                {renderExceptionDetail(limit, false)}
+            <em className="group-water-description">
+                {renderExceptionDetail(limit)}
             </em>
         ) : null
     }
 
-    const renderExceptionDetail = (limit, hasDescription = true) => {
-        if (hasDescription && limit.waterDescription) {
-            return ''
-        }
-        let text = limit?.water ?? ''
-        if (limit.fishingMethod) {
-            text += text ? ': ' : '' + limit.fishingMethod
-        }
+    const renderExceptionDetail = (limit) => {
         
+        let text = ''
+
+        if (!limit.water && limit.watersCategory) {
+            text += limit.watersCategory + ': '
+        }
+
         if (limit.tidal) {
-            if (text) {
-                text += ' in '
-            }
             text += limit.tidal
         }
-        if (!text) {
-            text += limit.water
+
+        if (limit.boundary) {
+            text += limit.tidal ? ', ' : ''
+            text += text ? ' ' : ''
+            text += limit.boundary
         }
-        text += ' ' + limit.waterDescription
-        return text
+        
+        if (limit.waterDescription && !limit.water) {
+            text += limit.boundary
+        }
+        
+        if (limit.water) {
+            text = limit.water + (text ? ': ' : ' ') + text
+        }
+
+        if (limit.fishingMethod) {
+            text = limit.fishingMethod  + ' in ' + text
+        }
+
+        if (limit.waterDescription) {
+            text += text ? ' ' : ''
+            text += limit.waterDescription
+        }
+        
+        return ' ' + text
     }
 
     const renderMinSize = (limit) => {
@@ -96,15 +112,17 @@ export default function FishLimitsGrid({ limits }) {
     const renderFishLimit = (limit, inGroup = false) => {
         return (
             <div
-                className={`limit ${inGroup ? 'group' : ''} ${limit.group ? 'group-start' : ''}`}
+                className={`limit ${inGroup && !limit.group  ? 'sub-group' : ''}`}
             >
                 <div className="season-exception">
                     <span className="date-span">
                         {renderSeasonDateSpan(limit, limit.group || inGroup)}
                     </span>
-                    <em className="exception">
-                        &nbsp;{renderExceptionDetail(limit)}
-                    </em>
+                    {!inGroup && (
+                        <em className="water-description">
+                            {renderExceptionDetail(limit)}
+                        </em>
+                    )}
                 </div>
                 <div>{renderBagLimit(limit)}</div>
                 <div>{renderMinSize(limit)}</div>
@@ -113,18 +131,17 @@ export default function FishLimitsGrid({ limits }) {
         )
     }
 
-    const renderFishLimits = (limits, group = false) =>
+    const renderFishLimits = (limits, inGroup = false) =>
         limits.map((limit, index) =>
             limit?.group ? (
                 <>
-                    {renderFishLimit(limit)}
+                    {renderFishLimit(limit, true)}
                     {renderFishLimits(limit.group, true)}
-                    {renderWaterStretch(limit)}
+                    {renderGroupWaterStretch(limit)}
                 </>
             ) : (
                 <>
-                    {renderFishLimit(limit, group)}
-                    {group ? null : renderWaterStretch(limit)}
+                    {renderFishLimit(limit, inGroup)}
                 </>
             ),
         )
@@ -162,26 +179,6 @@ export default function FishLimitsGrid({ limits }) {
                                     <strong>
                                         {fishName}
                                     </strong>
-                                    <em>
-                                        (
-                                        {renderSeasonDateSpan(
-                                            fishes[fishName],
-                                        )}
-                                        )
-                                    </em>
-                                </div>
-                                <div className="flex">
-                                    {fishes[fishName].limits
-                                        .length > 1 ? (
-                                        <Tooltip
-                                            message="Some Restrictions"
-                                            containerRef={
-                                                dataTableRef
-                                            }
-                                        >
-                                            <ExclamationTriangleIcon className="alert" />
-                                        </Tooltip>
-                                    ) : null}
                                 </div>
                             </div>
 
