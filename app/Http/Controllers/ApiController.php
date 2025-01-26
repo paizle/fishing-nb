@@ -80,8 +80,8 @@ class ApiController extends Controller
 
     public function fishByLocation(Request $request, $location_id, $water_id = '0', $fish_id = '0')
     {
-        //$last_modified = $this->createLastModified(2025, 1, 20);
-        //$this->handleLastModifiedRequest($request, $last_modified);
+        $last_modified = $this->createLastModified(2025, 1, 20);
+        $this->handleLastModifiedRequest($request, $last_modified);
 
         $results_ids = [];
         $limits = FishLimit::query()->where('location_id', $location_id)->get();
@@ -133,7 +133,7 @@ class ApiController extends Controller
             ->toArray();
 
         return response(['limits' => $limits_by_water], 200)
-            ->header('Cache-Control', 'no-cache');
-            //->header('Last-Modified', $last_modified);
+            ->header('Cache-Control', 'no-cache')
+            ->header('Last-Modified', $last_modified);
     }
 }
