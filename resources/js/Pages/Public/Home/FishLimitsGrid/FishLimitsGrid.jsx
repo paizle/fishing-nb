@@ -6,21 +6,22 @@ import { format } from 'date-fns'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import Tooltip from '@/Components/Tooltip/Tooltip'
 import useScreenOrientation from '@/Hooks/useScreenOrientation'
+import getFishImageSrc from '@/Util/getFishImageSrc'
 
-export default function FishLimitsGrid({ limits }) {
+export default function FishLimitsGrid({ limits, fishes }) {
 
-    const fishes = formatResults(limits)
+    const limitsByFish = formatResults(limits)
 
     const screenOrientation = useScreenOrientation()
 
     const dataTableRef = useRef(null)
 
-    const renderSeasonDateSpan = (o, inGroup = false) => {
+    const renderSeasonDateRange = (limit, comma = false) => {
         return (
             <>
                 <span>
                     {format(
-                        o.seasonStart,
+                        limit.seasonStart,
                         screenOrientation.isMobile
                             ? config.displayDayMonthShortFormat
                             : config.displayDayMonthFormat,
@@ -29,23 +30,23 @@ export default function FishLimitsGrid({ limits }) {
                 <span>
                     -{' '}
                     {format(
-                        o.seasonEnd,
+                        limit.seasonEnd,
                         screenOrientation.isMobile
                             ? config.displayDayMonthShortFormat
                             : config.displayDayMonthFormat,
                     )}
-                    {inGroup ? ',' : ''}
+                    {comma ? ',' : ''}
                 </span>
             </>
         )
     }
 
     const renderGroupWaterStretch = (limit) => {
-        return limit.waterDescription ? (
+        return (
             <em className="group-water-description">
                 {renderExceptionDetail(limit)}
             </em>
-        ) : null
+        )
     }
 
     const renderExceptionDetail = (limit) => {
@@ -109,16 +110,16 @@ export default function FishLimitsGrid({ limits }) {
         return limit.bagLimit
     }
 
-    const renderFishLimit = (limit, inGroup = false) => {
+    const renderFishLimit = (limit, inGroup = false, lastInGroup = false) => {
         return (
             <div
                 className={`limit ${inGroup && !limit.group  ? 'sub-group' : ''}`}
             >
                 <div className="season-exception">
-                    <span className="date-span">
-                        {renderSeasonDateSpan(limit, limit.group || inGroup)}
-                    </span>
-                    {!inGroup && (
+                    <strong className="date-range">
+                        {renderSeasonDateRange(limit, (limit.group || (inGroup && !lastInGroup)))}
+                    </strong>
+                    {(!inGroup && !limit.group) && (
                         <em className="water-description">
                             {renderExceptionDetail(limit)}
                         </em>
@@ -135,13 +136,15 @@ export default function FishLimitsGrid({ limits }) {
         limits.map((limit, index) =>
             limit?.group ? (
                 <>
-                    {renderFishLimit(limit, true)}
+                    {renderFishLimit(limit)}
                     {renderFishLimits(limit.group, true)}
-                    {renderGroupWaterStretch(limit)}
+                    <em className="group-water-description">
+                        {renderExceptionDetail(limit)}
+                    </em>
                 </>
             ) : (
                 <>
-                    {renderFishLimit(limit, inGroup)}
+                    {renderFishLimit(limit, inGroup, index === (limits.length - 1))}
                 </>
             ),
         )
@@ -151,7 +154,7 @@ export default function FishLimitsGrid({ limits }) {
             <div className="header">
                 <div className="column-header date-range">
                     {!screenOrientation.isMobile && (
-                        <>Fish/Season/</>
+                        <>Season/</>
                     )}
                     Restrictions
                 </div>
@@ -171,23 +174,21 @@ export default function FishLimitsGrid({ limits }) {
             </div>
 
             <div className="body">
-                {Object.keys(fishes ?? {}).map(
+                {Object.keys(limitsByFish ?? {}).map(
                     (fishName, index) => (
                         <div className="fish-row-container" key={fishName}>
                             <div className={`fish-name ${index % 2 === 0 ? 'even' : 'odd'}`}>
-                                <div className="fish-season">
-                                    <strong>
-                                        {fishName}
-                                    </strong>
-                                </div>
+                                <strong>{fishName}</strong>
+                            </div>
+
+                            <div className={`fish-image ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                <img src={getFishImageSrc(fishName)} />
                             </div>
 
                             <div
                                 className={`limits ${index % 2 === 0 ? 'even' : 'odd'}`}
                             >
-                                {renderFishLimits(
-                                    fishes[fishName].limits,
-                                )}
+                                {renderFishLimits(limitsByFish[fishName].limits)}
                             </div>
                         </div>
                     ))

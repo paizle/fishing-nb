@@ -95,6 +95,14 @@ export default function Home() {
         )
     }
 
+    const renderLocationLabel = (label) => {
+        return (
+            <>
+                {label.split('/').map((part) => <span>{part}</span>)}
+            </>
+        )
+    }
+
     return (
         <PublicLayout className={`Home ${selectedLocation ? 'location-selected' : ''}`}>
             <header>
@@ -108,7 +116,7 @@ export default function Home() {
                         <div className="header">
                             {selectedLocation && (
                                     <button onClick={() => setSelectedLocation(null)} className="selected-location flex items-center gap-2">
-                                        <strong>{selectedLocation.label}</strong>
+                                        <strong>{renderLocationLabel(selectedLocation.label)}</strong>
                                         <XCircleIcon className="w-5 h-5"  />
                                     </button>
                                 )
@@ -116,7 +124,7 @@ export default function Home() {
                         </div>
                         <div className="body">
                             {selectedLocation
-                                ? <FishLimitsGrid limits={limits} />
+                                ? <FishLimitsGrid limits={limits} fishes={fishes} />
                                 : <Combobox
                                     items={Object.keys(locations).map((key) => ({value: locations[key], label: key}))}
                                     onChange={handleLocationChange}

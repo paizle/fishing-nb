@@ -41,7 +41,7 @@ export default function Fishes({fishes, breadcrumb}) {
                             href={route('fish.fish', fish.id)}
                         >
                             <img
-                                src={`/images/fish/${getFileName(fish.name)}`}
+                                src={getFishImageSrc(fish.name)}
                             />
                             <strong>{fish.name}</strong>
                         </Link>
@@ -51,9 +51,4 @@ export default function Fishes({fishes, breadcrumb}) {
             </main>
         </PublicLayout>
     )
-}
-
-
-function getFileName(fishName) {
-    return fishName.toLowerCase().replaceAll(' ', '-') + '.png'
 }

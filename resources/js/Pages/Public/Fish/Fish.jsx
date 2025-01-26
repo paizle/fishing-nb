@@ -4,7 +4,7 @@ import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 import config from '@/Util/config'
 import { format } from 'date-fns'
 import parseMySqlDate from '@/Util/parseMySqlDate'
-import getFishImage from '@/Util/getFishImage'
+import getFishImageSrc from '@/Util/getFishImageSrc'
 import transformLimits from './FishTransformers'
 import Breadcrumb from '@/Components/Breadcrumb/Breadcrumb'
 
@@ -132,7 +132,7 @@ export default function Fish({fish, limits, breadcrumb}) {
             </header>
             <main>
 
-                <img className="fish-image" src={getFishImage(fish.name)} />
+                <img className="fish-image" src={getFishImageSrc(fish.name)} />
 
                 <div className="fish-limit-grid">
                     <header className="header">

@@ -34,14 +34,6 @@ function formatFishingMethod(limit) {
     return fishingMethod
 }
 
-function formatTidal(limit) {
-    let text = ''
-    if (limit.tidal_category) {
-        text += limit.tidal_category.name
-    }
-    return text
-}
-
 export function removeDuplicates(limits) {
     return limits.reduce((a, v) => {
         let i = 0
@@ -94,8 +86,6 @@ export function formatResults(results) {
         const fishName = v?.fish?.name ?? null
         if (!a[fishName]) {
             const entry = {
-                seasonStart: null,
-                seasonEnd: null,
                 limits: [],
             }
             a[fishName] = entry
@@ -110,28 +100,6 @@ export function formatResults(results) {
         // sort by start date and end date
         fish[fishName].limits = sortByStartAndEndDate(fish[fishName].limits)
 
-        // calculate season date based on earliest start and latest end dates
-        fish[fishName].limits.forEach((limit) => {
-            if (limit.bagLimit) {
-                if (!fish[fishName].seasonStart) {
-                    fish[fishName].seasonStart = limit.seasonStart
-                } else {
-                    if (
-                        isBefore(limit.seasonStart, fish[fishName].seasonStart)
-                    ) {
-                        fish[fishName].seasonStart = limit.seasonStart
-                    }
-                }
-                if (!fish[fishName].seasonEnd) {
-                    fish[fishName].seasonEnd = limit.seasonEnd
-                } else {
-                    if (!isBefore(limit.seasonEnd, fish[fishName].seasonEnd)) {
-                        fish[fishName].seasonEnd = limit.seasonEnd
-                    }
-                }
-            }
-        })
-
         // create groups for limits with the same water description/fishing method/tidal category
         const objectMap = {}
         let i = 0
@@ -141,9 +109,12 @@ export function formatResults(results) {
                 obj.fishingMethod,
                 obj.tidal,
                 obj.waterDescription,
+                obj.water,
+                obj.border,
+                obj.watersCategory
             ].join('-')
 
-            if (obj.waterDescription && objectMap[key] && true) {
+            if (objectMap[key] && true) {
                 if (!objectMap[key].group) {
                     objectMap[key].group = []
                 }
