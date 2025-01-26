@@ -151,31 +151,16 @@ export default function FishLimitsGrid({ limits, fishes }) {
 
     return (
         <div className="FishLimitsGrid" ref={dataTableRef}>
-            <div className="header">
-                <div className="column-header date-range">
-                    {!screenOrientation.isMobile && (
-                        <>Season/</>
-                    )}
-                    Restrictions
-                </div>
-                <div className="column-header">Bag Limit</div>
-                <div className="column-header">
-                    {screenOrientation.isMobile
-                        ? 'Min.'
-                        : 'Minimum'}{' '}
-                    Size
-                </div>
-                <div className="column-header">
-                    {screenOrientation.isMobile
-                        ? 'Max.'
-                        : 'Maximum'}{' '}
-                    Size
-                </div>
-            </div>
+            
 
             <div className="body">
+                
                 {Object.keys(limitsByFish ?? {}).map(
                     (fishName, index) => (
+
+                        <>
+                        
+
                         <div className="fish-row-container" key={fishName}>
                             <div className={`fish-name ${index % 2 === 0 ? 'even' : 'odd'}`}>
                                 <strong>{fishName}</strong>
@@ -185,12 +170,36 @@ export default function FishLimitsGrid({ limits, fishes }) {
                                 <img src={getFishImageSrc(fishName)} />
                             </div>
 
+                            <div className="header">
+                            <div className="column-header date-range">
+                                {!screenOrientation.isMobile && (
+                                    <>Season/</>
+                                )}
+                                Restrictions
+                            </div>
+                            <div className="column-header">Bag Limit</div>
+                            <div className="column-header">
+                                {screenOrientation.isMobile
+                                    ? 'Min.'
+                                    : 'Minimum'}{' '}
+                                Size
+                            </div>
+                            <div className="column-header">
+                                {screenOrientation.isMobile
+                                    ? 'Max.'
+                                    : 'Maximum'}{' '}
+                                Size
+                            </div>
+                        </div>
+
                             <div
                                 className={`limits ${index % 2 === 0 ? 'even' : 'odd'}`}
                             >
                                 {renderFishLimits(limitsByFish[fishName].limits)}
                             </div>
                         </div>
+
+                        </>
                     ))
                 }
             </div>
