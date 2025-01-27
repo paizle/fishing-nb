@@ -1,5 +1,5 @@
 import './Home.scss'
-import { useState, useEffect, useLayoutEffect, useRef, useReducer } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
@@ -9,6 +9,8 @@ import { XCircleIcon } from '@heroicons/react/24/outline'
 import FishLimitsGrid from './FishLimitsGrid/FishLimitsGrid'
 
 import useRest from '@/Hooks/useRest'
+import useLandingPage from '@/Hooks/useLandingPage'
+import useScreenOrientation from '@/Hooks/useScreenOrientation'
 
 export default function Home() {
 
@@ -19,16 +21,13 @@ export default function Home() {
     const [selectedLocation, setSelectedLocation] = useState(null)
     
     const storage = useLocalStorageDefaults()
+    useLandingPage('home')
 
     const fishListRef = useRef(null)
 
     const restFish = useRest()
     const restLocations = useRest()
     const restLimits = useRest()
-
-    useEffect(() => {
-        storage.set('settings', (settings) => settings.landingPage = 'home')
-    }, [])
 
     useEffect(() => {
         restFish.get('/api/fishes')
@@ -44,7 +43,7 @@ export default function Home() {
             if (selectedFish) {
                 setSelectedFish(selectedFish)
                 const element = fishListRef.current.querySelector(`[data-id="${selectedFish}"]`)
-                element.scrollIntoView({
+                element?.scrollIntoView({
                     behavior: 'smooth',
                     inline: 'center'
                 })

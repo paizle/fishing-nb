@@ -13,10 +13,7 @@ export default function Index() {
             case 'location':
                 window.location.href = route('location.map')
             break;
-            case 'fishes':
-                window.location.href = route('fish.fishes')
-            break;
-            case 'home':
+            default:
                 window.location.href = route('home.home')
             break;
         }
