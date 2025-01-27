@@ -1,11 +1,12 @@
 import './Fishes.scss'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 import { Link } from '@inertiajs/react'
 import Breadcrumb from '@/Components/Breadcrumb/Breadcrumb'
 import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
 import useScreenOrientation from '@/Hooks/useScreenOrientation'
+import getFishImageSrc from '@/Util/getFishImageSrc'
 
 export default function Fishes({fishes, breadcrumb}) {
 
