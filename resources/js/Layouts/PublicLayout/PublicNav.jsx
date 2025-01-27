@@ -12,7 +12,7 @@ export default function PublicNav({ children }) {
 
     return (
         <nav className="border-b border-gray-100 dark:border-gray-700 dark:bg-gray-800">
-            <div className="mx-auto max-w-7xl">
+            <div className="mx-auto">
                 <div className="relative flex items-center justify-between">
                     <div className="title">
                         <div className="child-wrapper">{children}</div>
