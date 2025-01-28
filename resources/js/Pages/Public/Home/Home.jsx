@@ -4,13 +4,10 @@ import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
 import Combobox from '@/Components/Combobox/Combobox'
-
 import { XCircleIcon } from '@heroicons/react/24/outline'
 import FishLimitsGrid from './FishLimitsGrid/FishLimitsGrid'
-
 import useRest from '@/Hooks/useRest'
 import useLandingPage from '@/Hooks/useLandingPage'
-import useScreenOrientation from '@/Hooks/useScreenOrientation'
 
 export default function Home() {
 
