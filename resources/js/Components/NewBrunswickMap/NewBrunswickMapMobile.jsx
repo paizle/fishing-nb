@@ -45,6 +45,24 @@ export default function NewBrunswickMapMobile({
                             onTouchLocation(event, key)
                         }),
                     )
+                    locationPath.addEventListener(
+                        'click',
+                        (event) => {
+                            Object.keys(pathSelectorToLocationName).forEach(
+                                (key) => {
+                                    const locationPath = svg.querySelector(
+                                        '#' + key,
+                                    )
+                                    locationPath.classList.remove('active')
+                                },
+                            )
+                            const locationPath = svg
+                                .querySelector('#' + key)
+                                .classList.add('active')
+
+                            onTouchLocation(event, key)
+                        },
+                    )
                 }
             })
         }

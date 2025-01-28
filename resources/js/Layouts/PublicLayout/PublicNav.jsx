@@ -58,6 +58,16 @@ export default function PublicNav({ children }) {
                                 </Dropdown.Trigger>
 
                                 <Dropdown.Content>
+
+                                    <Dropdown.Link
+                                        href={route('home.home')}
+                                        active={route().current('home.*')}
+                                        className="flex justify-between"
+                                    >
+                                        Smart Fish
+                                        <DevicePhoneMobileIcon className="h-5 w-5" />   
+                                    </Dropdown.Link>
+
                                     <Dropdown.Link
                                         href={route('location.map')}
                                         active={route().current('location.*')}
@@ -142,6 +152,17 @@ export default function PublicNav({ children }) {
                     ' sm:hidden'
                 }
             >
+                
+                <div className="py-1">
+                    <ResponsiveNavLink
+                        href={route('home.home')}
+                        active={route().current('home.*')}
+                    >
+                        Smart Fish
+                        <DevicePhoneMobileIcon className="h-5 w-5" />
+                    </ResponsiveNavLink>
+                </div>
+
                 <div className="py-1">
                     <ResponsiveNavLink
                         href={route('location.map')}
@@ -159,16 +180,6 @@ export default function PublicNav({ children }) {
                     >
                         Search By Fish
                         <MapPinIcon className="h-5 w-5" />
-                    </ResponsiveNavLink>
-                </div>
-
-                <div className="py-1">
-                    <ResponsiveNavLink
-                        href={route('home.home')}
-                        active={route().current('home.*')}
-                    >
-                        Smart Fish
-                        <DevicePhoneMobileIcon className="h-5 w-5" />
                     </ResponsiveNavLink>
                 </div>
 
