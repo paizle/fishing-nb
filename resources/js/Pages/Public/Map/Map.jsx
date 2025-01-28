@@ -1,23 +1,17 @@
 import './Map.scss'
-import { useEffect } from 'react'
 import useScreenOrientation from '@/Hooks/useScreenOrientation'
 import MapMobile from './MapMobile'
 import MapWeb from './MapWeb'
 import Breadcrumb from '@/Components/Breadcrumb/Breadcrumb'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import PublicNav from '@/Layouts/PublicLayout/PublicNav'
-import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
+import useLandingPage from '@/Hooks/useLandingPage'
 
 export default function Map({ locations, breadcrumb }) {
     
     const screenOrientation = useScreenOrientation()
 
-    const localStorage = useLocalStorageDefaults()
-    useEffect(() => {
-        const settings = localStorage.getItem('settings')
-        settings.landingPage = 'location'
-        localStorage.setItem('settings', settings)
-    }, [])
+    useLandingPage('location')
 
     locations = locations.map((location) => {
         location.hasData = ['Lower Saint John', 'Southwest'].includes(
