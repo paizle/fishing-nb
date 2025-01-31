@@ -30,8 +30,8 @@ export default function Fish({fish, limits, breadcrumb}) {
                 extra.push(': ')
             }
 
-            if (row.boundary) {
-                extra.push(row.boundary.name)
+            if (row.boundary_category) {
+                extra.push(row.boundary_category.name)
             }
 
             if (row.tidal_category) {
@@ -72,8 +72,8 @@ export default function Fish({fish, limits, breadcrumb}) {
 
         if (row.water_description) {
                 
-            if (row.boundary) {
-                extra.push(row.boundary.name)
+            if (row.boundary_category) {
+                extra.push(row.boundary_category.name)
             }
 
             if (row.tidal_category) {

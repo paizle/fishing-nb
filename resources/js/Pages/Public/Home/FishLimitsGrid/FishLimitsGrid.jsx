@@ -61,14 +61,14 @@ export default function FishLimitsGrid({ limits, fishes }) {
             text += limit.tidal
         }
 
-        if (limit.boundary) {
+        if (limit.boundaryCategory) {
             text += limit.tidal ? ', ' : ''
             text += text ? ' ' : ''
-            text += limit.boundary
+            text += limit.boundaryCategory
         }
         
         if (limit.waterDescription && !limit.water) {
-            text += limit.boundary
+            text += limit.boundaryCategory
         }
         
         if (limit.water) {

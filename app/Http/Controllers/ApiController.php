@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Util\WatersCategoryName;
 use Illuminate\Http\Request;
 use DateTime;
-use App\Models\FishLimit;
+use App\Models\FishingRestriction;
 use App\Models\Fish;
 use App\Models\Water;
 use App\Models\WatersCategory;
@@ -22,6 +22,7 @@ class ApiController extends Controller
     }
 
     private function handleLastModifiedRequest(Request $request, $last_modified) {
+        return;
         $if_modified_since = $request->headers->get('If-Modified-Since');
         if ($if_modified_since === $last_modified) {
             return response('', 304);
@@ -43,34 +44,34 @@ class ApiController extends Controller
         $last_modified = $this->createLastModified(2025, 1, 20);
         $this->handleLastModifiedRequest($request, $last_modified);
 
-        $limits = FishLimit::query()
-            ->with(['water', 'location'])
+        $restrictions = FishingRestriction::query()
+            ->with(['water', 'region'])
             ->get();
 
-        $limits_by_location = [];
+        $restrictions_by_region = [];
 
-        foreach ($limits as $limit) {
-            $location = $limit->location->name ?? '';
-            $water = $limit->water->name ?? '';
+        foreach ($restrictions as $restriction) {
+            $region = $restriction->region->name ?? '';
+            $water = $restriction->water->name ?? '';
 
-            $key = $location;
+            $key = $region;
             if ($water !== '') {
                 $key .= ' / ' . $water;
                 
-                if ($limits_by_location[$key] ?? null === null) {
-                    $limits_by_location[$key] = ['locationId' => $limit->location_id, 'waterId' => $limit->water_id];
+                if ($restrictions_by_region[$key] ?? null === null) {
+                    $restrictions_by_region[$key] = ['locationId' => $restriction->region_id, 'waterId' => $restriction->water_id];
                 }
             } else {
-                if ($limits_by_location[$key] ?? null === null) {
-                    $limits_by_location[$key] = ['locationId' => $limit->location_id];
+                if ($restrictions_by_region[$key] ?? null === null) {
+                    $restrictions_by_region[$key] = ['locationId' => $restriction->region_id];
                 }
             }
         }
         
-        ksort($limits_by_location);
+        ksort($restrictions_by_region);
 
         $data = [
-            'locations' => $limits_by_location
+            'locations' => $restrictions_by_region
         ];
 
         return response($data, 200)
@@ -84,7 +85,7 @@ class ApiController extends Controller
         $this->handleLastModifiedRequest($request, $last_modified);
 
         $results_ids = [];
-        $limits = FishLimit::query()->where('location_id', $location_id)->get();
+        $restrictions = FishingRestriction::query()->where('region_id', $location_id)->get();
 
         $water_category_id = null;
         if ($water_id !== '0') {
@@ -94,45 +95,45 @@ class ApiController extends Controller
             $water_category_id = $waters_category->id;
         }
 
-        foreach ($limits->toArray() as $limit) {
+        foreach ($restrictions->toArray() as $restriction) {
 
             $add = true;
 
             if ($fish_id !== '0') {
-                if ($limit['fish_id'] !== null && $limit['fish_id'] != $fish_id) {
+                if ($restriction['fish_id'] !== null && $restriction['fish_id'] != $fish_id) {
                     $add = false;
                 }
             }
 
             if ($water_id !== '0') {
-                if ($limit['water_id'] === null) {
-                    if ($limit['waters_category_id'] !== null && $limit['waters_category_id'] !== $water_category_id) {
+                if ($restriction['water_id'] === null) {
+                    if ($restriction['waters_category_id'] !== null && $restriction['waters_category_id'] !== $water_category_id) {
                         $add = false;
                     }
-                } else if ($limit['water_id'] != $water_id) {
+                } else if ($restriction['water_id'] != $water_id) {
                     $add = false;
                 }
             }
             
             if ($add) {
-                $results_ids[] = $limit['id'];
+                $results_ids[] = $restriction['id'];
             }
         }
 
-        $limits_by_water = FishLimit::query()
+        $restrictions_by_water = FishingRestriction::query()
             ->whereIn('id', $results_ids)
-            ->with(['fish', 'water', 'tidal_category', 'fishing_method', 'waters_category', 'boundary'])
+            ->with(['fish', 'water', 'tidal_category', 'fishing_method', 'waters_category', 'boundary_category'])
             ->orderBy(
                 Fish::select('name')->whereColumn(
                     'fish.id',
-                    'fish_limits.fish_id'
+                    'fishing_restrictions.fish_id'
                 )
             )
             ->orderBy('season_start')
             ->get()
             ->toArray();
 
-        return response(['limits' => $limits_by_water], 200)
+        return response(['limits' => $restrictions_by_water], 200)
             ->header('Cache-Control', 'no-cache')
             ->header('Last-Modified', $last_modified);
     }

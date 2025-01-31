@@ -1,5 +1,5 @@
 import parseMySqlDate from '@/Util/parseMySqlDate'
-import { isBefore, compareAsc, isEqual } from 'date-fns'
+import { compareAsc, compareDesc } from 'date-fns'
 export function transform(data) {
     return null
 }
@@ -16,7 +16,7 @@ function convertLimit(limit) {
         tidal: limit?.tidal_category?.name ?? '',
         water: limit?.water?.name ?? '',
         watersCategory: limit?.waters_category?.name ?? '',
-        boundary: limit?.boundary?.name ?? '',
+        boundaryCategory: limit?.boundary_category?.name ?? '',
         waterDescription: limit.water_description ?? '',
     }
 }
@@ -34,42 +34,12 @@ function formatFishingMethod(limit) {
     return fishingMethod
 }
 
-export function removeDuplicates(limits) {
-    return limits.reduce((a, v) => {
-        let i = 0
-        let duplicate = false
-        while (!duplicate && i < a.length) {
-            if (
-                !a[i].waterDescription &&
-                isEqual(v.seasonStart, a[i].seasonStart) &&
-                isEqual(v.seasonEnd, a[i].seasonEnd) &&
-                v.bagLimit === a[i].bagLimit &&
-                v.minimumSize === a[i].minimumSize &&
-                v.maximumSize === a[i].maximumSize
-            ) {
-                duplicate = true
-                if (v.fishingMethod !== a[i].fishingMethod) {
-                    a[i].fishingMethod = ''
-                }
-                if (v.tidal !== a[i].tidal) {
-                    a[i].tidal = ''
-                }
-            }
-            i++
-        }
-        if (!duplicate) {
-            a.push(v)
-        }
-        return a
-    }, [])
-}
-
 export function sortByStartAndEndDate(limits) {
     return limits.sort((a, b) => {
         const startComparison = compareAsc(a.seasonStart, b.seasonStart)
         if (startComparison === 0) {
-            if (b.fishingMethod || b.tidal || b.waterDescription) {
-                return -1
+            if (a.water || a.fishingMethod || a.tidal || a.waterDescription) {
+                return 1
             }
             return compareAsc(b.seasonEnd, a.seasonEnd)
         }
@@ -95,7 +65,6 @@ export function formatResults(results) {
     }, {})
 
     Object.keys(fish).forEach((fishName) => {
-        fish[fishName].limits = removeDuplicates(fish[fishName].limits) 
 
         // sort by start date and end date
         fish[fishName].limits = sortByStartAndEndDate(fish[fishName].limits)
