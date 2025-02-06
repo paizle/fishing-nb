@@ -64,12 +64,13 @@ export function removeDuplicates(limits) {
     }, [])
 }
 
-export function sortByStartAndEndDate(limits) {
+
+export function sortBySeasonAndGenerality(limits) {
     return limits.sort((a, b) => {
         const startComparison = compareAsc(a.seasonStart, b.seasonStart)
         if (startComparison === 0) {
-            if (b.fishingMethod || b.tidal || b.waterDescription) {
-                return -1
+            if (a.water || a.fishingMethod || a.tidal || a.waterDescription) {
+                return 1
             }
             return compareAsc(b.seasonEnd, a.seasonEnd)
         }
@@ -95,12 +96,10 @@ export function formatResults(results) {
     }, {})
 
     Object.keys(fish).forEach((fishName) => {
-        fish[fishName].limits = removeDuplicates(fish[fishName].limits) 
 
-        // sort by start date and end date
-        fish[fishName].limits = sortByStartAndEndDate(fish[fishName].limits)
+        fish[fishName].limits = sortBySeasonAndGenerality(fish[fishName].limits)
 
-        // create groups for limits with the same water description/fishing method/tidal category
+        // create groups for limits with the same water description, fishing method, tidal category, etc.
         const objectMap = {}
         let i = 0
         while (i < fish[fishName].limits.length) {
