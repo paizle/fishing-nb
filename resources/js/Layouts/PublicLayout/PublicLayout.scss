@@ -138,13 +138,13 @@
         grid-area: footer;
         position: relative;
         z-index: 3;
-        @apply shadow-inverted;
     }
 
     main {
         position: relative;
         z-index: 2;
         grid-area: main;
-        overflow: auto;
+        overflow: hidden;
+        height: 100%;
     }
 }

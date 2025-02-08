@@ -8,6 +8,9 @@ import { XCircleIcon } from '@heroicons/react/24/outline'
 import FishLimitsGrid from './FishLimitsGrid/FishLimitsGrid'
 import useRest from '@/Hooks/useRest'
 import useLandingPage from '@/Hooks/useLandingPage'
+import useScreenOrientation from '@/Hooks/useScreenOrientation'
+import SelectFishMobile from './SelectFishMobile/SelectFishMobile'
+import SelectFishDesktop from './SelectFishDesktop/SelectFishDesktop'
 
 export default function Home() {
 
@@ -20,7 +23,7 @@ export default function Home() {
     const storage = useLocalStorageDefaults()
     useLandingPage('home')
 
-    const fishListRef = useRef(null)
+    const screenOrientation = useScreenOrientation()
 
     const restFish = useRest()
     const restLocations = useRest()
@@ -33,20 +36,13 @@ export default function Home() {
             .then((request) => setLocations(request.data.locations))
     }, [])
 
-    // scroll to last selected fish
     useEffect(() => {
-        if (fishListRef.current && restFish.state.data) {
-            const selectedFish = storage.get('settings', (settings) => settings.selectedFish)
-            if (selectedFish) {
-                setSelectedFish(selectedFish)
-                const element = fishListRef.current.querySelector(`[data-id="${selectedFish}"]`)
-                element?.scrollIntoView({
-                    behavior: 'smooth',
-                    inline: 'center'
-                })
-            }
+        const selectedFish = storage.get('settings', (settings) => settings.selectedFish)
+        if (selectedFish) {
+            setSelectedFish(selectedFish)
         }
-    }, [fishListRef.current, restFish.state.data])
+    }, [])
+    
 
     const selectFish = (id) => {
         let newSelectedFish
@@ -91,14 +87,6 @@ export default function Home() {
         )
     }
 
-    const renderLocationLabel = (label) => {
-        return (
-            <>
-                {label.split('/').map((part) => <span>{part}</span>)}
-            </>
-        )
-    }
-
     return (
         <PublicLayout className={`Home ${selectedLocation ? 'location-selected' : ''}`}>
             <header>
@@ -112,7 +100,7 @@ export default function Home() {
                         <div className="header">
                             {selectedLocation && (
                                     <button onClick={() => setSelectedLocation(null)} className="selected-location flex items-center gap-2">
-                                        <strong>{renderLocationLabel(selectedLocation.label)}</strong>
+                                        <strong>{selectedLocation.label.split('/').map((part) => <span>{part}</span>)}</strong>
                                         <XCircleIcon className="w-5 h-5"  />
                                     </button>
                                 )
@@ -137,19 +125,20 @@ export default function Home() {
                 </div>
             </main>
             <footer>
-                <div className="fishes" ref={fishListRef}>
-                    {(fishes || []).map((fish) => (
-                        <button 
-                            key={fish.name}
-                            data-id={fish.id}
-                            className={`fish ${selectedFish === fish.id ? 'selected' : ''}`}
-                            onClick={() => selectFish(fish.id)}
-                        >
-                            <img src="/images/fish-shadow.png" />
-                            <div className="name">{fish.name}</div>
-                        </button>
-                    ))}
-                </div>
+                {screenOrientation.isMobile
+                    ? 
+                        <SelectFishMobile 
+                            fishes={fishes}
+                            selectedFishId={selectedFish}
+                            selectFish={selectFish}
+                        />
+                    : 
+                        <SelectFishDesktop
+                            fishes={fishes}
+                            selectedFishId={selectedFish}
+                            selectFish={selectFish}
+                        />
+                }
             </footer>
         </PublicLayout>
     )
