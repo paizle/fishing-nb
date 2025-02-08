@@ -1,0 +1,82 @@
+.SelectFishDesktop {
+	
+	overflow: hidden;
+	width: 100%;
+	background-color: var(--background-color);
+	position: relative;
+
+	.fishes {
+		overflow: hidden;
+		border-collapse: collapse;
+		padding: 1em 5em;
+		display: flex;
+		gap: 1em;
+		flex-wrap: nowrap;
+		scroll-behavior: smooth;
+	}
+	.navigation {
+		position: absolute;
+		left: 0;
+		top: 50%;
+		width: 100%;
+		pointer-events: none;
+		button {
+			pointer-events: all;
+			position: absolute;
+			top: 50%;
+			width: 5em;
+			transform: translateY(-50%);
+			&:hover {
+				svg {
+					color: var(--highlight-color);
+				}
+			}
+			svg {
+				width: 100%;
+				color: var(--highlight-color-translucent);
+			}
+			&.go-left {
+				left: 0;
+			}
+			&.go-right {
+				right: 0;
+				svg {
+					transform: rotate(180deg);
+				}
+			}
+		}
+	}
+	.fish {
+			@apply shadow;
+			font-size: .8em;
+			flex-shrink: 0;
+			line-height: 1;
+			text-align: center;
+			flex-basis: 10em;
+			padding: 1em;
+			border-radius: 1em;
+			img {
+					height: 2em;
+					padding: 0 16px;
+					object-fit: contain;
+					margin: 1em auto 0 auto;
+			}
+			.name {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					height: 4em;
+					padding: 0 1em;
+					color: var(--heading-color);
+			}
+			&.selected {
+					background-color: var(--highlight-color);
+					img {
+							filter: invert(1);
+					}
+					.name {
+							color: white;
+					}
+			}
+	}
+}
