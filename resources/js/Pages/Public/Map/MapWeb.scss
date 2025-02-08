@@ -31,7 +31,9 @@
                 a {
                     display: block;
                     text-decoration: none;
-
+                    &.disabled {
+                        cursor: not-allowed;
+                    }
                     h3 {
                         display: inline-block;
                         position: relative;

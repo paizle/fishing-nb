@@ -67,6 +67,9 @@ export default function MapMobile({ locations }) {
                         {Object.keys(pathSelectorToLocationName).map((key) => (
                             <li key={key} data-path-id={key}>
                                 <Link
+                                    className={locationsIndexed?.[
+                                        pathSelectorToLocationName[key]
+                                    ].hasData ? '' : 'disabled'}
                                     href={route('location.region', {
                                         id: getLocationFromPathId(key).id,
                                     })}
@@ -100,7 +103,9 @@ export default function MapMobile({ locations }) {
                     </ul>
                     {selectedPathId && (
                         <Link
-                            className="go"
+                            className={'go ' + (locationsIndexed?.[
+                                pathSelectorToLocationName[selectedPathId]
+                            ].hasData ? '' : 'disabled')}
                             href={route('location.region', {
                                 id: getLocationFromPathId(selectedPathId).id,
                             })}

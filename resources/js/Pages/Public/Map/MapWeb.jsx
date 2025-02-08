@@ -50,6 +50,9 @@ export default function MapWeb({ locations }) {
                     {Object.keys(pathSelectorToLocationName).map((key) => (
                         <li key={key} data-path-id={key}>
                             <Link
+                                className={locationsIndexed?.[
+                                        pathSelectorToLocationName[key]
+                                    ].hasData ? '' : 'disabled'}
                                 href={route('location.region', {
                                     id: getLocationFromPathId(key).id,
                                 })}
