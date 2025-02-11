@@ -13,11 +13,14 @@
 			flex-basis: 8em;
 			height: 8em;
 			border-right: 1px solid black;
+			padding-top: 1em;
 			img {
 					height: 2em;
-					padding: 0 16px;
+					padding: 0 1em 0 1em;
+					margin: 0;
 					object-fit: contain;
-					margin: 1em auto 0 auto;
+					object-position: center;
+					top: 0;
 					filter: grayscale(100%) invert(100%) brightness(0);
 			}
 			.name {
@@ -32,6 +35,9 @@
 					background-color: var(--highlight-color);
 					img {
 						filter: grayscale(100%) invert(0) brightness(1000%);
+						&.low-res {
+							filter: invert(100%)
+						}
 					}
 					.name {
 							color: white;
