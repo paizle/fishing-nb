@@ -13,6 +13,7 @@
 		gap: 1em;
 		flex-wrap: nowrap;
 		scroll-behavior: smooth;
+		min-height: 5em;
 	}
 	.navigation {
 		position: absolute;
@@ -53,13 +54,16 @@
 			line-height: 1;
 			text-align: center;
 			flex-basis: 10em;
-			padding: 1em;
+			padding: .5em .5em 0 .5em;
 			border-radius: 1em;
 			img {
-					height: 2em;
-					padding: 0 16px;
+					height: 4em;
+					padding: 1em 0 0 0;
+					box-sizing: content-box;
 					object-fit: contain;
-					margin: 1em auto 0 auto;
+					object-position: center;
+					margin: 0 auto;
+					top: 0;
 			}
 			.name {
 					display: flex;
@@ -71,9 +75,6 @@
 			}
 			&.selected {
 					background-color: var(--highlight-color);
-					img {
-							filter: invert(1);
-					}
 					.name {
 							color: white;
 					}

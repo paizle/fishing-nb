@@ -1,5 +1,7 @@
 import './SelectFishMobile.scss'
 import { useState, useRef, useEffect } from 'react'
+import getFishImageSrc from '@/Util/getFishImageSrc'
+import ProgressiveImage from '@/Components/ProgressiveImage'
 
 export default function SelectFishMobile({
 	fishes = null,
@@ -35,7 +37,11 @@ export default function SelectFishMobile({
 								className={`fish ${selectedFishId === fish.id ? 'selected' : ''}`}
 								onClick={() => selectFish(fish.id)}
 						>
-								<img src="/images/fish-shadow.png" />
+								<ProgressiveImage
+									lowResSrc="/images/fish-shadow.png"
+									highResSrc={getFishImageSrc(fish.name)}
+									alt={fish.name}
+								/>
 								<div className="name">{fish.name}</div>
 						</button>
 				))}

@@ -1,7 +1,8 @@
 import './SelectFishDesktop.scss'
-import { useState, useRef, useEffect } from 'react'
-
+import { useRef, useEffect } from 'react'
 import { ArrowLeftCircleIcon } from '@heroicons/react/24/outline'
+import getFishImageSrc from '@/Util/getFishImageSrc'
+import ProgressiveImage from '@/Components/ProgressiveImage'
 
 export default function SelectFishDesktop({
 	fishes = null,
@@ -50,7 +51,11 @@ export default function SelectFishDesktop({
 									className={`fish ${selectedFishId === fish.id ? 'selected' : ''}`}
 									onClick={() => selectFish(fish.id)}
 							>
-									<img src="/images/fish-shadow.png" />
+									<ProgressiveImage
+										lowResSrc="/images/fish-shadow.png"
+										highResSrc={getFishImageSrc(fish.name)}
+										alt={fish.name}
+									/>
 									<div className="name">{fish.name}</div>
 							</button>
 					))}
