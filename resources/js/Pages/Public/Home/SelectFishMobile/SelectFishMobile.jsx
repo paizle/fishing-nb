@@ -1,5 +1,6 @@
 import './SelectFishMobile.scss'
 import { useState, useRef, useEffect } from 'react'
+import getFishImageSrc from '@/Util/getFishImageSrc'
 
 export default function SelectFishMobile({
 	fishes = null,
@@ -35,7 +36,7 @@ export default function SelectFishMobile({
 								className={`fish ${selectedFishId === fish.id ? 'selected' : ''}`}
 								onClick={() => selectFish(fish.id)}
 						>
-								<img src="/images/fish-shadow.png" />
+								<img src={getFishImageSrc(fish.name)} />
 								<div className="name">{fish.name}</div>
 						</button>
 				))}

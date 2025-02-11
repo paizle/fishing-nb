@@ -18,6 +18,7 @@
 					padding: 0 16px;
 					object-fit: contain;
 					margin: 1em auto 0 auto;
+					filter: grayscale(100%) invert(100%) brightness(0);
 			}
 			.name {
 					display: flex;
@@ -30,7 +31,7 @@
 			&.selected {
 					background-color: var(--highlight-color);
 					img {
-							filter: invert(1);
+						filter: grayscale(100%) invert(0) brightness(1000%);
 					}
 					.name {
 							color: white;

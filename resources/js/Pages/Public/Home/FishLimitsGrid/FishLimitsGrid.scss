@@ -57,7 +57,7 @@
         > * {
 
             padding: 0.25em 0.5em 0.25em 0.5em;
-            margin: 1em 0;
+            margin: 0;
             font-weight: bold;
             text-align: center;
             display: flex;
@@ -94,7 +94,7 @@
         grid-column: span 4;
         img {
             display: block;
-            padding: 1em 1em 2em 1em;
+            padding: 1em;
             margin: auto;
         }
     }
@@ -118,7 +118,7 @@
 
         .limit:last-child > *,
         .group-water-description:last-child {
-            padding: .5em 0.5em 3em 0.5em;
+            padding: .5em 0.5em 2em 0.5em;
         }
 
         .limit:first-child > * {
