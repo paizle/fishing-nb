@@ -1,208 +1,222 @@
 import './FishLimitsGrid.scss'
 import { useRef } from 'react'
-import { formatResults } from './FishLimitsTransformers'
+import { byFish } from './FishLimitsTransformers'
 import config from '@/Util/config'
 import { format } from 'date-fns'
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
-import Tooltip from '@/Components/Tooltip/Tooltip'
 import useScreenOrientation from '@/Hooks/useScreenOrientation'
 import getFishImageSrc from '@/Util/getFishImageSrc'
 
-export default function FishLimitsGrid({ limits, fishes }) {
+export default function FishLimitsGrid({ limits, fishes, hiddenFields = [] }) {
 
-    const limitsByFish = formatResults(limits)
+	const limitsByFish = byFish(limits)
 
-    const screenOrientation = useScreenOrientation()
+	const screenOrientation = useScreenOrientation()
 
-    const dataTableRef = useRef(null)
+	const dataTableRef = useRef(null)
 
-    const renderSeasonDateRange = (limit, comma = false) => {
-        return (
-            <>
-                <span>
-                    {format(
-                        limit.seasonStart,
-                        screenOrientation.isMobile
-                            ? config.displayDayMonthShortFormat
-                            : config.displayDayMonthFormat,
-                    )}{' '}
-                </span>
-                <span>
-                    -{' '}
-                    {format(
-                        limit.seasonEnd,
-                        screenOrientation.isMobile
-                            ? config.displayDayMonthShortFormat
-                            : config.displayDayMonthFormat,
-                    )}
-                    {comma ? ',' : ''}
-                </span>
-            </>
-        )
-    }
+	const renderSeasonDateRange = (limit, comma = false) => {
+		return (
+			<>
+				<span>
+					{format(
+						limit.seasonStart,
+						screenOrientation.isMobile
+							? config.displayDayMonthShortFormat
+							: config.displayDayMonthFormat,
+					)}{' '}
+				</span>
+				<span>
+					-{' '}
+					{format(
+						limit.seasonEnd,
+						screenOrientation.isMobile
+							? config.displayDayMonthShortFormat
+							: config.displayDayMonthFormat,
+					)}
+					{comma ? ',' : ''}
+				</span>
+			</>
+		)
+	}
 
-    const renderGroupWaterStretch = (limit) => {
-        return (
-            <em className="group-water-description">
-                {renderExceptionDetail(limit)}
-            </em>
-        )
-    }
+	const transformCaseForSentance = (sentance, value) => {
+		if (sentance) {
+			value = value.charAt(0).toLowerCase() + value.slice(1)
+		} else {
+			value = value.charAt(0).toUpperCase() + value.slice(1)
+		}
+		return value
+	}
 
-    const renderExceptionDetail = (limit) => {
-        
-        let text = ''
+	const renderExceptionDetail = (limit) => {
 
-        if (!limit.water && limit.watersCategory) {
-            text += limit.watersCategory + ': '
-        }
+		let text = ''
 
-        if (limit.tidal) {
-            text += limit.tidal
-        }
+		if (limit.tidal) {
+			text += transformCaseForSentance(text, limit.tidal)
+			if (limit.water || limit.watersCategory || limit.boundary) {
+				text += ' portions of'
+			} else {
+				text += ' waters'
+			}
+		}
 
-        if (limit.boundary) {
-            text += limit.tidal ? ', ' : ''
-            text += text ? ' ' : ''
-            text += limit.boundary
-        }
-        
-        if (limit.waterDescription && !limit.water) {
-            text += limit.boundary
-        }
-        
-        if (limit.water) {
-            text = limit.water + (text ? ': ' : ' ') + text
-        }
+		if (limit.boundary) {
+			text += text ? ' ' : ''
+			text += transformCaseForSentance(text, limit.boundary)
+			if (limit.watersCategory) {
+				text += ' of '
+			}
+		}
 
-        if (limit.fishingMethod) {
-            text = limit.fishingMethod  + ' in ' + text
-        }
+		if (!limit.water && limit.watersCategory) {
+			text += transformCaseForSentance(text, limit.watersCategory)
+		}
 
-        if (limit.waterDescription) {
-            text += text ? ' ' : ''
-            text += limit.waterDescription
-        }
-        
-        return ' ' + text
-    }
+		if (limit.waterDescription && !limit.water) {
+			text += limit.boundary
+		}
 
-    const renderMinSize = (limit) => {
-        const text = limit?.minSize ?? 'N/A'
-        if (limit.bagLimit === 0) {
-            return <span className="invalid">{text}</span>
-        }
-        return text
-    }
+		if (limit.water) {
+			text += text ? ' ' : ''
+			text += limit.water
+		}
 
-    const renderMaxSize = (limit) => {
-        const text = limit?.maxSize ?? 'N/A'
-        if (limit.bagLimit === 0) {
-            return <span className="invalid">{text}</span>
-        }
-        return text
-    }
+		if (limit.fishingMethod) {
+			text = limit.fishingMethod + ' in ' + transformCaseForSentance(text, text)
+		}
 
-    const renderBagLimit = (limit) => {
-        if (limit.bagLimit === null) {
-            return <span className="text-md leading-4">&#8734;</span>
-        }
-        return limit.bagLimit
-    }
+		if (limit.waterDescription) {
+			text += text ? ' ' : ''
+			text += limit.waterDescription
+		}
 
-    const renderFishLimit = (limit, inGroup = false, lastInGroup = false) => {
-        return (
-            <div
-                className={`limit ${inGroup && !limit.group  ? 'sub-group' : ''}`}
-            >
-                <div className="season-exception">
-                    <strong className="date-range">
-                        {renderSeasonDateRange(limit, (limit.group || (inGroup && !lastInGroup)))}
-                    </strong>
-                    {(!inGroup && !limit.group) && (
-                        <em className="water-description">
-                            {renderExceptionDetail(limit)}
-                        </em>
-                    )}
-                </div>
-                <div>{renderBagLimit(limit)}</div>
-                <div>{renderMinSize(limit)}</div>
-                <div>{renderMaxSize(limit)}</div>
-            </div>
-        )
-    }
+		return ' ' + text
+	}
 
-    const renderFishLimits = (limits, inGroup = false) =>
-        limits.map((limit, index) =>
-            limit?.group ? (
-                <>
-                    {renderFishLimit(limit)}
-                    {renderFishLimits(limit.group, true)}
-                    <em className="group-water-description">
-                        {renderExceptionDetail(limit)}
-                    </em>
-                </>
-            ) : (
-                <>
-                    {renderFishLimit(limit, inGroup, index === (limits.length - 1))}
-                </>
-            ),
-        )
+	const renderMinSize = (limit) => {
+		const text = limit?.minSize ?? 'N/A'
+		if (limit.bagLimit === 0) {
+			return <span className="invalid">{text}</span>
+		}
+		return text
+	}
 
-    return (
-        <div className="FishLimitsGrid" ref={dataTableRef}>
-            
+	const renderMaxSize = (limit) => {
+		const text = limit?.maxSize ?? 'N/A'
+		if (limit.bagLimit === 0) {
+			return <span className="invalid">{text}</span>
+		}
+		return text
+	}
 
-            <div className="body">
-                
-                {Object.keys(limitsByFish ?? {}).map(
-                    (fishName, index) => (
+	const renderBagLimit = (limit) => {
+		if (limit.bagLimit === null) {
+			return <span className="text-md leading-4">&#8734;</span>
+		}
+		return limit.bagLimit
+	}
 
-                        <>
-                        
+	const cancelHiddenFields = (limit) => {
+		hiddenFields.forEach((hiddenField) => limit[hiddenField] = null)
+		return limit
+	}
 
-                        <div className="fish-row-container" key={fishName}>
-                            <div className={`fish-name ${index % 2 === 0 ? 'even' : 'odd'}`}>
-                                <strong>{fishName}</strong>
-                            </div>
+	const renderFishLimit = (limit, inGroup = false, lastInGroup = false) => {
+		limit = cancelHiddenFields(limit)
+		return (
+			<div
+				className={`limit ${inGroup && !limit.group ? 'sub-group' : ''}`}
+			>
+				<div className="season-exception">
+					<strong className="date-range">
+						{renderSeasonDateRange(limit, (limit.group || (inGroup && !lastInGroup)))}
+					</strong>
+					{(!inGroup && !limit.group) && (
+						<em className="water-description">
+							{renderExceptionDetail(limit)}
+						</em>
+					)}
+				</div>
+				<div>{renderBagLimit(limit)}</div>
+				<div>{renderMinSize(limit)}</div>
+				<div>{renderMaxSize(limit)}</div>
+			</div>
+		)
+	}
 
-                            <div className={`fish-image ${index % 2 === 0 ? 'even' : 'odd'}`}>
-                                <img src={getFishImageSrc(fishName)} />
-                            </div>
+	const renderFishLimits = (limits, inGroup = false) => {
+		return limits.map((limit, index) =>
+			limit?.group ? (
+				<>
+					{renderFishLimit(limit)}
+					{renderFishLimits(limit.group, true)}
+					<em className="group-water-description">
+						{renderExceptionDetail(limit)}
+					</em>
+				</>
+			) : (
+				<>
+					{renderFishLimit(limit, inGroup, index === (limits.length - 1))}
+				</>
+			),
+		)
+	}
 
-                            <div className="header">
-                            <div className="column-header date-range">
-                                {!screenOrientation.isMobile && (
-                                    <>Season/</>
-                                )}
-                                Restrictions
-                            </div>
-                            <div className="column-header">Bag Limit</div>
-                            <div className="column-header">
-                                {screenOrientation.isMobile
-                                    ? 'Min.'
-                                    : 'Minimum'}{' '}
-                                Size
-                            </div>
-                            <div className="column-header">
-                                {screenOrientation.isMobile
-                                    ? 'Max.'
-                                    : 'Maximum'}{' '}
-                                Size
-                            </div>
-                        </div>
+	return (
+		<div className="FishLimitsGrid" ref={dataTableRef}>
 
-                            <div
-                                className={`limits ${index % 2 === 0 ? 'even' : 'odd'}`}
-                            >
-                                {renderFishLimits(limitsByFish[fishName].limits)}
-                            </div>
-                        </div>
 
-                        </>
-                    ))
-                }
-            </div>
-        </div>
-    )
+			<div className="body">
+
+				{Object.keys(limitsByFish ?? {}).map(
+					(fishName, index) => (
+
+						<>
+
+
+							<div className="fish-row-container" key={fishName}>
+								<div className={`fish-name ${index % 2 === 0 ? 'even' : 'odd'}`}>
+									<strong>{fishName}</strong>
+								</div>
+
+								<div className={`fish-image ${index % 2 === 0 ? 'even' : 'odd'}`}>
+									<img src={getFishImageSrc(fishName)} />
+								</div>
+
+								<div className="header">
+									<div className="column-header date-range">
+										{!screenOrientation.isMobile && (
+											<>Season/</>
+										)}
+										Restrictions
+									</div>
+									<div className="column-header">Bag Limit</div>
+									<div className="column-header">
+										{screenOrientation.isMobile
+											? 'Min.'
+											: 'Minimum'}{' '}
+										Size
+									</div>
+									<div className="column-header">
+										{screenOrientation.isMobile
+											? 'Max.'
+											: 'Maximum'}{' '}
+										Size
+									</div>
+								</div>
+
+								<div
+									className={`limits ${index % 2 === 0 ? 'even' : 'odd'}`}
+								>
+									{renderFishLimits(limitsByFish[fishName].limits)}
+								</div>
+							</div>
+
+						</>
+					))
+				}
+			</div>
+		</div>
+	)
 }
