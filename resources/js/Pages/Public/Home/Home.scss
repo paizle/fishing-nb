@@ -1,149 +1,144 @@
 @use '/resources/css/app.scss';
 
-
 .Home {
+	header nav .title .child-wrapper h1.hero {
+		transition: 700ms;
+	}
 
-    header nav .title .child-wrapper h1.hero {
-        transition: 700ms;    
-    }
+	&.location-selected {
+		header nav .title .child-wrapper h1.hero {
+			font-size: 1.5em;
+		}
+	}
 
-    &.location-selected {
-        header nav .title .child-wrapper h1.hero {
-            font-size: 1.5em;    
-        }   
-    }
+	main {
+		padding: 0 0 0 0;
+		overflow: hidden;
+		position: relative;
+		height: 100%;
 
-    main {
-        padding: 0 0 0 0;
-        overflow: hidden;
-        position: relative;
-        height: 100%;
+		.layout {
+			position: relative;
+			z-index: 2;
+			display: grid;
+			grid-template-rows: auto 1fr;
+			overflow: hidden;
+			height: 100%;
+			> .header {
+				display: flex;
+				justify-content: center;
+				margin: 0;
+				background-color: white;
+				.selected-location {
+					border-color: var(--highlight-color);
+					padding: 0.25em 0.5em;
+					margin: 0.25em;
+					border-radius: 0.5em;
+					color: var(--heading-color);
+					font-size: 1.1em;
+					strong {
+						display: flex;
+						flex-wrap: wrap;
+						justify-content: center;
+						> * {
+							&:after {
+								content: '/';
+								margin-left: -0.25em;
+							}
+							&:last-child:after {
+								content: '';
+								margin-left: 0;
+							}
+						}
+					}
 
-        .layout {
-            position: relative;
-            z-index: 2;
-            display: grid;
-            grid-template-rows: auto 1fr;
-            overflow: hidden;
-            height: 100%;
-            > .header {
-                display: flex;
-                justify-content: center;
-                margin: 0;
-                background-color: white;
-                .selected-location {
-                    border-color: var(--highlight-color);
-                    padding: .25em .5em;
-                    margin: .25em;
-                    border-radius: .5em;
-                    color: var(--heading-color);
-                    font-size: 1.1em;
-                    strong {
-                        display: flex;
-                        flex-wrap: wrap;
-                        justify-content: center;
-                        > * {
-                            &:after {
-                                content: '/';
-                                margin-left: -.25em;
-                            }
-                            &:last-child:after {
-                                content: '';
-                                margin-left: 0;
-                            }
-                        }
-                    }
+					svg {
+						color: var(--error);
+					}
+				}
+			}
+			> .body {
+				overflow-y: auto;
+				position: relative;
+			}
+		}
 
-                    svg {
-                        color: var(--error);
-                    }
-                }
-            }
-            > .body {
-                overflow-y: auto;
-                position: relative;
-            }
-        }
+		.FishLimitsGrid {
+			position: absolute;
+			top: 0;
+		}
 
-        .FishLimitsGrid {
-            position: absolute;
-            top: 0;
-        }
+		.Combobox {
+			position: relative;
+			padding-top: 0;
+			transition: 300ms;
+			.input-wrapper {
+				padding: 4px 0;
+				input {
+					font-size: 1em;
+				}
+			}
+			&.init {
+				padding-top: 25vh;
+				.input-wrapper input {
+					translate: transformY(-50%);
+				}
+				&.open {
+					padding-top: 0;
+					.input-wrapper input {
+						translate: transformY(0%);
+					}
+				}
+			}
 
-        .Combobox {
-            position: relative;
-            padding-top: 0;
-            transition: 300ms;
-            .input-wrapper {
-                padding: 4px 0;
-                input {
-                    font-size: 1em;
-                }
-            }
-            &.init {
-                padding-top: 25vh;
-                .input-wrapper input {
-                    translate: transformY(-50%);
-                }
-                &.open {
-                    padding-top: 0;
-                    .input-wrapper input {
-                        translate: transformY(0%);
-                    }
-                }
-            }
-            
-            .input-wrapper {
-                margin: 1px;
-                input {
-                    border-radius: 2em;
-                    &::placeholder {
-                        opacity: .75;
-                        text-align: center;
-                    }
-                    margin-bottom: .25em;
-                }
-            }
-            .results {
-                border-radius: .5em .5em 0 0;
-                li.item {
-                    &:first-child {
-                        padding-top: .25em;
-                    }
-                    &:last-child {
-                        border-radius: 0 0 .5em .5em;
-                        padding-bottom: .25em;
-                        margin-bottom: 2em;
-                        border-bottom: none;
-                    }
-                    border-bottom: 1px dashed var(--border-color);
-                    padding: 0 .25em;
-                    &:hover {
-                        background-color: var(--highlight-color-lighter);
-                    } 
-                }
-            }
-        }
-    
-        .logo {
-            position: absolute;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            display: flex;
-            opacity: .7;
-            width: 100%;
-            height: 100%;
+			.input-wrapper {
+				margin: 1px;
+				input {
+					border-radius: 2em;
+					&::placeholder {
+						opacity: 0.75;
+						text-align: center;
+					}
+					margin-bottom: 0.25em;
+				}
+			}
+			.results {
+				border-radius: 0.5em 0.5em 0 0;
+				li.item {
+					&:first-child {
+						padding-top: 0.25em;
+					}
+					&:last-child {
+						border-radius: 0 0 0.5em 0.5em;
+						padding-bottom: 0.25em;
+						margin-bottom: 2em;
+						border-bottom: none;
+					}
+					border-bottom: 1px dashed var(--border-color);
+					padding: 0 0.25em;
+					&:hover {
+						background-color: var(--highlight-color-lighter);
+					}
+				}
+			}
+		}
 
-            img {
-                margin: auto;
-                padding: 2em;
-            }
-        }
+		.logo {
+			position: absolute;
+			z-index: 1;
+			top: 0;
+			left: 0;
+			display: flex;
+			opacity: 0.7;
+			width: 100%;
+			height: 100%;
 
-        
-    }
-    footer {
-        
-    }
+			img {
+				margin: auto;
+				padding: 2em;
+			}
+		}
+	}
+	footer {
+	}
 }

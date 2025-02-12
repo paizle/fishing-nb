@@ -1,107 +1,105 @@
-
-
 .Fish {
+	main {
+		position: relative;
+		padding: 0 0.5em;
+		@screen sm {
+			padding: 0 0 0 1em;
+		}
 
-    main {
-        position: relative;
-        padding: 0 .5em;
-        @screen sm {
-            padding: 0 0 0 1em;
-        }
+		.fish-image {
+			display: block;
+			padding: 1em;
+			max-height: 150px;
+			margin: auto;
+		}
 
-        .fish-image {
-            display: block;
-            padding: 1em;
-            max-height: 150px;
-            margin: auto;
-        }
+		.fish-limit-grid {
+			&:after {
+				content: '';
+				padding-bottom: 1em;
+			}
+			display: grid;
+			grid-template-columns: 1fr 4em 4em 4em 4em 4em;
 
-        .fish-limit-grid {
-            &:after {
-                content: '';
-                padding-bottom: 1em;
-            }
-            display: grid;
-            grid-template-columns: 1fr 4em 4em 4em 4em 4em;
-            
-            font-size: 0.8em;
-            width: 100%;
-            justify-content: center;
+			font-size: 0.8em;
+			width: 100%;
+			justify-content: center;
 
-            @screen sm {
-                grid-template-columns: auto auto auto auto auto auto;
-                
-                font-size: 1em;
-                .header {
-                    br {
-                        display: none;
-                    }
-                }
-            }
+			@screen sm {
+				grid-template-columns: auto auto auto auto auto auto;
 
-            
-            .header {
-                display: contents;
+				font-size: 1em;
+				.header {
+					br {
+						display: none;
+					}
+				}
+			}
 
-                > * {
-                    position: sticky;
-                    top: 2em;
-                    z-index: 2;
-                    font-weight: bold;
-                    display: flex;
-                    align-items: end;
-                    color: var(--heading-color);
-                    padding: 0 .25em;
-                    &:first-child {
-                        text-align: left;
-                        border-radius: 0 0 0 0.5em;
-                    }
-                    &:last-child {
-                        border-radius: 0 0 0.5em 0;
-                    }
-                }
-            }
+			.header {
+				display: contents;
 
-            .body {
-                display: contents;
+				> * {
+					position: sticky;
+					top: 2em;
+					z-index: 2;
+					font-weight: bold;
+					display: flex;
+					align-items: end;
+					color: var(--heading-color);
+					padding: 0 0.25em;
+					&:first-child {
+						text-align: left;
+						border-radius: 0 0 0 0.5em;
+					}
+					&:last-child {
+						border-radius: 0 0 0.5em 0;
+					}
+				}
+			}
 
-                .location-group {
-                    display: contents;
-                    .location-name {
-                        position: sticky;
-                        top: -2em;
-                        z-index: 1;
-                        grid-column: span 6;
-                        background-color: var(--background-color);
-                        font-weight: bold;
-                        text-align: center;
-                        color: var(--heading-color);
-                        padding-top: 2em;
-                        padding-bottom: 2em;
-                        font-size: 1.5em;
-                    }
+			.body {
+				display: contents;
 
-                    .row {
-                        display: contents;
-                        .water-description {
-                            grid-column: span 6;
-                        }
-                        > * {
-                            padding: .25em;
-                        }
-                        &.odd {
-                            > * {
-                                background-color: var(--background-color);
-                            }
-                        }
-                        &.even {
-                            > * {
-                                background-color: var(--highlight-color-lighter);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+				.location-group {
+					display: contents;
+					.location-name {
+						position: sticky;
+						top: -2em;
+						z-index: 1;
+						grid-column: span 6;
+						background-color: var(--background-color);
+						font-weight: bold;
+						text-align: center;
+						color: var(--heading-color);
+						padding-top: 2em;
+						padding-bottom: 2em;
+						font-size: 1.5em;
+					}
+
+					.row {
+						display: contents;
+						.water-description {
+							grid-column: span 6;
+						}
+						> * {
+							padding: 0.25em;
+						}
+						&.odd {
+							> * {
+								background-color: var(--background-color);
+							}
+						}
+						&.even {
+							> * {
+								background-color: var(
+									--highlight-color-lighter
+								);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }

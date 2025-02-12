@@ -1,26 +1,26 @@
 .Combobox {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    overflow-x: auto;
-    overflow-y: hidden;
-    max-height: 100%;
-    label {
-        flex-grow: 0;
-        display: block;
-        input {
-            margin: 0;
-        }
-    }
-    .results {
-        flex-grow: 1;
-        overflow-y: auto;
-        visibility: collapse;
-        li {
-            background-color: var(--background-color);
-        }
-        &.open {
-            visibility: visible;
-        }
-    }  
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	overflow-x: auto;
+	overflow-y: hidden;
+	max-height: 100%;
+	label {
+		flex-grow: 0;
+		display: block;
+		input {
+			margin: 0;
+		}
+	}
+	.results {
+		flex-grow: 1;
+		overflow-y: auto;
+		visibility: collapse;
+		li {
+			background-color: var(--background-color);
+		}
+		&.open {
+			visibility: visible;
+		}
+	}
 }

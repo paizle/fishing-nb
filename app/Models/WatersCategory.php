@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class WatersCategory extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
-    protected $fillable = ['name'];
+	protected $fillable = ['name'];
 }

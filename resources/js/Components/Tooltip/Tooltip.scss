@@ -1,49 +1,49 @@
 @use '/resources/css/app.scss';
 
 .Tooltip {
-    cursor: help;
-    position: relative;
-    display: inline-block;
-    text-decoration: underline;
-    text-decoration-style: dotted;
+	cursor: help;
+	position: relative;
+	display: inline-block;
+	text-decoration: underline;
+	text-decoration-style: dotted;
 
-    .message {
-        pointer-events: none;
-        position: absolute;
-        z-index: 0;
-        top: -0.5em;
-        right: -0.25em;
-        display: flex;
-        text-align: left;
-        transform: translateX(100%);
-        visibility: hidden;
-        opacity: 0;
-        transition: opacity 300ms;
-        transition-delay: 500ms;
-        width: 13em;
+	.message {
+		pointer-events: none;
+		position: absolute;
+		z-index: 0;
+		top: -0.5em;
+		right: -0.25em;
+		display: flex;
+		text-align: left;
+		transform: translateX(100%);
+		visibility: hidden;
+		opacity: 0;
+		transition: opacity 300ms;
+		transition-delay: 500ms;
+		width: 13em;
 
-        .message-content {
-            background-color: var(--background-color);
-            border-radius: 0.25rem;
-            @apply shadow;
-            padding: 0.5em 1em;
-        }
+		.message-content {
+			background-color: var(--background-color);
+			border-radius: 0.25rem;
+			@apply shadow;
+			padding: 0.5em 1em;
+		}
 
-        &.flow-left {
-            right: auto;
-            left: -0.25em;
-            transform: translateX(-100%);
-            justify-content: end;
-        }
-    }
+		&.flow-left {
+			right: auto;
+			left: -0.25em;
+			transform: translateX(-100%);
+			justify-content: end;
+		}
+	}
 
-    &.show {
-        text-decoration-style: solid;
-        .message {
-            z-index: 1;
-            visibility: visible;
-            pointer-events: all;
-            opacity: 1;
-        }
-    }
+	&.show {
+		text-decoration-style: solid;
+		.message {
+			z-index: 1;
+			visibility: visible;
+			pointer-events: all;
+			opacity: 1;
+		}
+	}
 }

@@ -14,103 +14,103 @@ $actionable-color: #f4d03f; // highlight actionable items
 $error: #ba3232;
 
 :root {
-    --heading-color: #{$heading-color};
-    --border-color: var(--heading-color);
+	--heading-color: #{$heading-color};
+	--border-color: var(--heading-color);
 
-    --icon-color: #{$icon-color};
-    --highlight-color: #{$icon-color};
-    --highlight-color-lighter: #{$icon-color-lighter};
-    --highlight-color-lightest: #{$icon-color-lightest};
+	--icon-color: #{$icon-color};
+	--highlight-color: #{$icon-color};
+	--highlight-color-lighter: #{$icon-color-lighter};
+	--highlight-color-lightest: #{$icon-color-lightest};
 
-    --highlight-color-transparent: #{rgba($icon-color, 0.2)};
-    --highlight-color-translucent: #{rgba($icon-color, 0.7)};
-    --highlight-color-contrast: var(--background-color);
+	--highlight-color-transparent: #{rgba($icon-color, 0.2)};
+	--highlight-color-translucent: #{rgba($icon-color, 0.7)};
+	--highlight-color-contrast: var(--background-color);
 
-    --background-color: #{$background-color};
+	--background-color: #{$background-color};
 
-    --card-background-color: #{$card-background-color};
-    --divider-color: var(--card-background-color);
-    --off-white: var(--card-background-color);
+	--card-background-color: #{$card-background-color};
+	--divider-color: var(--card-background-color);
+	--off-white: var(--card-background-color);
 
-    --text-color: #{$text-color};
+	--text-color: #{$text-color};
 
-    --hover-color: #{$hover-color};
-    --hover-color-transparent: #{rgba($hover-color, 0.2)};
+	--hover-color: #{$hover-color};
+	--hover-color-transparent: #{rgba($hover-color, 0.2)};
 
-    --actionable-color: #{$actionable-color};
-    --actionable-color-translucent: #{rgba($actionable-color, 0.7)};
+	--actionable-color: #{$actionable-color};
+	--actionable-color-translucent: #{rgba($actionable-color, 0.7)};
 
-    --error: #{$error};
+	--error: #{$error};
 
-    --yellow-highlighter: 253, 255, 50;
+	--yellow-highlighter: 253, 255, 50;
 
-    --box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-        rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-        rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
+	--box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+		rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
 }
 
 .heading-color {
-    color: var(--heading-color);
+	color: var(--heading-color);
 }
 
 .icon-color {
-    color: var(--icon-color);
+	color: var(--icon-color);
 }
 .highlight-color {
-    color: var(--highlight-color);
+	color: var(--highlight-color);
 }
 .highlight-color-transparent {
-    color: var(--highlight-color-transparent);
+	color: var(--highlight-color-transparent);
 }
 
 .actionable-color {
-    color: var(--actionable-color);
+	color: var(--actionable-color);
 }
 
 a {
-    text-decoration: underline;
-    &:hover {
-        text-decoration: none;
-    }
+	text-decoration: underline;
+	&:hover {
+		text-decoration: none;
+	}
 }
 
 input::autofill {
-    background-color: var(--actionable-color);
+	background-color: var(--actionable-color);
 }
 
 html,
 body,
 #app {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 html,
 body {
-    height: 100%;
+	height: 100%;
 }
 
 #app {
-    height: 100%;
+	height: 100%;
 }
 
 @mixin light-text {
-    font-weight: 400;
+	font-weight: 400;
 }
 
 @mixin bold-text {
-    font-weight: 700;
+	font-weight: 700;
 }
 
 @mixin regular-text {
-    font-weight: 500;
+	font-weight: 500;
 }
 
 body {
-    color: var(--text-color);
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--card-background-color);
-    @include regular-text;
+	color: var(--text-color);
+	font-family: 'Poppins', sans-serif;
+	background-color: var(--card-background-color);
+	@include regular-text;
 }
 
 h1,
@@ -120,7 +120,7 @@ h4,
 h5,
 h6,
 label {
-    color: var(--heading-color);
+	color: var(--heading-color);
 }
 
 h1,
@@ -132,105 +132,105 @@ h6 {
 }
 
 h1 {
-    font-size: 1.5em;
-    @include bold-text;
+	font-size: 1.5em;
+	@include bold-text;
 }
 
 h2 {
-    font-size: 1.3em;
-    @include bold-text;
+	font-size: 1.3em;
+	@include bold-text;
 }
 
 h3 {
-    font-size: 1.25em;
-    @include bold-text;
+	font-size: 1.25em;
+	@include bold-text;
 }
 
 h4 {
-    font-size: 1.1em;
-    @include regular-text;
+	font-size: 1.1em;
+	@include regular-text;
 }
 
 h5 {
-    font-size: 1em;
-    @include light-text;
+	font-size: 1em;
+	@include light-text;
 }
 
 label {
-    @include regular-text;
+	@include regular-text;
 }
 
 .table-heading {
-    color: var(--heading-color);
-    @include bold-text;
+	color: var(--heading-color);
+	@include bold-text;
 }
 
 .button {
-    @apply inline-flex items-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-gray-900 dark:bg-gray-200 dark:text-gray-800 dark:hover:bg-white dark:focus:bg-white dark:focus:ring-offset-gray-800 dark:active:bg-gray-300;
+	@apply inline-flex items-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-gray-900 dark:bg-gray-200 dark:text-gray-800 dark:hover:bg-white dark:focus:bg-white dark:focus:ring-offset-gray-800 dark:active:bg-gray-300;
 }
 
 button.icon {
-    width: 2em;
-    height: 2em;
+	width: 2em;
+	height: 2em;
 }
 
 em {
-    @include light-text();
+	@include light-text();
 }
 
 .box {
-    @apply bg-white p-4 shadow sm:p-8;
-    background-color: var(--background-color);
-    border-radius: 0.35rem;
+	@apply bg-white p-4 shadow sm:p-8;
+	background-color: var(--background-color);
+	border-radius: 0.35rem;
 }
 
 .backdrop {
-    pointer-events: none;
-    position: fixed;
-    width: 100%;
-    height: 100%;
+	pointer-events: none;
+	position: fixed;
+	width: 100%;
+	height: 100%;
 }
 
 .water-background {
-    background-color: hsla(190, 76%, 90%, .9);
-    background-image: radial-gradient(
-            at 0% 60%,
-            hsla(175, 100%, 75%, .5) 0px,
-            transparent 80%
-        ),
-        radial-gradient(
-            at 40% 0%,
-            hsla(180, 100%, 86%, 1) 0px,
-            transparent 50%
-        ),
-        
-        radial-gradient(
-            at 20% 5%,
-            hsla(180, 100%, 86%, 1) 0px,
-            transparent 40%
-        ),
-        radial-gradient(
-            at 95% 95%,
-            hsla(180, 100%, 86%, 1) 0px,
-            transparent 40%
-        ),
-        
-        radial-gradient(
-            at -10% 60%,
-            hsla(140, 100%, 70%, 1) 0px,
-            transparent 30%
-        ),
-
-        radial-gradient(
-            at 5% 90%,
-            hsla(145, 100%, 74%, 1) 0px,
-            transparent 20%
-        ),
-        
-        radial-gradient(
-            at 95% 0%,
-            hsla(145, 100%, 70%, 1) 0px,
-            transparent 40%
-        ),
-        radial-gradient(at 25% 65%, hsla(120, 100%, 80%, 1) 0px, transparent 30%);
+	background-color: hsla(190, 76%, 90%, 0.9);
+	background-image: radial-gradient(
+			at 0% 60%,
+			hsla(175, 100%, 75%, 0.5) 0px,
+			transparent 80%
+		),
+		radial-gradient(
+			at 40% 0%,
+			hsla(180, 100%, 86%, 1) 0px,
+			transparent 50%
+		),
+		radial-gradient(
+			at 20% 5%,
+			hsla(180, 100%, 86%, 1) 0px,
+			transparent 40%
+		),
+		radial-gradient(
+			at 95% 95%,
+			hsla(180, 100%, 86%, 1) 0px,
+			transparent 40%
+		),
+		radial-gradient(
+			at -10% 60%,
+			hsla(140, 100%, 70%, 1) 0px,
+			transparent 30%
+		),
+		radial-gradient(
+			at 5% 90%,
+			hsla(145, 100%, 74%, 1) 0px,
+			transparent 20%
+		),
+		radial-gradient(
+			at 95% 0%,
+			hsla(145, 100%, 70%, 1) 0px,
+			transparent 40%
+		),
+		radial-gradient(
+			at 25% 65%,
+			hsla(120, 100%, 80%, 1) 0px,
+			transparent 30%
+		);
 }

@@ -1,5 +1,4 @@
 .SelectFishDesktop {
-	
 	overflow: hidden;
 	width: 100%;
 	background-color: var(--background-color);
@@ -48,36 +47,36 @@
 		}
 	}
 	.fish {
-			@apply shadow;
-			font-size: .8em;
-			flex-shrink: 0;
-			line-height: 1;
-			text-align: center;
-			flex-basis: 10em;
-			padding: .5em .5em 0 .5em;
-			border-radius: 1em;
-			img {
-					height: 4em;
-					padding: 1em 0 0 0;
-					box-sizing: content-box;
-					object-fit: contain;
-					object-position: center;
-					margin: 0 auto;
-					top: 0;
-			}
+		@apply shadow;
+		font-size: 0.8em;
+		flex-shrink: 0;
+		line-height: 1;
+		text-align: center;
+		flex-basis: 10em;
+		padding: 0.5em 0.5em 0 0.5em;
+		border-radius: 1em;
+		img {
+			height: 4em;
+			padding: 1em 0 0 0;
+			box-sizing: content-box;
+			object-fit: contain;
+			object-position: center;
+			margin: 0 auto;
+			top: 0;
+		}
+		.name {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 4em;
+			padding: 0 1em;
+			color: var(--heading-color);
+		}
+		&.selected {
+			background-color: var(--highlight-color);
 			.name {
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					height: 4em;
-					padding: 0 1em;
-					color: var(--heading-color);
+				color: white;
 			}
-			&.selected {
-					background-color: var(--highlight-color);
-					.name {
-							color: white;
-					}
-			}
+		}
 	}
 }

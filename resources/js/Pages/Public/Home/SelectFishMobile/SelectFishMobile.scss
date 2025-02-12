@@ -6,42 +6,42 @@
 	background-color: var(--background-color);
 	@apply shadow-inverted;
 	.fish {
-			font-size: .8em;
-			flex-shrink: 0;
-			line-height: 1;
-			text-align: center;
-			flex-basis: 8em;
-			height: 8em;
-			border-right: 1px solid black;
-			padding-top: 1em;
+		font-size: 0.8em;
+		flex-shrink: 0;
+		line-height: 1;
+		text-align: center;
+		flex-basis: 8em;
+		height: 8em;
+		border-right: 1px solid black;
+		padding-top: 1em;
+		img {
+			height: 2em;
+			padding: 0 1em 0 1em;
+			margin: 0;
+			object-fit: contain;
+			object-position: center;
+			top: 0;
+			filter: grayscale(100%) invert(100%) brightness(0);
+		}
+		.name {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 4em;
+			padding: 0 1em;
+			color: var(--heading-color);
+		}
+		&.selected {
+			background-color: var(--highlight-color);
 			img {
-					height: 2em;
-					padding: 0 1em 0 1em;
-					margin: 0;
-					object-fit: contain;
-					object-position: center;
-					top: 0;
-					filter: grayscale(100%) invert(100%) brightness(0);
+				filter: grayscale(100%) invert(0) brightness(1000%);
+				&.low-res {
+					filter: invert(100%);
+				}
 			}
 			.name {
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					height: 4em;
-					padding: 0 1em;
-					color: var(--heading-color);
+				color: white;
 			}
-			&.selected {
-					background-color: var(--highlight-color);
-					img {
-						filter: grayscale(100%) invert(0) brightness(1000%);
-						&.low-res {
-							filter: invert(100%)
-						}
-					}
-					.name {
-							color: white;
-					}
-			}
+		}
 	}
 }

@@ -8,48 +8,44 @@ import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
 import useScreenOrientation from '@/Hooks/useScreenOrientation'
 import getFishImageSrc from '@/Util/getFishImageSrc'
 
-export default function Fishes({fishes, breadcrumb}) {
+export default function Fishes({ fishes, breadcrumb }) {
+	const localStorage = useLocalStorageDefaults()
+	useEffect(() => {
+		const settings = localStorage.getItem('settings')
+		settings.landingPage = 'fishes'
+		localStorage.setItem('settings', settings)
+	}, [])
 
-    const localStorage = useLocalStorageDefaults()
-    useEffect(() => {
-        const settings = localStorage.getItem('settings')
-        settings.landingPage = 'fishes'
-        localStorage.setItem('settings', settings)
-    }, [])
+	const screenOrientation = useScreenOrientation()
 
-    const screenOrientation = useScreenOrientation()
+	const results = fishes
 
+	const columns = screenOrientation.isMobile ? 0 : 1
 
-    const results = fishes
+	const columnLayout = ['one-up', 'two-up', 'three-up', 'four-up']
 
-    const columns = screenOrientation.isMobile ? 0 : 1
-
-    const columnLayout = ['one-up', 'two-up', 'three-up', 'four-up']
-
-    return (
-        <PublicLayout className="Fishes">
-            <header>
-                <PublicNav>
-                    <Breadcrumb breadcrumb={breadcrumb} />
-                </PublicNav>
-            </header>
-            <main>
-                <div className={`fish-list ${columnLayout[columns]}`}>
-                    {results.map((fish) => (
-                        <div>
-                        <Link
-                            key={fish.name}
-                            href={route('fish.fish', fish.id)}
-                        >
-                            <img
-                                src={getFishImageSrc(fish.name)}
-                            />
-                            <strong>{fish.name}</strong>
-                        </Link>
-                        </div>
-                    ))}
-                </div>
-            </main>
-        </PublicLayout>
-    )
+	return (
+		<PublicLayout className="Fishes">
+			<header>
+				<PublicNav>
+					<Breadcrumb breadcrumb={breadcrumb} />
+				</PublicNav>
+			</header>
+			<main>
+				<div className={`fish-list ${columnLayout[columns]}`}>
+					{results.map((fish) => (
+						<div>
+							<Link
+								key={fish.name}
+								href={route('fish.fish', fish.id)}
+							>
+								<img src={getFishImageSrc(fish.name)} />
+								<strong>{fish.name}</strong>
+							</Link>
+						</div>
+					))}
+				</div>
+			</main>
+		</PublicLayout>
+	)
 }

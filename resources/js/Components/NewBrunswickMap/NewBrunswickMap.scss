@@ -1,22 +1,22 @@
 .NewBrunswickMap {
-    & > svg {
-        aspect-ratio: 93 / 90;
-        display: inline-block;
-        max-width: 100%;
-        height: auto;
-        max-height: 100%;
-        position: relative;
+	& > svg {
+		aspect-ratio: 93 / 90;
+		display: inline-block;
+		max-width: 100%;
+		height: auto;
+		max-height: 100%;
+		position: relative;
 
-        .location {
-            cursor: pointer;
-            transition: 300ms ease;
-            position: relative;
-            z-index: 100;
-            opacity: 0.4;
-            &:hover,
-            &.active {
-                opacity: 1;
-            }
-        }
-    }
+		.location {
+			cursor: pointer;
+			transition: 300ms ease;
+			position: relative;
+			z-index: 100;
+			opacity: 0.4;
+			&:hover,
+			&.active {
+				opacity: 1;
+			}
+		}
+	}
 }
