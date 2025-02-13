@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Water extends Model
 {
-	use HasFactory;
+    use HasFactory;
 
-	protected $fillable = ['name'];
+    protected $fillable = ['name'];
+
 }

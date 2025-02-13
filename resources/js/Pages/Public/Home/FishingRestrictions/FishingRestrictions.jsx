@@ -15,10 +15,9 @@ export default function FishingRestrictions({
 	const restrictionsByFish = byFish(restrictions)
 
 	const screenOrientation = useScreenOrientation()
-
 	useEffect(() => {
 		let hiddenFields = []
-		if (locationId === 8) {
+		if (locationId === 6) {
 			// Lower Saint John
 			hiddenFields.push('boundary')
 		}

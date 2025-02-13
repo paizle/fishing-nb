@@ -13,7 +13,7 @@ export default function Map({ locations, breadcrumb }) {
 	useLandingPage('location')
 
 	locations = locations.map((location) => {
-		location.hasData = ['Lower Saint John', 'Southwest'].includes(
+		location.hasData = ['Lower Saint John', 'Southwest', 'Upper Saint John'].includes(
 			location.name,
 		)
 		return location

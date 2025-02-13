@@ -46,7 +46,7 @@ class Fish {
 			tidal: row?.tidal_category?.name ?? '',
 			water: row?.water?.name ?? '',
 			watersCategory: row?.waters_category?.name ?? '',
-			boundary: row?.boundary?.name ?? '',
+			boundary: row?.boundary_category?.name ?? '',
 			waterDescription: row.water_description ?? '',
 		}
 	}
