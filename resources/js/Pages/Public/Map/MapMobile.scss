@@ -1,124 +1,124 @@
 .MapMobile {
-    display: flex;
+	display: flex;
 
-    position: relative;
+	position: relative;
 
-    overflow: hidden;
+	overflow: hidden;
 
-    &.selected-location {
-        .NewBrunswickMap {
-            padding: 0;
-        }
-    }
+	&.selected-location {
+		.NewBrunswickMap {
+			padding: 0;
+		}
+	}
 
-    .container {
-        display: flex;
-        flex-basis: 100%;
-    }
+	.container {
+		display: flex;
+		flex-basis: 100%;
+	}
 
-    &.portrait {
-        flex-direction: column;
-        .locations {
-            transition: 300ms ease-in;
-            position: absolute;
-            z-index: 2;
-            bottom: 0;
-            padding-bottom: 4em;
-            transform: translateY(100%);
-            opacity: 0;
+	&.portrait {
+		flex-direction: column;
+		.locations {
+			transition: 300ms ease-in;
+			position: absolute;
+			z-index: 2;
+			bottom: 0;
+			padding-bottom: 4em;
+			transform: translateY(100%);
+			opacity: 0;
 
-            &.selected {
-                transform: translateY(0);
-                opacity: 1;
-                a.go,
-                button.close {
-                    display: block;
-                }
-            }
+			&.selected {
+				transform: translateY(0);
+				opacity: 1;
+				a.go,
+				button.close {
+					display: block;
+				}
+			}
 
-            a.go,
-            button.close {
-                display: none;
-                position: absolute;
-                z-index: 2;
-                top: 0.7em;
-                width: 1.75em;
-                height: 1.75em;
-                color: var(--icon-color);
-                padding: 1em;
-                box-sizing: content-box;
-            }
-            a.go {
-                right: -1em;
-            }
-            button.close {
-                left: -1em;
-            }
+			a.go,
+			button.close {
+				display: none;
+				position: absolute;
+				z-index: 2;
+				top: 0.7em;
+				width: 1.75em;
+				height: 1.75em;
+				color: var(--icon-color);
+				padding: 1em;
+				box-sizing: content-box;
+			}
+			a.go {
+				right: -1em;
+			}
+			button.close {
+				left: -1em;
+			}
 
-            ul li {
-                display: none;
-                &.highlighted {
-                    display: block;
-                }
-            }
-        }
-    }
+			ul li {
+				display: none;
+				&.highlighted {
+					display: block;
+				}
+			}
+		}
+	}
 
-    .NewBrunswickMap {
-        padding: 50% 0;
-        transition: 300ms ease;
-        > svg {
-            width: 100%;
-            max-height: 100%;
-            margin: 1em 0;
-        }
-    }
+	.NewBrunswickMap {
+		padding: 50% 0;
+		transition: 300ms ease;
+		> svg {
+			width: 100%;
+			max-height: 100%;
+			margin: 1em 0;
+		}
+	}
 
-    .locations {
-        transition: 300ms ease-in;
-        padding: 1em;
-        display: flex;
-        align-items: baseline;
-        justify-content: center;
-        ul {
-            display: contents;
-            li {
-                text-align: center;
-                position: relative;
-                a {
-                    display: block;
-                    text-decoration: none;
-                }
-                h3 {
-                    display: inline-block;
-                    position: relative;
-                    font-size: 1.25em;
-                    margin: 0.5em 0;
-                    font-weight: bold;
-                }
+	.locations {
+		transition: 300ms ease-in;
+		padding: 1em;
+		display: flex;
+		align-items: baseline;
+		justify-content: center;
+		ul {
+			display: contents;
+			li {
+				text-align: center;
+				position: relative;
+				a {
+					display: block;
+					text-decoration: none;
+				}
+				h3 {
+					display: inline-block;
+					position: relative;
+					font-size: 1.25em;
+					margin: 0.5em 0;
+					font-weight: bold;
+				}
 
-                em {
-                    display: block;
-                    max-height: 0px;
-                    transition: 1000ms;
-                    overflow: hidden;
-                    opacity: 0;
-                }
+				em {
+					display: block;
+					max-height: 0px;
+					transition: 1000ms;
+					overflow: hidden;
+					opacity: 0;
+				}
 
-                &.highlighted em,
-                &:hover em {
-                    opacity: 1;
-                    max-height: 300px;
-                }
+				&.highlighted em,
+				&:hover em {
+					opacity: 1;
+					max-height: 300px;
+				}
 
-                &.highlighted h3,
-                &:hover h3 {
-                    &:after {
-                        visibility: visible;
-                        width: 100%;
-                    }
-                }
-            }
-        }
-    }
+				&.highlighted h3,
+				&:hover h3 {
+					&:after {
+						visibility: visible;
+						width: 100%;
+					}
+				}
+			}
+		}
+	}
 }

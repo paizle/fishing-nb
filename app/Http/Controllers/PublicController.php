@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\FishLimit;
-use App\Models\Location;
+use App\Models\FishingRestriction;
+use App\Models\Region;
 use App\Models\Fish;
 use App\Models\Water;
 use Inertia\Inertia;
@@ -26,7 +26,7 @@ class PublicController extends Controller
 
         return Inertia::render('Public/Map/Map', [
             'breadcrumb' => $breadcrumb,
-            'locations' => Location::all(),
+            'locations' => Region::all(),
         ]);
     }
 
@@ -37,83 +37,83 @@ class PublicController extends Controller
             $this->getBreadcrumbRegion($id),
         ];
 
-        $limits = FishLimit::query()
-            ->where('location_id', $id)
+        $restrictions = FishingRestriction::query()
+            ->where('region_id', $id)
             ->with('water')
             ->get()
             ->toArray();
 
-        $limits_by_water_name = [];
+        $restrictions_by_water_name = [];
 
         // remove duplicate waters
-        foreach ($limits as $limit) {
-            $water_name = $limit['water']['name'] ?? '';
-            if ($water_name && !($limits_by_water_name[$water_name] ?? false)) {
-                $limits_by_water_name[$water_name] = $limit;
+        foreach ($restrictions as $restriction) {
+            $water_name = $restriction['water']['name'] ?? '';
+            if ($water_name && !($restrictions_by_water_name[$water_name] ?? false)) {
+                $restrictions_by_water_name[$water_name] = $restriction;
             }
         }
-        $limits_by_water_name = array_values($limits_by_water_name);
+        $restrictions_by_water_name = array_values($restrictions_by_water_name);
         usort(
-            $limits_by_water_name,
+            $restrictions_by_water_name,
             fn($a, $b) => strcmp($a['water']['name'], $b['water']['name'])
         );
 
         return Inertia::render('Public/Region/Region', [
             'breadcrumb' => $breadcrumb,
-            'waters' => $limits_by_water_name,
+            'waters' => $restrictions_by_water_name,
         ]);
     }
 
     public function water($id)
     {
-        $location_id = null;
+        $region_id = null;
 
         $results_ids = [];
 
-        $limits = FishLimit::query()->where('water_id', $id)->get();
+        $restrictions = FishingRestriction::query()->where('water_id', $id)->get();
 
-        foreach ($limits->toArray() as $limit) {
-            $results_ids[] = $limit['id'];
+        foreach ($restrictions->toArray() as $restriction) {
+            $results_ids[] = $restriction['id'];
 
-            if (!$location_id) {
-                $location_id = $limit['location_id'];
+            if (!$region_id) {
+                $region_id = $restriction['region_id'];
             }
 
-            $related_limits = FishLimit::query()
+            $related_restrictions = FishingRestriction::query()
                 ->where('water_id', null)
-                ->where('location_id', $limit['location_id'])
-                ->where(function (Builder $query) use ($limit) {
+                ->where('region_id', $restriction['region_id'])
+                ->where(function (Builder $query) use ($restriction) {
                     $query
                         ->where(
                             'waters_category_id',
-                            $limit['waters_category_id']
+                            $restriction['waters_category_id']
                         )
                         ->orWhereNull('waters_category_id');
                 });
 
-            if ($limit['boundary_id']) {
-                $related_limits->where(function (Builder $query) use ($limit) {
+            if ($restriction['boundary_category_id']) {
+                $related_restrictions->where(function (Builder $query) use ($restriction) {
                     $query
-                        ->where('boundary_id', $limit['boundary_id'])
-                        ->orWhereNull('boundary_id');
+                        ->where('boundary_category_id', $restriction['boundary_category_id'])
+                        ->orWhereNull('boundary_category_id');
                 });
             }
 
-            $related_limits = $related_limits->get();
+            $related_restrictions = $related_restrictions->get();
 
-            foreach ($related_limits->toArray() as $related_limit) {
-                // no specific water so this is a rule for the location
-                $results_ids[] = $related_limit['id'];
+            foreach ($related_restrictions->toArray() as $related_restriction) {
+                // no specific water so this is a rule for the region
+                $results_ids[] = $related_restriction['id'];
             }
         }
 
-        $limits_by_water = FishLimit::query()
+        $restrictions_by_water = FishingRestriction::query()
             ->whereIn('id', $results_ids)
             ->with(['fish', 'water', 'tidal_category', 'fishing_method'])
             ->orderBy(
                 Fish::select('name')->whereColumn(
                     'fish.id',
-                    'fish_limits.fish_id'
+                    'fishing_restrictions.fish_id'
                 )
             )
             ->orderBy('season_start')
@@ -122,13 +122,13 @@ class PublicController extends Controller
 
         $breadcrumb = [
             $this->getBreadcrumbMap(),
-            $this->getBreadcrumbRegion($location_id),
+            $this->getBreadcrumbRegion($region_id),
             $this->getBreadcrumbWater($id),
         ];
 
         return Inertia::render('Public/Water/Water', [
             'breadcrumb' => $breadcrumb,
-            'limits' => $limits_by_water,
+            'limits' => $restrictions_by_water,
         ]);
     }
     public function fishes()
@@ -143,41 +143,41 @@ class PublicController extends Controller
     {
         $fish = Fish::find($id);
 
-        $limits = FishLimit::query()
+        $restrictions = FishingRestriction::query()
             ->where('fish_id', $id)
             ->get()
             ->toArray();
 
         $ids = [];
-        foreach ($limits as $limit) {
-            if (!in_array($limit['id'], $ids)) {
-                $ids[] = $limit['id'];
+        foreach ($restrictions as $restriction) {
+            if (!in_array($restriction['id'], $ids)) {
+                $ids[] = $restriction['id'];
             }
         }
 
         $ids = array_map(function ($item) {
             return $item['id'];
-        }, $limits);
+        }, $restrictions);
 
-        $limits = FishLimit::query()
+        $restrictions = FishingRestriction::query()
             ->whereIn('id', $ids)
             ->with([
-                'location',
-                'boundary',
+                'region',
+                'boundary_category',
                 'water',
                 'waters_category',
                 'tidal_category',
                 'fishing_method',
             ])
             ->orderBy(
-                Location::select('name')->whereColumn(
+                Region::select('name')->whereColumn(
                     'id',
-                    'fish_limits.location_id'
+                    'fishing_restrictions.region_id'
                 )
             )
             ->orderByRaw("
                 CASE
-                    WHEN fish_limits.water_id IS NULL THEN 0
+                    WHEN fishing_restrictions.water_id IS NULL THEN 0
                     ELSE 1
                 END ASC
             ")
@@ -185,7 +185,7 @@ class PublicController extends Controller
 
         return Inertia::render('Public/Fish/Fish', [
             'fish' => $fish,
-            'limits' => $limits,
+            'limits' => $restrictions,
             'breadcrumb' => [
                 $this->getBreadcrumbFishes(),
                 [
@@ -222,11 +222,11 @@ class PublicController extends Controller
 
     private function getBreadcrumbRegion($id)
     {
-        $location = Location::find($id);
+        $region = Region::find($id);
         return [
             'href' => route('location.region', $id),
-            'title' => $location->name,
-            'shortTitle' => $this->getAcronym($location->name),
+            'title' => $region->name,
+            'shortTitle' => $this->getAcronym($region->name),
         ];
     }
 

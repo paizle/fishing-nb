@@ -2,75 +2,75 @@
 }
 
 main:has(.Region) {
-    overflow: hidden;
+	overflow: hidden;
 }
 
 .Region {
-    width: 100%;
-    overflow: hidden;
-    padding-bottom: 0.5em;
+	width: 100%;
+	overflow: hidden;
+	padding-bottom: 0.5em;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
-    .autocomplete {
-        display: flex;
-        flex-direction: column;
-        overflow-x: auto;
-        overflow-y: hidden;
+	.autocomplete {
+		display: flex;
+		flex-direction: column;
+		overflow-x: auto;
+		overflow-y: hidden;
 
-        font-size: 1.25em;
+		font-size: 1.25em;
 
-        @screen md {
-            width: 20em;
-            font-size: 2em;
-        }
+		@screen md {
+			width: 20em;
+			font-size: 2em;
+		}
 
-        header {
-            flex-grow: 0;
-            input {
-                font-size: inherit;
-                width: 100%;
-                &::placeholder {
-                    font-weight: 300;
-                }
-            }
-            label {
-                display: flex;
-                flex-direction: column;
-                text-align: center;
-                @screen md {
-                    text-align: left;
-                }
-            }
-        }
+		header {
+			flex-grow: 0;
+			input {
+				font-size: inherit;
+				width: 100%;
+				&::placeholder {
+					font-weight: 300;
+				}
+			}
+			label {
+				display: flex;
+				flex-direction: column;
+				text-align: center;
+				@screen md {
+					text-align: left;
+				}
+			}
+		}
 
-        .results {
-            font-size: inherit;
-            background-color: white;
-            transition: 300ms ease;
-            overflow-y: auto;
-            max-height: 0;
-            &.has-results {
-                max-height: 12em;
-            }
-            border-bottom: 1px solid var(--border-color);
-            border-left: 1px solid var(--border-color);
-            border-right: 1px solid var(--border-color);
-            ul {
-                li {
-                    padding-left: 0.25em;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    a {
-                        text-decoration: none;
-                        &:hover {
-                            text-decoration: underline;
-                        }
-                    }
-                }
-            }
-        }
-    }
+		.results {
+			font-size: inherit;
+			background-color: white;
+			transition: 300ms ease;
+			overflow-y: auto;
+			max-height: 0;
+			&.has-results {
+				max-height: 12em;
+			}
+			border-bottom: 1px solid var(--border-color);
+			border-left: 1px solid var(--border-color);
+			border-right: 1px solid var(--border-color);
+			ul {
+				li {
+					padding-left: 0.25em;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					a {
+						text-decoration: none;
+						&:hover {
+							text-decoration: underline;
+						}
+					}
+				}
+			}
+		}
+	}
 }

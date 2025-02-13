@@ -1,0 +1,100 @@
+.FishRestrictionsTable {
+	display: grid;
+	grid-template-columns: 1fr 4em 4em 4em;
+
+	@screen sm {
+		grid-template-columns:
+			minmax(auto, 23em)
+			minmax(4em, 100px) minmax(4em, 140px) minmax(4em, 140px);
+	}
+
+	thead {
+		display: contents;
+
+		tr {
+			display: contents;
+			> th {
+				padding: 0.25em 0.5em;
+				font-weight: bold;
+				text-align: center;
+				display: flex;
+				align-items: end;
+				&:first-child {
+					text-align: left;
+					@screen md {
+						font-size: 1.2em;
+					}
+				}
+			}
+		}
+	}
+
+	tbody {
+		display: contents;
+
+		td {
+			padding: 0.5em;
+			border-top: 2px solid var(--highlight-color);
+			text-align: center;
+		}
+
+		.group-water-description td {
+			padding-top: 0;
+		}
+
+		tr:first-child td,
+		tr.group td,
+		tr.group-water-description td {
+			border-top: 0;
+		}
+
+		.limit:first-child td {
+			&:first-child {
+				border-top-left-radius: 0.5em;
+			}
+			&:last-child {
+				border-top-right-radius: 0.5em;
+			}
+		}
+
+		tr.group-water-description {
+			display: contents;
+			td {
+				grid-column: span 4;
+				text-align: left;
+			}
+			&:last-child td {
+				border-bottom-left-radius: 0.5em;
+				border-bottom-right-radius: 0.5em;
+			}
+		}
+
+		tr {
+			display: contents;
+
+			> * {
+				&.season-exception {
+					text-align: left;
+					align-self: stretch;
+					.date-range:nth-child(2) {
+						display: inline-block;
+						min-width: 4.5em;
+					}
+				}
+				.invalid {
+					text-decoration: line-through;
+					text-decoration-color: var(--error);
+				}
+			}
+
+			&:last-child {
+				:nth-last-child(-4n + 4) {
+					border-bottom-left-radius: 0.5em;
+				}
+				:nth-last-child(-n + 1) {
+					border-bottom-right-radius: 0.5em;
+				}
+			}
+		}
+	}
+}

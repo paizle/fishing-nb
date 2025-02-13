@@ -1,21 +1,21 @@
 @use '/resources/css/app.scss';
 
 .ResponsiveNavLink {
-    @apply flex justify-between w-full items-center border-l-4 py-2 pl-4 transition duration-150 ease-in-out focus:outline-none;
-    padding-right: .65em;
-    color: var(--heading-color);
-    border-color: var(--highlight-color-translucent);
-    text-decoration: none;
+	@apply flex w-full items-center justify-between border-l-4 py-2 pl-4 transition duration-150 ease-in-out focus:outline-none;
+	padding-right: 0.65em;
+	color: var(--heading-color);
+	border-color: var(--highlight-color-translucent);
+	text-decoration: none;
 
-    &:hover {
-        border-color: var(--highlight-color);
-        background-color: var(--highlight-color-translucent);
-        text-decoration: underline;
-    }
-    &.active {
-        border-color: var(--highlight-color);
-        background-color: var(--highlight-color-transparent);
-        color: var(--heading-color);
-        text-decoration: underline;
-    }
+	&:hover {
+		border-color: var(--highlight-color);
+		background-color: var(--highlight-color-translucent);
+		text-decoration: underline;
+	}
+	&.active {
+		border-color: var(--highlight-color);
+		background-color: var(--highlight-color-transparent);
+		color: var(--heading-color);
+		text-decoration: underline;
+	}
 }

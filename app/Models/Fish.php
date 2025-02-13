@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Fish extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
-    protected $fillable = ['name'];
+	protected $fillable = ['name'];
 }

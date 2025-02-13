@@ -1,83 +1,83 @@
 .MapWeb {
-    display: flex;
+	display: flex;
 
-    position: relative;
+	position: relative;
 
-    .NewBrunswickMap {
-        flex-grow: 1;
-        display: flex;
-        align-items: center;
-        padding: 1em;
-        > svg {
-            width: 100%;
-            max-height: 100%;
-        }
-    }
-    .locations {
-        flex-basis: 10em;
-        flex-grow: 1;
-        transition: 300ms ease-in;
-        padding: 0 1em 1em 1em;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        overflow-y: auto;
-        justify-content: space-between;
-        ul {
-            display: contents;
-            li {
-                text-align: center;
-                position: relative;
-                a {
-                    display: block;
-                    text-decoration: none;
-                    &.disabled {
-                        cursor: not-allowed;
-                    }
-                    h3 {
-                        display: inline-block;
-                        position: relative;
-                        font-size: 1.25em;
-                        margin: 0;
-                        font-weight: bold;
+	.NewBrunswickMap {
+		flex-grow: 1;
+		display: flex;
+		align-items: center;
+		padding: 1em;
+		> svg {
+			width: 100%;
+			max-height: 100%;
+		}
+	}
+	.locations {
+		flex-basis: 10em;
+		flex-grow: 1;
+		transition: 300ms ease-in;
+		padding: 0 1em 1em 1em;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		overflow-y: auto;
+		justify-content: space-between;
+		ul {
+			display: contents;
+			li {
+				text-align: center;
+				position: relative;
+				a {
+					display: block;
+					text-decoration: none;
+					&.disabled {
+						cursor: not-allowed;
+					}
+					h3 {
+						display: inline-block;
+						position: relative;
+						font-size: 1.25em;
+						margin: 0;
+						font-weight: bold;
 
-                        &:after {
-                            content: '';
-                            position: absolute;
-                            bottom: .25em;
-                            left: 50%;
-                            transform-origin: 0 50%;
-                            transform: translateX(-50%);
-                            transition: 300ms ease;
-                            border: 1px solid black;
-                            width: 0%;
-                            visibility: hidden;
-                        }
-                    }
+						&:after {
+							content: '';
+							position: absolute;
+							bottom: 0.25em;
+							left: 50%;
+							transform-origin: 0 50%;
+							transform: translateX(-50%);
+							transition: 300ms ease;
+							border: 1px solid black;
+							width: 0%;
+							visibility: hidden;
+						}
+					}
 
-                    em {
-                        display: block;
-                        max-height: 0.5em;
-                        transition: 1000ms ease-in-out;
-                        overflow: hidden;
-                        opacity: 0;
-                    }
+					em {
+						display: block;
+						max-height: 0.5em;
+						transition: 1000ms ease-in-out;
+						overflow: hidden;
+						opacity: 0;
+					}
 
-                    &.highlighted em,
-                    &:hover em {
-                        opacity: 1;
-                        max-height: 500px;
-                    }
+					&.highlighted em,
+					&:hover em {
+						opacity: 1;
+						max-height: 500px;
+					}
 
-                    &.highlighted h3,
-                    &:hover h3 {
-                        &:after {
-                            width: 100%;
-                            visibility: visible;
-                        }
-                    }
-                }
-            }
-        }
-    }
+					&.highlighted h3,
+					&:hover h3 {
+						&:after {
+							width: 100%;
+							visibility: visible;
+						}
+					}
+				}
+			}
+		}
+	}
 }

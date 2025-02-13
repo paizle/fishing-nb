@@ -1,72 +1,71 @@
 .Fishes {
+	main {
+		display: flex;
 
-    main {
-        display: flex;
-        
-        .fish-list {
-            display: grid;
-            width: 100%;
-            @apply max-w-screen-lg;
-            margin: 0 auto;
-            padding: 0 1em;
-            > div {
-                display: flex;
-                align-items: stretch;
-                padding: .5em 0;
-                justify-content: center;
-            }
-            a {
-                display: flex;
-                flex-direction: column;
-                text-decoration: none;
-                border-radius: 1em;
-                background-color: rgba(255, 255, 255, 0);
-                transition: 300ms;
-                
-                &:hover {
-                    @apply shadow;
-                    background-color: rgba(255, 255, 255, 1);
-                    text-decoration: underline;
-                }
-            }
-            &.one-up {
-                grid-template-columns: 100%;
-                a {
-                    padding: 1em 10%;
-                    text-align: center;
-                
-                    img {
-                        max-width: 100%;
-                        min-height: 4em;
-                        display: block;
-                    }
-                    strong {
-                        padding-top: 1.5em;
-                    }
-                }
-            }
+		.fish-list {
+			display: grid;
+			width: 100%;
+			@apply max-w-screen-lg;
+			margin: 0 auto;
+			padding: 0 1em;
+			> div {
+				display: flex;
+				align-items: stretch;
+				padding: 0.5em 0;
+				justify-content: center;
+			}
+			a {
+				display: flex;
+				flex-direction: column;
+				text-decoration: none;
+				border-radius: 1em;
+				background-color: rgba(255, 255, 255, 0);
+				transition: 300ms;
 
-            &.two-up {
-                grid-template-columns: 50% 50%;
-                div:nth-child(odd) {
-                    img {
-                        transform: scaleX(-1);
-                    }
-                }
-                a {
-                    img {
-                        padding: 1em;
-                        display: block;
-                        margin: auto;
-                        width: 100%;
-                        max-width: 400px;
-                    }
-                    strong {
-                        text-align: center;
-                        padding: 1em;
-                    }
-                }
-            }
-        }
-    }
+				&:hover {
+					@apply shadow;
+					background-color: rgba(255, 255, 255, 1);
+					text-decoration: underline;
+				}
+			}
+			&.one-up {
+				grid-template-columns: 100%;
+				a {
+					padding: 1em 10%;
+					text-align: center;
+
+					img {
+						max-width: 100%;
+						min-height: 4em;
+						display: block;
+					}
+					strong {
+						padding-top: 1.5em;
+					}
+				}
+			}
+
+			&.two-up {
+				grid-template-columns: 50% 50%;
+				div:nth-child(odd) {
+					img {
+						transform: scaleX(-1);
+					}
+				}
+				a {
+					img {
+						padding: 1em;
+						display: block;
+						margin: auto;
+						width: 100%;
+						max-width: 400px;
+					}
+					strong {
+						text-align: center;
+						padding: 1em;
+					}
+				}
+			}
+		}
+	}
 }
