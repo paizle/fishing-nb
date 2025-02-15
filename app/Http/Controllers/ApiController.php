@@ -9,41 +9,17 @@ use App\Models\Fish;
 use App\Models\Water;
 use App\Models\WatersCategory;
 use Illuminate\Database\Eloquent\Builder;
+
 class ApiController extends Controller
 {
-    private function createLastModified($year, $month, $day, $hour = 0, $minute = 0, $milli = 0)
-    {
-        $cache_date = new DateTime();
-        $cache_date->setDate($year, $month, $day);
-        $cache_date->setTime(0, 0, 0);
-        $last_modified = $cache_date->format('D, d M Y H:i:s') . ' GMT';
-
-        return $last_modified;
-    }
-
-    private function handleLastModifiedRequest(Request $request, $last_modified) {
-        return;
-        $if_modified_since = $request->headers->get('If-Modified-Since');
-        if ($if_modified_since === $last_modified) {
-            return response('', 304);
-        }
-    }
 
     public function fishes(Request $request)
     {
-        $last_modified = $this->createLastModified(2025, 1, 20);
-        $this->handleLastModifiedRequest($request, $last_modified);
-
-        return response(['fishes' => Fish::all()], 200)
-            ->header('Cache-Control', 'no-cache')
-            ->header('Last-Modified', $last_modified);
+        return response(['fishes' => Fish::all()]);
     }
 
     public function locations(Request $request)
     {
-        $last_modified = $this->createLastModified(2025, 1, 20);
-        $this->handleLastModifiedRequest($request, $last_modified);
-
         $restrictions = FishingRestriction::query()
             ->with(['water', 'region'])
             ->get();
@@ -70,20 +46,11 @@ class ApiController extends Controller
         
         ksort($restrictions_by_region);
 
-        $data = [
-            'locations' => $restrictions_by_region
-        ];
-
-        return response($data, 200)
-            ->header('Cache-Control', 'no-cache')
-            ->header('Last-Modified', $last_modified);
+        return response(['locations' => $restrictions_by_region]);
     }
 
     public function fishByLocation(Request $request, $location_id, $water_id = '0', $fish_id = '0')
     {
-        $last_modified = $this->createLastModified(2025, 1, 20);
-        $this->handleLastModifiedRequest($request, $last_modified);
-
         $results_ids = [];
         $restrictions = FishingRestriction::query()->where('region_id', $location_id)->get();
 
@@ -133,8 +100,6 @@ class ApiController extends Controller
             ->get()
             ->toArray();
 
-        return response(['limits' => $restrictions_by_water], 200)
-            ->header('Cache-Control', 'no-cache')
-            ->header('Last-Modified', $last_modified);
+        return response(['limits' => $restrictions_by_water]);
     }
 }
