@@ -67,7 +67,7 @@ export default function Home() {
 
 	useEffect(() => {
 		if (selectedLocation) {
-			console.log(selectedLocation)
+			alert(selectedLocation.value.regionId)
 			setRestrictions([])
 			let url = '/api/fishByLocation/' + selectedLocation.value.regionId
 			url += '/' + (selectedLocation.value?.waterId ?? 0)
