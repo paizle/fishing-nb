@@ -30,7 +30,6 @@
 				margin: 0;
 				background-color: white;
 				.selected-location {
-					@apply shadow;
 					outline: 2px solid var(--highlight-color);
 					border: 1px solid var(--heading-color);
 					color: black;
@@ -79,6 +78,9 @@
 				padding: 4px 0;
 				input {
 					font-size: 1em;
+					&:focus {
+						border-color: var(--highlight-color);
+					}
 				}
 			}
 			&.init {

@@ -12,11 +12,6 @@
 			margin: 0;
 		}
 	}
-	.input-wrapper input {
-		&:focus {
-			border-color: var(--highlight-color);
-		}
-	}
 	.results {
 		flex-grow: 1;
 		overflow-y: auto;
