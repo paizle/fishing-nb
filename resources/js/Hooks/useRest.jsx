@@ -26,7 +26,8 @@ export default function useRest() {
 		dispatch({ type: actionTypes.FETCH_START })
 
 		try {
-			const response = await axios(url)
+			const params = { nocache: Date.parse('16 Feb 2025 00:0:00 GMT') }
+			const response = await axios.get(url, {params})
 			dispatch({
 				type: actionTypes.FETCH_SUCCESS,
 				payload: response.data,

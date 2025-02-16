@@ -33,7 +33,7 @@ export default function Home() {
 			.get('/api/fishes')
 			.then((request) => setFishes(request.data.fishes))
 		restLocations
-			.get('/api/locations?v=2')
+			.get('/api/locations')
 			.then((request) => setLocations(request.data.locations))
 	}, [])
 
