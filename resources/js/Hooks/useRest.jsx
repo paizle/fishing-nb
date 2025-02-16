@@ -1,6 +1,6 @@
 import { useReducer } from 'react'
 
-export default function useRest() {
+export default function useRest(apiLastModified) {
 	const initialState = {
 		loading: false,
 		error: null,
@@ -26,7 +26,7 @@ export default function useRest() {
 		dispatch({ type: actionTypes.FETCH_START })
 
 		try {
-			const params = { nocache: Date.parse('16 Feb 2025 00:0:00 GMT') }
+			const params = { nocache: apiLastModified ? Date.parse(apiLastModified) : null }
 			const response = await axios.get(url, {params})
 			dispatch({
 				type: actionTypes.FETCH_SUCCESS,

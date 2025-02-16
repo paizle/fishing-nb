@@ -12,7 +12,7 @@ import SelectFishMobile from './SelectFishMobile/SelectFishMobile'
 import SelectFishDesktop from './SelectFishDesktop/SelectFishDesktop'
 import FishingRestrictions from './FishingRestrictions/FishingRestrictions'
 
-export default function Home() {
+export default function Home({apiLastModified}) {
 	const [fishes, setFishes] = useState(null)
 	const [locations, setLocations] = useState(null)
 	const [restrictions, setRestrictions] = useState([])
@@ -24,9 +24,9 @@ export default function Home() {
 
 	const screenOrientation = useScreenOrientation()
 
-	const restFish = useRest()
-	const restLocations = useRest()
-	const restRestrictions = useRest()
+	const restFish = useRest(apiLastModified)
+	const restLocations = useRest(apiLastModified)
+	const restRestrictions = useRest(apiLastModified)
 
 	useEffect(() => {
 		restFish
@@ -67,8 +67,9 @@ export default function Home() {
 
 	useEffect(() => {
 		if (selectedLocation) {
+			console.log(selectedLocation)
 			setRestrictions([])
-			let url = '/api/fishByLocation/' + (selectedLocation.value.regionId)
+			let url = '/api/fishByLocation/' + selectedLocation.value.regionId
 			url += '/' + (selectedLocation.value?.waterId ?? 0)
 			url += '/' + (selectedFish ?? 0)
 

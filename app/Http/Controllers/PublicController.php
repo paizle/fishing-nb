@@ -7,6 +7,8 @@ use App\Models\Fish;
 use App\Models\Water;
 use Inertia\Inertia;
 use Illuminate\Database\Eloquent\Builder;
+use Inertia\Response;
+use Illuminate\Http\Request;
 
 class PublicController extends Controller
 {
@@ -15,9 +17,11 @@ class PublicController extends Controller
 		return Inertia::render('Public/Index');
 	}
 
-	public function home()
+	public function home(Request $request)
 	{
-		return Inertia::render('Public/Home/Home');
+		return Inertia::render('Public/Home/Home', [
+			'apiLastModified' => config('app.api_last_modified')
+		]);
 	}
 
 	public function map()
