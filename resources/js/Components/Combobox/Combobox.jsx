@@ -42,6 +42,10 @@ export default function Combobox({
 		}
 	}
 
+	
+
+	
+
 	return (
 		<Downshift
 			onChange={handleChange}
@@ -57,63 +61,65 @@ export default function Combobox({
 				highlightedIndex,
 				selectedItem,
 				getRootProps,
-			}) => (
-				<div
-					ref={ref}
-					className={`Combobox ${isInit ? 'init' : ''} ${hasFocus ? 'open' : ''}`}
-				>
-					<label {...getLabelProps()}>
-						{label}
-						<div
-							className="input-wrapper"
-							{...getRootProps({}, { suppressRefError: true })}
-						>
-							<input
-								{...getInputProps()}
-								placeholder={placeholder}
-								onFocus={handleFocus}
-								onClick={handleFocus}
-								onBlur={handleBlur}
-							/>
-						</div>
-					</label>
-					<ul
-						className={`results ${hasFocus ? 'open' : ''}`}
-						{...getMenuProps()}
+			}) => {
+				const filterByText = (item) => {
+					if (!inputValue) return true
+					const inputChunks = inputValue.split(' ').map((chunk) => chunk.toLowerCase())
+					const labelChunks = item.label.split(' ').map((chunk) => chunk.toLowerCase())
+					return inputChunks
+						.every((inputChunk) => labelChunks
+							.some((labelChunk) => labelChunk.includes(inputChunk))
+						)
+				}
+				const filteredItems = items.filter(filterByText)
+				return (
+					<div
+						ref={ref}
+						className={`Combobox ${isInit ? 'init' : ''} ${hasFocus ? 'open' : ''}`}
 					>
-						{items.length && hasFocus
-							? items
-									.filter(
-										(item) =>
-											!inputValue ||
-											(item?.label || item.value)
-												.toLowerCase()
-												.includes(
-													inputValue.toLowerCase(),
-												),
-									)
-									.map((item, index) => (
-										<li
-											key={item?.label || item.value}
-											className={`item ${highlightedIndex === index ? 'highlighted' : ''}`}
-											{...getItemProps({
-												index,
-												item,
-												style: {
-													fontWeight:
-														selectedItem === item
-															? 'bold'
-															: 'normal',
-												},
-											})}
-										>
-											{item?.label || item.value}
-										</li>
-									))
-							: null}
-					</ul>
-				</div>
-			)}
+						<label {...getLabelProps()}>
+							{label}
+							<div
+								className="input-wrapper"
+								{...getRootProps({}, { suppressRefError: true })}
+							>
+								<input
+									{...getInputProps()}
+									placeholder={placeholder}
+									onFocus={handleFocus}
+									onClick={handleFocus}
+									onBlur={handleBlur}
+								/>
+							</div>
+						</label>
+						<ul
+							className={`results ${hasFocus ? 'open' : ''}`}
+							{...getMenuProps()}
+						>
+							{filteredItems.length && hasFocus
+								? filteredItems
+										.map((item, index) => (
+											<li
+												key={item?.label || item.value}
+												className={`item ${highlightedIndex === index ? 'highlighted' : ''}`}
+												{...getItemProps({
+													index,
+													item,
+													style: {
+														fontWeight:
+															selectedItem === item
+																? 'bold'
+																: 'normal',
+													},
+												})}
+											>
+												{item?.label || item.value}
+											</li>
+										))
+								: <li className="item">(no results)</li>}
+						</ul>
+					</div>
+				)}}
 		</Downshift>
 	)
 }

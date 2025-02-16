@@ -10,13 +10,12 @@ import useLandingPage from '@/Hooks/useLandingPage'
 import useScreenOrientation from '@/Hooks/useScreenOrientation'
 import SelectFishMobile from './SelectFishMobile/SelectFishMobile'
 import SelectFishDesktop from './SelectFishDesktop/SelectFishDesktop'
-
 import FishingRestrictions from './FishingRestrictions/FishingRestrictions'
 
 export default function Home() {
 	const [fishes, setFishes] = useState(null)
 	const [locations, setLocations] = useState(null)
-	const [limits, setLimits] = useState([])
+	const [restrictions, setRestrictions] = useState([])
 	const [selectedFish, setSelectedFish] = useState(null)
 	const [selectedLocation, setSelectedLocation] = useState(null)
 
@@ -27,7 +26,7 @@ export default function Home() {
 
 	const restFish = useRest()
 	const restLocations = useRest()
-	const restLimits = useRest()
+	const restRestrictions = useRest()
 
 	useEffect(() => {
 		restFish
@@ -68,13 +67,13 @@ export default function Home() {
 
 	useEffect(() => {
 		if (selectedLocation) {
-			setLimits([])
+			setRestrictions([])
 			let url = '/api/fishByLocation/' + selectedLocation.value.locationId
 			url += '/' + (selectedLocation.value?.waterId ?? 0)
 			url += '/' + (selectedFish ?? 0)
 
-			restLimits.get(url).then((request) => {
-				setLimits(request.data.limits)
+			restRestrictions.get(url).then((request) => {
+				setRestrictions(request.data.limits)
 			})
 		}
 	}, [selectedLocation, selectedFish])
@@ -132,7 +131,7 @@ export default function Home() {
 						<div className="body">
 							{selectedLocation ? (
 								<FishingRestrictions
-									restrictions={limits}
+									restrictions={restrictions}
 									locationId={
 										selectedLocation?.value?.locationId
 									}
