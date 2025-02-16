@@ -30,11 +30,13 @@
 				margin: 0;
 				background-color: white;
 				.selected-location {
-					border-color: var(--highlight-color);
+					@apply shadow;
+					outline: 2px solid var(--highlight-color);
+					border: 1px solid var(--heading-color);
+					color: black;
 					padding: 0.25em 0.5em;
-					margin: 0.25em;
+					margin: 0.5em 0.25em 0.25em 0.25em;
 					border-radius: 0.5em;
-					color: var(--heading-color);
 					font-size: 1.1em;
 					strong {
 						display: flex;
@@ -53,7 +55,8 @@
 					}
 
 					svg {
-						color: var(--error);
+						color: #d93838;
+						stroke-width: 2px;
 					}
 				}
 			}
@@ -76,6 +79,9 @@
 				padding: 4px 0;
 				input {
 					font-size: 1em;
+					&:focus {
+						border-color: var(--highlight-color);
+					}
 				}
 			}
 			&.init {

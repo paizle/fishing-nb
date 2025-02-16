@@ -1,9 +1,8 @@
 .SelectFishDesktop {
 	overflow: hidden;
 	width: 100%;
-	background-color: var(--background-color);
 	position: relative;
-
+	@apply shadow-inverted;
 	.fishes {
 		overflow: hidden;
 		border-collapse: collapse;
@@ -63,6 +62,7 @@
 			object-position: center;
 			margin: 0 auto;
 			top: 0;
+			color: transparent;
 		}
 		.name {
 			display: flex;

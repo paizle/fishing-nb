@@ -13,16 +13,14 @@ export default function SelectFishDesktop({
 
 	// scroll to last selected fish
 	useEffect(() => {
-		if (fishListRef.current && fishes) {
-			if (selectedFishId) {
-				const element = fishListRef.current.querySelector(
-					`[data-id="${selectedFishId}"]`,
-				)
-				element?.scrollIntoView({
-					behavior: 'smooth',
-					inline: 'center',
-				})
-			}
+		if (fishListRef.current && fishes && selectedFishId) {
+			const element = fishListRef.current.querySelector(
+				`[data-id="${selectedFishId}"]`,
+			)
+			element?.scrollIntoView({
+				behavior: 'smooth',
+				inline: 'center',
+			})
 		}
 	}, [fishListRef.current, fishes, selectedFishId])
 
@@ -63,11 +61,7 @@ export default function SelectFishDesktop({
 						className={`fish ${selectedFishId === fish.id ? 'selected' : ''}`}
 						onClick={() => selectFish(fish.id)}
 					>
-						<ProgressiveImage
-							lowResSrc="/images/fish-shadow.png"
-							highResSrc={getFishImageSrc(fish.name)}
-							alt={fish.name}
-						/>
+						<img src={getFishImageSrc(fish.name)} alt={fish.name} />
 						<div className="name">{fish.name}</div>
 					</button>
 				))}
