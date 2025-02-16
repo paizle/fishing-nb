@@ -14,7 +14,7 @@ class CacheIfModifiedSinceMiddleware
 
 		$cache_date = new \DateTime();
 		$cache_date->setDate(2025, 2, 16);
-		$cache_date->setTime(0, 0, 0);
+		$cache_date->setTime(1, 0, 0);
 
 		// Check if the request contains 'If-Modified-Since' header
 		if ($request->hasHeader('If-Modified-Since')) {
