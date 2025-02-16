@@ -42,10 +42,6 @@ export default function Combobox({
 		}
 	}
 
-	
-
-	
-
 	return (
 		<Downshift
 			onChange={handleChange}
@@ -64,12 +60,17 @@ export default function Combobox({
 			}) => {
 				const filterByText = (item) => {
 					if (!inputValue) return true
-					const inputChunks = inputValue.split(' ').map((chunk) => chunk.toLowerCase())
-					const labelChunks = item.label.split(' ').map((chunk) => chunk.toLowerCase())
-					return inputChunks
-						.every((inputChunk) => labelChunks
-							.some((labelChunk) => labelChunk.includes(inputChunk))
-						)
+					const inputChunks = inputValue
+						.split(' ')
+						.map((chunk) => chunk.toLowerCase())
+					const labelChunks = item.label
+						.split(' ')
+						.map((chunk) => chunk.toLowerCase())
+					return inputChunks.every((inputChunk) =>
+						labelChunks.some((labelChunk) =>
+							labelChunk.includes(inputChunk),
+						),
+					)
 				}
 				const filteredItems = items.filter(filterByText)
 				return (
@@ -81,7 +82,10 @@ export default function Combobox({
 							{label}
 							<div
 								className="input-wrapper"
-								{...getRootProps({}, { suppressRefError: true })}
+								{...getRootProps(
+									{},
+									{ suppressRefError: true },
+								)}
 							>
 								<input
 									{...getInputProps()}
@@ -96,30 +100,32 @@ export default function Combobox({
 							className={`results ${hasFocus ? 'open' : ''}`}
 							{...getMenuProps()}
 						>
-							{filteredItems.length && hasFocus
-								? filteredItems
-										.map((item, index) => (
-											<li
-												key={item?.label || item.value}
-												className={`item ${highlightedIndex === index ? 'highlighted' : ''}`}
-												{...getItemProps({
-													index,
-													item,
-													style: {
-														fontWeight:
-															selectedItem === item
-																? 'bold'
-																: 'normal',
-													},
-												})}
-											>
-												{item?.label || item.value}
-											</li>
-										))
-								: <li className="item">(no results)</li>}
+							{filteredItems.length && hasFocus ? (
+								filteredItems.map((item, index) => (
+									<li
+										key={item?.label || item.value}
+										className={`item ${highlightedIndex === index ? 'highlighted' : ''}`}
+										{...getItemProps({
+											index,
+											item,
+											style: {
+												fontWeight:
+													selectedItem === item
+														? 'bold'
+														: 'normal',
+											},
+										})}
+									>
+										{item?.label || item.value}
+									</li>
+								))
+							) : (
+								<li className="item">(no results)</li>
+							)}
 						</ul>
 					</div>
-				)}}
+				)
+			}}
 		</Downshift>
 	)
 }

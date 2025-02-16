@@ -15,7 +15,7 @@ export default function SelectFishDesktop({
 	useEffect(() => {
 		if (fishListRef.current && fishes && selectedFishId) {
 			const element = fishListRef.current.querySelector(
-				`[data-id="${selectedFishId}"]`
+				`[data-id="${selectedFishId}"]`,
 			)
 			element?.scrollIntoView({
 				behavior: 'smooth',
@@ -61,10 +61,7 @@ export default function SelectFishDesktop({
 						className={`fish ${selectedFishId === fish.id ? 'selected' : ''}`}
 						onClick={() => selectFish(fish.id)}
 					>
-						<img
-							src={getFishImageSrc(fish.name)}
-							alt={fish.name}
-						/>
+						<img src={getFishImageSrc(fish.name)} alt={fish.name} />
 						<div className="name">{fish.name}</div>
 					</button>
 				))}

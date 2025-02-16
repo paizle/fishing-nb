@@ -67,8 +67,9 @@ export default function Home() {
 
 	useEffect(() => {
 		if (selectedLocation) {
+			console.log(selectedLocation)
 			setRestrictions([])
-			let url = '/api/fishByLocation/' + selectedLocation.value.locationId
+			let url = '/api/fishByLocation/' + selectedLocation.value.regionId
 			url += '/' + (selectedLocation.value?.waterId ?? 0)
 			url += '/' + (selectedFish ?? 0)
 
@@ -132,9 +133,7 @@ export default function Home() {
 							{selectedLocation ? (
 								<FishingRestrictions
 									restrictions={restrictions}
-									locationId={
-										selectedLocation?.value?.locationId
-									}
+									regionId={selectedLocation?.value?.regionId}
 									waterId={selectedLocation?.value?.waterId}
 								/>
 							) : (
