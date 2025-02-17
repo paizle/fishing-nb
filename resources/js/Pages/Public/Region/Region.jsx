@@ -41,7 +41,7 @@ export default function Region({ waters, breadcrumb }) {
 
 	return (
 		<PublicLayout>
-			<header>
+			<header className="shadow">
 				<PublicNav>
 					<Breadcrumb breadcrumb={breadcrumb} />
 				</PublicNav>
