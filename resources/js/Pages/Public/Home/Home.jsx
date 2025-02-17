@@ -102,7 +102,7 @@ export default function Home({apiLastModified}) {
 		<PublicLayout
 			className={`Home ${selectedLocation ? 'location-selected' : ''}`}
 		>
-			<header>
+			<header className={`${selectedLocation ? '' : 'shadow'}`}>
 				<PublicNav>
 					<h1 className="hero">
 						Smart <span>Fish</span>

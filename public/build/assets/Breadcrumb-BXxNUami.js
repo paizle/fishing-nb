@@ -1,0 +1,1 @@
+import{j as r,x as n}from"./app-nZScYgf3.js";import{u as a}from"./useScreenOrientation-CfMFt69X.js";function l({breadcrumb:s}){const t=a();return r.jsx("div",{className:"Breadcrumb",children:(s??[]).map((e,i)=>r.jsx("div",{className:"breadcrumb-item",children:r.jsx(n,{href:e.href,children:t.isMobile&&e.shortTitle&&s.length-i>1?e.shortTitle:e.title})},e.title))})}export{l as B};

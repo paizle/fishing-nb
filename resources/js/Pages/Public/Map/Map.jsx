@@ -23,7 +23,7 @@ export default function Map({ locations, breadcrumb }) {
 
 	return (
 		<PublicLayout className="Map">
-			<header>
+			<header className="shadow">
 				<PublicNav>
 					<Breadcrumb breadcrumb={breadcrumb} />
 				</PublicNav>

@@ -147,7 +147,7 @@ export default function Water({ limits, breadcrumb }) {
 
 	return (
 		<PublicLayout>
-			<header>
+			<header className="shadow">
 				<PublicNav>
 					<Breadcrumb breadcrumb={breadcrumb} />
 				</PublicNav>

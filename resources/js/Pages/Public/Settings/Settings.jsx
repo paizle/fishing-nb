@@ -26,7 +26,7 @@ export default function Settings({}) {
 
 	return (
 		<PublicLayout>
-			<header>
+			<header className="shadow">
 				<PublicNav>Settings</PublicNav>
 			</header>
 			<main>
