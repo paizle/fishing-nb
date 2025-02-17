@@ -8,6 +8,33 @@
 			minmax(4em, 100px) minmax(4em, 140px) minmax(4em, 140px);
 	}
 
+	caption {
+		grid-column: span 4;
+		.fish-name {
+			grid-column: span 4;
+			padding: 0.25em 0.5em;
+			margin: 2em 0 0 0;
+			text-align: center;
+			display: block;
+			background-color: var(--background-color);
+
+			strong {
+				display: block;
+				font-size: 1.25em;
+				color: var(--heading-color);
+			}
+		}
+
+		.fish-image {
+			grid-column: span 4;
+			img {
+				display: block;
+				padding: 1em;
+				margin: auto;
+			}
+		}
+	}
+
 	thead {
 		display: contents;
 

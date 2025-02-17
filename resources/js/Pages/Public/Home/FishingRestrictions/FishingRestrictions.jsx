@@ -27,31 +27,17 @@ export default function FishingRestrictions({
 		setHiddenFields(hiddenFields)
 	}, [locationId, waterId])
 
-	const renderFish = (fishName) => {
-		return (
-			<>
-				<div className="fish-name">
-					<strong>{fishName}</strong>
-				</div>
-
-				<div className="fish-image">
-					<img src={getFishImageSrc(fishName)} />
-				</div>
-
-				<FishRestrictionsTable
-					restrictions={restrictionsByFish[fishName].restrictions}
-					hiddenFields={hiddenFields}
-				/>
-			</>
-		)
-	}
-
 	return (
 		<div className="FishingRestrictions">
-			{Object.keys(restrictionsByFish ?? {}).map((fishName) => (
-				<div className="fish-restrictions" key={fishName}>
-					{renderFish(fishName)}
-				</div>
+			{Object.keys(restrictionsByFish ?? {})
+				.map((fishName) => (
+					<FishRestrictionsTable
+							key={fishName}
+							fishName={fishName}
+							fishImageSrc={getFishImageSrc(fishName)}
+							restrictions={restrictionsByFish[fishName].restrictions}
+							hiddenFields={hiddenFields}
+					/>
 			))}
 		</div>
 	)
