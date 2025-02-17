@@ -13,6 +13,11 @@ export default function FishRestrictionsTable({
 }) {
 	const screenOrientation = useScreenOrientation()
 
+	const removeHiddenFields = (restriction) => {
+		hiddenFields.forEach((hiddenField) => (restriction[hiddenField] = null))
+		return restriction
+	}
+
 	const renderSeasonDateRange = (restriction, comma = false) => {
 		return (
 			<>
@@ -117,11 +122,6 @@ export default function FishRestrictionsTable({
 			return <span className="text-md leading-4">&#8734;</span>
 		}
 		return restriction.bagLimit
-	}
-
-	const removeHiddenFields = (restriction) => {
-		hiddenFields.forEach((hiddenField) => (restriction[hiddenField] = null))
-		return restriction
 	}
 
 	const renderRestriction = (

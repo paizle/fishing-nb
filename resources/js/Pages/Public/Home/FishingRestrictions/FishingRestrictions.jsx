@@ -1,11 +1,13 @@
 import './FishingRestrictions.scss'
+import PropTypes from 'prop-types'
 import { useState, useRef, useEffect } from 'react'
 import { byFish } from './FishingRestrictionsTransformers'
-import useScreenOrientation from '@/Hooks/useScreenOrientation'
 import getFishImageSrc from '@/Util/getFishImageSrc'
 import FishRestrictionsTable from './FishRestrictionsTable'
+import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
 
 export default function FishingRestrictions({
+	isLoading,
 	restrictions,
 	locationId,
 	waterId,
@@ -14,7 +16,6 @@ export default function FishingRestrictions({
 
 	const restrictionsByFish = byFish(restrictions)
 
-	const screenOrientation = useScreenOrientation()
 	useEffect(() => {
 		let hiddenFields = []
 		if (locationId === 6) {
@@ -27,9 +28,15 @@ export default function FishingRestrictions({
 		setHiddenFields(hiddenFields)
 	}, [locationId, waterId])
 
-	return (
-		<div className="FishingRestrictions">
-			{Object.keys(restrictionsByFish ?? {})
+	const render = () => {
+		if (isLoading) {
+			return (<div className="loading"><LoadingSpinner /></div>)
+		} else if (!restrictions) {
+			return (null)
+		} else if (restrictions.length === 0) {
+			return (<div className="no-results">(no results)</div>)
+		} else {
+			return Object.keys(restrictionsByFish ?? {})
 				.map((fishName) => (
 					<FishRestrictionsTable
 							key={fishName}
@@ -38,7 +45,20 @@ export default function FishingRestrictions({
 							restrictions={restrictionsByFish[fishName].restrictions}
 							hiddenFields={hiddenFields}
 					/>
-			))}
+				))
+		}
+	}
+
+	return (
+		<div className="FishingRestrictions">
+			{render()}
 		</div>
 	)
+}
+
+FishingRestrictions.propTypes = {
+	isLoading: PropTypes.bool,
+	restrictions: PropTypes.arrayOf(PropTypes.object),
+	regionId: PropTypes.number.isRequired,
+	waterId: PropTypes.number
 }

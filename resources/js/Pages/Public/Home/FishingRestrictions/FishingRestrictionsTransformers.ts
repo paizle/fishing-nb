@@ -126,7 +126,7 @@ class Fish {
 }
 
 export function byFish(results: any) {
-	if (!results.length) {
+	if (!results?.length) {
 		return
 	}
 

@@ -16,8 +16,9 @@
 	height: 100%;
 	margin: auto;
 	justify-content: center;
-	align-content: flex-start;
+	align-items: flex-start;
 	background-color: var(--background-color);
+	align-content: flex-start;
 
 	@screen sm {
 		grid-template-columns:
@@ -32,17 +33,25 @@
 		}
 	}
 
-	.loading-spinner-container {
+	.loading {
 		grid-column: span 4;
 		display: flex;
 		justify-content: center;
-		padding: 2em;
+		align-self: stretch;
+		align-items: center;
+		margin: 1em auto;
 		.LoadingSpinner {
+			color: var(--highlight-color);
 			height: 50px;
 			width: 50px;
 		}
 	}
 
+	.no-results {
+		grid-column: span 4;
+		text-align: center;
+		margin: 1em;
+	}
 
 	.FishRestrictionsTable {
 		display: contents;
