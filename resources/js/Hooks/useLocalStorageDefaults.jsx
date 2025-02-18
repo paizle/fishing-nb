@@ -6,7 +6,7 @@ export default function useLocalStorageDefaults() {
 	const defaults = {
 		settings: {
 			gradientBackground: true,
-			landingPage: 'location',
+			landingPage: 'home',
 		},
 	}
 

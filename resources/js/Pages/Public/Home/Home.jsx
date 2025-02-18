@@ -12,10 +12,10 @@ import SelectFishMobile from './SelectFishMobile/SelectFishMobile'
 import SelectFishDesktop from './SelectFishDesktop/SelectFishDesktop'
 import FishingRestrictions from './FishingRestrictions/FishingRestrictions'
 
-export default function Home({apiLastModified}) {
+export default function Home({ apiLastModified }) {
 	const [fishes, setFishes] = useState(null)
 	const [locations, setLocations] = useState(null)
-	const [restrictions, setRestrictions] = useState([])
+	const [restrictions, setRestrictions] = useState(null)
 	const [selectedFish, setSelectedFish] = useState(null)
 	const [selectedLocation, setSelectedLocation] = useState(null)
 
@@ -67,8 +67,7 @@ export default function Home({apiLastModified}) {
 
 	useEffect(() => {
 		if (selectedLocation) {
-			console.log(selectedLocation)
-			setRestrictions([])
+			setRestrictions(null)
 			let url = '/api/fishByLocation/' + selectedLocation.value.regionId
 			url += '/' + (selectedLocation.value?.waterId ?? 0)
 			url += '/' + (selectedFish ?? 0)
@@ -132,6 +131,7 @@ export default function Home({apiLastModified}) {
 						<div className="body">
 							{selectedLocation ? (
 								<FishingRestrictions
+									isLoading={restRestrictions.state.loading}
 									restrictions={restrictions}
 									regionId={selectedLocation?.value?.regionId}
 									waterId={selectedLocation?.value?.waterId}

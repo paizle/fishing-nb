@@ -1,11 +1,22 @@
 import './FishRestrictionsTable.scss'
+import PropTypes from 'prop-types'
 import config from '@/Util/config'
 import { format } from 'date-fns'
 import useScreenOrientation from '@/Hooks/useScreenOrientation'
 import { Fragment } from 'react/jsx-runtime'
 
-export default function FishRestrictionsTable({ restrictions, hiddenFields }) {
+export default function FishRestrictionsTable({
+	fishName,
+	fishImageSrc,
+	restrictions,
+	hiddenFields = [],
+}) {
 	const screenOrientation = useScreenOrientation()
+
+	const removeHiddenFields = (restriction) => {
+		hiddenFields.forEach((hiddenField) => (restriction[hiddenField] = null))
+		return restriction
+	}
 
 	const renderSeasonDateRange = (restriction, comma = false) => {
 		return (
@@ -113,11 +124,6 @@ export default function FishRestrictionsTable({ restrictions, hiddenFields }) {
 		return restriction.bagLimit
 	}
 
-	const removeHiddenFields = (restriction) => {
-		hiddenFields.forEach((hiddenField) => (restriction[hiddenField] = null))
-		return restriction
-	}
-
 	const renderRestriction = (
 		restriction,
 		inGroup = false,
@@ -175,8 +181,22 @@ export default function FishRestrictionsTable({ restrictions, hiddenFields }) {
 			</Fragment>
 		))
 
+	const renderCaption = () => (
+		<caption>
+			<div className="fish-name">
+				<strong>{fishName}</strong>
+			</div>
+
+			<div className="fish-image">
+				<img src={fishImageSrc} />
+			</div>
+		</caption>
+	)
+
 	return (
 		<table className="FishRestrictionsTable">
+			{renderCaption()}
+
 			<thead className="header">
 				<tr>
 					<th className="column-header date-range">
@@ -195,4 +215,11 @@ export default function FishRestrictionsTable({ restrictions, hiddenFields }) {
 			<tbody>{renderRestrictions(restrictions)}</tbody>
 		</table>
 	)
+}
+
+FishRestrictionsTable.propTypes = {
+	fishName: PropTypes.string.isRequired,
+	fishImageSrc: PropTypes.string.isRequired,
+	restrictions: PropTypes.arrayOf(PropTypes.object).isRequired,
+	hiddenFields: PropTypes.arrayOf(PropTypes.string).isRequired,
 }

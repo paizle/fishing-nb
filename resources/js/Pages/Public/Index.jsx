@@ -5,6 +5,7 @@ import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
 
 export default function Index() {
 	const localStorage = useLocalStorageDefaults()
+
 	useLayoutEffect(() => {
 		const settings = localStorage.getItem('settings')
 
@@ -22,7 +23,7 @@ export default function Index() {
 		<PublicLayout>
 			<header></header>
 			<main>
-				<div className="flex items-center">
+				<div className="flex h-full w-full items-center justify-center">
 					<img src="/images/logo.png" />
 				</div>
 			</main>

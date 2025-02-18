@@ -36,7 +36,6 @@ export default function Combobox({
 	}
 
 	const handleChange = (selection) => {
-		console.log(selection)
 		if (onChange) {
 			onChange(selection)
 		}
