@@ -2,15 +2,14 @@ import { useReducer } from 'react'
 
 type State = {
 	loading: boolean
-	error: string | null,
+	error: string | null
 	data: any
 }
 
 export default function useRest(apiLastModified: string): {
-  state: State
-  get: (url: string) => Promise<any>
+	state: State
+	get: (url: string) => Promise<any>
 } {
-	
 	const initialState: State = {
 		loading: false,
 		error: null,
@@ -36,8 +35,10 @@ export default function useRest(apiLastModified: string): {
 		dispatch({ type: ActionTypes.FETCH_START })
 
 		try {
-			const params = { nocache: apiLastModified ? Date.parse(apiLastModified) : null }
-			const response = await axios.get(url, {params})
+			const params = {
+				nocache: apiLastModified ? Date.parse(apiLastModified) : null,
+			}
+			const response = await axios.get(url, { params })
 			dispatch({
 				type: ActionTypes.FETCH_SUCCESS,
 				payload: response.data,
@@ -62,6 +63,6 @@ enum ActionTypes {
 }
 
 type Action = {
-	type: ActionTypes,
+	type: ActionTypes
 	payload: any | null
 }

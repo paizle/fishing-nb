@@ -9,7 +9,7 @@ export default function FishRestrictionsTable({
 	fishName,
 	fishImageSrc,
 	restrictions,
-	hiddenFields = []
+	hiddenFields = [],
 }) {
 	const screenOrientation = useScreenOrientation()
 
@@ -182,22 +182,21 @@ export default function FishRestrictionsTable({
 		))
 
 	const renderCaption = () => (
-			<caption>
-				<div className="fish-name">
-					<strong>{fishName}</strong>
-				</div>
+		<caption>
+			<div className="fish-name">
+				<strong>{fishName}</strong>
+			</div>
 
-				<div className="fish-image">
-					<img src={fishImageSrc} />
-				</div>
-			</caption>
-		)
+			<div className="fish-image">
+				<img src={fishImageSrc} />
+			</div>
+		</caption>
+	)
 
 	return (
 		<table className="FishRestrictionsTable">
-			
 			{renderCaption()}
-			
+
 			<thead className="header">
 				<tr>
 					<th className="column-header date-range">
@@ -213,16 +212,14 @@ export default function FishRestrictionsTable({
 					</th>
 				</tr>
 			</thead>
-			<tbody>
-				{renderRestrictions(restrictions)}
-			</tbody>
+			<tbody>{renderRestrictions(restrictions)}</tbody>
 		</table>
 	)
 }
 
 FishRestrictionsTable.propTypes = {
-  fishName: PropTypes.string.isRequired,
-  fishImageSrc: PropTypes.string.isRequired,
-  restrictions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  hiddenFields: PropTypes.arrayOf(PropTypes.string).isRequired
+	fishName: PropTypes.string.isRequired,
+	fishImageSrc: PropTypes.string.isRequired,
+	restrictions: PropTypes.arrayOf(PropTypes.object).isRequired,
+	hiddenFields: PropTypes.arrayOf(PropTypes.string).isRequired,
 }

@@ -20,7 +20,7 @@ class PublicController extends Controller
 	public function home(Request $request)
 	{
 		return Inertia::render('Public/Home/Home', [
-			'apiLastModified' => config('app.api_last_modified')
+			'apiLastModified' => config('app.api_last_modified'),
 		]);
 	}
 

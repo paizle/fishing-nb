@@ -12,7 +12,7 @@ import SelectFishMobile from './SelectFishMobile/SelectFishMobile'
 import SelectFishDesktop from './SelectFishDesktop/SelectFishDesktop'
 import FishingRestrictions from './FishingRestrictions/FishingRestrictions'
 
-export default function Home({apiLastModified}) {
+export default function Home({ apiLastModified }) {
 	const [fishes, setFishes] = useState(null)
 	const [locations, setLocations] = useState(null)
 	const [restrictions, setRestrictions] = useState(null)
@@ -156,7 +156,6 @@ export default function Home({apiLastModified}) {
 				<div className="logo">
 					<img src="/images/logo.png" />
 				</div>
-				
 			</main>
 			<footer>
 				{screenOrientation.isMobile ? (

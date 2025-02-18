@@ -30,35 +30,34 @@ export default function FishingRestrictions({
 
 	const render = () => {
 		if (isLoading) {
-			return (<div className="loading"><LoadingSpinner /></div>)
+			return (
+				<div className="loading">
+					<LoadingSpinner />
+				</div>
+			)
 		} else if (!restrictions) {
-			return (null)
+			return null
 		} else if (restrictions.length === 0) {
-			return (<div className="no-results">(no results)</div>)
+			return <div className="no-results">(no results)</div>
 		} else {
-			return Object.keys(restrictionsByFish ?? {})
-				.map((fishName) => (
-					<FishRestrictionsTable
-							key={fishName}
-							fishName={fishName}
-							fishImageSrc={getFishImageSrc(fishName)}
-							restrictions={restrictionsByFish[fishName].restrictions}
-							hiddenFields={hiddenFields}
-					/>
-				))
+			return Object.keys(restrictionsByFish ?? {}).map((fishName) => (
+				<FishRestrictionsTable
+					key={fishName}
+					fishName={fishName}
+					fishImageSrc={getFishImageSrc(fishName)}
+					restrictions={restrictionsByFish[fishName].restrictions}
+					hiddenFields={hiddenFields}
+				/>
+			))
 		}
 	}
 
-	return (
-		<div className="FishingRestrictions">
-			{render()}
-		</div>
-	)
+	return <div className="FishingRestrictions">{render()}</div>
 }
 
 FishingRestrictions.propTypes = {
 	isLoading: PropTypes.bool,
 	restrictions: PropTypes.arrayOf(PropTypes.object),
 	regionId: PropTypes.number.isRequired,
-	waterId: PropTypes.number
+	waterId: PropTypes.number,
 }
