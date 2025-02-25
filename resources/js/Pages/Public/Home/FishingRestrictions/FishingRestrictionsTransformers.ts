@@ -15,6 +15,7 @@ export interface FishingRestriction {
 	watersCategory: String
 	boundary: String
 	waterDescription: String
+	note: String
 }
 
 export interface FishRestrictionGroup extends FishingRestriction {
@@ -39,15 +40,16 @@ class Fish {
 			seasonStart: parseMySqlDate(row.season_start),
 			seasonEnd: parseMySqlDate(row.season_end),
 			bagLimit: row.bag_limit,
-			hookLimit: row.hook_limit,
+			hookLimit: row.hook_release_limit,
 			minSize: row.minimum_size,
 			maxSize: row.maximum_size,
-			fishingMethod: Fish.formatFishingMethod(row),
-			tidal: row?.tidal_category?.name ?? '',
 			water: row?.water?.name ?? '',
-			watersCategory: row?.waters_category?.name ?? '',
-			boundary: row?.boundary_category?.name ?? '',
+			fishingMethod: row?.method || '',
+			tidal: row?.tidal || '',
+			watersCategory: row?.water_type || '',
+			boundary: row?.boundary || '',
 			waterDescription: row.water_description ?? '',
+			note: row.note,
 		}
 	}
 	static sortBySeasonAndGenerality(restrictions: FishRestrictionGroup[]) {
