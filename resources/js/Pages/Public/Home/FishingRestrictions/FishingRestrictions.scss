@@ -1,6 +1,8 @@
 @use '/resources/css/app.scss';
 
 .FishingRestrictions {
+	
+	@apply shadow;
 	&:after {
 		content: '';
 		padding-bottom: 1em;
@@ -17,7 +19,6 @@
 	margin: auto;
 	justify-content: center;
 	align-items: flex-start;
-	background-color: var(--background-color);
 	align-content: flex-start;
 
 	@screen sm {
