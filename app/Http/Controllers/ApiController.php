@@ -6,15 +6,23 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Models\FishingRestriction;
 use App\Models\Fish;
+use App\Services\FishService;
 use App\Models\Water;
-use App\Models\WatersCategory;
 use App\Models\FishingRestriction\WaterType;
 
 class ApiController extends Controller
 {
+
+	protected $fishService;
+
+	public function __construct(FishService $fishService)
+	{
+			$this->fishService = $fishService;
+	}
+
 	public function fishes(Request $request)
 	{
-		return response(['fishes' => Fish::all()]);
+		return response(['fishes' => $this->fishService->getSortedFishesByCategoryAndName()]);
 	}
 
 	public function locations(Request $request)
