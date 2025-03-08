@@ -103,7 +103,7 @@ export default function FishRestrictionsTable({
 
 	const renderMinSize = (restriction) => {
 		const text = restriction?.minSize ?? 'N/A'
-		if (!restriction.bagLimit && !restriction.hookLimit) {
+		if (!restriction.bagLimit === 0 && !restriction.hookLimit) {
 			return <span className="invalid">{text}</span>
 		}
 		return text
@@ -111,27 +111,30 @@ export default function FishRestrictionsTable({
 
 	const renderMaxSize = (restriction) => {
 		const text = restriction?.maxSize ?? 'N/A'
-		if (!restriction.bagLimit && !restriction.hookLimit) {
+		if (!restriction.bagLimit === 0 && !restriction.hookLimit) {
 			return <span className="invalid">{text}</span>
 		}
 		return text
 	}
 
 	const renderBagLimit = (restriction) => {
-		if (restriction.bagLimit === null) {
-			return <span className="text-md leading-4">&#8734;</span>
-		}
 		if (restriction.hookLimit) {
 			return (
 				<>
-					{restriction.bagLimit}
+					{renderBagLimitValue(restriction)}
 					<Tooltip message={'Daily Hook and Release Limit: ' + restriction.hookLimit}>
 						<ExclamationTriangleIcon className="alert" />
 					</Tooltip>
 				</>
 			)
 		}
-		return restriction.bagLimit
+		return renderBagLimitValue(restriction)
+	}
+
+	const renderBagLimitValue = (restriction) => {
+		return restriction.bagLimit === null
+			? <span className="text-md leading-4">&#8734;</span>
+			: restriction.bagLimit
 	}
 
 	const renderRestriction = (
