@@ -9,9 +9,11 @@ function convertLimit(limit) {
 		seasonStart: parseMySqlDate(limit.season_start),
 		seasonEnd: parseMySqlDate(limit.season_end),
 		bagLimit: limit.bag_limit,
+		hookLimit: limit.hook_release_limit,
 		minSize: limit.minimum_size,
 		maxSize: limit.maximum_size,
 		fishingMethod: formatFishingMethod(limit),
+		note: limit.note,
 		tidal: formatTidal(limit),
 		water: limit?.water?.name ?? '',
 		waterDescription: limit.water_description ?? '',
@@ -21,23 +23,23 @@ function formatFishingMethod(limit) {
 	let fishingMethod = ''
 
 	if (
-		limit?.fishing_method?.name ===
+		limit?.method?.name ===
 		'May only be angled by artificial fly or baited barbless hook with a single point'
 	) {
 		fishingMethod = 'Fly Fishing'
 	} else {
-		fishingMethod = limit?.fishing_method?.name ?? ''
+		fishingMethod = limit?.method?.name ?? ''
 	}
 	return fishingMethod
 }
 
 function formatTidal(limit) {
 	let text = ''
-	if (limit.tidal_category) {
+	if (limit.tidal) {
 		if (text) {
 			text += ' in '
 		}
-		text += limit.tidal_category.name + ' waters'
+		text += limit.tidal + ' waters'
 	}
 	return text
 }
