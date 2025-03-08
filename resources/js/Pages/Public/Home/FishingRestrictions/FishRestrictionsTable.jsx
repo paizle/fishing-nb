@@ -4,6 +4,8 @@ import config from '@/Util/config'
 import { format } from 'date-fns'
 import useScreenOrientation from '@/Hooks/useScreenOrientation'
 import { Fragment } from 'react/jsx-runtime'
+import Tooltip from '@/Components/Tooltip/Tooltip'
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
 export default function FishRestrictionsTable({
 	fishName,
@@ -49,48 +51,44 @@ export default function FishRestrictionsTable({
 			: value.charAt(0).toUpperCase() + value.slice(1)
 	}
 
+	const uppercaseFirst = (value) => {
+		return value.charAt(0).toUpperCase() + value.slice(1)
+	}
+
 	const renderExceptionDetail = (restriction) => {
 		let text = ''
 
 		if (restriction.tidal) {
-			text += transformCaseForSentance(text, restriction.tidal)
+			text += restriction.tidal
 			if (
 				restriction.water ||
 				restriction.watersCategory ||
 				restriction.boundary
 			) {
-				text += ' portions of'
+				text += ' portions of '
 			} else {
 				text += ' waters'
 			}
 		}
 
 		if (restriction.boundary) {
-			text += text ? ' ' : ''
-			text += transformCaseForSentance(text, restriction.boundary)
-			if (restriction.watersCategory) {
-				text += ' of '
-			}
-		}
-
-		if (!restriction.water && restriction.watersCategory) {
-			text += transformCaseForSentance(text, restriction.watersCategory)
-		}
-
-		if (restriction.waterDescription && !restriction.water) {
 			text += restriction.boundary
 		}
 
+		if (!restriction.water && restriction.watersCategory) {
+			if (restriction.boundary) {
+				text += ' of '
+			}
+			text += restriction.watersCategory
+		}
+
 		if (restriction.water) {
-			text += text ? ' ' : ''
+			text += text ? ' in ' : ''
 			text += restriction.water
 		}
 
 		if (restriction.fishingMethod) {
-			text =
-				restriction.fishingMethod +
-				' in ' +
-				transformCaseForSentance(text, text)
+			text = restriction.fishingMethod + ' in ' + text
 		}
 
 		if (restriction.waterDescription) {
@@ -98,12 +96,14 @@ export default function FishRestrictionsTable({
 			text += restriction.waterDescription
 		}
 
+		text = uppercaseFirst(text)
+
 		return ' ' + text
 	}
 
 	const renderMinSize = (restriction) => {
 		const text = restriction?.minSize ?? 'N/A'
-		if (restriction.bagLimit === 0) {
+		if (!restriction.bagLimit === 0 && !restriction.hookLimit) {
 			return <span className="invalid">{text}</span>
 		}
 		return text
@@ -111,17 +111,30 @@ export default function FishRestrictionsTable({
 
 	const renderMaxSize = (restriction) => {
 		const text = restriction?.maxSize ?? 'N/A'
-		if (restriction.bagLimit === 0) {
+		if (!restriction.bagLimit === 0 && !restriction.hookLimit) {
 			return <span className="invalid">{text}</span>
 		}
 		return text
 	}
 
 	const renderBagLimit = (restriction) => {
-		if (restriction.bagLimit === null) {
-			return <span className="text-md leading-4">&#8734;</span>
+		if (restriction.hookLimit) {
+			return (
+				<>
+					{renderBagLimitValue(restriction)}
+					<Tooltip message={'Daily Hook and Release Limit: ' + restriction.hookLimit}>
+						<ExclamationTriangleIcon className="alert" />
+					</Tooltip>
+				</>
+			)
 		}
-		return restriction.bagLimit
+		return renderBagLimitValue(restriction)
+	}
+
+	const renderBagLimitValue = (restriction) => {
+		return restriction.bagLimit === null
+			? <span className="text-md leading-4">&#8734;</span>
+			: restriction.bagLimit
 	}
 
 	const renderRestriction = (
@@ -143,6 +156,11 @@ export default function FishRestrictionsTable({
 						<em className="water-description">
 							{renderExceptionDetail(restriction)}
 						</em>
+					)}
+					{restriction.note && (
+						<Tooltip message={restriction.note}>
+							<ExclamationTriangleIcon className="alert" />
+						</Tooltip>
 					)}
 				</td>
 				<td>{renderBagLimit(restriction)}</td>
@@ -168,8 +186,8 @@ export default function FishRestrictionsTable({
 		</>
 	)
 
-	const renderRestrictions = (restrictions, inGroup = false) =>
-		restrictions.map((restriction, index) => (
+	const renderRestrictions = (restrictions, inGroup = false) => {
+		return restrictions.map((restriction, index) => (
 			<Fragment key={restriction.id}>
 				{restriction?.group
 					? renderRestrictionGroup(restriction)
@@ -180,6 +198,7 @@ export default function FishRestrictionsTable({
 						)}
 			</Fragment>
 		))
+	}
 
 	const renderCaption = () => (
 		<caption>

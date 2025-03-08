@@ -33,14 +33,14 @@ const Tooltip = ({ message = null, children }) => {
 
 	return (
 		<a
-			className={`Tooltip ${hoverAndPosition.hover && 'show'}`}
+			className={`Tooltip ${hoverAndPosition.hover ? 'show' : ''}`}
 			onMouseEnter={setIsHovering(true)}
 			onMouseLeave={setIsHovering(false)}
 		>
 			{children}
 			<div
 				ref={messageRef}
-				className={`message ${hoverAndPosition.flowLeft && 'flow-left'}`}
+				className={`message ${hoverAndPosition.flowLeft ? 'flow-left' : ''}`}
 			>
 				<div className="message-content">{message}</div>
 			</div>

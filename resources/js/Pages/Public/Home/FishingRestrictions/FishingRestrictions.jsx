@@ -22,9 +22,6 @@ export default function FishingRestrictions({
 			// Lower Saint John
 			hiddenFields.push('boundary')
 		}
-		if (waterId) {
-			hiddenFields.push('watersCategory')
-		}
 		setHiddenFields(hiddenFields)
 	}, [locationId, waterId])
 
