@@ -29,11 +29,9 @@ export default function Home({ apiLastModified }) {
 	const restRestrictions = useRest(apiLastModified)
 
 	useEffect(() => {
-		restFish
-			.get('/api/fishes')
-			.then((request) => {
-				setFishes(request.data.fishes)
-			})
+		restFish.get('/api/fishes').then((request) => {
+			setFishes(request.data.fishes)
+		})
 		restLocations
 			.get('/api/locations')
 			.then((request) => setLocations(request.data.locations))
