@@ -33,7 +33,6 @@ export default function Home({ apiLastModified }) {
 			.get('/api/fishes')
 			.then((request) => {
 				setFishes(request.data.fishes)
-				console.log(request.data.fishes)
 			})
 		restLocations
 			.get('/api/locations')
