@@ -60,11 +60,7 @@ export default function FishRestrictionsTable({
 
 		if (restriction.tidal) {
 			text += restriction.tidal
-			if (
-				restriction.water ||
-				restriction.watersCategory ||
-				restriction.boundary
-			) {
+			if (restriction.water || restriction.watersCategory || restriction.boundary) {
 				text += ' portions of '
 			} else {
 				text += ' waters'
@@ -132,16 +128,14 @@ export default function FishRestrictionsTable({
 	}
 
 	const renderBagLimitValue = (restriction) => {
-		return restriction.bagLimit === null
-			? <span className="text-md leading-4">&#8734;</span>
-			: restriction.bagLimit
+		return restriction.bagLimit === null ? (
+			<span className="text-md leading-4">&#8734;</span>
+		) : (
+			restriction.bagLimit
+		)
 	}
 
-	const renderRestriction = (
-		restriction,
-		inGroup = false,
-		lastInGroup = false,
-	) => {
+	const renderRestriction = (restriction, inGroup = false, lastInGroup = false) => {
 		restriction = removeHiddenFields(restriction)
 		return (
 			<tr className={`${inGroup && !restriction.group ? 'group' : ''}`}>
@@ -153,9 +147,7 @@ export default function FishRestrictionsTable({
 						)}
 					</strong>
 					{!inGroup && !restriction.group && (
-						<em className="water-description">
-							{renderExceptionDetail(restriction)}
-						</em>
+						<em className="water-description">{renderExceptionDetail(restriction)}</em>
 					)}
 					{restriction.note && (
 						<Tooltip message={restriction.note}>
@@ -191,11 +183,7 @@ export default function FishRestrictionsTable({
 			<Fragment key={restriction.id}>
 				{restriction?.group
 					? renderRestrictionGroup(restriction)
-					: renderRestriction(
-							restriction,
-							inGroup,
-							index === restrictions.length - 1,
-						)}
+					: renderRestriction(restriction, inGroup, index === restrictions.length - 1)}
 			</Fragment>
 		))
 	}

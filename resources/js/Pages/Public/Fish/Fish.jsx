@@ -105,16 +105,10 @@ export default function Fish({ fish, limits, breadcrumb }) {
 				<div>{limit.maximum_size}</div>
 				<div>{limit.bag_limit}</div>
 				<div>
-					{format(
-						parseMySqlDate(limit.season_start),
-						config.displayDayMonthShortFormat,
-					)}
+					{format(parseMySqlDate(limit.season_start), config.displayDayMonthShortFormat)}
 				</div>
 				<div>
-					{format(
-						parseMySqlDate(limit.season_end),
-						config.displayDayMonthShortFormat,
-					)}
+					{format(parseMySqlDate(limit.season_end), config.displayDayMonthShortFormat)}
 				</div>
 			</>
 		)
@@ -145,18 +139,12 @@ export default function Fish({ fish, limits, breadcrumb }) {
 								<div className="location-name">{location}</div>
 
 								{results[location].map((limit, index) => (
-									<div
-										className={`row ${index % 2 ? 'even' : 'odd'}`}
-									>
+									<div className={`row ${index % 2 ? 'even' : 'odd'}`}>
 										{renderRow(limit)}
-										{limit.group
-											? renderGroup(limit)
-											: null}
+										{limit.group ? renderGroup(limit) : null}
 										{limit.water_description ? (
 											<div className="water-description">
-												{renderWaterDescriptionColumn(
-													limit,
-												)}
+												{renderWaterDescriptionColumn(limit)}
 											</div>
 										) : null}
 									</div>

@@ -2,13 +2,7 @@ import './Combobox.scss'
 import Downshift from 'downshift'
 import { useState, useRef, useEffect, useLayoutEffect } from 'react'
 
-export default function Combobox({
-	items = [],
-	label,
-	placeholder = null,
-	onChange,
-	onFocus,
-}) {
+export default function Combobox({ items = [], label, placeholder = null, onChange, onFocus }) {
 	const ref = useRef(null)
 
 	const [isInit, setIsInit] = useState(false)
@@ -59,16 +53,10 @@ export default function Combobox({
 			}) => {
 				const filterByText = (item) => {
 					if (!inputValue) return true
-					const inputChunks = inputValue
-						.split(' ')
-						.map((chunk) => chunk.toLowerCase())
-					const labelChunks = item.label
-						.split(' ')
-						.map((chunk) => chunk.toLowerCase())
+					const inputChunks = inputValue.split(' ').map((chunk) => chunk.toLowerCase())
+					const labelChunks = item.label.split(' ').map((chunk) => chunk.toLowerCase())
 					return inputChunks.every((inputChunk) =>
-						labelChunks.some((labelChunk) =>
-							labelChunk.includes(inputChunk),
-						),
+						labelChunks.some((labelChunk) => labelChunk.includes(inputChunk)),
 					)
 				}
 				const filteredItems = items.filter(filterByText)
@@ -81,10 +69,7 @@ export default function Combobox({
 							{label}
 							<div
 								className="input-wrapper"
-								{...getRootProps(
-									{},
-									{ suppressRefError: true },
-								)}
+								{...getRootProps({}, { suppressRefError: true })}
 							>
 								<input
 									{...getInputProps()}
@@ -95,10 +80,7 @@ export default function Combobox({
 								/>
 							</div>
 						</label>
-						<ul
-							className={`results ${hasFocus ? 'open' : ''}`}
-							{...getMenuProps()}
-						>
+						<ul className={`results ${hasFocus ? 'open' : ''}`} {...getMenuProps()}>
 							{filteredItems.length && hasFocus ? (
 								filteredItems.map((item, index) => (
 									<li
@@ -109,9 +91,7 @@ export default function Combobox({
 											item,
 											style: {
 												fontWeight:
-													selectedItem === item
-														? 'bold'
-														: 'normal',
+													selectedItem === item ? 'bold' : 'normal',
 											},
 										})}
 									>

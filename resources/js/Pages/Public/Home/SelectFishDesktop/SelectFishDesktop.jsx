@@ -14,9 +14,7 @@ export default function SelectFishDesktop({
 	// scroll to last selected fish
 	useEffect(() => {
 		if (fishListRef.current && fishes && selectedFishId) {
-			const element = fishListRef.current.querySelector(
-				`[data-id="${selectedFishId}"]`,
-			)
+			const element = fishListRef.current.querySelector(`[data-id="${selectedFishId}"]`)
 			element?.scrollIntoView({
 				behavior: 'smooth',
 				inline: 'center',
@@ -30,9 +28,8 @@ export default function SelectFishDesktop({
 		} else {
 			fishListRef.current.scrollLeft =
 				fishListRef.current.scrollLeft -
-				fishListRef.current
-					.querySelector('[data-id]:first-child')
-					.getBoundingClientRect().width
+				fishListRef.current.querySelector('[data-id]:first-child').getBoundingClientRect()
+					.width
 		}
 	}
 
@@ -45,9 +42,8 @@ export default function SelectFishDesktop({
 		} else {
 			fishListRef.current.scrollLeft =
 				fishListRef.current.scrollLeft +
-				fishListRef.current
-					.querySelector('[data-id]:first-child')
-					.getBoundingClientRect().width
+				fishListRef.current.querySelector('[data-id]:first-child').getBoundingClientRect()
+					.width
 		}
 	}
 
@@ -70,10 +66,7 @@ export default function SelectFishDesktop({
 				<button className="go-left" onClick={() => scrollFishesLeft()}>
 					<ArrowLeftCircleIcon />
 				</button>
-				<button
-					className="go-right"
-					onClick={() => scrollFishesRight()}
-				>
+				<button className="go-right" onClick={() => scrollFishesRight()}>
 					<ArrowLeftCircleIcon />
 				</button>
 			</div>

@@ -9,8 +9,7 @@ import {
 } from '@heroicons/react/24/outline'
 
 export default function PublicNav({ children }) {
-	const [showingNavigationDropdown, setShowingNavigationDropdown] =
-		useState(false)
+	const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false)
 
 	return (
 		<nav className="border-b border-gray-100 dark:border-gray-700 dark:bg-gray-800">
@@ -98,9 +97,7 @@ export default function PublicNav({ children }) {
 					>
 						<button
 							onClick={() =>
-								setShowingNavigationDropdown(
-									(previousState) => !previousState,
-								)
+								setShowingNavigationDropdown((previousState) => !previousState)
 							}
 						>
 							<svg
@@ -111,9 +108,7 @@ export default function PublicNav({ children }) {
 							>
 								<path
 									className={
-										!showingNavigationDropdown
-											? 'inline-flex'
-											: 'hidden'
+										!showingNavigationDropdown ? 'inline-flex' : 'hidden'
 									}
 									strokeLinecap="round"
 									strokeLinejoin="round"
@@ -121,11 +116,7 @@ export default function PublicNav({ children }) {
 									d="M4 6h16M4 12h16M4 18h16"
 								/>
 								<path
-									className={
-										showingNavigationDropdown
-											? 'inline-flex'
-											: 'hidden'
-									}
+									className={showingNavigationDropdown ? 'inline-flex' : 'hidden'}
 									strokeLinecap="round"
 									strokeLinejoin="round"
 									strokeWidth="2"
@@ -145,10 +136,7 @@ export default function PublicNav({ children }) {
 				}
 			>
 				<div className="py-1">
-					<ResponsiveNavLink
-						href={route('home.home')}
-						active={route().current('home.*')}
-					>
+					<ResponsiveNavLink href={route('home.home')} active={route().current('home.*')}>
 						Smart Fish
 						<DevicePhoneMobileIcon className="h-5 w-5" />
 					</ResponsiveNavLink>

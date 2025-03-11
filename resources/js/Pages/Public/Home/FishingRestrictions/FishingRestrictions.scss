@@ -1,7 +1,6 @@
 @use '/resources/css/app.scss';
 
 .FishingRestrictions {
-	
 	@apply shadow;
 	&:after {
 		content: '';

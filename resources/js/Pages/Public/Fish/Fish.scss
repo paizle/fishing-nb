@@ -92,9 +92,7 @@
 						}
 						&.even {
 							> * {
-								background-color: var(
-									--highlight-color-lighter
-								);
+								background-color: var(--highlight-color-lighter);
 							}
 						}
 					}

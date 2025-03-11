@@ -36,10 +36,7 @@ class PublicController extends Controller
 
 	public function region($id)
 	{
-		$breadcrumb = [
-			$this->getBreadcrumbMap(),
-			$this->getBreadcrumbRegion($id),
-		];
+		$breadcrumb = [$this->getBreadcrumbMap(), $this->getBreadcrumbRegion($id)];
 
 		$restrictions = FishingRestriction::query()
 			->where('region_id', $id)
@@ -52,10 +49,7 @@ class PublicController extends Controller
 		// remove duplicate waters
 		foreach ($restrictions as $restriction) {
 			$water_name = $restriction['water']['name'] ?? '';
-			if (
-				$water_name &&
-				!($restrictions_by_water_name[$water_name] ?? false)
-			) {
+			if ($water_name && !($restrictions_by_water_name[$water_name] ?? false)) {
 				$restrictions_by_water_name[$water_name] = $restriction;
 			}
 		}
@@ -77,9 +71,7 @@ class PublicController extends Controller
 
 		$results_ids = [];
 
-		$restrictions = FishingRestriction::query()
-			->where('water_id', $id)
-			->get();
+		$restrictions = FishingRestriction::query()->where('water_id', $id)->get();
 
 		foreach ($restrictions->toArray() as $restriction) {
 			$results_ids[] = $restriction['id'];
@@ -91,19 +83,12 @@ class PublicController extends Controller
 			$related_restrictions = FishingRestriction::query()
 				->where('water_id', null)
 				->where('region_id', $restriction['region_id'])
-				->where('water_type', $restriction['water_type'])			
+				->where('water_type', $restriction['water_type'])
 				->orWhereNull('water_type');
 
 			if ($restriction['boundary']) {
-				$related_restrictions->where(function (Builder $query) use (
-					$restriction
-				) {
-					$query
-						->where(
-							'boundary',
-							$restriction['boundary']
-						)
-						->orWhereNull('boundary');
+				$related_restrictions->where(function (Builder $query) use ($restriction) {
+					$query->where('boundary', $restriction['boundary'])->orWhereNull('boundary');
 				});
 			}
 
@@ -118,12 +103,7 @@ class PublicController extends Controller
 		$restrictions_by_water = FishingRestriction::query()
 			->whereIn('id', $results_ids)
 			->with(['fish', 'water'])
-			->orderBy(
-				Fish::select('name')->whereColumn(
-					'fish.id',
-					'fishing_restrictions.fish_id'
-				)
-			)
+			->orderBy(Fish::select('name')->whereColumn('fish.id', 'fishing_restrictions.fish_id'))
 			->orderBy('season_start')
 			->get()
 			->toArray();
@@ -151,10 +131,7 @@ class PublicController extends Controller
 	{
 		$fish = Fish::find($id);
 
-		$restrictions = FishingRestriction::query()
-			->where('fish_id', $id)
-			->get()
-			->toArray();
+		$restrictions = FishingRestriction::query()->where('fish_id', $id)->get()->toArray();
 
 		$ids = [];
 		foreach ($restrictions as $restriction) {
@@ -177,12 +154,7 @@ class PublicController extends Controller
 				'tidal_category',
 				'fishing_method',
 			])
-			->orderBy(
-				Region::select('name')->whereColumn(
-					'id',
-					'fishing_restrictions.region_id'
-				)
-			)
+			->orderBy(Region::select('name')->whereColumn('id', 'fishing_restrictions.region_id'))
 			->orderByRaw(
 				"
                 CASE

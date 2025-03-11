@@ -6,12 +6,7 @@ import getFishImageSrc from '@/Util/getFishImageSrc'
 import FishRestrictionsTable from './FishRestrictionsTable'
 import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
 
-export default function FishingRestrictions({
-	isLoading,
-	restrictions,
-	locationId,
-	waterId,
-}) {
+export default function FishingRestrictions({ isLoading, restrictions, locationId, waterId }) {
 	const [hiddenFields, setHiddenFields] = useState([])
 
 	const restrictionsByFish = byFish(restrictions)

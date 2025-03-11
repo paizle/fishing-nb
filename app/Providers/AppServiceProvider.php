@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
 	public function register(): void
 	{
 		$this->app->singleton(FishService::class, function ($app) {
-				return new FishService();
+			return new FishService();
 		});
 	}
 

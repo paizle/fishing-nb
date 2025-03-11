@@ -12,12 +12,11 @@ use App\Models\FishingRestriction\WaterType;
 
 class ApiController extends Controller
 {
-
 	protected $fishService;
 
 	public function __construct(FishService $fishService)
 	{
-			$this->fishService = $fishService;
+		$this->fishService = $fishService;
 	}
 
 	public function fishes(Request $request)
@@ -61,16 +60,10 @@ class ApiController extends Controller
 		return response(['locations' => $restrictions_by_region]);
 	}
 
-	public function fishByLocation(
-		Request $request,
-		$region_id,
-		$water_id = '0',
-		$fish_id = '0'
-	) {
+	public function fishByLocation(Request $request, $region_id, $water_id = '0', $fish_id = '0')
+	{
 		$results_ids = [];
-		$restrictions = FishingRestriction::query()
-			->where('region_id', $region_id)
-			->get();
+		$restrictions = FishingRestriction::query()->where('region_id', $region_id)->get();
 
 		$water_type = null;
 		if ($water_id !== '0') {
@@ -85,10 +78,7 @@ class ApiController extends Controller
 			$add = true;
 
 			if ($fish_id !== '0') {
-				if (
-					$restriction['fish_id'] !== null &&
-					$restriction['fish_id'] != $fish_id
-				) {
+				if ($restriction['fish_id'] !== null && $restriction['fish_id'] != $fish_id) {
 					$add = false;
 				}
 			}
@@ -98,9 +88,10 @@ class ApiController extends Controller
 					$test = true;
 					if (
 						$restriction['water_type'] !== null &&
-						$restriction['water_type'] !== $water_type->value) {
-							$add = false;
-						}
+						$restriction['water_type'] !== $water_type->value
+					) {
+						$add = false;
+					}
 				} elseif ($restriction['water_id'] != $water_id) {
 					$add = false;
 				}
@@ -113,16 +104,8 @@ class ApiController extends Controller
 
 		$restrictions_by_water = FishingRestriction::query()
 			->whereIn('id', $results_ids)
-			->with([
-				'fish',
-				'water',
-			])
-			->orderBy(
-				Fish::select('name')->whereColumn(
-					'fish.id',
-					'fishing_restrictions.fish_id'
-				)
-			)
+			->with(['fish', 'water'])
+			->orderBy(Fish::select('name')->whereColumn('fish.id', 'fishing_restrictions.fish_id'))
 			->orderBy('season_start')
 			->get()
 			->toArray();
@@ -135,7 +118,7 @@ class ApiController extends Controller
 		$water_category = WatersCategoryName::getByWaterName($water_name);
 		if (strtolower($water_category) === strtolower(WaterType::FLOWING->value)) {
 			return WaterType::FLOWING;
-		} else if (strtolower($water_category) === strtolower(WaterType::STANDING->value)) {
+		} elseif (strtolower($water_category) === strtolower(WaterType::STANDING->value)) {
 			return WaterType::STANDING;
 		} else {
 			return null;

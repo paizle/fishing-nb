@@ -13,9 +13,7 @@ const useScreenOrientation = () => {
 
 	useLayoutEffect(() => {
 		const handleResize = () => {
-			setIsPortrait(
-				window.innerWidth / window.innerHeight <= portraitRatio,
-			)
+			setIsPortrait(window.innerWidth / window.innerHeight <= portraitRatio)
 			setIsMobile(window.innerWidth <= mobileWidth)
 		}
 		handleResize()

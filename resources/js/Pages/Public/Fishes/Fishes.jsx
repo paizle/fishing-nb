@@ -35,10 +35,7 @@ export default function Fishes({ fishes, breadcrumb }) {
 				<div className={`fish-list ${columnLayout[columns]}`}>
 					{results.map((fish) => (
 						<div>
-							<Link
-								key={fish.name}
-								href={route('fish.fish', fish.id)}
-							>
+							<Link key={fish.name} href={route('fish.fish', fish.id)}>
 								<img src={getFishImageSrc(fish.name)} />
 								<strong>{fish.name}</strong>
 							</Link>
