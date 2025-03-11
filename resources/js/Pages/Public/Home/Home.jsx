@@ -32,16 +32,11 @@ export default function Home({ apiLastModified }) {
 		restFish.get('/api/fishes').then((request) => {
 			setFishes(request.data.fishes)
 		})
-		restLocations
-			.get('/api/locations')
-			.then((request) => setLocations(request.data.locations))
+		restLocations.get('/api/locations').then((request) => setLocations(request.data.locations))
 	}, [])
 
 	useEffect(() => {
-		const selectedFish = storage.get(
-			'settings',
-			(settings) => settings.selectedFish,
-		)
+		const selectedFish = storage.get('settings', (settings) => settings.selectedFish)
 		if (selectedFish) {
 			setSelectedFish(selectedFish)
 		}
@@ -54,10 +49,7 @@ export default function Home({ apiLastModified }) {
 		} else {
 			newSelectedFish = id
 		}
-		storage.set(
-			'settings',
-			(settings) => (settings.selectedFish = newSelectedFish),
-		)
+		storage.set('settings', (settings) => (settings.selectedFish = newSelectedFish))
 		setSelectedFish(newSelectedFish)
 	}
 
@@ -98,9 +90,7 @@ export default function Home({ apiLastModified }) {
 	}
 
 	return (
-		<PublicLayout
-			className={`Home ${selectedLocation ? 'location-selected' : ''}`}
-		>
+		<PublicLayout className={`Home ${selectedLocation ? 'location-selected' : ''}`}>
 			<header className={`${selectedLocation ? '' : 'shadow'}`}>
 				<PublicNav>
 					<h1 className="hero">
@@ -118,11 +108,9 @@ export default function Home({ apiLastModified }) {
 									className="selected-location flex items-center gap-2"
 								>
 									<strong>
-										{selectedLocation.label
-											.split('/')
-											.map((part) => (
-												<span key={part}>{part}</span>
-											))}
+										{selectedLocation.label.split('/').map((part) => (
+											<span key={part}>{part}</span>
+										))}
 									</strong>
 									<XCircleIcon className="h-5 w-5" />
 								</button>
@@ -138,12 +126,10 @@ export default function Home({ apiLastModified }) {
 								/>
 							) : (
 								<Combobox
-									items={Object.keys(locations).map(
-										(key) => ({
-											value: locations[key],
-											label: key,
-										}),
-									)}
+									items={Object.keys(locations).map((key) => ({
+										value: locations[key],
+										label: key,
+									}))}
 									onChange={handleLocationChange}
 									onFocus={handleLocationFocus}
 									placeholder="Search by river, lake or region"
