@@ -1,4 +1,5 @@
 import './FishRestrictionsTable.scss'
+import { memo } from 'react'
 import PropTypes from 'prop-types'
 import config from '@/Util/config'
 import { format } from 'date-fns'
@@ -14,6 +15,10 @@ export default function FishRestrictionsTable({
 	hiddenFields = [],
 }) {
 	const screenOrientation = useScreenOrientation()
+
+	const ToolTipMemo = memo(Tooltip)
+
+	const ExclamationTriangleIconMemo = memo(ExclamationTriangleIcon)
 
 	const removeHiddenFields = (restriction) => {
 		hiddenFields.forEach((hiddenField) => (restriction[hiddenField] = null))
@@ -118,9 +123,9 @@ export default function FishRestrictionsTable({
 			return (
 				<>
 					{renderBagLimitValue(restriction)}
-					<Tooltip message={'Daily Hook and Release Limit: ' + restriction.hookLimit}>
-						<ExclamationTriangleIcon className="alert" />
-					</Tooltip>
+					<ToolTipMemo message={'Daily Hook and Release Limit: ' + restriction.hookLimit}>
+						<ExclamationTriangleIconMemo className="alert" />
+					</ToolTipMemo>
 				</>
 			)
 		}
@@ -150,9 +155,9 @@ export default function FishRestrictionsTable({
 						<em className="water-description">{renderExceptionDetail(restriction)}</em>
 					)}
 					{restriction.note && (
-						<Tooltip message={restriction.note}>
-							<ExclamationTriangleIcon className="alert" />
-						</Tooltip>
+						<ToolTipMemo message={restriction.note}>
+							<ExclamationTriangleIconMemo className="alert" />
+						</ToolTipMemo>
 					)}
 				</td>
 				<td>{renderBagLimit(restriction)}</td>

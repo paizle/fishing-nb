@@ -1,5 +1,5 @@
 import './Home.scss'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, memo, useMemo } from 'react'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
@@ -89,14 +89,25 @@ export default function Home({ apiLastModified }) {
 		)
 	}
 
+	const PublicNavMemo = memo(PublicNav)
+
+	const comboboxLocationItems = useMemo(
+		() =>
+			Object.entries(locations ?? {}).map(([key, value]) => ({
+				value,
+				label: key,
+			})),
+		[locations],
+	)
+
 	return (
 		<PublicLayout className={`Home ${selectedLocation ? 'location-selected' : ''}`}>
 			<header className={`${selectedLocation ? '' : 'shadow'}`}>
-				<PublicNav>
+				<PublicNavMemo>
 					<h1 className="hero">
 						Smart <span>Fish</span>
 					</h1>
-				</PublicNav>
+				</PublicNavMemo>
 			</header>
 			<main>
 				{fishes !== null && locations !== null && (
@@ -126,10 +137,7 @@ export default function Home({ apiLastModified }) {
 								/>
 							) : (
 								<Combobox
-									items={Object.keys(locations).map((key) => ({
-										value: locations[key],
-										label: key,
-									}))}
+									items={comboboxLocationItems}
 									onChange={handleLocationChange}
 									onFocus={handleLocationFocus}
 									placeholder="Search by river, lake or region"

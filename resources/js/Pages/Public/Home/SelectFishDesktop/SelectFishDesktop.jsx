@@ -1,10 +1,10 @@
 import './SelectFishDesktop.scss'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, memo } from 'react'
 import { ArrowLeftCircleIcon } from '@heroicons/react/24/outline'
 import getFishImageSrc from '@/Util/getFishImageSrc'
 import ProgressiveImage from '@/Components/ProgressiveImage'
 
-export default function SelectFishDesktop({
+export default memo(function SelectFishDesktop({
 	fishes = null,
 	selectedFishId = null,
 	selectFish = () => null,
@@ -72,4 +72,4 @@ export default function SelectFishDesktop({
 			</div>
 		</div>
 	)
-}
+})

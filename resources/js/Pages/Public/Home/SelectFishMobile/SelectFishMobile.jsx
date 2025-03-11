@@ -1,9 +1,9 @@
 import './SelectFishMobile.scss'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, memo } from 'react'
 import getFishImageSrc from '@/Util/getFishImageSrc'
 import ProgressiveImage from '@/Components/ProgressiveImage'
 
-export default function SelectFishMobile({
+export default memo(function SelectFishMobile({
 	fishes = null,
 	selectedFishId = null,
 	selectFish = () => null,
@@ -45,4 +45,4 @@ export default function SelectFishMobile({
 			))}
 		</div>
 	)
-}
+})

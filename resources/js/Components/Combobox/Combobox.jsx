@@ -47,7 +47,6 @@ export default function Combobox({ items = [], label, placeholder = null, onChan
 				getMenuProps,
 				isOpen,
 				inputValue,
-				highlightedIndex,
 				selectedItem,
 				getRootProps,
 			}) => {
@@ -85,7 +84,7 @@ export default function Combobox({ items = [], label, placeholder = null, onChan
 								filteredItems.map((item, index) => (
 									<li
 										key={item?.label || item.value}
-										className={`item ${highlightedIndex === index ? 'highlighted' : ''}`}
+										className="item"
 										{...getItemProps({
 											index,
 											item,
