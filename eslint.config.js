@@ -27,7 +27,6 @@ export default [
 			// ... any rules you want
 			'react/jsx-uses-react': 'error',
 			'react/jsx-uses-vars': 'error',
-			'max-len': ['error', { code: 100 }],
 		},
 		// ... others are omitted for brevity
 	},
