@@ -91,25 +91,19 @@ class PublicController extends Controller
 			$related_restrictions = FishingRestriction::query()
 				->where('water_id', null)
 				->where('region_id', $restriction['region_id'])
-				->where(function (Builder $query) use ($restriction) {
-					$query
-						->where(
-							'waters_category_id',
-							$restriction['waters_category_id']
-						)
-						->orWhereNull('waters_category_id');
-				});
+				->where('water_type', $restriction['water_type'])			
+				->orWhereNull('water_type');
 
-			if ($restriction['boundary_category_id']) {
+			if ($restriction['boundary']) {
 				$related_restrictions->where(function (Builder $query) use (
 					$restriction
 				) {
 					$query
 						->where(
-							'boundary_category_id',
-							$restriction['boundary_category_id']
+							'boundary',
+							$restriction['boundary']
 						)
-						->orWhereNull('boundary_category_id');
+						->orWhereNull('boundary');
 				});
 			}
 
@@ -123,7 +117,7 @@ class PublicController extends Controller
 
 		$restrictions_by_water = FishingRestriction::query()
 			->whereIn('id', $results_ids)
-			->with(['fish', 'water', 'tidal_category', 'fishing_method'])
+			->with(['fish', 'water'])
 			->orderBy(
 				Fish::select('name')->whereColumn(
 					'fish.id',

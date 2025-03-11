@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Fish\FishCategory;
 
 class Fish extends Model
 {
-	use HasFactory;
+    use HasFactory;
 
-	protected $fillable = ['name'];
+		protected $casts = [
+			'fish_category' => FishCategory::class
+		];
+    protected $fillable = ['name', 'fish_category'];
 }

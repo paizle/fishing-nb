@@ -2,17 +2,27 @@
 namespace App\Http\Controllers;
 
 use App\Util\WatersCategoryName;
+use Exception;
 use Illuminate\Http\Request;
 use App\Models\FishingRestriction;
 use App\Models\Fish;
+use App\Services\FishService;
 use App\Models\Water;
-use App\Models\WatersCategory;
+use App\Models\FishingRestriction\WaterType;
 
 class ApiController extends Controller
 {
+
+	protected $fishService;
+
+	public function __construct(FishService $fishService)
+	{
+			$this->fishService = $fishService;
+	}
+
 	public function fishes(Request $request)
 	{
-		return response(['fishes' => Fish::all()]);
+		return response(['fishes' => $this->fishService->getSortedFishesByCategoryAndName()]);
 	}
 
 	public function locations(Request $request)
@@ -62,16 +72,13 @@ class ApiController extends Controller
 			->where('region_id', $region_id)
 			->get();
 
-		$water_category_id = null;
+		$water_type = null;
 		if ($water_id !== '0') {
 			$water = Water::find($water_id);
-			$waters_category_name = WatersCategoryName::getByWaterName(
-				$water->name
-			);
-			$waters_category = WatersCategory::query()
-				->where('name', $waters_category_name)
-				->first();
-			$water_category_id = $waters_category->id;
+			$water_type = $this->getWaterType($water->name);
+			if ($water_type === null) {
+				throw new Exception('Water type not found.');
+			}
 		}
 
 		foreach ($restrictions->toArray() as $restriction) {
@@ -88,13 +95,12 @@ class ApiController extends Controller
 
 			if ($water_id !== '0') {
 				if ($restriction['water_id'] === null) {
+					$test = true;
 					if (
-						$restriction['waters_category_id'] !== null &&
-						$restriction['waters_category_id'] !==
-							$water_category_id
-					) {
-						$add = false;
-					}
+						$restriction['water_type'] !== null &&
+						$restriction['water_type'] !== $water_type->value) {
+							$add = false;
+						}
 				} elseif ($restriction['water_id'] != $water_id) {
 					$add = false;
 				}
@@ -110,10 +116,6 @@ class ApiController extends Controller
 			->with([
 				'fish',
 				'water',
-				'tidal_category',
-				'fishing_method',
-				'waters_category',
-				'boundary_category',
 			])
 			->orderBy(
 				Fish::select('name')->whereColumn(
@@ -126,5 +128,17 @@ class ApiController extends Controller
 			->toArray();
 
 		return response(['limits' => $restrictions_by_water]);
+	}
+
+	protected function getWaterType($water_name)
+	{
+		$water_category = WatersCategoryName::getByWaterName($water_name);
+		if (strtolower($water_category) === strtolower(WaterType::FLOWING->value)) {
+			return WaterType::FLOWING;
+		} else if (strtolower($water_category) === strtolower(WaterType::STANDING->value)) {
+			return WaterType::STANDING;
+		} else {
+			return null;
+		}
 	}
 }

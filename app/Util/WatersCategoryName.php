@@ -7,6 +7,8 @@ enum WatersCategoryName: string
 
 	case STANDING_WATERS = 'Lakes, ponds and reservoirs';
 
+	case EMPTY = '';
+
 	public static function getByWaterName($name)
 	{
 		$name = strtolower($name);
@@ -19,6 +21,8 @@ enum WatersCategoryName: string
 		} elseif (strpos($name, 'stream')) {
 			return self::FLOWING_WATERS->value;
 		} elseif (strpos($name, 'flowage')) {
+			return self::FLOWING_WATERS->value;
+		} elseif ($name === 'main restigouche') {
 			return self::FLOWING_WATERS->value;
 		}
 

@@ -31,7 +31,9 @@ export default function Home({ apiLastModified }) {
 	useEffect(() => {
 		restFish
 			.get('/api/fishes')
-			.then((request) => setFishes(request.data.fishes))
+			.then((request) => {
+				setFishes(request.data.fishes)
+			})
 		restLocations
 			.get('/api/locations')
 			.then((request) => setLocations(request.data.locations))

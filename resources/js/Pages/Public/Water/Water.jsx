@@ -103,10 +103,21 @@ export default function Water({ limits, breadcrumb }) {
 	}
 
 	const renderBagLimit = (limit) => {
-		if (limit.bagLimit === null) {
-			return <span className="text-md leading-4">&#8734;</span>
-		}
-		return limit.bagLimit
+		return limit.bagLimit === null
+			? (<span className="text-md leading-4">&#8734;</span>)
+			: limit.hookLimit
+					? (
+						<>
+							{limit.bagLimit}
+							<Tooltip
+								message={`Daily Hook and Release Limit: ${limit.hookLimit}`}
+								containerRef={dataTableRef}
+							>
+								<ExclamationTriangleIcon className="alert" />
+							</Tooltip>
+						</>
+					)
+					: limit.bagLimit
 	}
 
 	const renderFishLimit = (limit, inGroup = false) => {
@@ -121,6 +132,18 @@ export default function Water({ limits, breadcrumb }) {
 					<em className="exception">
 						&nbsp;{renderExceptionDetail(limit)}
 					</em>
+					{!limit.note 
+					? '' 
+					: (
+							<Tooltip
+								message={limit.note}
+								containerRef={
+									dataTableRef
+								}
+							>
+								<ExclamationTriangleIcon className="alert" />
+							</Tooltip>
+					)}
 				</div>
 				<div>{renderBagLimit(limit)}</div>
 				<div>{renderMinSize(limit)}</div>
