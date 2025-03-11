@@ -1,10 +1,13 @@
-import tsEslint from '@typescript-eslint/eslint-plugin';
+import eslintPluginReact from 'eslint-plugin-react';
+import eslintPluginReactHooks from 'eslint-plugin-react-hooks';
+import eslintPluginTypescript from '@typescript-eslint/eslint-plugin';
+import parser from '@typescript-eslint/parser';  // Import the parser correctly
 
 export default [
   {
     files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
     languageOptions: {
-      parser: '@typescript-eslint/parser',
+      parser: parser, // Ensure the parser is correctly set
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
@@ -14,8 +17,9 @@ export default [
       },
     },
     plugins: {
-      react: require('eslint-plugin-react'),
-      '@typescript-eslint': tsEslint,
+      react: eslintPluginReact,
+      'react-hooks': eslintPluginReactHooks,
+      '@typescript-eslint': eslintPluginTypescript,
     },
     rules: {
       'react/jsx-uses-react': 'off', // React 17+ no longer requires React in scope
@@ -25,7 +29,7 @@ export default [
     },
     settings: {
       react: {
-        version: 'detect',
+        version: 'detect', // Automatically detect the React version
       },
     },
   },
