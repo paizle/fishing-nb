@@ -2,15 +2,14 @@ import './Home.scss'
 import { useState, useEffect, useRef, memo, useMemo } from 'react'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import PublicNav from '@/Layouts/PublicLayout/PublicNav'
-import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
 import Combobox from '@/Components/Combobox/Combobox'
 import { XCircleIcon } from '@heroicons/react/24/outline'
 import useRest from '@/Hooks/useRest'
 import useLandingPage from '@/Hooks/useLandingPage'
-import useScreenOrientation from '@/Hooks/useScreenOrientation'
 import SelectFishMobile from './SelectFishMobile/SelectFishMobile'
 import SelectFishDesktop from './SelectFishDesktop/SelectFishDesktop'
 import FishingRestrictions from './FishingRestrictions/FishingRestrictions'
+import useApplicationContext from '@/Contexts/ApplicationContext'
 
 export default function Home({ apiLastModified }) {
 	const [fishes, setFishes] = useState(null)
@@ -19,10 +18,10 @@ export default function Home({ apiLastModified }) {
 	const [selectedFish, setSelectedFish] = useState(null)
 	const [selectedLocation, setSelectedLocation] = useState(null)
 
-	const storage = useLocalStorageDefaults()
-	useLandingPage('home')
+	const appContext = useApplicationContext()
+	const { screenOrientation } = appContext
 
-	const screenOrientation = useScreenOrientation()
+	appContext.setLandingPage('home')
 
 	const restFish = useRest(apiLastModified)
 	const restLocations = useRest(apiLastModified)
@@ -36,7 +35,7 @@ export default function Home({ apiLastModified }) {
 	}, [])
 
 	useEffect(() => {
-		const selectedFish = storage.get('settings', (settings) => settings.selectedFish)
+		const selectedFish = appContext.getUserSelectedFish()
 		if (selectedFish) {
 			setSelectedFish(selectedFish)
 		}
@@ -49,7 +48,7 @@ export default function Home({ apiLastModified }) {
 		} else {
 			newSelectedFish = id
 		}
-		storage.set('settings', (settings) => (settings.selectedFish = newSelectedFish))
+		appContext.setUserSelectedFish(newSelectedFish)
 		setSelectedFish(newSelectedFish)
 	}
 
@@ -152,7 +151,7 @@ export default function Home({ apiLastModified }) {
 				</div>
 			</main>
 			<footer>
-				{screenOrientation.isMobile ? (
+				{appContext.screenOrientation.isMobile ? (
 					<SelectFishMobile
 						fishes={fishes}
 						selectedFishId={selectedFish}

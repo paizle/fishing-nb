@@ -21,6 +21,9 @@ export default function useLocalStorage() {
 	const getItem = (key) => {
 		try {
 			const serializedValue = localStorage.getItem(key)
+			if (!serializedValue) {
+				throw 'Not initialized.'
+			}
 			return serializedValue ? JSON.parse(serializedValue) : null
 		} catch (error) {
 			console.error(`Error parsing key "${key}" from localStorage:`, error)

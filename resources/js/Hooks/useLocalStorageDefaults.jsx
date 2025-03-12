@@ -12,12 +12,17 @@ export default function useLocalStorageDefaults() {
 
 	const { setItem, removeItem, clearStorage, storageChange } = localStorage
 
-	const getItem = (key) => {
+	const getItem = (key, getFn) => {
+		let value
 		if (defaults.hasOwnProperty(key)) {
-			return Object.assign(defaults[key], localStorage.getItem(key))
+			value = Object.assign(defaults[key], localStorage.getItem(key))
 		} else {
-			return localStorage.getItem(key)
+			value = localStorage.getItem(key)
 		}
+		if (getFn) {
+			return getFn(value)
+		}
+		return value
 	}
 
 	const set = (key, setter) => {

@@ -3,7 +3,6 @@ import { memo } from 'react'
 import PropTypes from 'prop-types'
 import config from '@/Util/config'
 import { format } from 'date-fns'
-import useScreenOrientation from '@/Hooks/useScreenOrientation'
 import { Fragment } from 'react/jsx-runtime'
 import Tooltip from '@/Components/Tooltip/Tooltip'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
@@ -13,9 +12,8 @@ export default function FishRestrictionsTable({
 	fishImageSrc,
 	restrictions,
 	hiddenFields = [],
+	isMobile,
 }) {
-	const screenOrientation = useScreenOrientation()
-
 	const ToolTipMemo = memo(Tooltip)
 
 	const ExclamationTriangleIconMemo = memo(ExclamationTriangleIcon)
@@ -31,18 +29,14 @@ export default function FishRestrictionsTable({
 				<span>
 					{format(
 						restriction.seasonStart,
-						screenOrientation.isMobile
-							? config.displayDayMonthShortFormat
-							: config.displayDayMonthFormat,
+						isMobile ? config.displayDayMonthShortFormat : config.displayDayMonthFormat,
 					)}{' '}
 				</span>
 				<span>
 					-{' '}
 					{format(
 						restriction.seasonEnd,
-						screenOrientation.isMobile
-							? config.displayDayMonthShortFormat
-							: config.displayDayMonthFormat,
+						isMobile ? config.displayDayMonthShortFormat : config.displayDayMonthFormat,
 					)}
 					{comma ? ',' : ''}
 				</span>
@@ -212,16 +206,12 @@ export default function FishRestrictionsTable({
 			<thead className="header">
 				<tr>
 					<th className="column-header date-range">
-						{!screenOrientation.isMobile && <>Season/</>}
+						{!isMobile && <>Season/</>}
 						Restrictions
 					</th>
 					<th className="column-header">Bag Limit</th>
-					<th className="column-header">
-						{screenOrientation.isMobile ? 'Min.' : 'Minimum'} Size
-					</th>
-					<th className="column-header">
-						{screenOrientation.isMobile ? 'Max.' : 'Maximum'} Size
-					</th>
+					<th className="column-header">{isMobile ? 'Min.' : 'Minimum'} Size</th>
+					<th className="column-header">{isMobile ? 'Max.' : 'Maximum'} Size</th>
 				</tr>
 			</thead>
 			<tbody>{renderRestrictions(restrictions)}</tbody>
