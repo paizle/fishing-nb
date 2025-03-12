@@ -56,6 +56,10 @@ export default function Home({ apiLastModified }) {
 		setSelectedLocation(location)
 	}
 
+	const clearLocation = () => {
+		setSelectedLocation(null)
+	}
+
 	useEffect(() => {
 		if (selectedLocation) {
 			setRestrictions(null)
@@ -110,11 +114,11 @@ export default function Home({ apiLastModified }) {
 			</header>
 			<main>
 				{fishes !== null && locations !== null && (
-					<div className="layout">
+					<div className="focused-layout">
 						<div className="header">
 							{selectedLocation && (
 								<button
-									onClick={() => setSelectedLocation(null)}
+									onClick={() => clearLocation()}
 									className="selected-location flex items-center gap-2"
 								>
 									<strong>
