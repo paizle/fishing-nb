@@ -19,8 +19,6 @@ export default function Home({ apiLastModified }) {
 	const [selectedLocation, setSelectedLocation] = useState(null)
 
 	const appContext = useApplicationContext()
-	const { screenOrientation } = appContext
-
 	appContext.setLandingPage('home')
 
 	const restFish = useRest(apiLastModified)
