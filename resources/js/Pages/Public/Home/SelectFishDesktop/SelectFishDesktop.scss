@@ -3,11 +3,12 @@
 	width: 100%;
 	position: relative;
 	@apply shadow-inverted;
-	$height: 9.25em;
+	$height: 9.5em;
 	height: $height;
 
 	.carousel {
-		margin-top: 0.5em;
+		display: flex;
+		align-items: center;
 		.fishes {
 			overflow: hidden;
 			border-collapse: collapse;

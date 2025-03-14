@@ -1,6 +1,6 @@
 import './Combobox.scss'
 import Downshift, { useCombobox } from 'downshift'
-import { useState, useRef, useEffect, useLayoutEffect } from 'react'
+import { useState, useRef, useEffect, useLayoutEffect, use } from 'react'
 import { XCircleIcon } from '@heroicons/react/24/outline'
 
 const filterByText = (item, inputValue) => {
@@ -41,13 +41,14 @@ export default function Combobox({
 		stateChangeTypes,
 	} = useCombobox({
 		inputValue: text,
-		items,
+		items: filteredItems,
 		itemToString(item) {
 			return item ? item.label : ''
 		},
 		onInputValueChange(e) {
 			const test = stateChangeTypes
 			if (e.type === '__item_click__' || e.type === '__input_keydown_enter__') {
+				console.log(e.selectedItem)
 				onSelectedItemChange(e.selectedItem)
 			} else {
 				//if (e.type === '__input_change__' || e.type === '__input_keydown_escape__') {
@@ -55,6 +56,10 @@ export default function Combobox({
 			}
 		},
 	})
+
+	useEffect(() => {
+		console.log(selectedItem)
+	}, [selectedItem])
 
 	const clearSearch = () => {
 		ref.current.click()
@@ -70,7 +75,7 @@ export default function Combobox({
 				</button>
 			</div>
 
-			<ul className={isOpen && filteredItems.length ? 'open' : ''} {...getMenuProps()}>
+			<ul className={isOpen ? 'open' : ''} {...getMenuProps()}>
 				{isOpen &&
 					filteredItems.map((item, index) => (
 						<li

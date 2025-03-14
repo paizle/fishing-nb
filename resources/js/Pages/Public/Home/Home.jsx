@@ -53,6 +53,7 @@ export default function Home({ apiLastModified }) {
 	}
 
 	const handleLocationChange = (location) => {
+		debugger
 		setSelectedLocation(location)
 	}
 
@@ -172,7 +173,9 @@ export default function Home({ apiLastModified }) {
 								onFocus={handleLocationFocus}
 								placeholder="Search by river, lake or region"
 								selectedItem={selectedLocation}
-								onSelectedItemChange={setSelectedLocation}
+								onSelectedItemChange={(e) => {
+									setSelectedLocation(e)
+								}}
 							/>
 						</div>
 					</div>

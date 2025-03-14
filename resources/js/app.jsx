@@ -11,7 +11,7 @@ import { ApplicationContextProvider } from '@/Contexts/ApplicationContext'
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
 scan({
-	enabled: true,
+	enabled: false,
 })
 
 createInertiaApp({
