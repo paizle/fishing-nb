@@ -3,7 +3,7 @@ import { useState, useEffect, useRef, memo, useMemo } from 'react'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 import Combobox from '@/Components/Combobox/Combobox'
-import { XCircleIcon } from '@heroicons/react/24/outline'
+import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 import useRest from '@/Hooks/useRest'
 import useLandingPage from '@/Hooks/useLandingPage'
 import SelectFishMobile from './SelectFishMobile/SelectFishMobile'
@@ -24,6 +24,8 @@ export default function Home({ apiLastModified }) {
 	const restFish = useRest(apiLastModified)
 	const restLocations = useRest(apiLastModified)
 	const restRestrictions = useRest(apiLastModified)
+
+	const selectedLocationButtonRef = useRef(null)
 
 	useEffect(() => {
 		restFish.get('/api/fishes').then((request) => {
@@ -55,7 +57,22 @@ export default function Home({ apiLastModified }) {
 	}
 
 	const clearLocation = () => {
+		const regionLocation = comboboxLocationItems.find((location) => {
+			if (
+				!location.value.waterId &&
+				location.value.regionId === selectedLocation.value.regionId
+			) {
+				return location
+			}
+		})
 		setSelectedLocation(null)
+		//setComboboxText('')
+
+		setTimeout(() => {
+			//debugger
+			comboboxRef.current.click()
+			//comboboxRef.current.focus()
+		}, 10)
 	}
 
 	useEffect(() => {
@@ -70,6 +87,12 @@ export default function Home({ apiLastModified }) {
 			})
 		}
 	}, [selectedLocation, selectedFish])
+
+	useEffect(() => {
+		if (selectedLocation) {
+			selectedLocationButtonRef.current.focus()
+		}
+	}, [selectedLocation])
 
 	const handleLocationFocus = (e) => {
 		const target = e.target
@@ -101,6 +124,8 @@ export default function Home({ apiLastModified }) {
 		[locations],
 	)
 
+	const comboboxRef = useRef(null)
+
 	return (
 		<PublicLayout className={`Home ${selectedLocation ? 'location-selected' : ''}`}>
 			<header className={`${selectedLocation ? '' : 'shadow'}`}>
@@ -116,6 +141,7 @@ export default function Home({ apiLastModified }) {
 						<div className="header">
 							{selectedLocation && (
 								<button
+									ref={selectedLocationButtonRef}
 									onClick={() => clearLocation()}
 									className="selected-location flex items-center gap-2"
 								>
@@ -124,26 +150,30 @@ export default function Home({ apiLastModified }) {
 											<span key={part}>{part}</span>
 										))}
 									</strong>
-									<XCircleIcon className="h-5 w-5" />
+									<ArrowUturnLeftIcon />
 								</button>
 							)}
 						</div>
 						<div className="body">
-							{selectedLocation ? (
+							{!selectedLocation ? null : (
 								<FishingRestrictions
 									isLoading={restRestrictions.state.loading}
 									restrictions={restrictions}
 									regionId={selectedLocation?.value?.regionId}
 									waterId={selectedLocation?.value?.waterId}
 								/>
-							) : (
-								<Combobox
-									items={comboboxLocationItems}
-									onChange={handleLocationChange}
-									onFocus={handleLocationFocus}
-									placeholder="Search by river, lake or region"
-								/>
 							)}
+
+							<Combobox
+								className={selectedLocation ? 'hidden' : ''}
+								inputRef={comboboxRef}
+								items={comboboxLocationItems}
+								onChange={handleLocationChange}
+								onFocus={handleLocationFocus}
+								placeholder="Search by river, lake or region"
+								selectedItem={selectedLocation}
+								onSelectedItemChange={setSelectedLocation}
+							/>
 						</div>
 					</div>
 				)}

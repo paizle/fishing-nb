@@ -1,44 +1,99 @@
 import './Combobox.scss'
-import Downshift from 'downshift'
+import Downshift, { useCombobox } from 'downshift'
 import { useState, useRef, useEffect, useLayoutEffect } from 'react'
+import { XCircleIcon } from '@heroicons/react/24/outline'
 
-export default function Combobox({ items = [], label, placeholder = null, onChange, onFocus }) {
-	const ref = useRef(null)
+const filterByText = (item, inputValue) => {
+	if (!inputValue) return true
+	const inputChunks = inputValue.split(' ').map((chunk) => chunk.toLowerCase())
+	const labelChunks = item.label.split(' ').map((chunk) => chunk.toLowerCase())
+	return inputChunks.every((inputChunk) =>
+		labelChunks.some((labelChunk) => labelChunk.includes(inputChunk)),
+	)
+}
 
-	const [isInit, setIsInit] = useState(false)
+export default function Combobox({
+	items = [],
+	placeholder,
+	//onChange,
+	onFocus,
+	inputRef,
+	className = '',
+	inputValue = '',
+	//selectedItem,
+	onInputValueChange,
+	onSelectedItemChange,
+}) {
+	const [text, setText] = useState('')
 
-	useEffect(() => {
-		if (ref.current) {
-			setTimeout(() => {
-				setIsInit(true)
-			}, 0)
-		}
-	}, [ref.current])
+	const filteredItems = (items ?? []).filter((item) => filterByText(item, text))
 
-	const [hasFocus, setHasFocus] = useState(false)
+	const ref = inputRef ? inputRef : useRef(null)
 
-	const handleFocus = (e) => {
-		setHasFocus(false)
-		if (onFocus) {
-			onFocus(e)
-		}
-		setTimeout(() => setHasFocus(true), 1)
-	}
+	const {
+		isOpen,
+		getLabelProps,
+		getMenuProps,
+		getInputProps,
+		highlightedIndex,
+		getItemProps,
+		selectedItem,
+		stateChangeTypes,
+	} = useCombobox({
+		inputValue: text,
+		items,
+		itemToString(item) {
+			return item ? item.label : ''
+		},
+		onInputValueChange(e) {
+			const test = stateChangeTypes
+			if (e.type === '__item_click__' || e.type === '__input_keydown_enter__') {
+				onSelectedItemChange(e.selectedItem)
+			} else {
+				//if (e.type === '__input_change__' || e.type === '__input_keydown_escape__') {
+				setText(e.inputValue)
+			}
+		},
+	})
 
-	const handleBlur = (e) => {
-		setHasFocus(false)
-	}
-
-	const handleChange = (selection) => {
-		if (onChange) {
-			onChange(selection)
-		}
+	const clearSearch = () => {
+		ref.current.click()
+		setText('')
 	}
 
 	return (
+		<div className={`Combobox ${className ? className : ''}`}>
+			<div className="input" {...getLabelProps()}>
+				<input placeholder={placeholder} {...getInputProps({ ref })} />
+				<button aria-label="Clear Search input" type="button" onClick={clearSearch}>
+					<XCircleIcon />
+				</button>
+			</div>
+
+			<ul className={isOpen && filteredItems.length ? 'open' : ''} {...getMenuProps()}>
+				{isOpen &&
+					filteredItems.map((item, index) => (
+						<li
+							className={`${selectedItem === item ? 'selected' : ''} ${index === highlightedIndex ? 'highlighted' : ''}`}
+							key={item.value.regionId + '-' + item.value.waterId}
+							{...getItemProps({ item, index })}
+						>
+							<span>{item.label}</span>
+						</li>
+					))}
+			</ul>
+		</div>
+	)
+
+	return (
 		<Downshift
+			className={className}
 			onChange={handleChange}
 			itemToString={(item) => (item ? item?.label || item.value : '')}
+			selectedItem={selectedItem}
+			inputValue={inputValue}
+			onInputValueChange={onInputValueChange}
+			selectedItemChanged={onSelectedItemChange}
 		>
 			{({
 				getInputProps,
@@ -61,8 +116,7 @@ export default function Combobox({ items = [], label, placeholder = null, onChan
 				const filteredItems = items.filter(filterByText)
 				return (
 					<div
-						ref={ref}
-						className={`Combobox ${isInit ? 'init' : ''} ${hasFocus ? 'open' : ''}`}
+						className={`Combobox ${isInit ? 'init' : ''} ${hasFocus ? 'open' : ''} ${className}`}
 					>
 						<label {...getLabelProps()}>
 							{label}
@@ -76,6 +130,7 @@ export default function Combobox({ items = [], label, placeholder = null, onChan
 									onFocus={handleFocus}
 									onClick={handleFocus}
 									onBlur={handleBlur}
+									ref={ref}
 								/>
 							</div>
 						</label>
