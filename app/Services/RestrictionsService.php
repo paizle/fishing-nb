@@ -17,7 +17,7 @@ class RestrictionsService
 		return FishingRestriction::query()
 			->where('region_id', $region_id)
 			->join('fish', 'fish.id', '=', 'fishing_restrictions.fish_id')
-			->with(['water'])
+			->with(['fish', 'water'])
 			->orderBy('fish.name')
 			->orderBy('season_start')
 			->orderBy('season_end', 'asc')
@@ -106,8 +106,6 @@ class RestrictionsService
 
 		return FishingRestriction::whereIn('fishing_restrictions.id', $record_ids)
 			->join('fish', 'fish.id', '=', 'fishing_restrictions.fish_id')
-			->with(['water'])
-			->orderBy('season_start')
 			->with(['fish', 'water'])
 			->orderBy('fish.name')
 			->orderBy('season_start')
