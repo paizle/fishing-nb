@@ -16,8 +16,13 @@ class RestrictionsService
 	{
 		return FishingRestriction::query()
 			->where('region_id', $region_id)
-			->with(['fish', 'water'])
+			->join('fish', 'fish.id', '=', 'fishing_restrictions.fish_id')
+			->with(['water'])
+			->orderBy('fish.name')
 			->orderBy('season_start')
+			->orderBy('season_end', 'asc')
+			->orderBy('method')
+			->orderBy('tidal')
 			->get();
 	}
 
@@ -28,6 +33,9 @@ class RestrictionsService
 			->where('fish_id', $fish_id)
 			->with(['fish', 'water'])
 			->orderBy('season_start')
+			->orderBy('season_end', 'asc')
+			->orderBy('method')
+			->orderBy('tidal')
 			->get();
 	}
 
@@ -62,9 +70,10 @@ class RestrictionsService
 
 		return FishingRestriction::whereIn('id', $record_ids)
 			->with(['fish', 'water'])
-			->orderBy('season_start', 'desc')
+			->orderBy('season_start')
 			->orderBy('season_end', 'asc')
-			->orderBy('method', 'desc')
+			->orderBy('method')
+			->orderBy('tidal')
 			->get();
 
 	}
@@ -95,13 +104,15 @@ class RestrictionsService
 		
 		$record_ids = array_merge($record_ids, $water_type_record_ids, $region_record_ids);
 
-		return FishingRestriction::whereIn('id', $record_ids)
-			->with(['fish', 'water'])
+		return FishingRestriction::whereIn('fishing_restrictions.id', $record_ids)
+			->join('fish', 'fish.id', '=', 'fishing_restrictions.fish_id')
+			->with(['water'])
 			->orderBy('season_start')
 			->with(['fish', 'water'])
-			->orderBy('season_start', 'desc')
+			->orderBy('fish.name')
+			->orderBy('season_start')
 			->orderBy('season_end', 'asc')
-			->orderBy('method', 'desc')
+			->orderBy('method')
 			->orderBy('tidal')
 			->get();
 	}
