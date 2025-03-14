@@ -52,11 +52,6 @@ export default function Home({ apiLastModified }) {
 		setSelectedFish(newSelectedFish)
 	}
 
-	const handleLocationChange = (location) => {
-		debugger
-		setSelectedLocation(location)
-	}
-
 	const clearLocation = () => {
 		const regionLocation = comboboxLocationItems.find((location) => {
 			if (
@@ -94,25 +89,6 @@ export default function Home({ apiLastModified }) {
 			selectedLocationButtonRef.current.focus()
 		}
 	}, [selectedLocation])
-
-	const handleLocationFocus = (e) => {
-		const target = e.target
-		const combobox = target.closest('.Combobox')
-		combobox.addEventListener(
-			'transitionstart',
-			() =>
-				combobox.addEventListener(
-					'transitionend',
-					() =>
-						target.parentElement?.scrollIntoView({
-							behavior: 'smooth',
-							block: 'start',
-						}),
-					{ once: true },
-				),
-			{ once: true },
-		)
-	}
 
 	const PublicNavMemo = memo(PublicNav)
 
@@ -169,11 +145,8 @@ export default function Home({ apiLastModified }) {
 								className={selectedLocation ? 'hidden' : ''}
 								inputRef={comboboxRef}
 								items={comboboxLocationItems}
-								onChange={handleLocationChange}
-								onFocus={handleLocationFocus}
 								placeholder="Search by river, lake or region"
-								selectedItem={selectedLocation}
-								onSelectedItemChange={(e) => {
+								onChange={(e) => {
 									setSelectedLocation(e)
 								}}
 							/>

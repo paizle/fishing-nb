@@ -12,23 +12,12 @@ const filterByText = (item, inputValue) => {
 	)
 }
 
-export default function Combobox({
-	items = [],
-	placeholder,
-	//onChange,
-	onFocus,
-	inputRef,
-	className = '',
-	inputValue = '',
-	//selectedItem,
-	onInputValueChange,
-	onSelectedItemChange,
-}) {
-	const [text, setText] = useState('')
-
-	const filteredItems = (items ?? []).filter((item) => filterByText(item, text))
+export default function Combobox({ className = '', placeholder, inputRef, items = [], onChange }) {
+	const [inputValue, setInputValue] = useState('')
 
 	const ref = inputRef ? inputRef : useRef(null)
+
+	const filteredItems = (items ?? []).filter((item) => filterByText(item, inputValue))
 
 	const {
 		isOpen,
@@ -40,7 +29,7 @@ export default function Combobox({
 		selectedItem,
 		stateChangeTypes,
 	} = useCombobox({
-		inputValue: text,
+		inputValue,
 		items: filteredItems,
 		itemToString(item) {
 			return item ? item.label : ''
@@ -48,22 +37,16 @@ export default function Combobox({
 		onInputValueChange(e) {
 			const test = stateChangeTypes
 			if (e.type === '__item_click__' || e.type === '__input_keydown_enter__') {
-				console.log(e.selectedItem)
-				onSelectedItemChange(e.selectedItem)
+				onChange(e.selectedItem)
 			} else {
 				//if (e.type === '__input_change__' || e.type === '__input_keydown_escape__') {
-				setText(e.inputValue)
+				setInputValue(e.inputValue)
 			}
 		},
 	})
 
-	useEffect(() => {
-		console.log(selectedItem)
-	}, [selectedItem])
-
 	const clearSearch = () => {
-		ref.current.click()
-		setText('')
+		setInputValue('')
 	}
 
 	return (
@@ -88,82 +71,5 @@ export default function Combobox({
 					))}
 			</ul>
 		</div>
-	)
-
-	return (
-		<Downshift
-			className={className}
-			onChange={handleChange}
-			itemToString={(item) => (item ? item?.label || item.value : '')}
-			selectedItem={selectedItem}
-			inputValue={inputValue}
-			onInputValueChange={onInputValueChange}
-			selectedItemChanged={onSelectedItemChange}
-		>
-			{({
-				getInputProps,
-				getItemProps,
-				getLabelProps,
-				getMenuProps,
-				isOpen,
-				inputValue,
-				selectedItem,
-				getRootProps,
-			}) => {
-				const filterByText = (item) => {
-					if (!inputValue) return true
-					const inputChunks = inputValue.split(' ').map((chunk) => chunk.toLowerCase())
-					const labelChunks = item.label.split(' ').map((chunk) => chunk.toLowerCase())
-					return inputChunks.every((inputChunk) =>
-						labelChunks.some((labelChunk) => labelChunk.includes(inputChunk)),
-					)
-				}
-				const filteredItems = items.filter(filterByText)
-				return (
-					<div
-						className={`Combobox ${isInit ? 'init' : ''} ${hasFocus ? 'open' : ''} ${className}`}
-					>
-						<label {...getLabelProps()}>
-							{label}
-							<div
-								className="input-wrapper"
-								{...getRootProps({}, { suppressRefError: true })}
-							>
-								<input
-									{...getInputProps()}
-									placeholder={placeholder}
-									onFocus={handleFocus}
-									onClick={handleFocus}
-									onBlur={handleBlur}
-									ref={ref}
-								/>
-							</div>
-						</label>
-						<ul className={`results ${hasFocus ? 'open' : ''}`} {...getMenuProps()}>
-							{filteredItems.length && hasFocus ? (
-								filteredItems.map((item, index) => (
-									<li
-										key={item?.label || item.value}
-										className="item"
-										{...getItemProps({
-											index,
-											item,
-											style: {
-												fontWeight:
-													selectedItem === item ? 'bold' : 'normal',
-											},
-										})}
-									>
-										{item?.label || item.value}
-									</li>
-								))
-							) : (
-								<li className="item">(no results)</li>
-							)}
-						</ul>
-					</div>
-				)
-			}}
-		</Downshift>
 	)
 }
