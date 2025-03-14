@@ -49,26 +49,28 @@ export default memo(function SelectFishDesktop({
 
 	return (
 		<div className="SelectFishDesktop">
-			<div className="fishes" ref={fishListRef}>
-				{(fishes || []).map((fish) => (
-					<button
-						key={fish.name}
-						data-id={fish.id}
-						className={`fish ${selectedFishId === fish.id ? 'selected' : ''}`}
-						onClick={() => selectFish(fish.id)}
-					>
-						<img src={getFishImageSrc(fish.name)} alt={fish.name} />
-						<div className="name">{fish.name}</div>
+			<div className="carousel">
+				<div className="fishes" ref={fishListRef}>
+					{(fishes || []).map((fish) => (
+						<button
+							key={fish.name}
+							data-id={fish.id}
+							className={`fish ${selectedFishId === fish.id ? 'selected' : ''}`}
+							onClick={() => selectFish(fish.id)}
+						>
+							<img src={getFishImageSrc(fish.name)} alt={fish.name} />
+							<div className="name">{fish.name}</div>
+						</button>
+					))}
+				</div>
+				<div className="navigation">
+					<button className="go-left" onClick={() => scrollFishesLeft()}>
+						<ArrowLeftCircleIcon />
 					</button>
-				))}
-			</div>
-			<div className="navigation">
-				<button className="go-left" onClick={() => scrollFishesLeft()}>
-					<ArrowLeftCircleIcon />
-				</button>
-				<button className="go-right" onClick={() => scrollFishesRight()}>
-					<ArrowLeftCircleIcon />
-				</button>
+					<button className="go-right" onClick={() => scrollFishesRight()}>
+						<ArrowLeftCircleIcon />
+					</button>
+				</div>
 			</div>
 		</div>
 	)

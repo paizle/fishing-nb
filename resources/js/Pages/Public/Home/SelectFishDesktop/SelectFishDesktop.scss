@@ -3,79 +3,87 @@
 	width: 100%;
 	position: relative;
 	@apply shadow-inverted;
-	.fishes {
-		overflow: hidden;
-		border-collapse: collapse;
-		padding: 1em 5em;
-		display: flex;
-		gap: 1em;
-		flex-wrap: nowrap;
-		scroll-behavior: smooth;
-		min-height: 5em;
-	}
-	.navigation {
-		position: absolute;
-		left: 0;
-		top: 50%;
-		width: 100%;
-		pointer-events: none;
-		button {
-			pointer-events: all;
-			position: absolute;
-			top: 50%;
-			width: 5em;
-			transform: translateY(-50%);
-			&:hover {
-				svg {
-					color: var(--highlight-color);
-				}
-			}
-			svg {
-				width: 100%;
-				color: var(--highlight-color-translucent);
-			}
-			&.go-left {
-				left: 0;
-			}
-			&.go-right {
-				right: 0;
-				svg {
-					transform: rotate(180deg);
-				}
-			}
-		}
-	}
-	.fish {
-		@apply shadow;
-		font-size: 0.8em;
-		flex-shrink: 0;
-		line-height: 1;
-		text-align: center;
-		flex-basis: 10em;
-		padding: 0.5em 0.5em 0 0.5em;
-		border-radius: 1em;
-		img {
-			height: 4em;
-			padding: 1em 0 0 0;
-			box-sizing: content-box;
-			object-fit: contain;
-			object-position: center;
-			margin: 0 auto;
-			top: 0;
-			color: transparent;
-		}
-		.name {
+	$height: 9.25em;
+	height: $height;
+
+	.carousel {
+		margin-top: 0.5em;
+		.fishes {
+			overflow: hidden;
+			border-collapse: collapse;
+			padding: 1em 5em;
 			display: flex;
-			align-items: center;
-			justify-content: center;
-			height: 4em;
-			padding: 0 1em;
-			color: var(--heading-color);
+			gap: 1em;
+			flex-wrap: nowrap;
+			scroll-behavior: smooth;
+			min-height: 5em;
 		}
-		&.selected {
-			background-color: var(--highlight-color);
+		.navigation {
+			position: absolute;
+			left: 0;
+			top: calc($height / 2);
+			width: 100%;
+			pointer-events: none;
+			button {
+				pointer-events: all;
+				position: absolute;
+				top: 50%;
+				width: 5em;
+				transform: translateY(-50%);
+				&:hover {
+					svg {
+						opacity: 1;
+					}
+				}
+				svg {
+					width: 100%;
+					color: var(--highlight-color);
+					opacity: 0.4;
+					transition: 300ms ease;
+				}
+				&.go-left {
+					left: 0;
+				}
+				&.go-right {
+					right: 0;
+					svg {
+						transform: rotate(180deg);
+					}
+				}
+			}
+		}
+		.fish {
+			@apply shadow;
+			font-size: 0.8em;
+			flex-shrink: 0;
+			line-height: 1;
+			text-align: center;
+			flex-basis: 10em;
+			padding: 0.5em 0.5em 0 0.5em;
+			border-radius: 1em;
+			img {
+				height: 4em;
+				padding: 1em 0 0 0;
+				box-sizing: content-box;
+				object-fit: contain;
+				object-position: center;
+				margin: 0 auto;
+				top: 0;
+				color: transparent;
+			}
 			.name {
-				color: white;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				height: 4em;
+				padding: 0 1em;
+				color: var(--heading-color);
+			}
+			&.selected {
+				background-color: var(--highlight-color);
+				.name {
+					color: white;
+				}
 			}
 		}
 	}
