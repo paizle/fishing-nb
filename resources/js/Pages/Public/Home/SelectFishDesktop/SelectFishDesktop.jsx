@@ -1,10 +1,10 @@
 import './SelectFishDesktop.scss'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, memo } from 'react'
 import { ArrowLeftCircleIcon } from '@heroicons/react/24/outline'
 import getFishImageSrc from '@/Util/getFishImageSrc'
 import ProgressiveImage from '@/Components/ProgressiveImage'
 
-export default function SelectFishDesktop({
+export default memo(function SelectFishDesktop({
 	fishes = null,
 	selectedFishId = null,
 	selectFish = () => null,
@@ -14,9 +14,7 @@ export default function SelectFishDesktop({
 	// scroll to last selected fish
 	useEffect(() => {
 		if (fishListRef.current && fishes && selectedFishId) {
-			const element = fishListRef.current.querySelector(
-				`[data-id="${selectedFishId}"]`,
-			)
+			const element = fishListRef.current.querySelector(`[data-id="${selectedFishId}"]`)
 			element?.scrollIntoView({
 				behavior: 'smooth',
 				inline: 'center',
@@ -30,9 +28,8 @@ export default function SelectFishDesktop({
 		} else {
 			fishListRef.current.scrollLeft =
 				fishListRef.current.scrollLeft -
-				fishListRef.current
-					.querySelector('[data-id]:first-child')
-					.getBoundingClientRect().width
+				fishListRef.current.querySelector('[data-id]:first-child').getBoundingClientRect()
+					.width
 		}
 	}
 
@@ -45,38 +42,36 @@ export default function SelectFishDesktop({
 		} else {
 			fishListRef.current.scrollLeft =
 				fishListRef.current.scrollLeft +
-				fishListRef.current
-					.querySelector('[data-id]:first-child')
-					.getBoundingClientRect().width
+				fishListRef.current.querySelector('[data-id]:first-child').getBoundingClientRect()
+					.width
 		}
 	}
 
 	return (
 		<div className="SelectFishDesktop">
-			<div className="fishes" ref={fishListRef}>
-				{(fishes || []).map((fish) => (
-					<button
-						key={fish.name}
-						data-id={fish.id}
-						className={`fish ${selectedFishId === fish.id ? 'selected' : ''}`}
-						onClick={() => selectFish(fish.id)}
-					>
-						<img src={getFishImageSrc(fish.name)} alt={fish.name} />
-						<div className="name">{fish.name}</div>
+			<div className="carousel">
+				<div className="fishes" ref={fishListRef}>
+					{(fishes || []).map((fish) => (
+						<button
+							key={fish.name}
+							data-id={fish.id}
+							className={`fish ${selectedFishId === fish.id ? 'selected' : ''}`}
+							onClick={() => selectFish(fish.id)}
+						>
+							<img src={getFishImageSrc(fish.name)} alt={fish.name} />
+							<div className="name">{fish.name}</div>
+						</button>
+					))}
+				</div>
+				<div className="navigation">
+					<button className="go-left" onClick={() => scrollFishesLeft()}>
+						<ArrowLeftCircleIcon />
 					</button>
-				))}
-			</div>
-			<div className="navigation">
-				<button className="go-left" onClick={() => scrollFishesLeft()}>
-					<ArrowLeftCircleIcon />
-				</button>
-				<button
-					className="go-right"
-					onClick={() => scrollFishesRight()}
-				>
-					<ArrowLeftCircleIcon />
-				</button>
+					<button className="go-right" onClick={() => scrollFishesRight()}>
+						<ArrowLeftCircleIcon />
+					</button>
+				</div>
 			</div>
 		</div>
 	)
-}
+})

@@ -28,9 +28,7 @@ export default function Region({ waters, breadcrumb }) {
 		if (value.length) {
 			const newFilteredResults = results.filter((result) =>
 				result.water
-					? result.water.name
-							.toLowerCase()
-							.includes(value.trim().toLowerCase())
+					? result.water.name.toLowerCase().includes(value.trim().toLowerCase())
 					: false,
 			)
 			setFilteredResults(newFilteredResults)
@@ -67,22 +65,15 @@ export default function Region({ waters, breadcrumb }) {
 									? filteredResults.map((result) => (
 											<li key={result.water.id}>
 												<Link
-													href={route(
-														'location.water',
-														{
-															id: result.water.id,
-														},
-													)}
+													href={route('location.water', {
+														id: result.water.id,
+													})}
 												>
 													{result.water.name}
 												</Link>
 											</li>
 										))
-									: waterName && (
-											<div className="p-4">
-												(no results)
-											</div>
-										)}
+									: waterName && <div className="p-4">(no results)</div>}
 							</ul>
 						</div>
 					</div>

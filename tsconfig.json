@@ -9,7 +9,11 @@
 		"checkJs": false, // Do not check JS files for type errors
 		"strict": true, // Enable strict type checking
 		"isolatedModules": true,
-		"noEmit": true
+		"noEmit": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["resources/js/*"]
+		}
 	},
 	"include": ["src", "resources/js"]
 }

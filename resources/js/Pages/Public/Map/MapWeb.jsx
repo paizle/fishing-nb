@@ -51,9 +51,7 @@ export default function MapWeb({ locations }) {
 						<li key={key} data-path-id={key}>
 							<Link
 								className={
-									locationsIndexed?.[
-										pathSelectorToLocationName[key]
-									].hasData
+									locationsIndexed?.[pathSelectorToLocationName[key]].hasData
 										? ''
 										: 'disabled'
 								}
@@ -62,9 +60,8 @@ export default function MapWeb({ locations }) {
 								})}
 								onClick={(event) => {
 									if (
-										!locationsIndexed?.[
-											pathSelectorToLocationName[key]
-										]?.hasData
+										!locationsIndexed?.[pathSelectorToLocationName[key]]
+											?.hasData
 									) {
 										event.preventDefault()
 										return false
@@ -72,32 +69,28 @@ export default function MapWeb({ locations }) {
 								}}
 								onMouseEnter={(event) => {
 									if (containerRef.current) {
-										const location =
-											containerRef.current.querySelector(
-												`[id=${key}]`,
-											)
+										const location = containerRef.current.querySelector(
+											`[id=${key}]`,
+										)
 										location.classList.add('active')
 									}
 								}}
 								onMouseLeave={(event) => {
 									if (containerRef.current) {
-										const location =
-											containerRef.current.querySelector(
-												`[id=${key}]`,
-											)
+										const location = containerRef.current.querySelector(
+											`[id=${key}]`,
+										)
 										location.classList.remove('active')
 									}
 								}}
 							>
 								<h3>{pathSelectorToLocationName[key]}</h3>
 								<em>
-									{!locationsIndexed?.[
-										pathSelectorToLocationName[key]
-									]?.hasData && <strong>(no data)</strong>}
+									{!locationsIndexed?.[pathSelectorToLocationName[key]]
+										?.hasData && <strong>(no data)</strong>}
 									{
-										locationsIndexed?.[
-											pathSelectorToLocationName[key]
-										]?.description
+										locationsIndexed?.[pathSelectorToLocationName[key]]
+											?.description
 									}
 								</em>
 							</Link>

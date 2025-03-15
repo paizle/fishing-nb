@@ -5,14 +5,12 @@ import { byFish } from './FishingRestrictionsTransformers'
 import getFishImageSrc from '@/Util/getFishImageSrc'
 import FishRestrictionsTable from './FishRestrictionsTable'
 import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
+import useApplicationContext from '@/Contexts/ApplicationContext'
 
-export default function FishingRestrictions({
-	isLoading,
-	restrictions,
-	locationId,
-	waterId,
-}) {
+export default function FishingRestrictions({ isLoading, restrictions, locationId, waterId }) {
 	const [hiddenFields, setHiddenFields] = useState([])
+
+	const appContext = useApplicationContext()
 
 	const restrictionsByFish = byFish(restrictions)
 
@@ -44,6 +42,7 @@ export default function FishingRestrictions({
 					fishImageSrc={getFishImageSrc(fishName)}
 					restrictions={restrictionsByFish[fishName].restrictions}
 					hiddenFields={hiddenFields}
+					isMobile={appContext.screenOrientation.isMobile}
 				/>
 			))
 		}

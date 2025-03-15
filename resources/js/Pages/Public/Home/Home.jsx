@@ -1,16 +1,15 @@
 import './Home.scss'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, memo, useMemo } from 'react'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import PublicNav from '@/Layouts/PublicLayout/PublicNav'
-import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
 import Combobox from '@/Components/Combobox/Combobox'
-import { XCircleIcon } from '@heroicons/react/24/outline'
+import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 import useRest from '@/Hooks/useRest'
 import useLandingPage from '@/Hooks/useLandingPage'
-import useScreenOrientation from '@/Hooks/useScreenOrientation'
 import SelectFishMobile from './SelectFishMobile/SelectFishMobile'
 import SelectFishDesktop from './SelectFishDesktop/SelectFishDesktop'
 import FishingRestrictions from './FishingRestrictions/FishingRestrictions'
+import useApplicationContext from '@/Contexts/ApplicationContext'
 
 export default function Home({ apiLastModified }) {
 	const [fishes, setFishes] = useState(null)
@@ -19,32 +18,24 @@ export default function Home({ apiLastModified }) {
 	const [selectedFish, setSelectedFish] = useState(null)
 	const [selectedLocation, setSelectedLocation] = useState(null)
 
-	const storage = useLocalStorageDefaults()
-	useLandingPage('home')
-
-	const screenOrientation = useScreenOrientation()
+	const appContext = useApplicationContext()
+	appContext.setLandingPage('home')
 
 	const restFish = useRest(apiLastModified)
 	const restLocations = useRest(apiLastModified)
 	const restRestrictions = useRest(apiLastModified)
 
+	const selectedLocationButtonRef = useRef(null)
+
 	useEffect(() => {
-		restFish
-			.get('/api/fishes')
-			.then((request) => {
-				setFishes(request.data.fishes)
-				console.log(request.data.fishes)
-			})
-		restLocations
-			.get('/api/locations')
-			.then((request) => setLocations(request.data.locations))
+		restFish.get('/api/fishes').then((request) => {
+			setFishes(request.data.fishes)
+		})
+		restLocations.get('/api/locations').then((request) => setLocations(request.data.locations))
 	}, [])
 
 	useEffect(() => {
-		const selectedFish = storage.get(
-			'settings',
-			(settings) => settings.selectedFish,
-		)
+		const selectedFish = appContext.getUserSelectedFish()
 		if (selectedFish) {
 			setSelectedFish(selectedFish)
 		}
@@ -57,15 +48,24 @@ export default function Home({ apiLastModified }) {
 		} else {
 			newSelectedFish = id
 		}
-		storage.set(
-			'settings',
-			(settings) => (settings.selectedFish = newSelectedFish),
-		)
+		appContext.setUserSelectedFish(newSelectedFish)
 		setSelectedFish(newSelectedFish)
 	}
 
-	const handleLocationChange = (location) => {
-		setSelectedLocation(location)
+	const clearLocation = () => {
+		const regionLocation = comboboxLocationItems.find((location) => {
+			if (
+				!location.value.waterId &&
+				location.value.regionId === selectedLocation.value.regionId
+			) {
+				return location
+			}
+		})
+		setSelectedLocation(null)
+
+		setTimeout(() => {
+			comboboxRef.current.click()
+		}, 10)
 	}
 
 	useEffect(() => {
@@ -81,77 +81,72 @@ export default function Home({ apiLastModified }) {
 		}
 	}, [selectedLocation, selectedFish])
 
-	const handleLocationFocus = (e) => {
-		const target = e.target
-		const combobox = target.closest('.Combobox')
-		combobox.addEventListener(
-			'transitionstart',
-			() =>
-				combobox.addEventListener(
-					'transitionend',
-					() =>
-						target.parentElement?.scrollIntoView({
-							behavior: 'smooth',
-							block: 'start',
-						}),
-					{ once: true },
-				),
-			{ once: true },
-		)
-	}
+	useEffect(() => {
+		if (selectedLocation) {
+			selectedLocationButtonRef.current.focus()
+		}
+	}, [selectedLocation])
+
+	const PublicNavMemo = memo(PublicNav)
+
+	const comboboxLocationItems = useMemo(
+		() =>
+			Object.entries(locations ?? {}).map(([key, value]) => ({
+				value,
+				label: key,
+			})),
+		[locations],
+	)
+
+	const comboboxRef = useRef(null)
 
 	return (
-		<PublicLayout
-			className={`Home ${selectedLocation ? 'location-selected' : ''}`}
-		>
+		<PublicLayout className={`Home ${selectedLocation ? 'location-selected' : ''}`}>
 			<header className={`${selectedLocation ? '' : 'shadow'}`}>
-				<PublicNav>
+				<PublicNavMemo>
 					<h1 className="hero">
 						Smart <span>Fish</span>
 					</h1>
-				</PublicNav>
+				</PublicNavMemo>
 			</header>
 			<main>
 				{fishes !== null && locations !== null && (
-					<div className="layout">
+					<div className="focused-layout">
 						<div className="header">
 							{selectedLocation && (
 								<button
-									onClick={() => setSelectedLocation(null)}
+									ref={selectedLocationButtonRef}
+									onClick={() => clearLocation()}
 									className="selected-location flex items-center gap-2"
 								>
 									<strong>
-										{selectedLocation.label
-											.split('/')
-											.map((part) => (
-												<span key={part}>{part}</span>
-											))}
+										{selectedLocation.label.split('/').map((part) => (
+											<span key={part}>{part}</span>
+										))}
 									</strong>
-									<XCircleIcon className="h-5 w-5" />
+									<ArrowUturnLeftIcon />
 								</button>
 							)}
 						</div>
 						<div className="body">
-							{selectedLocation ? (
+							{!selectedLocation ? null : (
 								<FishingRestrictions
 									isLoading={restRestrictions.state.loading}
 									restrictions={restrictions}
 									regionId={selectedLocation?.value?.regionId}
 									waterId={selectedLocation?.value?.waterId}
 								/>
-							) : (
-								<Combobox
-									items={Object.keys(locations).map(
-										(key) => ({
-											value: locations[key],
-											label: key,
-										}),
-									)}
-									onChange={handleLocationChange}
-									onFocus={handleLocationFocus}
-									placeholder="Search by river, lake or region"
-								/>
 							)}
+
+							<Combobox
+								className={selectedLocation ? 'hidden' : ''}
+								inputRef={comboboxRef}
+								items={comboboxLocationItems}
+								placeholder="Search by river, lake or region"
+								onChange={(e) => {
+									setSelectedLocation(e)
+								}}
+							/>
 						</div>
 					</div>
 				)}
@@ -161,7 +156,7 @@ export default function Home({ apiLastModified }) {
 				</div>
 			</main>
 			<footer>
-				{screenOrientation.isMobile ? (
+				{appContext.screenOrientation.isMobile ? (
 					<SelectFishMobile
 						fishes={fishes}
 						selectedFishId={selectedFish}

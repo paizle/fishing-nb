@@ -1,130 +1,101 @@
 import './Combobox.scss'
-import Downshift from 'downshift'
-import { useState, useRef, useEffect, useLayoutEffect } from 'react'
+import Downshift, { useCombobox } from 'downshift'
+import { useState, useRef, useEffect, useLayoutEffect, use } from 'react'
+import { XCircleIcon } from '@heroicons/react/24/outline'
 
-export default function Combobox({
-	items = [],
-	label,
-	placeholder = null,
-	onChange,
-	onFocus,
-}) {
-	const ref = useRef(null)
+const filterByText = (item, inputValue) => {
+	if (!inputValue) return true
+	const inputChunks = inputValue.split(' ').map((chunk) => chunk.toLowerCase())
+	const labelChunks = item.label.split(' ').map((chunk) => chunk.toLowerCase())
+	return inputChunks.every((inputChunk) =>
+		labelChunks.some((labelChunk) => labelChunk.includes(inputChunk)),
+	)
+}
 
-	const [isInit, setIsInit] = useState(false)
+export default function Combobox({ className = '', placeholder, inputRef, items = [], onChange }) {
+	const [inputValue, setInputValue] = useState('')
 
-	useEffect(() => {
-		if (ref.current) {
-			setTimeout(() => {
-				setIsInit(true)
-			}, 0)
-		}
-	}, [ref.current])
+	const ref = inputRef ? inputRef : useRef(null)
 
-	const [hasFocus, setHasFocus] = useState(false)
+	const filteredItems = (items ?? []).filter((item) => filterByText(item, inputValue))
 
-	const handleFocus = (e) => {
-		setHasFocus(false)
-		if (onFocus) {
-			onFocus(e)
-		}
-		setTimeout(() => setHasFocus(true), 1)
+	const {
+		isOpen,
+		getLabelProps,
+		getMenuProps,
+		getInputProps,
+		highlightedIndex,
+		getItemProps,
+		selectedItem,
+		stateChangeTypes,
+	} = useCombobox({
+		inputValue,
+		items: filteredItems,
+		itemToString(item) {
+			return item ? item.label : ''
+		},
+		onInputValueChange(e) {
+			const { stateChangeTypes } = useCombobox
+			if (
+				e.type === stateChangeTypes.ItemClick ||
+				e.type === stateChangeTypes.InputKeyDownEnter
+			) {
+				onChange(e.selectedItem)
+			} else {
+				setInputValue(e.inputValue)
+			}
+		},
+	})
+
+	const clearSearch = () => {
+		setInputValue('')
 	}
 
-	const handleBlur = (e) => {
-		setHasFocus(false)
-	}
-
-	const handleChange = (selection) => {
-		if (onChange) {
-			onChange(selection)
-		}
+	const onFocus = (e) => {
+		const target = e.target
+		const combobox = target.closest('.Combobox')
+		combobox.addEventListener(
+			'transitionstart',
+			() =>
+				combobox.addEventListener(
+					'transitionend',
+					() =>
+						target.parentElement?.scrollIntoView({
+							behavior: 'smooth',
+							block: 'start',
+						}),
+					{ once: true },
+				),
+			{ once: true },
+		)
 	}
 
 	return (
-		<Downshift
-			onChange={handleChange}
-			itemToString={(item) => (item ? item?.label || item.value : '')}
-		>
-			{({
-				getInputProps,
-				getItemProps,
-				getLabelProps,
-				getMenuProps,
-				isOpen,
-				inputValue,
-				highlightedIndex,
-				selectedItem,
-				getRootProps,
-			}) => {
-				const filterByText = (item) => {
-					if (!inputValue) return true
-					const inputChunks = inputValue
-						.split(' ')
-						.map((chunk) => chunk.toLowerCase())
-					const labelChunks = item.label
-						.split(' ')
-						.map((chunk) => chunk.toLowerCase())
-					return inputChunks.every((inputChunk) =>
-						labelChunks.some((labelChunk) =>
-							labelChunk.includes(inputChunk),
-						),
-					)
-				}
-				const filteredItems = items.filter(filterByText)
-				return (
-					<div
-						ref={ref}
-						className={`Combobox ${isInit ? 'init' : ''} ${hasFocus ? 'open' : ''}`}
-					>
-						<label {...getLabelProps()}>
-							{label}
-							<div
-								className="input-wrapper"
-								{...getRootProps(
-									{},
-									{ suppressRefError: true },
-								)}
-							>
-								<input
-									{...getInputProps()}
-									placeholder={placeholder}
-									onFocus={handleFocus}
-									onClick={handleFocus}
-									onBlur={handleBlur}
-								/>
-							</div>
-						</label>
-						<ul
-							className={`results ${hasFocus ? 'open' : ''}`}
-							{...getMenuProps()}
+		<div className={`Combobox ${className ? className : ''}`}>
+			<div className="input" {...getLabelProps()}>
+				<input
+					placeholder={placeholder}
+					value={inputValue}
+					{...getInputProps({ ref })}
+					onFocus={onFocus}
+				/>
+				<button aria-label="Clear Search input" type="button" onClick={clearSearch}>
+					<XCircleIcon />
+				</button>
+			</div>
+
+			<ul className={isOpen ? 'open' : ''} {...getMenuProps()}>
+				{isOpen &&
+					filteredItems.map((item, index) => (
+						<li
+							className={`${selectedItem === item ? 'selected' : ''} ${index === highlightedIndex ? 'highlighted' : ''}`}
+							key={item.value.regionId + '-' + item.value.waterId}
+							{...getItemProps({ item, index })}
 						>
-							{filteredItems.length && hasFocus ? (
-								filteredItems.map((item, index) => (
-									<li
-										key={item?.label || item.value}
-										className={`item ${highlightedIndex === index ? 'highlighted' : ''}`}
-										{...getItemProps({
-											index,
-											item,
-											style: {
-												fontWeight:
-													selectedItem === item
-														? 'bold'
-														: 'normal',
-											},
-										})}
-									>
-										{item?.label || item.value}
-									</li>
-								))
-							) : (
-								<li className="item">(no results)</li>
-							)}
-						</ul>
-					</div>
-				)
-			}}
-		</Downshift>
+							<span>{item.label}</span>
+						</li>
+					))}
+			</ul>
+		</div>
 	)
 }

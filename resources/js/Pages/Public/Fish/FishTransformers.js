@@ -1,8 +1,4 @@
-import {
-	formatResults,
-	sortByStartAndEndDate,
-	removeDuplicates,
-} from '../Water/WaterTransformers'
+import { formatResults, sortByStartAndEndDate, removeDuplicates } from '../Water/WaterTransformers'
 
 export default function transformLimits(limits) {
 	limits = removeDuplicates(limits)

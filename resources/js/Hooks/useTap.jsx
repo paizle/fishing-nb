@@ -36,11 +36,7 @@ const useTap = (maxDuration = 300, maxMove = 10) => {
 			const moveX = Math.abs(touchStart.x - touchPosition.x)
 			const moveY = Math.abs(touchStart.y - touchPosition.y)
 
-			if (
-				timeDiff <= maxDuration &&
-				moveX <= maxMove &&
-				moveY <= maxMove
-			) {
+			if (timeDiff <= maxDuration && moveX <= maxMove && moveY <= maxMove) {
 				callback(event)
 			}
 		}

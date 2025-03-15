@@ -33,6 +33,7 @@
 		}
 		&.selected {
 			background-color: var(--highlight-color);
+			transition: 300ms ease;
 			img {
 				filter: grayscale(100%) invert(0) brightness(1000%);
 				&.low-res {

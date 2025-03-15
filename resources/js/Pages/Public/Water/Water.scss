@@ -78,10 +78,10 @@ main:has(.Water) {
 				color: var(--heading-color);
 				&:first-child {
 					text-align: left;
+					border-radius: 0.5em 0 0 0.5em;
 					@screen md {
 						font-size: 1.2em;
 					}
-					border-radius: 0.5em 0 0 0.5em;
 				}
 				&:last-child {
 					border-radius: 0 0.5em 0.5em 0;

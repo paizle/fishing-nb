@@ -118,9 +118,7 @@ export function formatResults(results) {
 				if (!fish[fishName].seasonStart) {
 					fish[fishName].seasonStart = limit.seasonStart
 				} else {
-					if (
-						isBefore(limit.seasonStart, fish[fishName].seasonStart)
-					) {
+					if (isBefore(limit.seasonStart, fish[fishName].seasonStart)) {
 						fish[fishName].seasonStart = limit.seasonStart
 					}
 				}
@@ -139,11 +137,7 @@ export function formatResults(results) {
 		let i = 0
 		while (i < fish[fishName].limits.length) {
 			const obj = fish[fishName].limits[i]
-			const key = [
-				obj.fishingMethod,
-				obj.tidal,
-				obj.waterDescription,
-			].join('-')
+			const key = [obj.fishingMethod, obj.tidal, obj.waterDescription].join('-')
 
 			if (obj.waterDescription && objectMap[key] && true) {
 				if (!objectMap[key].group) {

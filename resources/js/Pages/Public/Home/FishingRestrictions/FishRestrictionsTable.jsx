@@ -1,8 +1,8 @@
 import './FishRestrictionsTable.scss'
+import { memo } from 'react'
 import PropTypes from 'prop-types'
 import config from '@/Util/config'
 import { format } from 'date-fns'
-import useScreenOrientation from '@/Hooks/useScreenOrientation'
 import { Fragment } from 'react/jsx-runtime'
 import Tooltip from '@/Components/Tooltip/Tooltip'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
@@ -12,8 +12,11 @@ export default function FishRestrictionsTable({
 	fishImageSrc,
 	restrictions,
 	hiddenFields = [],
+	isMobile,
 }) {
-	const screenOrientation = useScreenOrientation()
+	const ToolTipMemo = memo(Tooltip)
+
+	const ExclamationTriangleIconMemo = memo(ExclamationTriangleIcon)
 
 	const removeHiddenFields = (restriction) => {
 		hiddenFields.forEach((hiddenField) => (restriction[hiddenField] = null))
@@ -26,18 +29,14 @@ export default function FishRestrictionsTable({
 				<span>
 					{format(
 						restriction.seasonStart,
-						screenOrientation.isMobile
-							? config.displayDayMonthShortFormat
-							: config.displayDayMonthFormat,
+						isMobile ? config.displayDayMonthShortFormat : config.displayDayMonthFormat,
 					)}{' '}
 				</span>
 				<span>
 					-{' '}
 					{format(
 						restriction.seasonEnd,
-						screenOrientation.isMobile
-							? config.displayDayMonthShortFormat
-							: config.displayDayMonthFormat,
+						isMobile ? config.displayDayMonthShortFormat : config.displayDayMonthFormat,
 					)}
 					{comma ? ',' : ''}
 				</span>
@@ -60,11 +59,7 @@ export default function FishRestrictionsTable({
 
 		if (restriction.tidal) {
 			text += restriction.tidal
-			if (
-				restriction.water ||
-				restriction.watersCategory ||
-				restriction.boundary
-			) {
+			if (restriction.water || restriction.watersCategory || restriction.boundary) {
 				text += ' portions of '
 			} else {
 				text += ' waters'
@@ -122,9 +117,9 @@ export default function FishRestrictionsTable({
 			return (
 				<>
 					{renderBagLimitValue(restriction)}
-					<Tooltip message={'Daily Hook and Release Limit: ' + restriction.hookLimit}>
-						<ExclamationTriangleIcon className="alert" />
-					</Tooltip>
+					<ToolTipMemo message={'Daily Hook and Release Limit: ' + restriction.hookLimit}>
+						<ExclamationTriangleIconMemo className="alert" />
+					</ToolTipMemo>
 				</>
 			)
 		}
@@ -132,16 +127,14 @@ export default function FishRestrictionsTable({
 	}
 
 	const renderBagLimitValue = (restriction) => {
-		return restriction.bagLimit === null
-			? <span className="text-md leading-4">&#8734;</span>
-			: restriction.bagLimit
+		return restriction.bagLimit === null ? (
+			<span className="text-md leading-4">&#8734;</span>
+		) : (
+			restriction.bagLimit
+		)
 	}
 
-	const renderRestriction = (
-		restriction,
-		inGroup = false,
-		lastInGroup = false,
-	) => {
+	const renderRestriction = (restriction, inGroup = false, lastInGroup = false) => {
 		restriction = removeHiddenFields(restriction)
 		return (
 			<tr className={`${inGroup && !restriction.group ? 'group' : ''}`}>
@@ -153,14 +146,12 @@ export default function FishRestrictionsTable({
 						)}
 					</strong>
 					{!inGroup && !restriction.group && (
-						<em className="water-description">
-							{renderExceptionDetail(restriction)}
-						</em>
+						<em className="water-description">{renderExceptionDetail(restriction)}</em>
 					)}
-					{restriction.note && (
-						<Tooltip message={restriction.note}>
-							<ExclamationTriangleIcon className="alert" />
-						</Tooltip>
+					{restriction.note && !inGroup && !restriction.group && (
+						<ToolTipMemo message={restriction.note}>
+							<ExclamationTriangleIconMemo className="alert" />
+						</ToolTipMemo>
 					)}
 				</td>
 				<td>{renderBagLimit(restriction)}</td>
@@ -174,6 +165,11 @@ export default function FishRestrictionsTable({
 		<tr className="group-water-description">
 			<td>
 				<em>{renderExceptionDetail(restriction)}</em>
+				{restriction.note && (
+					<ToolTipMemo message={restriction.note}>
+						<ExclamationTriangleIconMemo className="alert" />
+					</ToolTipMemo>
+				)}
 			</td>
 		</tr>
 	)
@@ -191,11 +187,7 @@ export default function FishRestrictionsTable({
 			<Fragment key={restriction.id}>
 				{restriction?.group
 					? renderRestrictionGroup(restriction)
-					: renderRestriction(
-							restriction,
-							inGroup,
-							index === restrictions.length - 1,
-						)}
+					: renderRestriction(restriction, inGroup, index === restrictions.length - 1)}
 			</Fragment>
 		))
 	}
@@ -219,16 +211,12 @@ export default function FishRestrictionsTable({
 			<thead className="header">
 				<tr>
 					<th className="column-header date-range">
-						{!screenOrientation.isMobile && <>Season/</>}
+						{!isMobile && <>Season/</>}
 						Restrictions
 					</th>
 					<th className="column-header">Bag Limit</th>
-					<th className="column-header">
-						{screenOrientation.isMobile ? 'Min.' : 'Minimum'} Size
-					</th>
-					<th className="column-header">
-						{screenOrientation.isMobile ? 'Max.' : 'Maximum'} Size
-					</th>
+					<th className="column-header">{isMobile ? 'Min.' : 'Minimum'} Size</th>
+					<th className="column-header">{isMobile ? 'Max.' : 'Maximum'} Size</th>
 				</tr>
 			</thead>
 			<tbody>{renderRestrictions(restrictions)}</tbody>

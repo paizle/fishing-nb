@@ -38,9 +38,7 @@ export default function MapMobile({ locations }) {
 
 		if (pathId) {
 			locationTitlesRef.current.classList.add('selected')
-			const title = locationTitlesRef.current.querySelector(
-				`[data-path-id=${pathId}]`,
-			)
+			const title = locationTitlesRef.current.querySelector(`[data-path-id=${pathId}]`)
 			title.classList.add('highlighted')
 			setSelectedPathId(pathId)
 		} else {
@@ -50,9 +48,7 @@ export default function MapMobile({ locations }) {
 	}
 
 	return (
-		<div
-			className={`MapMobile portrait ${selectedPathId ? 'selected-location' : ''}`}
-		>
+		<div className={`MapMobile portrait ${selectedPathId ? 'selected-location' : ''}`}>
 			<div className="container">
 				<NewBrunswickMapMobile
 					containerRef={containerRef}
@@ -68,9 +64,7 @@ export default function MapMobile({ locations }) {
 							<li key={key} data-path-id={key}>
 								<Link
 									className={
-										locationsIndexed?.[
-											pathSelectorToLocationName[key]
-										].hasData
+										locationsIndexed?.[pathSelectorToLocationName[key]].hasData
 											? ''
 											: 'disabled'
 									}
@@ -79,9 +73,8 @@ export default function MapMobile({ locations }) {
 									})}
 									onClick={(event) => {
 										if (
-											!locationsIndexed?.[
-												pathSelectorToLocationName[key]
-											]?.hasData
+											!locationsIndexed?.[pathSelectorToLocationName[key]]
+												?.hasData
 										) {
 											event.preventDefault()
 											return false
@@ -90,15 +83,11 @@ export default function MapMobile({ locations }) {
 								>
 									<h3>{pathSelectorToLocationName[key]}</h3>
 									<em>
-										{!locationsIndexed?.[
-											pathSelectorToLocationName[key]
-										]?.hasData && (
-											<strong>(no data)</strong>
-										)}
+										{!locationsIndexed?.[pathSelectorToLocationName[key]]
+											?.hasData && <strong>(no data)</strong>}
 										{
-											locationsIndexed?.[
-												pathSelectorToLocationName[key]
-											]?.description
+											locationsIndexed?.[pathSelectorToLocationName[key]]
+												?.description
 										}
 									</em>
 								</Link>
@@ -109,9 +98,8 @@ export default function MapMobile({ locations }) {
 						<Link
 							className={
 								'go ' +
-								(locationsIndexed?.[
-									pathSelectorToLocationName[selectedPathId]
-								].hasData
+								(locationsIndexed?.[pathSelectorToLocationName[selectedPathId]]
+									.hasData
 									? ''
 									: 'disabled')
 							}
@@ -119,9 +107,8 @@ export default function MapMobile({ locations }) {
 								id: getLocationFromPathId(selectedPathId).id,
 							})}
 						>
-							{locationsIndexed?.[
-								pathSelectorToLocationName[selectedPathId]
-							].hasData ? (
+							{locationsIndexed?.[pathSelectorToLocationName[selectedPathId]]
+								.hasData ? (
 								<ArrowRightCircleIcon />
 							) : null}
 						</Link>

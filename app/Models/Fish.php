@@ -8,10 +8,10 @@ use App\Models\Fish\FishCategory;
 
 class Fish extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
-		protected $casts = [
-			'fish_category' => FishCategory::class
-		];
-    protected $fillable = ['name', 'fish_category'];
+	protected $casts = [
+		'fish_category' => FishCategory::class,
+	];
+	protected $fillable = ['name', 'fish_category'];
 }

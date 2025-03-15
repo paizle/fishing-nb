@@ -2,10 +2,7 @@ import useTap from '@/Hooks/useTap'
 import React from 'react'
 import NewBrunswickMap, { pathSelectorToLocationName } from './NewBrunswickMap'
 
-export default function NewBrunswickMapMobile({
-	containerRef = null,
-	onTouchLocation,
-}) {
+export default function NewBrunswickMapMobile({ containerRef = null, onTouchLocation }) {
 	const containerRefLocal = containerRef || React.createRef(null)
 
 	const useTapHook = useTap()
@@ -30,14 +27,10 @@ export default function NewBrunswickMapMobile({
 					locationPath.addEventListener(
 						'touchend',
 						useTapHook.onTouchEnd((event) => {
-							Object.keys(pathSelectorToLocationName).forEach(
-								(key) => {
-									const locationPath = svg.querySelector(
-										'#' + key,
-									)
-									locationPath.classList.remove('active')
-								},
-							)
+							Object.keys(pathSelectorToLocationName).forEach((key) => {
+								const locationPath = svg.querySelector('#' + key)
+								locationPath.classList.remove('active')
+							})
 							const locationPath = svg
 								.querySelector('#' + key)
 								.classList.add('active')
@@ -46,17 +39,11 @@ export default function NewBrunswickMapMobile({
 						}),
 					)
 					locationPath.addEventListener('click', (event) => {
-						Object.keys(pathSelectorToLocationName).forEach(
-							(key) => {
-								const locationPath = svg.querySelector(
-									'#' + key,
-								)
-								locationPath.classList.remove('active')
-							},
-						)
-						const locationPath = svg
-							.querySelector('#' + key)
-							.classList.add('active')
+						Object.keys(pathSelectorToLocationName).forEach((key) => {
+							const locationPath = svg.querySelector('#' + key)
+							locationPath.classList.remove('active')
+						})
+						const locationPath = svg.querySelector('#' + key).classList.add('active')
 
 						onTouchLocation(event, key)
 					})

@@ -27,9 +27,7 @@ export default function NewBrunswickMapWeb({
 					)
 				}
 				if (onClickLocation) {
-					locationPath.addEventListener('click', (event) =>
-						onClickLocation(event, key),
-					)
+					locationPath.addEventListener('click', (event) => onClickLocation(event, key))
 				}
 			})
 		}

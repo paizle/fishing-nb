@@ -21,12 +21,12 @@ export default function useLocalStorage() {
 	const getItem = (key) => {
 		try {
 			const serializedValue = localStorage.getItem(key)
+			if (!serializedValue) {
+				throw 'Not initialized.'
+			}
 			return serializedValue ? JSON.parse(serializedValue) : null
 		} catch (error) {
-			console.error(
-				`Error parsing key "${key}" from localStorage:`,
-				error,
-			)
+			console.error(`Error parsing key "${key}" from localStorage:`, error)
 			return null
 		}
 	}
@@ -38,10 +38,7 @@ export default function useLocalStorage() {
 		try {
 			localStorage.removeItem(key)
 		} catch (error) {
-			console.error(
-				`Error removing key "${key}" from localStorage:`,
-				error,
-			)
+			console.error(`Error removing key "${key}" from localStorage:`, error)
 		}
 	}
 
@@ -67,12 +64,8 @@ export default function useLocalStorage() {
 			if (event.storageArea === localStorage) {
 				setStorageChange({
 					key: event.key,
-					newValue: event.newValue
-						? JSON.parse(event.newValue)
-						: null,
-					oldValue: event.oldValue
-						? JSON.parse(event.oldValue)
-						: null,
+					newValue: event.newValue ? JSON.parse(event.newValue) : null,
+					oldValue: event.oldValue ? JSON.parse(event.oldValue) : null,
 				})
 			}
 		}

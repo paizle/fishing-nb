@@ -1,9 +1,9 @@
 import './SelectFishMobile.scss'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, memo } from 'react'
 import getFishImageSrc from '@/Util/getFishImageSrc'
 import ProgressiveImage from '@/Components/ProgressiveImage'
 
-export default function SelectFishMobile({
+export default memo(function SelectFishMobile({
 	fishes = null,
 	selectedFishId = null,
 	selectFish = () => null,
@@ -16,9 +16,7 @@ export default function SelectFishMobile({
 	useEffect(() => {
 		if (scrollToFish && fishListRef.current && fishes) {
 			if (selectedFishId) {
-				const element = fishListRef.current.querySelector(
-					`[data-id="${selectedFishId}"]`,
-				)
+				const element = fishListRef.current.querySelector(`[data-id="${selectedFishId}"]`)
 				element?.scrollIntoView({
 					behavior: 'smooth',
 					inline: 'center',
@@ -47,4 +45,4 @@ export default function SelectFishMobile({
 			))}
 		</div>
 	)
-}
+})

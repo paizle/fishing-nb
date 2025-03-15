@@ -46,9 +46,8 @@ $error: #ba3232;
 
 	--yellow-highlighter: 253, 255, 50;
 
-	--box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-		rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-		rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
+	--box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+		rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
 }
 
 .heading-color {
@@ -195,44 +194,12 @@ em {
 
 .water-background {
 	background-color: hsla(190, 76%, 90%, 0.9);
-	background-image: radial-gradient(
-			at 0% 60%,
-			hsla(175, 100%, 75%, 0.5) 0px,
-			transparent 80%
-		),
-		radial-gradient(
-			at 40% 0%,
-			hsla(180, 100%, 86%, 1) 0px,
-			transparent 50%
-		),
-		radial-gradient(
-			at 20% 5%,
-			hsla(180, 100%, 86%, 1) 0px,
-			transparent 40%
-		),
-		radial-gradient(
-			at 95% 95%,
-			hsla(180, 100%, 86%, 1) 0px,
-			transparent 40%
-		),
-		radial-gradient(
-			at -10% 60%,
-			hsla(140, 100%, 70%, 1) 0px,
-			transparent 30%
-		),
-		radial-gradient(
-			at 5% 90%,
-			hsla(145, 100%, 74%, 1) 0px,
-			transparent 20%
-		),
-		radial-gradient(
-			at 95% 0%,
-			hsla(145, 100%, 70%, 1) 0px,
-			transparent 40%
-		),
-		radial-gradient(
-			at 25% 65%,
-			hsla(120, 100%, 80%, 1) 0px,
-			transparent 30%
-		);
+	background-image: radial-gradient(at 0% 60%, hsla(175, 100%, 75%, 0.5) 0px, transparent 80%),
+		radial-gradient(at 40% 0%, hsla(180, 100%, 86%, 1) 0px, transparent 50%),
+		radial-gradient(at 20% 5%, hsla(180, 100%, 86%, 1) 0px, transparent 40%),
+		radial-gradient(at 95% 95%, hsla(180, 100%, 86%, 1) 0px, transparent 40%),
+		radial-gradient(at -10% 60%, hsla(140, 100%, 70%, 1) 0px, transparent 30%),
+		radial-gradient(at 5% 90%, hsla(145, 100%, 74%, 1) 0px, transparent 20%),
+		radial-gradient(at 95% 0%, hsla(145, 100%, 70%, 1) 0px, transparent 40%),
+		radial-gradient(at 25% 65%, hsla(120, 100%, 80%, 1) 0px, transparent 30%);
 }

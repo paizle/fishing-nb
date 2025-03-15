@@ -1,15 +1,15 @@
 import './Index.scss'
 import { useLayoutEffect } from 'react'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
-import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
+import useApplicationContext from '@/Contexts/ApplicationContext'
 
 export default function Index() {
-	const localStorage = useLocalStorageDefaults()
+	const app = useApplicationContext()
 
 	useLayoutEffect(() => {
-		const settings = localStorage.getItem('settings')
+		const landingPage = app.getLandingPage()
 
-		switch (settings.landingPage) {
+		switch (landingPage) {
 			case 'location':
 				window.location.href = route('location.map')
 				break

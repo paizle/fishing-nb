@@ -1,12 +1,14 @@
 import './PublicLayout.scss'
-import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
+import { useApplicationContext } from '@/Contexts/ApplicationContext'
 
 export default function PublicLayout({ className = '', children }) {
-	const localStorage = useLocalStorageDefaults()
+	const appContext = useApplicationContext()
+
+	const settings = appContext.getSettings()
 
 	return (
 		<div
-			className={`PublicLayout ${className} ${localStorage.getItem('settings').gradientBackground ? 'gradient-background' : ''}`}
+			className={`PublicLayout ${className} ${settings.gradientBackground ? 'gradient-background' : ''}`}
 		>
 			{children}
 		</div>

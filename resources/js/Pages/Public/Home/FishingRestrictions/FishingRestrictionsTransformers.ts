@@ -68,12 +68,7 @@ class Fish {
 			}
 
 			if (!startComparison) {
-				if (
-					a.water ||
-					a.fishingMethod ||
-					a.tidal ||
-					a.waterDescription
-				) {
+				if (a.water || a.fishingMethod || a.tidal || a.waterDescription) {
 					return 1
 				}
 				return compareAsc(b.seasonEnd, a.seasonEnd)
@@ -147,6 +142,7 @@ export function byFish(results: any) {
 	Fish.sortRestrictions(fish)
 
 	Fish.setupGroups(fish, [
+		'note',
 		'fishingMethod',
 		'tidal',
 		'waterDescription',

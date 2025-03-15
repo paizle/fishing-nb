@@ -62,9 +62,7 @@ export default function Water({ limits, breadcrumb }) {
 
 	const renderWaterStretch = (limit) => {
 		return limit.waterDescription ? (
-			<em className="water-description">
-				{renderExceptionDetail(limit, false)}
-			</em>
+			<em className="water-description">{renderExceptionDetail(limit, false)}</em>
 		) : null
 	}
 
@@ -103,46 +101,37 @@ export default function Water({ limits, breadcrumb }) {
 	}
 
 	const renderBagLimit = (limit) => {
-		return limit.bagLimit === null
-			? (<span className="text-md leading-4">&#8734;</span>)
-			: limit.hookLimit
-					? (
-						<>
-							{limit.bagLimit}
-							<Tooltip
-								message={`Daily Hook and Release Limit: ${limit.hookLimit}`}
-								containerRef={dataTableRef}
-							>
-								<ExclamationTriangleIcon className="alert" />
-							</Tooltip>
-						</>
-					)
-					: limit.bagLimit
+		return limit.bagLimit === null ? (
+			<span className="text-md leading-4">&#8734;</span>
+		) : limit.hookLimit ? (
+			<>
+				{limit.bagLimit}
+				<Tooltip
+					message={`Daily Hook and Release Limit: ${limit.hookLimit}`}
+					containerRef={dataTableRef}
+				>
+					<ExclamationTriangleIcon className="alert" />
+				</Tooltip>
+			</>
+		) : (
+			limit.bagLimit
+		)
 	}
 
 	const renderFishLimit = (limit, inGroup = false) => {
 		return (
-			<div
-				className={`limit ${inGroup ? 'group' : ''} ${limit.group ? 'group-start' : ''}`}
-			>
+			<div className={`limit ${inGroup ? 'group' : ''} ${limit.group ? 'group-start' : ''}`}>
 				<div className="season-exception">
 					<span className="date-span">
 						{renderSeasonDateSpan(limit, limit.group || inGroup)}
 					</span>
-					<em className="exception">
-						&nbsp;{renderExceptionDetail(limit)}
-					</em>
-					{!limit.note 
-					? '' 
-					: (
-							<Tooltip
-								message={limit.note}
-								containerRef={
-									dataTableRef
-								}
-							>
-								<ExclamationTriangleIcon className="alert" />
-							</Tooltip>
+					<em className="exception">&nbsp;{renderExceptionDetail(limit)}</em>
+					{!limit.note ? (
+						''
+					) : (
+						<Tooltip message={limit.note} containerRef={dataTableRef}>
+							<ExclamationTriangleIcon className="alert" />
+						</Tooltip>
 					)}
 				</div>
 				<div>{renderBagLimit(limit)}</div>
@@ -180,76 +169,52 @@ export default function Water({ limits, breadcrumb }) {
 					<div className="fish-grid" ref={dataTableRef}>
 						<div className="header">
 							<div className="column-header date-range">
-								{!screenOrientation.isMobile && (
-									<>Fish/Season/</>
-								)}
+								{!screenOrientation.isMobile && <>Fish/Season/</>}
 								Restrictions
 							</div>
 							<div className="column-header">Bag Limit</div>
 							<div className="column-header">
-								{screenOrientation.isMobile
-									? 'Min.'
-									: 'Minimum'}{' '}
-								Size
+								{screenOrientation.isMobile ? 'Min.' : 'Minimum'} Size
 							</div>
 							<div className="column-header">
-								{screenOrientation.isMobile
-									? 'Max.'
-									: 'Maximum'}{' '}
-								Size
+								{screenOrientation.isMobile ? 'Max.' : 'Maximum'} Size
 							</div>
 						</div>
 
 						<div className="body">
-							{Object.keys(fishes ?? {}).map(
-								(fishName, index) => (
-									<div
-										className="fish-row-container"
-										key={fishName}
+							{Object.keys(fishes ?? {}).map((fishName, index) => (
+								<div className="fish-row-container" key={fishName}>
+									<button
+										onClick={openDetail}
+										value={fishName}
+										className={`fish-name ${index % 2 === 0 ? 'even' : 'odd'} ${detailsOpen?.[fishName] ? 'open' : ''}`}
 									>
-										<button
-											onClick={openDetail}
-											value={fishName}
-											className={`fish-name ${index % 2 === 0 ? 'even' : 'odd'} ${detailsOpen?.[fishName] ? 'open' : ''}`}
-										>
-											<div className="fish-season">
-												<strong>
-													<PlayIcon className="open-indicator" />
-													{fishName}
-												</strong>
-												<em>
-													(
-													{renderSeasonDateSpan(
-														fishes[fishName],
-													)}
-													)
-												</em>
-											</div>
-											<div className="flex">
-												{fishes[fishName].limits
-													.length > 1 ? (
-													<Tooltip
-														message="Some Restrictions"
-														containerRef={
-															dataTableRef
-														}
-													>
-														<ExclamationTriangleIcon className="alert" />
-													</Tooltip>
-												) : null}
-											</div>
-										</button>
-
-										<div
-											className={`limits ${index % 2 === 0 ? 'even' : 'odd'} ${detailsOpen?.[fishName] ? 'open' : ''}`}
-										>
-											{renderFishLimits(
-												fishes[fishName].limits,
-											)}
+										<div className="fish-season">
+											<strong>
+												<PlayIcon className="open-indicator" />
+												{fishName}
+											</strong>
+											<em>({renderSeasonDateSpan(fishes[fishName])})</em>
 										</div>
+										<div className="flex">
+											{fishes[fishName].limits.length > 1 ? (
+												<Tooltip
+													message="Some Restrictions"
+													containerRef={dataTableRef}
+												>
+													<ExclamationTriangleIcon className="alert" />
+												</Tooltip>
+											) : null}
+										</div>
+									</button>
+
+									<div
+										className={`limits ${index % 2 === 0 ? 'even' : 'odd'} ${detailsOpen?.[fishName] ? 'open' : ''}`}
+									>
+										{renderFishLimits(fishes[fishName].limits)}
 									</div>
-								),
-							)}
+								</div>
+							))}
 						</div>
 					</div>
 				</div>

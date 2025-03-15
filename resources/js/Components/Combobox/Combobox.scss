@@ -1,23 +1,48 @@
 .Combobox {
+	&.hidden {
+		display: none;
+	}
 	display: flex;
-	align-items: center;
 	flex-direction: column;
+	align-items: center;
 	overflow-x: auto;
 	overflow-y: hidden;
-	max-height: 100%;
-	label {
+	height: 100%;
+	.input {
 		flex-grow: 0;
-		display: block;
+		display: flex;
 		input {
-			margin: 0;
+			height: 2.5em;
+			margin-right: -2em;
+			padding-right: 2em;
+			&:focus {
+				border-color: var(--highlight-color);
+			}
+		}
+		button {
+			&:focus {
+				border-color: var(--highlight-color);
+			}
+			svg {
+				width: 1.25em;
+				height: 1.25em;
+			}
 		}
 	}
-	.results {
+	ul {
 		flex-grow: 1;
 		overflow-y: auto;
 		visibility: collapse;
+		cursor: default;
 		li {
 			background-color: var(--background-color);
+			&.selected {
+				@apply font-bold;
+			}
+			&:hover,
+			&.highlighted {
+				background-color: var(--highlight-color-lighter);
+			}
 		}
 		&.open {
 			visibility: visible;
