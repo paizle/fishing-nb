@@ -36,14 +36,12 @@ export default function Combobox({ className = '', placeholder, inputRef, items 
 		},
 		onInputValueChange(e) {
 			const { stateChangeTypes } = useCombobox
-			console.log(e.type === stateChangeTypes.ItemClick)
 			if (
 				e.type === stateChangeTypes.ItemClick ||
 				e.type === stateChangeTypes.InputKeyDownEnter
 			) {
 				onChange(e.selectedItem)
 			} else {
-				console.log(e)
 				setInputValue(e.inputValue)
 			}
 		},

@@ -148,7 +148,7 @@ export default function FishRestrictionsTable({
 					{!inGroup && !restriction.group && (
 						<em className="water-description">{renderExceptionDetail(restriction)}</em>
 					)}
-					{restriction.note && (
+					{restriction.note && !inGroup && !restriction.group && (
 						<ToolTipMemo message={restriction.note}>
 							<ExclamationTriangleIconMemo className="alert" />
 						</ToolTipMemo>
@@ -165,6 +165,11 @@ export default function FishRestrictionsTable({
 		<tr className="group-water-description">
 			<td>
 				<em>{renderExceptionDetail(restriction)}</em>
+				{restriction.note && (
+					<ToolTipMemo message={restriction.note}>
+						<ExclamationTriangleIconMemo className="alert" />
+					</ToolTipMemo>
+				)}
 			</td>
 		</tr>
 	)

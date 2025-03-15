@@ -142,6 +142,7 @@ export function byFish(results: any) {
 	Fish.sortRestrictions(fish)
 
 	Fish.setupGroups(fish, [
+		'note',
 		'fishingMethod',
 		'tidal',
 		'waterDescription',
