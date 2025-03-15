@@ -84,7 +84,7 @@
 		.Combobox {
 			position: relative;
 			padding-top: 0;
-			transition: 300ms ease;
+			transition: 500ms ease-out;
 			padding-top: 25vh;
 			&:has(ul.open) {
 				padding-top: 0;
@@ -96,7 +96,7 @@
 				}
 			}
 			.input {
-				padding: 4px 0;
+				padding: 0.25em 0;
 				margin: 1px;
 				input {
 					font-size: 1em;
@@ -117,7 +117,7 @@
 					&:last-child {
 						border-radius: 0 0 0.5em 0.5em;
 						padding-bottom: 0.25em;
-						margin-bottom: 2em;
+						margin-bottom: 5em;
 						border-bottom: none;
 					}
 					border-bottom: 1px solid var(--border-color);

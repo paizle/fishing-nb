@@ -35,11 +35,15 @@ export default function Combobox({ className = '', placeholder, inputRef, items 
 			return item ? item.label : ''
 		},
 		onInputValueChange(e) {
-			const test = stateChangeTypes
-			if (e.type === '__item_click__' || e.type === '__input_keydown_enter__') {
+			const { stateChangeTypes } = useCombobox
+			console.log(e.type === stateChangeTypes.ItemClick)
+			if (
+				e.type === stateChangeTypes.ItemClick ||
+				e.type === stateChangeTypes.InputKeyDownEnter
+			) {
 				onChange(e.selectedItem)
 			} else {
-				//if (e.type === '__input_change__' || e.type === '__input_keydown_escape__') {
+				console.log(e)
 				setInputValue(e.inputValue)
 			}
 		},
@@ -49,10 +53,34 @@ export default function Combobox({ className = '', placeholder, inputRef, items 
 		setInputValue('')
 	}
 
+	const onFocus = (e) => {
+		const target = e.target
+		const combobox = target.closest('.Combobox')
+		combobox.addEventListener(
+			'transitionstart',
+			() =>
+				combobox.addEventListener(
+					'transitionend',
+					() =>
+						target.parentElement?.scrollIntoView({
+							behavior: 'smooth',
+							block: 'start',
+						}),
+					{ once: true },
+				),
+			{ once: true },
+		)
+	}
+
 	return (
 		<div className={`Combobox ${className ? className : ''}`}>
 			<div className="input" {...getLabelProps()}>
-				<input placeholder={placeholder} {...getInputProps({ ref })} />
+				<input
+					placeholder={placeholder}
+					value={inputValue}
+					{...getInputProps({ ref })}
+					onFocus={onFocus}
+				/>
 				<button aria-label="Clear Search input" type="button" onClick={clearSearch}>
 					<XCircleIcon />
 				</button>

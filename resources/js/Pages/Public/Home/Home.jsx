@@ -62,12 +62,9 @@ export default function Home({ apiLastModified }) {
 			}
 		})
 		setSelectedLocation(null)
-		//setComboboxText('')
 
 		setTimeout(() => {
-			//debugger
 			comboboxRef.current.click()
-			//comboboxRef.current.focus()
 		}, 10)
 	}
 
