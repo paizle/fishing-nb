@@ -1,17 +1,22 @@
+import { useEffect, useRef } from 'react'
 import './SelectedLocationButton.scss'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 
 interface Props {
-	selectedLocationButtonRef: React.RefObject<HTMLButtonElement>
 	selectedLocation: { label: string }
 	onClick: () => void
 }
 
-export default function SelectedLocationButton({
-	selectedLocationButtonRef,
-	selectedLocation,
-	onClick,
-}: Props) {
+export default function SelectedLocationButton({ selectedLocation, onClick }: Props) {
+	const selectedLocationButtonRef = useRef<any>(null)
+
+	useEffect(() => {
+		/* once the component is rendered, give the button focus */
+		if (selectedLocationButtonRef.current) {
+			selectedLocationButtonRef.current.focus()
+		}
+	}, [selectedLocationButtonRef])
+
 	return (
 		<button
 			ref={selectedLocationButtonRef}
