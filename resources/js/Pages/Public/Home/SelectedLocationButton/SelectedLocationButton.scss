@@ -1,0 +1,37 @@
+.SelectedLocationButton {
+	display: flex;
+	align-items: center;
+	gap: 0.25em;
+	background-color: var(--background-color);
+	border: 1px solid var(--heading-color);
+	color: black;
+	padding: 0.25em 0.5em;
+	margin: 0.5em 0.25em;
+	border-radius: 0.5em;
+	font-size: 1.1em;
+	&:focus {
+		outline: 2px solid var(--highlight-color);
+	}
+	strong {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		> * {
+			&:after {
+				content: '/';
+				margin-left: -0.25em;
+			}
+			&:last-child:after {
+				content: '';
+				margin-left: 0;
+			}
+		}
+	}
+
+	svg {
+		width: 1.25em;
+		height: 1.25em;
+		color: var(--icon-color);
+		stroke-width: 2px;
+	}
+}

@@ -1,4 +1,4 @@
-import './Combobox.scss'
+import './LocationCombobox.scss'
 import Downshift, { useCombobox } from 'downshift'
 import { useState, useRef, useEffect, useLayoutEffect, use } from 'react'
 import { XCircleIcon } from '@heroicons/react/24/outline'
@@ -12,10 +12,21 @@ const filterByText = (item, inputValue) => {
 	)
 }
 
-export default function Combobox({ className = '', placeholder, inputRef, items = [], onChange }) {
+export default function Combobox({
+	className = '',
+	placeholder,
+	inputRef,
+	locations = {},
+	onChange,
+}) {
 	const [inputValue, setInputValue] = useState('')
 
 	const ref = inputRef ? inputRef : useRef(null)
+
+	const items = Object.entries(locations ?? {}).map(([key, value]) => ({
+		value,
+		label: key,
+	}))
 
 	const filteredItems = (items ?? []).filter((item) => filterByText(item, inputValue))
 
