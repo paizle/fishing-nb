@@ -18,7 +18,6 @@ export default function Home({ apiLastModified }) {
 	const [selectedFish, setSelectedFish] = useState(null)
 	const [selectedLocation, setSelectedLocation] = useState(null)
 
-	const selectedLocationButtonRef = useRef(null)
 	const comboboxRef = useRef(null)
 
 	const appContext = useApplicationContext()
@@ -95,7 +94,6 @@ export default function Home({ apiLastModified }) {
 						<div className="header">
 							{selectedLocation && (
 								<SelectedLocationButton
-									selectedLocationButtonRef={selectedLocationButtonRef}
 									selectedLocation={selectedLocation}
 									onClick={clearLocation}
 								/>

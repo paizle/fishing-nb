@@ -50,10 +50,12 @@ export default memo(function SelectFishDesktop({
 	return (
 		<div className="SelectFishDesktop">
 			<div className="carousel">
-				<div className="fishes" ref={fishListRef}>
+				<div className="fishes" ref={fishListRef} role="listbox" aria-label="Select a fish">
 					{(fishes || []).map((fish) => (
 						<button
 							key={fish.name}
+							role="option"
+							aria-selected={selectedFishId === fish.id}
 							data-id={fish.id}
 							className={`fish ${selectedFishId === fish.id ? 'selected' : ''}`}
 							onClick={() => selectFish(fish.id)}
