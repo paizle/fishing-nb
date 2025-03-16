@@ -20,6 +20,7 @@ export default function SelectedLocationButton({ selectedLocation, onClick }: Pr
 	return (
 		<button
 			ref={selectedLocationButtonRef}
+			aria-label="Back to search"
 			onClick={onClick}
 			className="SelectedLocationButton"
 		>
