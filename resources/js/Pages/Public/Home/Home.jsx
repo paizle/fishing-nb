@@ -71,22 +71,20 @@ export default function Home({ apiLastModified }) {
 	}
 
 	const selectLocation = (selectedLocation) => {
-		if (selectedLocation) {
-			setTimeout(() => selectedLocationButtonRef.current?.focus())
-		}
 		setSelectedLocation(selectedLocation)
 	}
 
-	const PublicNavMemo = memo(PublicNav)
+	const [comboboxState, setComboboxState] = useState(null)
+	useEffect(() => {}, [comboboxState])
 
 	return (
-		<PublicLayout className={`Home ${selectedLocation ? 'location-selected' : ''}`}>
-			<header className={`${selectedLocation ? '' : 'shadow'}`}>
-				<PublicNavMemo>
+		<PublicLayout className={`Home ${selectedLocation ? 'sub-heading' : ''}`}>
+			<header>
+				<PublicNav>
 					<h1 className="hero">
 						Smart <span>Fish</span>
 					</h1>
-				</PublicNavMemo>
+				</PublicNav>
 			</header>
 			<main>
 				{fishes !== null && locations !== null && (
@@ -115,6 +113,7 @@ export default function Home({ apiLastModified }) {
 								locations={locations}
 								placeholder="Search by river, lake or region"
 								onChange={selectLocation}
+								exportState={setComboboxState}
 							/>
 						</div>
 					</div>

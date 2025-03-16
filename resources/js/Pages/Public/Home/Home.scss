@@ -1,13 +1,20 @@
 @use '/resources/css/app.scss';
 
 .Home {
+	header {
+		@apply shadow;
+	}
+
 	header nav .title .child-wrapper h1.hero {
 		transition: 700ms;
 	}
 
-	&.location-selected {
-		header nav .title .child-wrapper h1.hero {
-			font-size: 1.5em;
+	&.sub-heading {
+		header {
+			box-shadow: none;
+			nav .title .child-wrapper h1.hero {
+				font-size: 1.5em;
+			}
 		}
 	}
 
@@ -76,11 +83,12 @@
 			}
 		}
 
-		.Combobox {
+		.LocationCombobox {
 			position: relative;
 			padding-top: 0;
 			transition: 500ms ease-out;
 			padding-top: 25vh;
+			//height: 100%;
 			&:has(ul.open) {
 				padding-top: 0;
 				.input input {
@@ -90,21 +98,8 @@
 					padding-top: 0;
 				}
 			}
-			.input {
-				padding: 0.25em 0;
-				margin: 1px;
-				input {
-					font-size: 1em;
-					border-radius: 2em;
-					&::placeholder {
-						opacity: 0.75;
-						text-align: center;
-					}
-				}
-			}
 
 			ul {
-				border-radius: 0.5em 0.5em 0 0;
 				li {
 					&:first-child {
 						padding-top: 0.25em;
@@ -114,9 +109,10 @@
 						padding-bottom: 0.25em;
 						margin-bottom: 5em;
 						border-bottom: none;
+						@apply shadow;
 					}
 					border-bottom: 1px solid var(--border-color);
-					padding: 0 0.25em;
+					padding: 0 0.5em;
 				}
 			}
 		}
