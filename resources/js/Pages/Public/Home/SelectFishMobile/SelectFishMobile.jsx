@@ -16,10 +16,14 @@ export default memo(function SelectFishMobile({
 	useEffect(() => {
 		if (scrollToFish && fishListRef.current && fishes) {
 			if (selectedFishId) {
-				const element = fishListRef.current.querySelector(`[data-id="${selectedFishId}"]`)
-				element?.scrollIntoView({
-					behavior: 'smooth',
-					inline: 'center',
+				setTimeout(() => {
+					const element = fishListRef.current.querySelector(
+						`[data-id="${selectedFishId}"]`,
+					)
+					element?.scrollIntoView({
+						behavior: 'smooth',
+						inline: 'center',
+					})
 				})
 			}
 			setScrollToFish(false)
