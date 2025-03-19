@@ -14,10 +14,12 @@ export default memo(function SelectFishDesktop({
 	// scroll to last selected fish
 	useEffect(() => {
 		if (fishListRef.current && fishes && selectedFishId) {
-			const element = fishListRef.current.querySelector(`[data-id="${selectedFishId}"]`)
-			element?.scrollIntoView({
-				behavior: 'smooth',
-				inline: 'center',
+			setTimeout(() => {
+				const element = fishListRef.current.querySelector(`[data-id="${selectedFishId}"]`)
+				element?.scrollIntoView({
+					behavior: 'smooth',
+					inline: 'center',
+				})
 			})
 		}
 	}, [fishListRef.current, fishes, selectedFishId])
@@ -50,10 +52,12 @@ export default memo(function SelectFishDesktop({
 	return (
 		<div className="SelectFishDesktop">
 			<div className="carousel">
-				<div className="fishes" ref={fishListRef}>
+				<div className="fishes" ref={fishListRef} role="listbox" aria-label="Select a fish">
 					{(fishes || []).map((fish) => (
 						<button
 							key={fish.name}
+							role="option"
+							aria-selected={selectedFishId === fish.id}
 							data-id={fish.id}
 							className={`fish ${selectedFishId === fish.id ? 'selected' : ''}`}
 							onClick={() => selectFish(fish.id)}

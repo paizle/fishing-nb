@@ -1,4 +1,4 @@
-.Combobox {
+.LocationCombobox {
 	&.hidden {
 		display: none;
 	}
@@ -8,18 +8,31 @@
 	overflow-x: auto;
 	overflow-y: hidden;
 	height: 100%;
+	max-width: 24em;
+	margin: 0 auto;
 	.input {
-		flex-grow: 0;
-		display: flex;
+		position: relative;
+		margin: 0.25em;
 		input {
 			height: 2.5em;
-			margin-right: -2em;
-			padding-right: 2em;
+			padding-right: 1.75em;
+			width: 100%;
+
+			font-size: 1em;
+			border-radius: 2em;
+			&::placeholder {
+				opacity: 0.75;
+				text-align: center;
+			}
 			&:focus {
 				border-color: var(--highlight-color);
 			}
 		}
 		button {
+			position: absolute;
+			right: 0.5em;
+			top: 50%;
+			transform: translateY(-50%);
 			&:focus {
 				border-color: var(--highlight-color);
 			}
@@ -35,6 +48,7 @@
 		visibility: collapse;
 		cursor: default;
 		li {
+			width: 100%;
 			background-color: var(--background-color);
 			&.selected {
 				@apply font-bold;

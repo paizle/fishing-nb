@@ -1,5 +1,4 @@
 .SelectFishDesktop {
-	overflow: hidden;
 	width: 100%;
 	position: relative;
 	@apply shadow-inverted;
@@ -7,16 +6,22 @@
 	height: $height;
 
 	.carousel {
+		position: absolute;
+		width: 100%;
 		display: flex;
 		align-items: center;
+
 		.fishes {
-			overflow: hidden;
-			border-collapse: collapse;
-			padding: 1em 5em;
 			display: flex;
 			gap: 1em;
 			flex-wrap: nowrap;
+			align-items: center;
+			overflow-y: hidden;
+			overflow-x: auto;
+			scrollbar-width: none;
 			scroll-behavior: smooth;
+			border-collapse: collapse;
+			padding: 1em 5em;
 			min-height: 5em;
 		}
 		.navigation {
