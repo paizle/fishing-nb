@@ -8,6 +8,7 @@
 	.carousel {
 		position: absolute;
 		width: 100%;
+		height: 100%;
 		display: flex;
 		align-items: center;
 
@@ -16,13 +17,14 @@
 			gap: 1em;
 			flex-wrap: nowrap;
 			align-items: center;
+			justify-content: center;
 			overflow-y: hidden;
 			overflow-x: auto;
 			scrollbar-width: none;
 			scroll-behavior: smooth;
 			border-collapse: collapse;
-			padding: 1em 5em;
-			min-height: 5em;
+			padding: 0 5em;
+			height: 100%;
 		}
 		.navigation {
 			position: absolute;
@@ -58,8 +60,9 @@
 				}
 			}
 		}
-		.fish {
+		button.fish {
 			@apply shadow;
+			background-color: white;
 			font-size: 0.8em;
 			flex-shrink: 0;
 			line-height: 1;
