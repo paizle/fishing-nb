@@ -9,23 +9,22 @@ export default function LocationCombobox({
 	inputRef,
 	locations = {},
 	onChange,
-	exportState = () => undefined,
+	onFocus,
+	onBlur,
 }) {
 	const [inputValue, setInputValue] = useState('')
-
-	const [state, dispatch] = useReducer(reducer, initialState)
-	useEffect(() => {
-		exportState(state)
-	}, [state])
 
 	const ref = inputRef ? inputRef : useRef(null)
 
 	useEffect(() => {
 		if (ref.current) {
-			const onFocus = () => dispatch({ type: ACTION_TYPES.FOCUS, payload: true })
-			const onBlur = () => dispatch({ type: ACTION_TYPES.FOCUS, payload: false })
-			ref.current.addEventListener('focus', onFocus)
-			ref.current.addEventListener('blur', onBlur)
+			if (onFocus) {
+				ref.current.addEventListener('focus', onFocus)
+			}
+			if (onBlur) {
+				ref.current.addEventListener('blur', onBlur)
+			}
+
 			return () => {
 				ref?.current?.removeEventListener('focus', onFocus)
 				ref?.current?.removeEventListener('blur', onBlur)
@@ -59,26 +58,23 @@ export default function LocationCombobox({
 			const { stateChangeTypes } = useCombobox
 			if (
 				e.type === stateChangeTypes.ItemClick ||
-				e.type === stateChangeTypes.InputKeyDownEnter
+				e.type === stateChangeTypes.InputKeyDownEnter ||
+				e.type === stateChangeTypes.InputBlur
 			) {
 				onChange(e.selectedItem)
-			} else {
+			} else if (e.type === stateChangeTypes.InputChange) {
 				setInputValue(e.inputValue)
+			} else {
+				onChange(e.selectedItem)
 			}
 		},
 	})
-
-	useEffect(() => {
-		if (state.isOpen !== isOpen) {
-			dispatch({ type: ACTION_TYPES.OPEN, payload: isOpen })
-		}
-	}, [isOpen])
 
 	const clearSearch = () => {
 		setInputValue('')
 	}
 
-	const onFocus = (e) => {
+	const scrollToInput = (e) => {
 		const target = e.target
 		const combobox = target.closest('.LocationCombobox')
 		combobox.addEventListener(
@@ -104,7 +100,7 @@ export default function LocationCombobox({
 					placeholder={placeholder}
 					value={inputValue}
 					{...getInputProps({ ref })}
-					onFocus={onFocus}
+					onFocus={scrollToInput}
 				/>
 				<button aria-label="Clear Search input" type="button" onClick={clearSearch}>
 					<XCircleIcon />

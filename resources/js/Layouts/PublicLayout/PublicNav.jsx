@@ -24,7 +24,7 @@ export default function PublicNav({ children }) {
 							<Dropdown className="Dropdown">
 								<Dropdown.Trigger>
 									<span className="menu-icon inline-flex rounded-md">
-										<button type="button" className="">
+										<button type="button" aria-label="menu">
 											<svg
 												className="h-6 w-6"
 												stroke="currentColor"

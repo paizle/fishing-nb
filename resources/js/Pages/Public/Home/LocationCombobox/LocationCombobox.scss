@@ -17,7 +17,7 @@
 			height: 2.5em;
 			padding-right: 1.75em;
 			width: 100%;
-
+			min-width: 20em;
 			font-size: 1em;
 			border-radius: 2em;
 			&::placeholder {
@@ -47,8 +47,8 @@
 		overflow-y: auto;
 		visibility: collapse;
 		cursor: default;
+		width: 100%;
 		li {
-			width: 100%;
 			background-color: var(--background-color);
 			&.selected {
 				@apply font-bold;
