@@ -108,7 +108,6 @@ export default function Home({ apiLastModified }) {
 								className={selectedLocation ? 'hidden' : ''}
 								inputRef={comboboxRef}
 								locations={locations}
-								placeholder="Search by river, lake or region"
 								onChange={selectLocation}
 							/>
 						</div>

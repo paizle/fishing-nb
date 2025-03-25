@@ -1,11 +1,11 @@
 import './LocationCombobox.scss'
+import { useMemo } from 'react'
 import Downshift, { useCombobox } from 'downshift'
 import { useState, useRef, useEffect, useLayoutEffect, use, useReducer } from 'react'
 import { XCircleIcon } from '@heroicons/react/24/outline'
 
 export default function LocationCombobox({
 	className = '',
-	placeholder,
 	inputRef,
 	locations = {},
 	onChange,
@@ -30,14 +30,23 @@ export default function LocationCombobox({
 				ref?.current?.removeEventListener('blur', onBlur)
 			}
 		}
-	}, [ref])
+	}, [ref.current])
 
-	const items = Object.entries(locations ?? {}).map(([key, value]) => ({
-		value,
-		label: key,
-	}))
+	const placeholder = 'Search by river, lake or region'
 
-	const filteredItems = (items ?? []).filter((item) => filterByText(item, inputValue))
+	const items = useMemo(
+		() =>
+			Object.entries(locations ?? {}).map(([key, value]) => ({
+				value,
+				label: key,
+			})),
+		[locations],
+	)
+
+	const filteredItems = useMemo(
+		() => (items ?? []).filter((item) => filterByText(item, inputValue)),
+		[items, inputValue],
+	)
 
 	const {
 		isOpen,
@@ -56,10 +65,12 @@ export default function LocationCombobox({
 		},
 		onInputValueChange(e) {
 			const { stateChangeTypes } = useCombobox
-			if (
+			console.log(e)
+			if (e.type === stateChangeTypes.InputBlur) {
+				return
+			} else if (
 				e.type === stateChangeTypes.ItemClick ||
-				e.type === stateChangeTypes.InputKeyDownEnter ||
-				e.type === stateChangeTypes.InputBlur
+				e.type === stateChangeTypes.InputKeyDownEnter
 			) {
 				onChange(e.selectedItem)
 			} else if (e.type === stateChangeTypes.InputChange) {
