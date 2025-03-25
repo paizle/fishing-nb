@@ -42,7 +42,10 @@ const Tooltip = ({ message = null, children }) => {
 				ref={messageRef}
 				className={`message ${hoverAndPosition.flowLeft ? 'flow-left' : ''}`}
 			>
-				<div className="message-content">{message}</div>
+				<div
+					className="message-content"
+					dangerouslySetInnerHTML={{ __html: message.replace('\n', '<br /><br />') }}
+				></div>
 			</div>
 		</a>
 	)

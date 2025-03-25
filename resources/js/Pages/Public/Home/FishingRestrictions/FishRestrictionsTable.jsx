@@ -78,7 +78,11 @@ export default function FishRestrictionsTable({
 		}
 
 		if (restriction.water) {
-			text += text ? ' in ' : ''
+			if (restriction.watersCategory) {
+				text += text ? ' in ' : ''
+			} else if (restriction.boundary) {
+				text += ' of '
+			}
 			text += restriction.water
 		}
 
