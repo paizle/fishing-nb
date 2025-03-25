@@ -72,6 +72,7 @@ export default function LocationCombobox({
 
 	const clearSearch = () => {
 		setInputValue('')
+		ref.current.click()
 	}
 
 	const scrollToInput = (e) => {
@@ -102,7 +103,7 @@ export default function LocationCombobox({
 					{...getInputProps({ ref })}
 					onFocus={scrollToInput}
 				/>
-				<button aria-label="Clear Search input" type="button" onClick={clearSearch}>
+				<button aria-label="Clear Search" type="button" onClick={clearSearch}>
 					<XCircleIcon />
 				</button>
 			</div>
