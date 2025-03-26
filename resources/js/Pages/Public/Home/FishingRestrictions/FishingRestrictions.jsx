@@ -8,20 +8,9 @@ import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
 import useApplicationContext from '@/Contexts/ApplicationContext'
 
 export default function FishingRestrictions({ isLoading, restrictions, locationId, waterId }) {
-	const [hiddenFields, setHiddenFields] = useState([])
-
 	const appContext = useApplicationContext()
 
 	const restrictionsByFish = byFish(restrictions)
-
-	useEffect(() => {
-		let hiddenFields = []
-		if (locationId === 6) {
-			// Lower Saint John
-			hiddenFields.push('boundary')
-		}
-		setHiddenFields(hiddenFields)
-	}, [locationId, waterId])
 
 	const render = () => {
 		if (isLoading) {
@@ -41,7 +30,6 @@ export default function FishingRestrictions({ isLoading, restrictions, locationI
 					fishName={fishName}
 					fishImageSrc={getFishImageSrc(fishName)}
 					restrictions={restrictionsByFish[fishName].restrictions}
-					hiddenFields={hiddenFields}
 					isMobile={appContext.screenOrientation.isMobile}
 				/>
 			))

@@ -65,7 +65,6 @@ export default function LocationCombobox({
 		},
 		onInputValueChange(e) {
 			const { stateChangeTypes } = useCombobox
-			console.log(e)
 			if (e.type === stateChangeTypes.InputBlur) {
 				return
 			} else if (

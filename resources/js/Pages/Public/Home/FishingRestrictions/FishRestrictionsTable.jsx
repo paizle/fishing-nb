@@ -7,21 +7,10 @@ import { Fragment } from 'react/jsx-runtime'
 import Tooltip from '@/Components/Tooltip/Tooltip'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
-export default function FishRestrictionsTable({
-	fishName,
-	fishImageSrc,
-	restrictions,
-	hiddenFields = [],
-	isMobile,
-}) {
+export default function FishRestrictionsTable({ fishName, fishImageSrc, restrictions, isMobile }) {
 	const ToolTipMemo = memo(Tooltip)
 
 	const ExclamationTriangleIconMemo = memo(ExclamationTriangleIcon)
-
-	const removeHiddenFields = (restriction) => {
-		hiddenFields.forEach((hiddenField) => (restriction[hiddenField] = null))
-		return restriction
-	}
 
 	const renderSeasonDateRange = (restriction, comma = false) => {
 		return (
@@ -139,7 +128,6 @@ export default function FishRestrictionsTable({
 	}
 
 	const renderRestriction = (restriction, inGroup = false, lastInGroup = false) => {
-		restriction = removeHiddenFields(restriction)
 		return (
 			<tr className={`${inGroup && !restriction.group ? 'group' : ''}`}>
 				<td className="season-exception">
@@ -232,5 +220,4 @@ FishRestrictionsTable.propTypes = {
 	fishName: PropTypes.string.isRequired,
 	fishImageSrc: PropTypes.string.isRequired,
 	restrictions: PropTypes.arrayOf(PropTypes.object).isRequired,
-	hiddenFields: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
