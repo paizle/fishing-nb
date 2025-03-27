@@ -6,15 +6,6 @@
 		"dev": "vite",
 		"lint": "eslint resources/js --ext .js,.jsx --ignore-path .gitignore --fix"
 	},
-	"lint-staged": {
-		"**/*.{js,jsx,ts,tsx}": [
-			"prettier --write",
-			"eslint --fix"
-		],
-		"**/*.{css,scss,md,json}": [
-			"prettier --write"
-		]
-	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "^3.2.2",
 		"@eslint/js": "^9.22.0",
@@ -36,7 +27,6 @@
 		"eslint-plugin-react": "^7.37.4",
 		"eslint-plugin-react-hooks": "^5.2.0",
 		"laravel-vite-plugin": "^1.0",
-		"lint-staged": "^15.4.3",
 		"postcss": "^8.4.31",
 		"prettier": "^3.4.2",
 		"prettier-plugin-organize-imports": "^4.0.0",
