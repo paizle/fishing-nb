@@ -1,1 +1,0 @@
-import{c as a,j as s}from"./app-BcfCYjP3.js";function c({className:t="",children:n}){const o=a().getSettings();return s.jsx("div",{className:`PublicLayout ${t} ${o.gradientBackground?"gradient-background":""}`,children:n})}export{c as P};
