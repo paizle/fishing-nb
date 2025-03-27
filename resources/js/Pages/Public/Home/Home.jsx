@@ -74,9 +74,6 @@ export default function Home({ apiLastModified }) {
 		setSelectedLocation(selectedLocation)
 	}
 
-	const [comboboxState, setComboboxState] = useState(null)
-	useEffect(() => {}, [comboboxState])
-
 	return (
 		<PublicLayout className={`Home ${selectedLocation ? 'sub-heading' : ''}`}>
 			<header>
@@ -111,9 +108,7 @@ export default function Home({ apiLastModified }) {
 								className={selectedLocation ? 'hidden' : ''}
 								inputRef={comboboxRef}
 								locations={locations}
-								placeholder="Search by river, lake or region"
 								onChange={selectLocation}
-								exportState={setComboboxState}
 							/>
 						</div>
 					</div>
