@@ -10,13 +10,14 @@ import SelectFishDesktop from './SelectFishDesktop/SelectFishDesktop'
 import FishingRestrictions from './FishingRestrictions/FishingRestrictions'
 import useApplicationContext from '@/Contexts/ApplicationContext'
 import SelectedLocationButton from './SelectedLocationButton/SelectedLocationButton'
+import SmartFishLayout from '@/Layouts/SmartFishLayout/SmartFishLayout'
 
 export default function Home({ apiLastModified }) {
-	const [fishes, setFishes] = useState(null)
 	const [locations, setLocations] = useState(null)
 	const [restrictions, setRestrictions] = useState(null)
 	const [selectedFish, setSelectedFish] = useState(null)
 	const [selectedLocation, setSelectedLocation] = useState(null)
+	const [selectedRegion, setSelectedRegion] = useState(null)
 
 	const comboboxRef = useRef(null)
 
@@ -27,8 +28,16 @@ export default function Home({ apiLastModified }) {
 	const restLocations = useRest(apiLastModified)
 	const restRestrictions = useRest(apiLastModified)
 
+	useState(() => {
+		setSelectedRegion(appContext.getUserSelectedRegion())
+	}, [])
+
+	const selectRegion = (regionId) => {
+		appContext.setUserSelectedRegion(regionId)
+		setSelectedRegion(regionId)
+	}
+
 	useEffect(() => {
-		restFish.get('/api/fishes').then((request) => setFishes(request.data.fishes))
 		restLocations.get('/api/locations').then((request) => setLocations(request.data.locations))
 	}, [])
 
@@ -75,64 +84,45 @@ export default function Home({ apiLastModified }) {
 	}
 
 	return (
-		<PublicLayout className={`Home ${selectedLocation ? 'sub-heading' : ''}`}>
-			<header>
-				<PublicNav>
-					<h1 className="hero">
-						Smart <span>Fish</span>
-					</h1>
-				</PublicNav>
-			</header>
-			<main>
-				{fishes !== null && locations !== null && (
-					<div className="focused-layout">
-						<div className="header">
-							{selectedLocation && (
-								<SelectedLocationButton
-									selectedLocation={selectedLocation}
-									onClick={clearLocation}
-								/>
-							)}
-						</div>
-						<div className="body">
-							{!selectedLocation ? null : (
-								<FishingRestrictions
-									isLoading={restRestrictions.state.loading}
-									restrictions={restrictions}
-									regionId={selectedLocation?.value?.regionId}
-									waterId={selectedLocation?.value?.waterId}
-								/>
-							)}
-
-							<LocationCombobox
-								className={selectedLocation ? 'hidden' : ''}
-								inputRef={comboboxRef}
-								locations={locations}
-								onChange={selectLocation}
+		<SmartFishLayout
+			selectedLocation={selectedLocation}
+			selectedFish={selectedFish}
+			selectFish={selectFish}
+		>
+			{locations !== null && (
+				<div className="focused-layout">
+					<div className="header">
+						{selectedLocation && (
+							<SelectedLocationButton
+								selectedLocation={selectedLocation}
+								onClick={clearLocation}
 							/>
-						</div>
+						)}
 					</div>
-				)}
+					<div className="body">
+						{!selectedLocation ? null : (
+							<FishingRestrictions
+								isLoading={restRestrictions.state.loading}
+								restrictions={restrictions}
+								regionId={selectedLocation?.value?.regionId}
+								waterId={selectedLocation?.value?.waterId}
+							/>
+						)}
 
-				<div className="logo">
-					<img src="/images/logo.png" />
+						<LocationCombobox
+							className={selectedLocation ? 'hidden' : ''}
+							inputRef={comboboxRef}
+							locations={locations}
+							selectedRegion={selectedRegion}
+							selectRegion={selectRegion}
+							onChange={selectLocation}
+						/>
+					</div>
 				</div>
-			</main>
-			<footer>
-				{appContext.screenOrientation.isMobile ? (
-					<SelectFishMobile
-						fishes={fishes}
-						selectedFishId={selectedFish}
-						selectFish={selectFish}
-					/>
-				) : (
-					<SelectFishDesktop
-						fishes={fishes}
-						selectedFishId={selectedFish}
-						selectFish={selectFish}
-					/>
-				)}
-			</footer>
-		</PublicLayout>
+			)}
+			<div className="logo">
+				<img src="/images/logo.png" />
+			</div>
+		</SmartFishLayout>
 	)
 }

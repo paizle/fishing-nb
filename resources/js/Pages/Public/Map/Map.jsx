@@ -2,13 +2,14 @@ import './Map.scss'
 import useScreenOrientation from '@/Hooks/useScreenOrientation'
 import MapMobile from './MapMobile'
 import MapWeb from './MapWeb'
-import Breadcrumb from '@/Components/Breadcrumb/Breadcrumb'
-import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
-import PublicNav from '@/Layouts/PublicLayout/PublicNav'
+import SmartFishLayout from '@/Layouts/SmartFishLayout/SmartFishLayout'
 import useLandingPage from '@/Hooks/useLandingPage'
+import useApplicationContext from '@/Contexts/ApplicationContext'
 
 export default function Map({ locations, breadcrumb }) {
-	const screenOrientation = useScreenOrientation()
+	const appContext = useApplicationContext()
+
+	appContext.setUserSelectedRegion()
 
 	useLandingPage('location')
 
@@ -18,19 +19,16 @@ export default function Map({ locations, breadcrumb }) {
 	})
 
 	return (
-		<PublicLayout className="Map">
-			<header className="shadow">
-				<PublicNav>
-					<Breadcrumb breadcrumb={breadcrumb} />
-				</PublicNav>
-			</header>
-			<main>
-				{screenOrientation.isPortrait ? (
-					<MapMobile locations={locations} />
-				) : (
-					<MapWeb locations={locations} />
-				)}
-			</main>
-		</PublicLayout>
+		<SmartFishLayout>
+			<div className="Map">
+				<MapMobile
+					locations={locations}
+					onSelectLocation={(id) => {
+						appContext.setUserSelectedRegion(id)
+						location.href = '/home'
+					}}
+				/>
+			</div>
+		</SmartFishLayout>
 	)
 }

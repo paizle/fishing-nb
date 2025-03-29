@@ -13,13 +13,46 @@
 	.input {
 		position: relative;
 		margin: 0.25em;
+		.region-filter {
+			width: 5.5em;
+			position: absolute;
+			left: 0;
+			top: 50%;
+			transform: translateY(-50%);
+			height: 100%;
+			border: none;
+			color: white;
+
+			button.filter {
+				width: 100%;
+				font-size: 75%;
+				text-align: center;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				height: 100%;
+				padding-left: 0.5em;
+				line-height: 1;
+				border: 1px solid grey;
+				border-radius: 2em 0 0 2em;
+				background-color: var(--highlight-color);
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
 		input {
 			height: 2.5em;
+			padding-left: 1em;
 			padding-right: 1.75em;
-			width: 100%;
-			min-width: 20em;
+			width: 20em;
 			font-size: 1em;
 			border-radius: 2em;
+			border: 1px solid grey;
+			&.has-filter {
+				width: 302px;
+				margin-left: 72px;
+			}
 			&::placeholder {
 				opacity: 0.75;
 				text-align: center;
@@ -29,7 +62,7 @@
 				border-color: var(--highlight-color);
 			}
 		}
-		button {
+		button.clear-input {
 			position: absolute;
 			right: 6px;
 			top: 50%;
@@ -39,7 +72,7 @@
 			&:focus-visible,
 			&:hover {
 				svg {
-					color: var(--highlight-color);
+					stroke-width: 2px;
 				}
 			}
 			svg {
