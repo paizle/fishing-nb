@@ -3,12 +3,11 @@ namespace App\Http\Controllers;
 
 use App\Services\RestrictionsService;
 use App\Util\WatersCategoryName;
-use Exception;
+
 use Illuminate\Http\Request;
+use App\Models\Region;
 use App\Models\FishingRestriction;
-use App\Models\Fish;
 use App\Services\FishService;
-use App\Models\Water;
 use App\Models\FishingRestriction\WaterType;
 
 class ApiController extends Controller
@@ -23,7 +22,12 @@ class ApiController extends Controller
 		$this->restrictionsService = $restrictionsService;
 	}
 
-	public function fishes(Request $request)
+	public function regions()
+	{
+		return response(['regions' => Region::all()]);
+	}
+
+	public function fishes()
 	{
 		return response(['fishes' => $this->fishService->getSortedFishesByCategoryAndName()]);
 	}

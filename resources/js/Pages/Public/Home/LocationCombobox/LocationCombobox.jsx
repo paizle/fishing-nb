@@ -2,7 +2,10 @@ import './LocationCombobox.scss'
 import { useMemo } from 'react'
 import Downshift, { useCombobox } from 'downshift'
 import { useState, useRef, useEffect, useLayoutEffect, use, useReducer } from 'react'
-import { XCircleIcon } from '@heroicons/react/24/outline'
+
+import { XCircleIcon, MapPinIcon as MapPinIconOutline } from '@heroicons/react/24/outline'
+
+import { MapPinIcon } from '@heroicons/react/24/solid'
 
 export default function LocationCombobox({
 	className = '',
@@ -13,9 +16,8 @@ export default function LocationCombobox({
 	onBlur,
 	selectedRegion,
 	selectRegion,
+	setShowMap,
 }) {
-	console.log(locations)
-
 	const [filter, setFilter] = useState(null)
 
 	useEffect(() => {
@@ -118,7 +120,6 @@ export default function LocationCombobox({
 		},
 		onInputValueChange(e) {
 			const { stateChangeTypes } = useCombobox
-			console.log(e)
 			if (e.type === stateChangeTypes.InputBlur) {
 				return
 			} else if (
@@ -166,10 +167,17 @@ export default function LocationCombobox({
 	return (
 		<div className={`LocationCombobox ${className ? className : ''}`}>
 			<div className="input" {...getLabelProps()}>
-				{filter && (
+				{filter ? (
 					<div className="region-filter">
-						<button className="filter" onClick={() => (location.href = '/map')}>
+						<button className="filter" onClick={() => setShowMap(true)}>
 							{renderFilterText(filter)}
+						</button>
+					</div>
+				) : (
+					<div className="select-region">
+						<button onClick={() => setShowMap(true)}>
+							<MapPinIcon />
+							<MapPinIconOutline />
 						</button>
 					</div>
 				)}

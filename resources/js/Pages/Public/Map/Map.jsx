@@ -7,6 +7,8 @@ import useLandingPage from '@/Hooks/useLandingPage'
 import useApplicationContext from '@/Contexts/ApplicationContext'
 
 export default function Map({ locations, breadcrumb }) {
+	console.log(locations)
+
 	const appContext = useApplicationContext()
 
 	appContext.setUserSelectedRegion()

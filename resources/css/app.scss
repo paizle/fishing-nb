@@ -42,7 +42,7 @@ $error: #ba3232;
 	--actionable-color-lighter: #{$actionable-color-lighter};
 	--actionable-color-translucent: #{rgba($actionable-color, 0.5)};
 
-	--error: #{$error};
+	--error-color: #{$error};
 
 	--yellow-highlighter: 253, 255, 50;
 
