@@ -18,7 +18,7 @@ export default function LocationCombobox({
 	selectRegion,
 	setShowMap,
 }) {
-	const [filter, setFilter] = useState(null)
+	const [filterText, setFilter] = useState(null)
 
 	useEffect(() => {
 		const regionItem = Object.entries(locations).filter(
@@ -33,8 +33,8 @@ export default function LocationCombobox({
 		}
 	}, [selectedRegion])
 
-	const renderFilterText = (filter) => {
-		switch (filter) {
+	const renderFilterText = (filterText) => {
+		switch (filterText) {
 			case 'Inner Bay of Fundy':
 				return (
 					<>
@@ -60,7 +60,7 @@ export default function LocationCombobox({
 					</>
 				)
 			default:
-				return filter
+				return filterText
 		}
 	}
 
@@ -84,7 +84,7 @@ export default function LocationCombobox({
 		}
 	}, [ref.current])
 
-	const placeholder = filter ? 'Search by river or lake' : 'Search by river, lake or region'
+	const placeholder = filterText ? 'Search by river or lake' : 'Search by river, lake or region'
 
 	const items = useMemo(
 		() =>
@@ -164,25 +164,40 @@ export default function LocationCombobox({
 		)
 	}
 
+	const renderItemLabel = (itemLabel) => {
+		let result = itemLabel
+		if (filterText) {
+			result = result.substring(filterText.length)
+			if (!result.trim()) {
+				result = itemLabel
+			} else {
+				result = result.substring(2)
+			}
+		}
+		return result
+	}
+
 	return (
 		<div className={`LocationCombobox ${className ? className : ''}`}>
 			<div className="input" {...getLabelProps()}>
-				{filter ? (
-					<div className="region-filter">
-						<button className="filter" onClick={() => setShowMap(true)}>
-							{renderFilterText(filter)}
-						</button>
-					</div>
+				{filterText ? (
+					<button
+						className="region-filter"
+						onClick={() => setShowMap(true)}
+						aria-label="Filter by Region"
+					>
+						<span>{renderFilterText(filterText)}</span>
+					</button>
 				) : (
-					<div className="select-region">
-						<button onClick={() => setShowMap(true)}>
-							<MapPinIcon />
-							<MapPinIconOutline />
-						</button>
-					</div>
+					<button
+						className="select-region"
+						onClick={() => setShowMap(true)}
+						title="Filter by Region"
+					>
+						<MapPinIcon />
+					</button>
 				)}
 				<input
-					className={filter ? 'has-filter' : null}
 					placeholder={placeholder}
 					value={inputValue}
 					{...getInputProps({ ref })}
@@ -206,7 +221,7 @@ export default function LocationCombobox({
 							key={item.value.regionId + '-' + item.value.waterId}
 							{...getItemProps({ item, index })}
 						>
-							<span>{item.label}</span>
+							<span>{renderItemLabel(item.label)}</span>
 						</li>
 					))}
 			</ul>

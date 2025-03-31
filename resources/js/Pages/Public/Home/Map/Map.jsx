@@ -53,7 +53,8 @@ export default function Map({ apiLastModified, selectRegion }) {
 	const useTapHook = useTap()
 
 	const onLocationClick = (event) => {
-		selectRegion(locationsByName?.[pathSelectorToLocationName[event.target.id]]?.id)
+		const key = event.target.id || event.target.closest('[id]').id
+		selectRegion(locationsByName?.[pathSelectorToLocationName[key]]?.id)
 	}
 
 	const onLocationMouseEnter = (event) => {
