@@ -12,6 +12,8 @@ import useApplicationContext from '@/Contexts/ApplicationContext'
 import SelectedLocationButton from './SelectedLocationButton/SelectedLocationButton'
 import SmartFishLayout from '@/Layouts/SmartFishLayout/SmartFishLayout'
 
+import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
+
 const Map = lazy(() => import('./Map/Map.jsx'))
 
 export default function Home({ apiLastModified }) {
@@ -94,7 +96,13 @@ export default function Home({ apiLastModified }) {
 			selectFish={selectFish}
 		>
 			{showMap && (
-				<Suspense fallback={<div>Loading...</div>}>
+				<Suspense
+					fallback={
+						<div className="loading">
+							<LoadingSpinner />
+						</div>
+					}
+				>
 					<Map
 						apiLastModified={apiLastModified}
 						locations={locations}

@@ -2,6 +2,19 @@
 
 .SmartFishLayout {
 	main {
+		.loading {
+			display: flex;
+			justify-content: center;
+			align-self: stretch;
+			align-items: center;
+			margin: 1em auto;
+			.LoadingSpinner {
+				color: var(--highlight-color);
+				height: 50px;
+				width: 50px;
+			}
+		}
+
 		.focused-layout {
 			position: relative;
 			z-index: 2;

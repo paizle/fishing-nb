@@ -1,4 +1,4 @@
-import useTap from '@/Hooks/useTap'
+import useTap from '@/Hooks/useScreenTap'
 import React from 'react'
 import NewBrunswickMap, { pathSelectorToLocationName } from './NewBrunswickMap'
 
