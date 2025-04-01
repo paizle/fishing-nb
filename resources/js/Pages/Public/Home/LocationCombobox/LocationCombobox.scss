@@ -8,11 +8,16 @@
 	overflow-x: auto;
 	overflow-y: hidden;
 	height: 100%;
-	max-width: 24em;
 	margin: 0 auto;
+	width: 25em;
+	max-width: 100%;
 	.input {
 		position: relative;
-		margin: 0.25em;
+		margin-top: 0.5em;
+		padding-left: 1px;
+		padding-right: 1px;
+		max-width: 100%;
+		display: inline-flex;
 
 		button.select-region {
 			position: absolute;
@@ -23,9 +28,9 @@
 			align-items: center;
 			line-height: 1;
 			height: 100%;
-			width: 36px;
+			width: 34px;
 
-			padding-left: 7px;
+			padding-left: 6px;
 			line-height: 1;
 			border: 1px solid grey;
 			border-radius: 2em 0 0 2em;
@@ -44,10 +49,9 @@
 			}
 		}
 		&:has(button.select-region) {
+			padding-left: 18px;
 			input {
 				padding-left: 1.25em;
-				width: 302px;
-				margin-left: 20px;
 			}
 		}
 
@@ -60,7 +64,7 @@
 			align-items: center;
 			justify-content: center;
 
-			padding-left: 0.3em;
+			padding-left: 0px;
 			line-height: 1;
 			border: 1px solid grey;
 			border-radius: 2em 0 0 2em;
@@ -70,11 +74,12 @@
 			text-align: center;
 
 			height: 100%;
-			width: 7em;
+			width: 80px;
 
 			span {
 				display: inline-block;
 				margin-top: -2px;
+				margin-right: -4px;
 			}
 
 			&:hover {
@@ -82,18 +87,18 @@
 			}
 		}
 		&:has(button.region-filter) {
+			padding-left: 64px;
 			input {
 				padding-left: 1.25em;
-				width: 302px;
-				margin-left: 68px;
 			}
 		}
 
 		input {
+			flex-grow: 1;
 			height: 2.5em;
 			padding-left: 0.5em;
 			padding-right: 1.75em;
-			width: 20em;
+			max-width: 100%;
 			font-size: 1em;
 			border-radius: 2em;
 			border: 1px solid grey;
