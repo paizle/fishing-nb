@@ -14,8 +14,6 @@ export default function FishRestrictionsTable({
 	hiddenFields = [],
 	isMobile,
 }) {
-	const ToolTipMemo = memo(Tooltip)
-
 	const ExclamationTriangleIconMemo = memo(ExclamationTriangleIcon)
 
 	const removeHiddenFields = (restriction) => {
@@ -121,9 +119,9 @@ export default function FishRestrictionsTable({
 			return (
 				<>
 					{renderBagLimitValue(restriction)}
-					<ToolTipMemo message={'Daily Hook and Release Limit: ' + restriction.hookLimit}>
+					<Tooltip message={'Daily Hook and Release Limit: ' + restriction.hookLimit}>
 						<ExclamationTriangleIconMemo className="alert" />
-					</ToolTipMemo>
+					</Tooltip>
 				</>
 			)
 		}
@@ -153,9 +151,9 @@ export default function FishRestrictionsTable({
 						<em className="water-description">{renderExceptionDetail(restriction)}</em>
 					)}
 					{restriction.note && !inGroup && !restriction.group && (
-						<ToolTipMemo message={restriction.note}>
+						<Tooltip message={restriction.note}>
 							<ExclamationTriangleIconMemo className="alert" />
-						</ToolTipMemo>
+						</Tooltip>
 					)}
 				</td>
 				<td>{renderBagLimit(restriction)}</td>
@@ -170,9 +168,9 @@ export default function FishRestrictionsTable({
 			<td>
 				<em>{renderExceptionDetail(restriction)}</em>
 				{restriction.note && (
-					<ToolTipMemo message={restriction.note}>
+					<Tooltip message={restriction.note}>
 						<ExclamationTriangleIconMemo className="alert" />
-					</ToolTipMemo>
+					</Tooltip>
 				)}
 			</td>
 		</tr>

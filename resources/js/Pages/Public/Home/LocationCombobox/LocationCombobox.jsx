@@ -18,55 +18,55 @@ export default function LocationCombobox({
 	selectRegion,
 	setShowMap,
 }) {
-	const [filterText, setFilter] = useState(null)
+	const [hasFocus, setHasFocus] = useState(false)
 
-	useEffect(() => {
-		const regionItem = Object.entries(locations).filter(
-			([key, location]) =>
-				location.regionId === selectedRegion && location.waterId === undefined,
-		)
-
-		if (regionItem.length) {
-			setFilter(regionItem[0][0])
-		} else {
-			setFilter('')
-		}
-	}, [selectedRegion])
-
-	const renderFilterText = (filterText) => {
-		switch (filterText) {
-			case 'Inner Bay of Fundy':
-				return (
-					<>
-						Inner Bay
-						<br />
-						of Fundy
-					</>
-				)
-			case 'Lower Saint John':
-				return (
-					<>
-						Lower
-						<br />
-						Saint John
-					</>
-				)
-			case 'Upper Saint John':
-				return (
-					<>
-						Upper
-						<br />
-						Saint John
-					</>
-				)
-			default:
-				return filterText
-		}
-	}
+	const [regionFilterItem, setRegionFilterItem] = useState(null)
 
 	const [inputValue, setInputValue] = useState('')
 
 	const ref = inputRef ? inputRef : useRef(null)
+
+	const placeholder = selectedRegion
+		? 'Search by river or lake'
+		: 'Search by river, lake or region'
+
+	const onInputFocus = () => {
+		setHasFocus(true)
+		scrollToInput()
+	}
+
+	const onInputBlur = () => {
+		setHasFocus(false)
+	}
+
+	const items = useMemo(
+		() =>
+			Object.entries(locations ?? {}).map(([key, value]) => ({
+				value,
+				label: key,
+			})),
+		[locations],
+	)
+
+	const filteredItems = useMemo(
+		() =>
+			(items ?? []).filter(
+				(item) => filterByRegion(item, selectedRegion) && filterByText(item, inputValue),
+			),
+		[items, inputValue, selectedRegion, filterByRegion, filterByText],
+	)
+
+	useEffect(() => {
+		const regionItem = filteredItems.find(
+			(item) => item.value.regionId === selectedRegion && item.value.waterId === undefined,
+		)
+
+		if (regionItem) {
+			setRegionFilterItem(regionItem)
+		} else {
+			setRegionFilterItem(null)
+		}
+	}, [selectedRegion, filteredItems])
 
 	useEffect(() => {
 		if (ref.current) {
@@ -84,27 +84,7 @@ export default function LocationCombobox({
 		}
 	}, [ref.current])
 
-	const placeholder = filterText ? 'Search by river or lake' : 'Search by river, lake or region'
-
-	const items = useMemo(
-		() =>
-			Object.entries(locations ?? {}).map(([key, value]) => ({
-				value,
-				label: key,
-			})),
-		[locations],
-	)
-
-	const filteredItems = useMemo(
-		() =>
-			(items ?? []).filter(
-				(item) => filterByRegion(item, selectedRegion) && filterByText(item, inputValue),
-			),
-		[items, inputValue, selectedRegion],
-	)
-
 	const {
-		isOpen,
 		getLabelProps,
 		getMenuProps,
 		getInputProps,
@@ -139,15 +119,13 @@ export default function LocationCombobox({
 		if (inputValue) {
 			setInputValue('')
 		} else {
-			selectedRegion = null
 			selectRegion(null)
 		}
 		ref.current.click()
 	}
 
-	const scrollToInput = (e) => {
-		const target = e.target
-		const combobox = target.closest('.LocationCombobox')
+	const scrollToInput = () => {
+		const combobox = inputRef.closest('.LocationCombobox')
 		combobox.addEventListener(
 			'transitionstart',
 			() =>
@@ -164,29 +142,28 @@ export default function LocationCombobox({
 		)
 	}
 
-	const renderItemLabel = (itemLabel) => {
-		let result = itemLabel
-		if (filterText) {
-			result = result.substring(filterText.length)
-			if (!result.trim()) {
-				result = itemLabel
+	const renderItemLabel = (item) => {
+		let result = item.label
+		if (regionFilterItem) {
+			if (regionFilterItem.value.regionId === item.value.regionId && !item.value.waterId) {
+				return <span className="filter-item">{result}</span>
 			} else {
-				result = result.substring(2)
+				result = result.substring(regionFilterItem.label.length + 2)
 			}
 		}
-		return result
+		return <span>{result}</span>
 	}
 
 	return (
 		<div className={`LocationCombobox ${className ? className : ''}`}>
 			<div className="input" {...getLabelProps()}>
-				{filterText ? (
+				{regionFilterItem ? (
 					<button
 						className="region-filter"
 						onClick={() => setShowMap(true)}
 						aria-label="Filter by Region"
 					>
-						<span>{renderFilterText(filterText)}</span>
+						<span>{renderFilterText(regionFilterItem.label)}</span>
 					</button>
 				) : (
 					<button
@@ -201,7 +178,8 @@ export default function LocationCombobox({
 					placeholder={placeholder}
 					value={inputValue}
 					{...getInputProps({ ref })}
-					onFocus={scrollToInput}
+					onFocus={() => onInputFocus()}
+					onBlur={() => onInputBlur()}
 				/>
 				<button
 					className="clear-input"
@@ -213,15 +191,15 @@ export default function LocationCombobox({
 				</button>
 			</div>
 
-			<ul className={isOpen ? 'open' : ''} {...getMenuProps()}>
-				{isOpen &&
+			<ul className={hasFocus ? 'open' : ''} {...getMenuProps()}>
+				{hasFocus &&
 					filteredItems.map((item, index) => (
 						<li
 							className={`${selectedItem === item ? 'selected' : ''} ${index === highlightedIndex ? 'highlighted' : ''}`}
 							key={item.value.regionId + '-' + item.value.waterId}
 							{...getItemProps({ item, index })}
 						>
-							<span>{renderItemLabel(item.label)}</span>
+							<span>{renderItemLabel(item)}</span>
 						</li>
 					))}
 			</ul>
@@ -240,4 +218,35 @@ const filterByText = (item, inputValue) => {
 	return inputChunks.every((inputChunk) =>
 		labelChunks.some((labelChunk) => labelChunk.includes(inputChunk)),
 	)
+}
+
+function renderFilterText(filterText) {
+	switch (filterText) {
+		case 'Inner Bay of Fundy':
+			return (
+				<>
+					Inner Bay
+					<br />
+					of Fundy
+				</>
+			)
+		case 'Lower Saint John':
+			return (
+				<>
+					Lower
+					<br />
+					Saint John
+				</>
+			)
+		case 'Upper Saint John':
+			return (
+				<>
+					Upper
+					<br />
+					Saint John
+				</>
+			)
+		default:
+			return filterText
+	}
 }

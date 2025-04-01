@@ -77,32 +77,8 @@
 					padding-top: 0;
 					transition: 500ms ease-out;
 					padding-top: 25vh;
-					//height: 100%;
 					&:has(ul.open) {
-						padding-top: 0;
-						.input input {
-							translate: transformY(0);
-						}
-						ul.open {
-							padding-top: 0;
-						}
-					}
-
-					ul {
-						li {
-							&:first-child {
-								padding-top: 0.25em;
-							}
-							&:last-child {
-								border-radius: 0 0 0.5em 0.5em;
-								padding-bottom: 0.25em;
-								margin-bottom: 5em;
-								border-bottom: none;
-								@apply shadow;
-							}
-							border-bottom: 1px solid var(--border-color);
-							padding: 0 0.5em;
-						}
+						padding-top: 0.25em;
 					}
 				}
 			}

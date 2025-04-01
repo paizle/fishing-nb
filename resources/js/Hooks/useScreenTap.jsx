@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function useScreenTap(maxDuration = 300, maxMove = 10) {
+export default function useScreenTap(findEventTarget = null, maxDuration = 300, maxMove = 10) {
 	const touchStartRef = React.useRef(null)
 	const touchPositionRef = React.useRef(null)
 
@@ -15,14 +15,16 @@ export default function useScreenTap(maxDuration = 300, maxMove = 10) {
 		touchPositionRef.current = { x: touch.clientX, y: touch.clientY }
 	}
 
-	const onTouchEnd = (callback) => (event) => {
+	const onTouchEnd = (event) => {
 		if (touchStartRef.current) {
 			const timeDiff = Date.now() - touchStartRef.current.time
 			const moveX = Math.abs(touchStartRef.current.x - touchPositionRef.current.x)
 			const moveY = Math.abs(touchStartRef.current.y - touchPositionRef.current.y)
 
 			if (timeDiff <= maxDuration && moveX <= maxMove && moveY <= maxMove) {
-				callback(event)
+				const target = findEventTarget ? findEventTarget(event.target) : event.target
+				const tapEvent = new CustomEvent('tap', { target })
+				target.dispatchEvent(tapEvent)
 			}
 		}
 		setTimeout(() => {
@@ -37,13 +39,15 @@ export default function useScreenTap(maxDuration = 300, maxMove = 10) {
 	const addTapHandler = (element, callback) => {
 		element.addEventListener('touchstart', onTouchStart)
 		element.addEventListener('touchmove', onTouchMove)
-		element.addEventListener('touchend', onTouchEnd(callback))
+		element.addEventListener('touchend', onTouchEnd)
+		element.addEventListener('tap', callback)
 	}
 
 	const removeTapHandler = (element, callback) => {
 		element.removeEventListener('touchstart', onTouchStart)
 		element.removeEventListener('touchmove', onTouchMove)
-		element.removeEventListener('touchend', onTouchEnd(callback))
+		element.removeEventListener('touchend', onTouchEnd)
+		element.removeEventListener('tap', callback)
 	}
 
 	return { hasTouched, addTapHandler, removeTapHandler }

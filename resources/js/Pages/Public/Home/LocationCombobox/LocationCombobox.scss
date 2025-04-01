@@ -13,7 +13,6 @@
 	max-width: 100%;
 	.input {
 		position: relative;
-		margin-top: 0.5em;
 		padding-left: 1px;
 		padding-right: 1px;
 		max-width: 100%;
@@ -74,12 +73,12 @@
 			text-align: center;
 
 			height: 100%;
-			width: 80px;
+			width: 84px;
 
 			span {
 				display: inline-block;
 				margin-top: -2px;
-				margin-right: -4px;
+				margin-right: -2px;
 			}
 
 			&:hover {
@@ -87,7 +86,7 @@
 			}
 		}
 		&:has(button.region-filter) {
-			padding-left: 64px;
+			padding-left: 68px;
 			input {
 				padding-left: 1.25em;
 			}
@@ -131,19 +130,41 @@
 		}
 	}
 	ul {
+		li {
+			&:first-child {
+			}
+			&:last-child {
+			}
+		}
+	}
+	ul {
 		flex-grow: 1;
 		overflow-y: auto;
 		visibility: collapse;
 		cursor: default;
 		width: 100%;
+		padding-top: 2px;
 		li {
 			background-color: var(--background-color);
-			&.selected {
-				@apply font-bold;
+			border-bottom: 1px solid var(--border-color);
+			padding: 0 0.5em;
+			&:first-child {
+				border-radius: 0.5em 0.5em 0 0;
+				padding-top: 0.25em;
+			}
+			&:last-child {
+				border-radius: 0 0 0.5em 0.5em;
+				padding-bottom: 0.25em;
+				margin-bottom: 5em;
+				border-bottom: none;
+				@apply shadow;
 			}
 			&:hover,
 			&.highlighted {
 				background-color: var(--highlight-color-lighter);
+			}
+			span.filter-item {
+				font-weight: bold;
 			}
 		}
 		&.open {

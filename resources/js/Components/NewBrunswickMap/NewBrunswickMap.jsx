@@ -4,14 +4,14 @@ import './NewBrunswickMap.scss'
 import useScreenTap from '@/Hooks/useScreenTap'
 
 export const pathSelectorToLocationName = {
-	path102: 'Restigouche',
-	path47: 'Chaleur',
-	path53: 'Miramichi',
-	path55: 'Southeast',
-	path28: 'Inner Bay of Fundy',
-	path60: 'Lower Saint John',
-	path89: 'Southwest',
-	path62: 'Upper Saint John',
+	restigouche: 'Restigouche',
+	chaleur: 'Chaleur',
+	miramichi: 'Miramichi',
+	southeast: 'Southeast',
+	'inner-bay-of-fundy': 'Inner Bay of Fundy',
+	'lower-saint-john': 'Lower Saint John',
+	southwest: 'Southwest',
+	'upper-saint-john': 'Upper Saint John',
 }
 
 export default function NewBrunswickMap({
@@ -21,7 +21,7 @@ export default function NewBrunswickMap({
 	onLocationMouseLeave,
 	onLocationTap,
 }) {
-	const useTap = useScreenTap()
+	const useTap = useScreenTap((target) => (!target.id ? target.closest('[id]') : target))
 
 	const containerRefLocal = containerRef || useRef(null)
 

@@ -74,7 +74,6 @@ export default function Map({ apiLastModified, selectRegion }) {
 	const onLocationTap = (event) => {
 		const target = event.target
 		const key = target.id || target.closest('[id]').id
-		console.log(selectedPathId, key)
 		if (selectedPathId === key) {
 			selectRegion(locationsByName?.[pathSelectorToLocationName[key]]?.id)
 		} else {
@@ -87,7 +86,6 @@ export default function Map({ apiLastModified, selectRegion }) {
 					.querySelector('#' + key)
 					.classList.add('active')
 			}
-
 			selectLocation(key)
 		}
 	}
@@ -124,52 +122,47 @@ export default function Map({ apiLastModified, selectRegion }) {
 	}
 
 	return locationsByName ? (
-		<div className="Map">
-			<div className={`MapMobile ${selectedPathId ? 'location-selected' : ''}`}>
-				{!locationsByName ? null : (
-					<NewBrunswickMap
-						containerRef={mapContainerRef}
-						onLocationClick={onLocationClick}
-						onLocationMouseEnter={onLocationMouseEnter}
-						onLocationTap={onLocationTap}
-					/>
-				)}
+		<div className={`Map ${selectedPathId ? 'location-selected' : ''}`}>
+			{!locationsByName ? null : (
+				<NewBrunswickMap
+					containerRef={mapContainerRef}
+					onLocationClick={onLocationClick}
+					onLocationMouseEnter={onLocationMouseEnter}
+					onLocationTap={onLocationTap}
+				/>
+			)}
 
-				<div className="locations" ref={locationTitlesRef}>
-					<ul>
-						<li className={!selectedPathId ? 'highlighted' : undefined}>
-							<button>
-								<h3>New Brunswick</h3>
-								<em></em>
+			<div className="locations" ref={locationTitlesRef}>
+				<ul>
+					<li className={!selectedPathId ? 'highlighted' : undefined}>
+						<h3>New Brunswick</h3>
+					</li>
+					{Object.keys(pathSelectorToLocationName).map((key) => (
+						<li
+							key={key}
+							data-path-id={key}
+							className={selectedPathId === key ? 'highlighted' : ''}
+						>
+							<button
+								onClick={() =>
+									selectRegion(
+										locationsByName?.[pathSelectorToLocationName[key]]?.id,
+									)
+								}
+							>
+								<h3>
+									{pathSelectorToLocationName[key]} <ArrowRightCircleIcon />{' '}
+								</h3>
+								<em>
+									{
+										locationsByName?.[pathSelectorToLocationName[key]]
+											?.description
+									}
+								</em>
 							</button>
 						</li>
-						{Object.keys(pathSelectorToLocationName).map((key) => (
-							<li
-								key={key}
-								data-path-id={key}
-								className={selectedPathId === key ? 'highlighted' : ''}
-							>
-								<button
-									onClick={() =>
-										selectRegion(
-											locationsByName?.[pathSelectorToLocationName[key]]?.id,
-										)
-									}
-								>
-									<h3>
-										{pathSelectorToLocationName[key]} <ArrowRightCircleIcon />{' '}
-									</h3>
-									<em>
-										{
-											locationsByName?.[pathSelectorToLocationName[key]]
-												?.description
-										}
-									</em>
-								</button>
-							</li>
-						))}
-					</ul>
-				</div>
+					))}
+				</ul>
 			</div>
 		</div>
 	) : null

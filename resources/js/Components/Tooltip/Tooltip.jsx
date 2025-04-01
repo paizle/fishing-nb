@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import './Tooltip.scss'
 
 const Tooltip = ({ message = null, children }) => {
@@ -20,7 +20,7 @@ const Tooltip = ({ message = null, children }) => {
 		})
 	}
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		if (messageRef.current) {
 			setHoverAndPosition(() => {
 				return {
@@ -32,10 +32,13 @@ const Tooltip = ({ message = null, children }) => {
 	}, [hoverAndPosition.hover])
 
 	return (
-		<a
+		<button
 			className={`Tooltip ${hoverAndPosition.hover ? 'show' : ''}`}
 			onMouseEnter={setIsHovering(true)}
 			onMouseLeave={setIsHovering(false)}
+			onFocus={setIsHovering(true)}
+			onBlur={setIsHovering(false)}
+			onClick={(event) => event.target.focus()}
 		>
 			{children}
 			<div
@@ -47,7 +50,7 @@ const Tooltip = ({ message = null, children }) => {
 					dangerouslySetInnerHTML={{ __html: message.replace('\n', '<br /><br />') }}
 				></div>
 			</div>
-		</a>
+		</button>
 	)
 }
 
