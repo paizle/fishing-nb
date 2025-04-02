@@ -7,10 +7,19 @@ import { Fragment } from 'react/jsx-runtime'
 import Tooltip from '@/Components/Tooltip/Tooltip'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
-export default function FishRestrictionsTable({ fishName, fishImageSrc, restrictions, isMobile }) {
-	const ToolTipMemo = memo(Tooltip)
-
+export default function FishRestrictionsTable({
+	fishName,
+	fishImageSrc,
+	restrictions,
+	hiddenFields = [],
+	isMobile,
+}) {
 	const ExclamationTriangleIconMemo = memo(ExclamationTriangleIcon)
+
+	const removeHiddenFields = (restriction) => {
+		hiddenFields.forEach((hiddenField) => (restriction[hiddenField] = null))
+		return restriction
+	}
 
 	const renderSeasonDateRange = (restriction, comma = false) => {
 		return (
@@ -110,9 +119,9 @@ export default function FishRestrictionsTable({ fishName, fishImageSrc, restrict
 			return (
 				<>
 					{renderBagLimitValue(restriction)}
-					<ToolTipMemo message={'Daily Hook and Release Limit: ' + restriction.hookLimit}>
+					<Tooltip message={'Daily Hook and Release Limit: ' + restriction.hookLimit}>
 						<ExclamationTriangleIconMemo className="alert" />
-					</ToolTipMemo>
+					</Tooltip>
 				</>
 			)
 		}
@@ -128,6 +137,7 @@ export default function FishRestrictionsTable({ fishName, fishImageSrc, restrict
 	}
 
 	const renderRestriction = (restriction, inGroup = false, lastInGroup = false) => {
+		restriction = removeHiddenFields(restriction)
 		return (
 			<tr className={`${inGroup && !restriction.group ? 'group' : ''}`}>
 				<td className="season-exception">
@@ -141,9 +151,9 @@ export default function FishRestrictionsTable({ fishName, fishImageSrc, restrict
 						<em className="water-description">{renderExceptionDetail(restriction)}</em>
 					)}
 					{restriction.note && !inGroup && !restriction.group && (
-						<ToolTipMemo message={restriction.note}>
+						<Tooltip message={restriction.note}>
 							<ExclamationTriangleIconMemo className="alert" />
-						</ToolTipMemo>
+						</Tooltip>
 					)}
 				</td>
 				<td>{renderBagLimit(restriction)}</td>
@@ -158,9 +168,9 @@ export default function FishRestrictionsTable({ fishName, fishImageSrc, restrict
 			<td>
 				<em>{renderExceptionDetail(restriction)}</em>
 				{restriction.note && (
-					<ToolTipMemo message={restriction.note}>
+					<Tooltip message={restriction.note}>
 						<ExclamationTriangleIconMemo className="alert" />
-					</ToolTipMemo>
+					</Tooltip>
 				)}
 			</td>
 		</tr>
@@ -220,4 +230,5 @@ FishRestrictionsTable.propTypes = {
 	fishName: PropTypes.string.isRequired,
 	fishImageSrc: PropTypes.string.isRequired,
 	restrictions: PropTypes.arrayOf(PropTypes.object).isRequired,
+	hiddenFields: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
