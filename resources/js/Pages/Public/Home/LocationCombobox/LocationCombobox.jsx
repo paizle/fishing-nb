@@ -124,20 +124,19 @@ export default function LocationCombobox({
 		ref.current.click()
 	}
 
+	const scrollTo = () => {
+		const combobox = inputRef.current.closest('.LocationCombobox')
+		combobox.parentElement?.scrollIntoView({
+			behavior: 'smooth',
+			block: 'start',
+		})
+	}
+
 	const scrollToInput = () => {
-		const combobox = inputRef.closest('.LocationCombobox')
+		const combobox = inputRef.current.closest('.LocationCombobox')
 		combobox.addEventListener(
 			'transitionstart',
-			() =>
-				combobox.addEventListener(
-					'transitionend',
-					() =>
-						target.parentElement?.scrollIntoView({
-							behavior: 'smooth',
-							block: 'start',
-						}),
-					{ once: true },
-				),
+			() => combobox.addEventListener('transitionend', scrollTo, { once: true }),
 			{ once: true },
 		)
 	}
@@ -155,7 +154,7 @@ export default function LocationCombobox({
 	}
 
 	return (
-		<div className={`LocationCombobox ${className ? className : ''}`}>
+		<div className={`LocationCombobox ${className ? className : ''}`} onClick={scrollTo}>
 			<div className="input" {...getLabelProps()}>
 				{regionFilterItem ? (
 					<button
