@@ -10,8 +10,10 @@
 	.NewBrunswickMap {
 		flex-grow: 1;
 		padding-top: 1em;
+		min-height: 40vh;
 		> svg {
 			height: 100%;
+			width: 100%;
 		}
 	}
 
