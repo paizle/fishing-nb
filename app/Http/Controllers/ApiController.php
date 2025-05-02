@@ -30,38 +30,23 @@ class ApiController extends Controller
 
 	public function locations(Request $request)
 	{
-		$restrictions = FishingRestriction::query()
-			->with(['water', 'region'])
-			->get();
+		$restrictionIds = FishingRestriction::query()
+    ->selectRaw('MIN(id) as id')
+    ->groupBy('region_id', 'water_id')
+    ->pluck('id');
 
-		$restrictions_by_region = [];
+    $restrictions = FishingRestriction::query()
+      ->whereIn('fishing_restrictions.id', $restrictionIds)
+      //->where('is_restriction', false)
+      ->leftJoin('waters', 'fishing_restrictions.water_id', '=', 'waters.id')
+      ->join('regions', 'fishing_restrictions.region_id', '=', 'regions.id')
+      ->select('fishing_restrictions.*')
+      ->orderBy('regions.name')
+      ->orderBy('waters.name')
+      ->with(['water', 'region'])
+      ->get();
 
-		foreach ($restrictions as $restriction) {
-			$region = $restriction->region->name ?? '';
-			$water = $restriction->water->name ?? '';
-
-			$key = $region;
-			if ($water !== '') {
-				$key .= ' / ' . $water;
-
-				if ($restrictions_by_region[$key] ?? null === null) {
-					$restrictions_by_region[$key] = [
-						'regionId' => $restriction->region_id,
-						'waterId' => $restriction->water_id,
-					];
-				}
-			} else {
-				if ($restrictions_by_region[$key] ?? null === null) {
-					$restrictions_by_region[$key] = [
-						'regionId' => $restriction->region_id,
-					];
-				}
-			}
-		}
-
-		ksort($restrictions_by_region);
-
-		return response(['locations' => $restrictions_by_region]);
+		return response(['locations' => $restrictions]);
 	}
 
 	public function fishByLocation(Request $request, $region_id, $water_id = '0', $fish_id = '0')

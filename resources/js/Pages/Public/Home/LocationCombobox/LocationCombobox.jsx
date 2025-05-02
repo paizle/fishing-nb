@@ -36,10 +36,18 @@ export default function LocationCombobox({
 
 	const items = useMemo(
 		() =>
-			Object.entries(locations ?? {}).map(([key, value]) => ({
-				value,
-				label: key,
-			})),
+			(locations ?? []).map((location) => {
+				const item = {}
+				item.value = {}
+				item.value.regionId = location.region_id
+				if (location.water_id) {
+					item.value.waterId = location.water_id
+					item.label = location.water.name
+				} else {
+					item.label = location.region.name
+				}
+				return item
+			}),
 		[locations],
 	)
 
@@ -118,15 +126,23 @@ export default function LocationCombobox({
 				</button>
 			</div>
 
-			<ul className={isOpen ? 'open' : ''} {...getMenuProps()}>
-				{isOpen &&
+			<ul className={true ? 'open' : ''} {...getMenuProps()}>
+				{true &&
 					filteredItems.map((item, index) => (
 						<li
 							className={`${selectedItem === item ? 'selected' : ''} ${index === highlightedIndex ? 'highlighted' : ''}`}
 							key={item.value.regionId + '-' + item.value.waterId}
 							{...getItemProps({ item, index })}
 						>
-							<span>{item.label}</span>
+							<span>
+								{item.value.waterId ? (
+									item.label
+								) : (
+									<span className="flex justify-center font-bold">
+										{item.label}
+									</span>
+								)}
+							</span>
 						</li>
 					))}
 			</ul>
