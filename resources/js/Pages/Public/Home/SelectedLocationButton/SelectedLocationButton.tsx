@@ -3,7 +3,7 @@ import './SelectedLocationButton.scss'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline'
 
 interface Props {
-	selectedLocation: { label: string }
+	selectedLocation: { fullName: string }
 	onClick: () => void
 }
 
@@ -24,11 +24,7 @@ export default function SelectedLocationButton({ selectedLocation, onClick }: Pr
 			onClick={onClick}
 			className="SelectedLocationButton"
 		>
-			<strong>
-				{selectedLocation.label.split('/').map((part) => (
-					<span key={part}>{part}</span>
-				))}
-			</strong>
+			<strong>{selectedLocation.fullName}</strong>
 			<ArrowUturnLeftIcon />
 		</button>
 	)
