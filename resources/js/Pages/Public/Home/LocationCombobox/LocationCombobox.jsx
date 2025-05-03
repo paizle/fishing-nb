@@ -128,8 +128,8 @@ export default function LocationCombobox({
 				</button>
 			</div>
 
-			<ul className={true ? 'open' : ''} {...getMenuProps()}>
-				{true &&
+			<ul className={isOpen ? 'open' : ''} {...getMenuProps()}>
+				{isOpen &&
 					filteredItems.map((item, index) => (
 						<li
 							className={`${selectedItem === item ? 'selected' : ''} ${index === highlightedIndex ? 'highlighted' : ''}`}
