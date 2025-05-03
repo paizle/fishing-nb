@@ -43,8 +43,10 @@ export default function LocationCombobox({
 				if (location.water_id) {
 					item.value.waterId = location.water_id
 					item.label = location.water.name
+					item.fullName = location.region.name + ', ' + location.water.name
 				} else {
 					item.label = location.region.name
+					item.fullName = location.region.name
 				}
 				return item
 			}),
