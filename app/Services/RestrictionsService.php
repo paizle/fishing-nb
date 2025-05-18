@@ -11,6 +11,7 @@ class RestrictionsService
 	{
 		return self::applyOrderBy(
 			FishingRestriction::query()
+        ->where('is_exception', false)
 				->where('fishing_restrictions.region_id', $region_id)
 				->join('fish', 'fish.id', '=', 'fishing_restrictions.fish_id')
 				->with(['fish', 'water'])
@@ -25,19 +26,22 @@ class RestrictionsService
 	{
 		$water_type = Water::find($water_id)->water_type;
 		$record_ids = FishingRestriction::query()
+      ->where('is_exception', false)
 			->where('region_id', $region_id)
 			->where('water_id', $water_id)
 			->pluck('id')
 			->toArray();
 
 		$water_type_record_ids = FishingRestriction::query()
-			->where('region_id', $region_id)
+      ->where('is_exception', false)
+      ->where('region_id', $region_id)
 			->where('water_type', $water_type)
 			->where('water_id', null)
 			->pluck('id')
 			->toArray();
 
 		$region_record_ids = FishingRestriction::query()
+      ->where('is_exception', false)
 			->where('region_id', $region_id)
 			->where('water_type', null)
 			->where('water_id', null)
@@ -48,7 +52,7 @@ class RestrictionsService
 
 		return self::applyOrderBy(
 			FishingRestriction::whereIn('fishing_restrictions.id', $record_ids)
-				->join('fish', 'fish.id', '=', 'fishing_restrictions.fish_id')
+        ->join('fish', 'fish.id', '=', 'fishing_restrictions.fish_id')
 				->with(['fish', 'water'])
 				->select([
 					'fish.id as fish_id'
@@ -61,6 +65,8 @@ class RestrictionsService
 	{
 		return self::applyOrderBy(
 			FishingRestriction::query()
+        ->where('is_exception', false)
+        ->where('is_exception', false)
 				->where('fishing_restrictions.region_id', $region_id)
 				->where('fishing_restrictions.fish_id', $fish_id)
 				->with(['fish', 'water'])
@@ -72,6 +78,7 @@ class RestrictionsService
 		$water_type = Water::find($water_id)->water_type;
 
 		$record_ids = FishingRestriction::query()
+      ->where('is_exception', false)
 			->where('region_id', $region_id)
 			->where('fish_id', $fish_id)
 			->where('water_id', $water_id)
@@ -79,6 +86,7 @@ class RestrictionsService
 			->toArray();
 
 		$water_type_record_ids = FishingRestriction::query()
+      ->where('is_exception', false)
 			->where('region_id', $region_id)
 			->where('fish_id', $fish_id)
 			->where('water_type', $water_type)
@@ -87,6 +95,7 @@ class RestrictionsService
 			->toArray();
 
 		$region_record_ids = FishingRestriction::query()
+      ->where('is_exception', false)
 			->where('region_id', $region_id)
 			->where('fish_id', $fish_id)
 			->where('water_type', null)
@@ -107,7 +116,8 @@ class RestrictionsService
 	{
 		return $query
 			->leftJoin('waters', 'fishing_restrictions.water_id', '=', 'waters.id')
-			->select([
+			->where('is_exception', false)
+      ->select([
 				'fishing_restrictions.*'
 			])
 			->orderBy('season_start')
