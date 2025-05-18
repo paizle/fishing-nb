@@ -37,7 +37,7 @@ class ApiController extends Controller
 
     $restrictions = FishingRestriction::query()
       ->whereIn('fishing_restrictions.id', $restrictionIds)
-      //->where('is_restriction', false)
+      ->where('is_exception', false)
       ->leftJoin('waters', 'fishing_restrictions.water_id', '=', 'waters.id')
       ->join('regions', 'fishing_restrictions.region_id', '=', 'regions.id')
       ->select('fishing_restrictions.*')
@@ -65,6 +65,17 @@ class ApiController extends Controller
 				$records = $this->restrictionsService->getByRegion($region_id);	
 			}
 		}
+
+    foreach ($records as $record) {
+      if ($record['season_start'] === null || $record['season_end'] === null) {
+        $test = true;
+      }
+      if ($record['is_exception']) {
+        $test = true;
+      } else {
+        $test = false;
+      }
+    }
 
 		return response(['limits' => $records]);
 	}
