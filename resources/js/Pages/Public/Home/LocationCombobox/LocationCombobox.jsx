@@ -132,7 +132,7 @@ export default function LocationCombobox({
 				{isOpen &&
 					filteredItems.map((item, index) => (
 						<li
-							className={`${selectedItem === item ? 'selected' : ''} ${index === highlightedIndex ? 'highlighted' : ''}`}
+							className={`${index === highlightedIndex ? 'highlighted' : ''}`}
 							key={item.value.regionId + '-' + item.value.waterId}
 							{...getItemProps({ item, index })}
 						>
