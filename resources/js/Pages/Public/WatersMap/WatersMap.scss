@@ -1,0 +1,27 @@
+.WatersMap main {
+	display: flex;
+	.leaflet-container {
+		height: 100%;
+		flex-grow: 1;
+	}
+	.Sidebar {
+		width: 33%;
+		ul {
+			padding: 0 1em;
+			button {
+				border: 1px solid grey;
+				border-radius: 0.25em;
+				padding: 0.25rem;
+				margin: 0.25em 0;
+				background-color: white;
+				&:hover {
+					background-color: grey;
+					color: white;
+				}
+				&.no-name {
+					font-size: 0.65em;
+				}
+			}
+		}
+	}
+}

@@ -1,3 +1,5 @@
+import './LoadingSpinner.scss'
+
 export default function LoadingSpinner({ className = '' }) {
 	return (
 		<svg

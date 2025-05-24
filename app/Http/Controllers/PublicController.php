@@ -24,13 +24,10 @@ class PublicController extends Controller
 		]);
 	}
 
-	public function map()
-	{
-		$breadcrumb = [$this->getBreadcrumbMap()];
-
-		return Inertia::render('Public/Map/Map', [
-			'breadcrumb' => $breadcrumb,
-			'locations' => Region::all(),
+  public function waters_map()
+  {
+    return Inertia::render('Public/WatersMap/WatersMap', [
+			'apiLastModified' => config('app.api_last_modified'),
 		]);
 	}
 
