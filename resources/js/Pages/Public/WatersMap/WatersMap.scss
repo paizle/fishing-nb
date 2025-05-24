@@ -1,14 +1,27 @@
 .WatersMap main {
 	display: flex;
+	flex-direction: column;
+	@screen sm {
+		flex-direction: row;
+	}
 	.leaflet-container {
 		height: 100%;
 		flex-grow: 1;
 	}
 	.Sidebar {
-		width: 33%;
+		min-width: 18em;
+		flex-basis: 33%;
+
 		ul {
 			padding: 0 1em;
+			li {
+				text-align: center;
+				@screen sm {
+					text-align: left;
+				}
+			}
 			button {
+				margin: 0 auto;
 				border: 1px solid grey;
 				border-radius: 0.25em;
 				padding: 0.25rem;

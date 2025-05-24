@@ -56,6 +56,9 @@ export default function WatersMap({ apiLastModified }) {
 										onMouseEnter={() =>
 											hoverFeature(feature.properties.OBJECTID)
 										}
+										onMouseDown={() =>
+											hoverFeature(feature.properties.OBJECTID)
+										}
 									>
 										{feature.properties.NAME1 ||
 											feature.properties.LOCALNAME ||

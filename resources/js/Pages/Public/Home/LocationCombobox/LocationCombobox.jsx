@@ -59,8 +59,11 @@ export default function LocationCombobox({
 	)
 
 	const filteredItems = useMemo(
-		() => (items ?? []).filter((item) => filterByText(item, inputValue)),
-		[items, inputValue],
+		() =>
+			(items ?? []).filter(
+				(item) => filterByRegion(item, selectedRegion) && filterByText(item, inputValue),
+			),
+		[items, inputValue, selectedRegion, filterByRegion, filterByText],
 	)
 
 	useEffect(() => {
