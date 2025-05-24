@@ -69,11 +69,11 @@ export default function PublicNav({ children }) {
 									</Dropdown.Link>
 
 									<Dropdown.Link
-										href={route('location.map')}
-										active={route().current('location.*')}
+										href={route('maps.waters')}
+										active={route().current('maps.waters')}
 										className="flex justify-between"
 									>
-										Search By Location
+										Waters Map
 										<MapIcon className="h-5 w-5" />
 									</Dropdown.Link>
 
@@ -144,10 +144,10 @@ export default function PublicNav({ children }) {
 
 				<div className="py-1">
 					<ResponsiveNavLink
-						href={route('location.map')}
-						active={route().current('location.*')}
+						href={route('maps.waters')}
+						active={route().current('maps.waters')}
 					>
-						Search By Location
+						Waters Map
 						<MapIcon className="h-5 w-5" />
 					</ResponsiveNavLink>
 				</div>
