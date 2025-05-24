@@ -16,16 +16,6 @@
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		> * {
-			&:after {
-				content: '/';
-				margin-left: -0.25em;
-			}
-			&:last-child:after {
-				content: '';
-				margin-left: 0;
-			}
-		}
 	}
 
 	svg {

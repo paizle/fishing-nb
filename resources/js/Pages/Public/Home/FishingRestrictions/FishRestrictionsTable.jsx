@@ -7,6 +7,7 @@ import { Fragment } from 'react/jsx-runtime'
 import Tooltip from '@/Components/Tooltip/Tooltip'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
+
 export default function FishRestrictionsTable({
 	fishName,
 	fishImageSrc,

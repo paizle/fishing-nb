@@ -74,8 +74,8 @@
 
 				.LocationCombobox {
 					position: relative;
-					padding-top: 0;
 					transition: 500ms ease-out;
+					transition-delay: 0.2s;
 					padding-top: 25vh;
 					&:has(ul.open) {
 						padding-top: 0.25em;
