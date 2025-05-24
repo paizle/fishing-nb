@@ -1,5 +1,5 @@
 import './Home.scss'
-import { useState, useEffect, useRef, memo, useMemo } from 'react'
+import { useState, useEffect, useRef, memo, useMemo, lazy, Suspense } from 'react'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 import LocationCombobox from '@/Pages/Public/Home/LocationCombobox/LocationCombobox'
@@ -10,13 +10,19 @@ import SelectFishDesktop from './SelectFishDesktop/SelectFishDesktop'
 import FishingRestrictions from './FishingRestrictions/FishingRestrictions'
 import useApplicationContext from '@/Contexts/ApplicationContext'
 import SelectedLocationButton from './SelectedLocationButton/SelectedLocationButton'
+import SmartFishLayout from '@/Layouts/SmartFishLayout/SmartFishLayout'
+
+import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
+
+const Map = lazy(() => import('./Map/Map.jsx'))
 
 export default function Home({ apiLastModified }) {
-	const [fishes, setFishes] = useState(null)
 	const [locations, setLocations] = useState(null)
 	const [restrictions, setRestrictions] = useState(null)
 	const [selectedFish, setSelectedFish] = useState(null)
 	const [selectedLocation, setSelectedLocation] = useState(null)
+	const [selectedRegion, setSelectedRegion] = useState(null)
+	const [showMap, setShowMap] = useState(false)
 
 	const comboboxRef = useRef(null)
 
@@ -27,8 +33,17 @@ export default function Home({ apiLastModified }) {
 	const restLocations = useRest(apiLastModified)
 	const restRestrictions = useRest(apiLastModified)
 
+	useState(() => {
+		setSelectedRegion(appContext.getUserSelectedRegion())
+	}, [])
+
+	const selectRegion = (regionId) => {
+		appContext.setUserSelectedRegion(regionId)
+		setSelectedRegion(regionId)
+		setShowMap(false)
+	}
+
 	useEffect(() => {
-		restFish.get('/api/fishes').then((request) => setFishes(request.data.fishes))
 		restLocations.get('/api/locations').then((request) => setLocations(request.data.locations))
 	}, [])
 
@@ -75,16 +90,30 @@ export default function Home({ apiLastModified }) {
 	}
 
 	return (
-		<PublicLayout className={`Home ${selectedLocation ? 'sub-heading' : ''}`}>
-			<header>
-				<PublicNav>
-					<h1 className="hero">
-						Smart <span>Fish</span>
-					</h1>
-				</PublicNav>
-			</header>
-			<main>
-				{fishes !== null && locations !== null && (
+		<SmartFishLayout
+			selectedLocation={selectedLocation}
+			selectedFish={selectedFish}
+			selectFish={selectFish}
+		>
+			{showMap && (
+				<Suspense
+					fallback={
+						<div className="loading">
+							<LoadingSpinner />
+						</div>
+					}
+				>
+					<Map
+						apiLastModified={apiLastModified}
+						locations={locations}
+						selectRegion={selectRegion}
+						setShowMap={setShowMap}
+					/>
+				</Suspense>
+			)}
+
+			{!showMap && locations !== null && (
+				<>
 					<div className="focused-layout">
 						<div className="header">
 							{selectedLocation && (
@@ -108,31 +137,19 @@ export default function Home({ apiLastModified }) {
 								className={selectedLocation ? 'hidden' : ''}
 								inputRef={comboboxRef}
 								locations={locations}
+								selectedRegion={selectedRegion}
+								selectRegion={selectRegion}
 								onChange={selectLocation}
+								setShowMap={setShowMap}
 							/>
 						</div>
 					</div>
-				)}
 
-				<div className="logo">
-					<img src="/images/logo.png" />
-				</div>
-			</main>
-			<footer>
-				{appContext.screenOrientation.isMobile ? (
-					<SelectFishMobile
-						fishes={fishes}
-						selectedFishId={selectedFish}
-						selectFish={selectFish}
-					/>
-				) : (
-					<SelectFishDesktop
-						fishes={fishes}
-						selectedFishId={selectedFish}
-						selectFish={selectFish}
-					/>
-				)}
-			</footer>
-		</PublicLayout>
+					<div className="logo">
+						<img src="/images/logo.png" />
+					</div>
+				</>
+			)}
+		</SmartFishLayout>
 	)
 }
