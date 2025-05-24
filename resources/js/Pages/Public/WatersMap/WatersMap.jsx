@@ -13,8 +13,8 @@ export default function WatersMap({ apiLastModified }) {
 
 	useEffect(() => {
 		async function load() {
-			const response = await fetch('/waters.geojson')
-			const data = await response.json()
+      const response = await fetch('/waters.geojson', { cache: 'default' })
+      const data = await response.json()
 			setGeojson(data)
 		}
 		load()
