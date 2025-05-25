@@ -14,97 +14,91 @@ let DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon
 
-export default function FeaturesMap({ feature, highlightedFeature }) {
-	const [highlightedFeatureCenter, setHighlightedFeatureCenter] = useState(null)
-
+export default function FeaturesMap({ geoJson, highlightedGeoJson }) {
 	return (
 		<MapContainer>
-			<TileLayer
-				attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-			/>
-			{feature && (
-				<GeoJSON
-					key={feature.properties.OBJECTID} // Use a unique key for each feature
-					data={feature}
-					style={{
-						fillColor: 'blue',
-						color: 'white',
-						weight: 1,
-					}}
-				/>
-			)}
-			<FeatureContent
-				feature={feature}
-				highlightedFeature={highlightedFeature}
-				highlightedFeatureCenter={highlightedFeatureCenter}
-				setHighlightedFeatureCenter={setHighlightedFeatureCenter}
-			/>
-			{highlightedFeatureCenter && (
-				<Marker position={highlightedFeatureCenter}>
-					<Popup>test</Popup>
-				</Marker>
-			)}
+			<FeatureContent geoJson={geoJson} highlightedGeoJson={highlightedGeoJson} />
 		</MapContainer>
 	)
 }
 
-const FeatureContent = React.memo(
-	({ feature, highlightedFeature, highlightedFeatureCenter, setHighlightedFeatureCenter }) => {
-		const map = useMap() // Get the Leaflet map instance
+const FeatureContent = ({ geoJson, highlightedGeoJson }) => {
+	const layerRef = useRef(null)
+	const markerRef = useRef(null)
+	const map = useMap()
 
-		const fitMapToFeature = useCallback(() => {
-			if (feature) {
-				// Create a temporary Leaflet GeoJSON layer to calculate bounds
-				const geojsonLayer = new L.geoJSON(feature)
+	const updateMarkerPosition = (layer) => {
+		if (markerRef.current) {
+			markerRef.current.remove()
+		}
+		if (!layerRef.current) return
+		setTimeout(() => {
+			const center = layerRef.current.getBounds().getCenter()
 
-				// Get the bounds of the GeoJSON layer
-				const bounds = geojsonLayer.getBounds()
+			const centeredIcon = L.icon({
+				iconUrl: icon,
+				iconSize: [25, 41],
+				iconAnchor: [12.5, 41],
+				shadowUrl: iconShadow,
+				shadowSize: [41, 41],
+				shadowAnchor: [12.5, 41],
+			})
 
-				// Fit the map view to the bounds
-				if (bounds.isValid()) {
-					// Check if bounds are valid (not empty)
-					map.fitBounds(bounds)
-				} else {
-					console.warn('Invalid bounds: GeoJSON data may be empty or malformed.')
-				}
-			} else {
-				// Default bounds when no feature is provided
-				const defaultBounds = L.latLngBounds([49.28, -68.065], [43.28, -64.065]) // Example default bounds
-				map.fitBounds(defaultBounds)
+			const marker = L.marker(center, { icon: centeredIcon }).addTo(map)
+			markerRef.current = marker
+		}, 500)
+	}
+
+	useEffect(() => {
+		if (!geoJson) {
+			const defaultBounds = L.latLngBounds([49.28, -68.065], [43.28, -64.065])
+			map.fitBounds(defaultBounds)
+			return
+		}
+
+		if (layerRef.current) {
+			map.removeLayer(layerRef.current)
+		}
+
+		let layer
+		if (geoJson.geometry.type === 'Polygon' || geoJson.geometry.type === 'MultiPolygon') {
+			layer = L.polygon(flipCoords(geoJson.geometry.coordinates))
+			layer.addTo(map)
+			map.fitBounds(layer.getBounds())
+			layerRef.current = layer
+		}
+
+		// Wait for layer to render before calculating pixel center
+		updateMarkerPosition(layer)
+
+		// Also recalculate on zoom
+		map.on('zoomend', updateMarkerPosition)
+
+		return () => {
+			map.off('zoomend', updateMarkerPosition)
+			if (layer) map.removeLayer(layer)
+			if (markerRef.current) {
+				map.removeLayer(markerRef.current)
+				markerRef.current = null
 			}
-		}, [feature])
+		}
+	}, [geoJson, map, updateMarkerPosition])
 
-		useEffect(() => {
-			fitMapToFeature()
-		}, [fitMapToFeature, feature])
+	return (
+		<>
+			<TileLayer
+				attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+				url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+			/>
+		</>
+	)
+}
 
-		// Function to calculate the centroid
-		const calculateCentroid = useCallback(() => {
-			if (highlightedFeature) {
-				try {
-					const centroid = turf.centroid(highlightedFeature)
-					if (
-						!highlightedFeatureCenter ||
-						(highlightedFeatureCenter[0] !== centroid.geometry.coordinates[1] &&
-							highlightedFeatureCenter[1] !== centroid.geometry.coordinates[0])
-					) {
-						setHighlightedFeatureCenter([
-							centroid.geometry.coordinates[1],
-							centroid.geometry.coordinates[0],
-						])
-					}
-				} catch (error) {
-					console.error('Error calculating centroid:', error)
-					setHighlightedFeatureCenter(null) // Reset the center point
-				}
-			} else {
-				setHighlightedFeatureCenter(null) // Reset the center point
-			}
-		}, [highlightedFeature])
-
-		useEffect(() => {
-			calculateCentroid()
-		}, [calculateCentroid])
-	},
-)
+function flipCoords(coords) {
+	return coords.map((point) => {
+		if (Array.isArray(point[0])) {
+			return flipCoords(point)
+		}
+		return [point[1], point[0]]
+	})
+}
