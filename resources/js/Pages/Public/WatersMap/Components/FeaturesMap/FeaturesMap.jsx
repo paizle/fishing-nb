@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useMap, MapContainer, TileLayer, GeoJSON, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
-import * as turf from '@turf/turf'
-
 import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 
@@ -32,21 +30,11 @@ const FeatureContent = ({ geoJson, highlightedGeoJson }) => {
 			markerRef.current.remove()
 		}
 		if (!layerRef.current) return
-		setTimeout(() => {
-			const center = layerRef.current.getBounds().getCenter()
 
-			const centeredIcon = L.icon({
-				iconUrl: icon,
-				iconSize: [25, 41],
-				iconAnchor: [12.5, 41],
-				shadowUrl: iconShadow,
-				shadowSize: [41, 41],
-				shadowAnchor: [12.5, 41],
-			})
+		const center = layerRef.current.getBounds().getCenter()
 
-			const marker = L.marker(center, { icon: centeredIcon }).addTo(map)
-			markerRef.current = marker
-		}, 500)
+		const marker = L.marker(center).addTo(map)
+		markerRef.current = marker
 	}
 
 	useEffect(() => {
@@ -68,10 +56,8 @@ const FeatureContent = ({ geoJson, highlightedGeoJson }) => {
 			layerRef.current = layer
 		}
 
-		// Wait for layer to render before calculating pixel center
 		updateMarkerPosition(layer)
 
-		// Also recalculate on zoom
 		map.on('zoomend', updateMarkerPosition)
 
 		return () => {
