@@ -27,7 +27,7 @@ export default function WatersMap({ apiLastModified }) {
 
 	const hoverFeature = (id) => {
 		const feature = geoJson.features.find((feature) => feature.properties.OBJECTID === id)
-		//setHovereadFeature(feature)
+		setHovereadFeature(feature)
 	}
 
 	return (

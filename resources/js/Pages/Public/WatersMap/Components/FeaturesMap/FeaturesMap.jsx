@@ -1,13 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { useMap, MapContainer, TileLayer, GeoJSON, Marker, Popup } from 'react-leaflet'
+import React, { useEffect, useRef } from 'react'
+import { useMap, MapContainer, TileLayer, Marker } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 
-let DefaultIcon = L.icon({
+// Configure the default marker icon with proper centering
+const DefaultIcon = L.icon({
 	iconUrl: icon,
 	shadowUrl: iconShadow,
+	iconSize: [25, 41], // Size of the marker icon
+	iconAnchor: [12.5, 41], // Anchor point (tip of the marker) to align with the center
+	shadowSize: [41, 41], // Size of the shadow
+	shadowAnchor: [12.5, 41], // Anchor point of the shadow
 })
 
 L.Marker.prototype.options.icon = DefaultIcon
@@ -25,18 +30,7 @@ const FeatureContent = ({ geoJson, highlightedGeoJson }) => {
 	const markerRef = useRef(null)
 	const map = useMap()
 
-	const updateMarkerPosition = (layer) => {
-		if (markerRef.current) {
-			markerRef.current.remove()
-		}
-		if (!layerRef.current) return
-
-		const center = layerRef.current.getBounds().getCenter()
-
-		const marker = L.marker(center).addTo(map)
-		markerRef.current = marker
-	}
-
+	// Effect to handle geoJson (polygon layer)
 	useEffect(() => {
 		if (!geoJson) {
 			const defaultBounds = L.latLngBounds([49.28, -68.065], [43.28, -64.065])
@@ -44,10 +38,12 @@ const FeatureContent = ({ geoJson, highlightedGeoJson }) => {
 			return
 		}
 
+		// Remove existing layer if present
 		if (layerRef.current) {
 			map.removeLayer(layerRef.current)
 		}
 
+		// Create and add the polygon layer from geoJson
 		let layer
 		if (geoJson.geometry.type === 'Polygon' || geoJson.geometry.type === 'MultiPolygon') {
 			layer = L.polygon(flipCoords(geoJson.geometry.coordinates))
@@ -56,19 +52,39 @@ const FeatureContent = ({ geoJson, highlightedGeoJson }) => {
 			layerRef.current = layer
 		}
 
-		updateMarkerPosition(layer)
+		return () => {
+			if (layerRef.current) {
+				map.removeLayer(layerRef.current)
+				layerRef.current = null
+			}
+		}
+	}, [geoJson, map])
 
-		map.on('zoomend', updateMarkerPosition)
+	// Effect to handle marker positioning based on highlightedGeoJson
+	useEffect(() => {
+		if (markerRef.current) {
+			map.removeLayer(markerRef.current)
+			markerRef.current = null
+		}
+
+		// If no highlightedGeoJson is provided, do not add a marker
+		if (!highlightedGeoJson) return
+
+		// Create a temporary Leaflet layer from highlightedGeoJson to get its bounds
+		const tempLayer = L.geoJSON(highlightedGeoJson)
+		const center = tempLayer.getBounds().getCenter()
+
+		// Add the marker at the center of highlightedGeoJson
+		const marker = L.marker(center).addTo(map)
+		markerRef.current = marker
 
 		return () => {
-			map.off('zoomend', updateMarkerPosition)
-			if (layer) map.removeLayer(layer)
 			if (markerRef.current) {
 				map.removeLayer(markerRef.current)
 				markerRef.current = null
 			}
 		}
-	}, [geoJson, map, updateMarkerPosition])
+	}, [highlightedGeoJson, map])
 
 	return (
 		<>
