@@ -1,3 +1,4 @@
+import './FeaturesMap.scss'
 import React, { useEffect, useRef } from 'react'
 import { useMap, MapContainer, TileLayer, Marker } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -46,7 +47,7 @@ const FeatureContent = ({ geoJson, highlightedGeoJson }) => {
 		// Create and add the polygon layer from geoJson
 		let layer
 		if (geoJson.geometry.type === 'Polygon' || geoJson.geometry.type === 'MultiPolygon') {
-			layer = L.polygon(flipCoords(geoJson.geometry.coordinates))
+			layer = L.polygon(flipCoords(geoJson.geometry.coordinates), { weight: 6, opacity: 0.5 })
 			layer.addTo(map)
 			map.fitBounds(layer.getBounds())
 			layerRef.current = layer
@@ -60,6 +61,21 @@ const FeatureContent = ({ geoJson, highlightedGeoJson }) => {
 		}
 	}, [geoJson, map])
 
+	function isPointInView(latlng) {
+		return map.getBounds().contains(latlng)
+	}
+
+	function getAngleToPoint(latlng) {
+		const center = map.getCenter()
+		const centerPoint = map.latLngToContainerPoint(center)
+		const targetPoint = map.latLngToContainerPoint(latlng)
+
+		const dx = targetPoint.x - centerPoint.x
+		const dy = targetPoint.y - centerPoint.y
+
+		return Math.atan2(dy, dx) // in radians
+	}
+
 	// Effect to handle marker positioning based on highlightedGeoJson
 	useEffect(() => {
 		if (markerRef.current) {
@@ -72,11 +88,36 @@ const FeatureContent = ({ geoJson, highlightedGeoJson }) => {
 
 		// Create a temporary Leaflet layer from highlightedGeoJson to get its bounds
 		const tempLayer = L.geoJSON(highlightedGeoJson)
-		const center = tempLayer.getBounds().getCenter()
+		const featureCenter = tempLayer.getBounds().getCenter()
 
-		// Add the marker at the center of highlightedGeoJson
-		const marker = L.marker(center).addTo(map)
-		markerRef.current = marker
+		if (isPointInView(featureCenter)) {
+			// Add the marker at the center of highlightedGeoJson
+			const marker = L.marker(featureCenter).addTo(map)
+			markerRef.current = marker
+		} else {
+			const angle = getAngleToPoint(featureCenter)
+			const centerMap = map.getSize().divideBy(2) // center in screen pixels
+
+			const RADIUS = 100 // distance from center in pixels
+			const x = centerMap.x + RADIUS * Math.cos(angle)
+			const y = centerMap.y + RADIUS * Math.sin(angle)
+
+			const edgeLatLng = map.containerPointToLatLng([x, y])
+
+			// You can customize the icon to be an arrow or triangle pointing in the correct direction
+			const icon = L.divIcon({
+				className: 'direction-arrow',
+				html: '➤',
+				iconSize: [20, 20],
+				iconAnchor: [10, 10],
+			})
+
+			const marker = L.marker(edgeLatLng, { icon }).addTo(map)
+
+			// Optional: Rotate the marker to point in the right direction
+			marker._icon.style.transform += ` rotate(${angle}rad)`
+			markerRef.current = marker
+		}
 
 		return () => {
 			if (markerRef.current) {

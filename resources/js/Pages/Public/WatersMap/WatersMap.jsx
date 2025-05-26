@@ -43,7 +43,7 @@ export default function WatersMap({ apiLastModified }) {
 				<FeaturesMap geoJson={selectedFeature} highlightedGeoJson={hoveredFeature} />
 				<Sidebar>
 					{geoJson ? (
-						<ul>
+						<ul onMouseLeave={() => setHovereadFeature(null)}>
 							{geoJson.features.map((feature) => (
 								<li key={feature.properties.OBJECTID}>
 									<button
