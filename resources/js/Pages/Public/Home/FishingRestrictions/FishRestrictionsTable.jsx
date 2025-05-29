@@ -8,8 +8,6 @@ import Tooltip from '@/Components/Tooltip/Tooltip'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
 export default function FishRestrictionsTable({ fishName, fishImageSrc, restrictions, isMobile }) {
-	const ToolTipMemo = memo(Tooltip)
-
 	const ExclamationTriangleIconMemo = memo(ExclamationTriangleIcon)
 
 	const renderSeasonDateRange = (restriction, comma = false) => {
@@ -110,9 +108,9 @@ export default function FishRestrictionsTable({ fishName, fishImageSrc, restrict
 			return (
 				<>
 					{renderBagLimitValue(restriction)}
-					<ToolTipMemo message={'Daily Hook and Release Limit: ' + restriction.hookLimit}>
+					<Tooltip message={'Daily Hook and Release Limit: ' + restriction.hookLimit}>
 						<ExclamationTriangleIconMemo className="alert" />
-					</ToolTipMemo>
+					</Tooltip>
 				</>
 			)
 		}
@@ -141,9 +139,9 @@ export default function FishRestrictionsTable({ fishName, fishImageSrc, restrict
 						<em className="water-description">{renderExceptionDetail(restriction)}</em>
 					)}
 					{restriction.note && !inGroup && !restriction.group && (
-						<ToolTipMemo message={restriction.note}>
+						<Tooltip message={restriction.note}>
 							<ExclamationTriangleIconMemo className="alert" />
-						</ToolTipMemo>
+						</Tooltip>
 					)}
 				</td>
 				<td>{renderBagLimit(restriction)}</td>
@@ -158,9 +156,9 @@ export default function FishRestrictionsTable({ fishName, fishImageSrc, restrict
 			<td>
 				<em>{renderExceptionDetail(restriction)}</em>
 				{restriction.note && (
-					<ToolTipMemo message={restriction.note}>
+					<Tooltip message={restriction.note}>
 						<ExclamationTriangleIconMemo className="alert" />
-					</ToolTipMemo>
+					</Tooltip>
 				)}
 			</td>
 		</tr>

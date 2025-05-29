@@ -12,6 +12,8 @@ interface ApplicationContextType {
 	setLandingPage: (name: string) => void
 	getUserSelectedFish: () => string
 	setUserSelectedFish: (fishName: string) => void
+	getUserSelectedRegion: () => string
+	setUserSelectedRegion: (fishName: string) => void
 }
 
 interface Settings extends Record<string, any> {}
@@ -50,6 +52,15 @@ export const ApplicationContextProvider = ({ children }: { children: ReactNode }
 		},
 		setUserSelectedFish: (fishName) => {
 			localStorage.set('settings', (settings: Settings) => (settings.selectedFish = fishName))
+		},
+		getUserSelectedRegion: () => {
+			return localStorage.get('settings', (settings: Settings) => settings?.selectedRegion)
+		},
+		setUserSelectedRegion: (regionId) => {
+			localStorage.set(
+				'settings',
+				(settings: Settings) => (settings.selectedRegion = regionId),
+			)
 		},
 	}
 

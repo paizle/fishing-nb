@@ -69,15 +69,6 @@ export default function PublicNav({ children }) {
 									</Dropdown.Link>
 
 									<Dropdown.Link
-										href={route('location.map')}
-										active={route().current('location.*')}
-										className="flex justify-between"
-									>
-										Search By Location
-										<MapIcon className="h-5 w-5" />
-									</Dropdown.Link>
-
-									<Dropdown.Link
 										href={route('settings.edit')}
 										active={route().current('settings.*')}
 										className="flex justify-between"
@@ -139,16 +130,6 @@ export default function PublicNav({ children }) {
 					<ResponsiveNavLink href={route('home.home')} active={route().current('home.*')}>
 						Smart Fish
 						<DevicePhoneMobileIcon className="h-5 w-5" />
-					</ResponsiveNavLink>
-				</div>
-
-				<div className="py-1">
-					<ResponsiveNavLink
-						href={route('location.map')}
-						active={route().current('location.*')}
-					>
-						Search By Location
-						<MapIcon className="h-5 w-5" />
 					</ResponsiveNavLink>
 				</div>
 
