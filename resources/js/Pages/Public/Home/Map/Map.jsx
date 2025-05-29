@@ -95,6 +95,7 @@ export default function Map({ apiLastModified, selectRegion }) {
 			const svg = mapContainerRef.current.querySelector('svg')
 
 			Object.keys(pathSelectorToLocationName).forEach((key) => {
+				console.log(key)
 				const locationPath = svg.querySelector('#' + key)
 				locationPath.classList.add('location')
 			})
@@ -134,7 +135,7 @@ export default function Map({ apiLastModified, selectRegion }) {
 
 			<div className="locations" ref={locationTitlesRef}>
 				<ul>
-					<li className={!selectedPathId ? 'highlighted' : undefined}>
+					<li className={!selectedPathId ? 'highlighted' : 'hidden'}>
 						<h3>New Brunswick</h3>
 					</li>
 					{Object.keys(pathSelectorToLocationName).map((key) => (
