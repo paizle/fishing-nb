@@ -3,8 +3,9 @@ import { compareAsc } from 'date-fns'
 
 export interface FishingRestriction {
 	id: Number
-	seasonStart: Date
-	seasonEnd: Date
+	isException: Boolean
+	seasonStart: Date | null
+	seasonEnd: Date | null
 	bagLimit: Number
 	hookLimit: Number
 	minSize: String
@@ -37,8 +38,9 @@ class Fish {
 	static convertToFishingRestriction(row: any): FishingRestriction {
 		return {
 			id: row.id,
-			seasonStart: parseMySqlDate(row.season_start),
-			seasonEnd: parseMySqlDate(row.season_end),
+			isException: !!row.is_exception,
+			seasonStart: !row.is_exception ? parseMySqlDate(row.season_start) : null,
+			seasonEnd: !row.is_exception ? parseMySqlDate(row.season_end) : null,
 			bagLimit: row.bag_limit,
 			hookLimit: row.hook_release_limit,
 			minSize: row.minimum_size,
@@ -129,7 +131,7 @@ export function byFish(results: any) {
 
 	// create map of fish name and a list of restrictions
 	const fish: FishRestrictionMap = results.reduce((a, v) => {
-		const fishName = v?.fish?.name ?? null
+		const fishName = v?.fish?.name ?? ''
 		if (!a[fishName]) {
 			a[fishName] = {
 				restrictions: [],

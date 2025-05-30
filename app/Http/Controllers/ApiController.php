@@ -41,7 +41,6 @@ class ApiController extends Controller
 
     $restrictions = FishingRestriction::query()
       ->whereIn('fishing_restrictions.id', $restrictionIds)
-      ->where('is_exception', false)
       ->leftJoin('waters', 'fishing_restrictions.water_id', '=', 'waters.id')
       ->join('regions', 'fishing_restrictions.region_id', '=', 'regions.id')
       ->select('fishing_restrictions.*')

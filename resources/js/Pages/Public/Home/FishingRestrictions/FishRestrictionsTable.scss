@@ -2,6 +2,12 @@
 	display: grid;
 	grid-template-columns: 1fr 4em 4em 4em;
 
+	&.exceptions {
+		thead tr th:first-child {
+			margin: 2em 0 0 0;
+		}
+	}
+
 	@screen sm {
 		grid-template-columns:
 			minmax(auto, 23em)
@@ -109,6 +115,18 @@
 					.date-range:nth-child(2) {
 						display: inline-block;
 						min-width: 4.5em;
+					}
+				}
+				&.exception {
+					grid-column: span 4;
+					em {
+						display: block;
+					}
+					strong {
+						display: block;
+						color: var(--error-color);
+						margin: 0 1em;
+						text-align: center;
 					}
 				}
 				.invalid {

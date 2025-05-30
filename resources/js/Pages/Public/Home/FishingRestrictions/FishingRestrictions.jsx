@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { byFish } from './FishingRestrictionsTransformers'
 import getFishImageSrc from '@/Util/getFishImageSrc'
 import FishRestrictionsTable from './FishRestrictionsTable'
+import FishRestrictionsExceptionsTable from './FishRestrictionsExceptionsTable'
 import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
 import useApplicationContext from '@/Contexts/ApplicationContext'
 
@@ -24,15 +25,28 @@ export default function FishingRestrictions({ isLoading, restrictions, locationI
 		} else if (restrictions.length === 0) {
 			return <div className="no-results">(no results)</div>
 		} else {
-			return Object.keys(restrictionsByFish ?? {}).map((fishName) => (
-				<FishRestrictionsTable
-					key={fishName}
-					fishName={fishName}
-					fishImageSrc={getFishImageSrc(fishName)}
-					restrictions={restrictionsByFish[fishName].restrictions}
-					isMobile={appContext.screenOrientation.isMobile}
-				/>
-			))
+			return Object.keys(restrictionsByFish ?? {})
+				.sort((a, b) => {
+					if (a === '') return 1
+					if (b === '') return -1
+					return a.localeCompare(b)
+				})
+				.map((fishName) =>
+					fishName ? (
+						<FishRestrictionsTable
+							key={fishName}
+							fishName={fishName}
+							fishImageSrc={getFishImageSrc(fishName)}
+							restrictions={restrictionsByFish[fishName].restrictions}
+							isMobile={appContext.screenOrientation.isMobile}
+						/>
+					) : (
+						<FishRestrictionsExceptionsTable
+							restrictions={restrictionsByFish[fishName].restrictions}
+							isMobile={appContext.screenOrientation.isMobile}
+						/>
+					),
+				)
 		}
 	}
 
