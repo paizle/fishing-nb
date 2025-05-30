@@ -55,6 +55,35 @@ class RestrictionsService
 
 	public function getByRegionAndFish($region_id, $fish_id)
 	{
+
+    // general and specific restrictions
+		$record_ids = FishingRestriction::query()
+      ->where('region_id', $region_id)
+			->where('fish_id', $fish_id)
+			->pluck('id')
+			->toArray();
+
+
+    if (count($record_ids) === 0) {
+      // no records for this fish in this region so is it assumed fishing is not allowed
+      // possibly this is wrong and it is just open fishing season
+      return [];
+    } else {
+      // add exceptions
+      $record_ids = array_merge($record_ids, 
+        FishingRestriction::query()
+          ->where('region_id', $region_id)
+          ->where('is_exception', 1)
+          ->pluck('id')
+          ->toArray()
+        );
+
+        return self::applyOrderBy(
+			FishingRestriction::whereIn('fishing_restrictions.id', $record_ids)
+          ->with(['fish', 'water'])
+        )->get();
+    }
+
     // get all restrictions and exceptions
 		return self::applyOrderBy(
 			FishingRestriction::query()
