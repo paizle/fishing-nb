@@ -53,17 +53,17 @@ export default memo(function SelectFishDesktop({
 		<div className="SelectFishDesktop">
 			<div className="carousel">
 				<div className="fishes" ref={fishListRef} role="listbox" aria-label="Select a fish">
-					{(fishes || []).map((fish) => (
+					{Object.keys(fishes || {}).map((key) => (
 						<button
-							key={fish.name}
+							key={fishes[key].name}
 							role="option"
-							aria-selected={selectedFishId === fish.id}
-							data-id={fish.id}
-							className={`fish ${selectedFishId === fish.id ? 'selected' : ''}`}
-							onClick={() => selectFish(fish.id)}
+							aria-selected={selectedFishId === fishes[key].id}
+							data-id={fishes[key].id}
+							className={`fish ${selectedFishId === fishes[key].id ? 'selected' : ''}`}
+							onClick={() => selectFish(fishes[key].id)}
 						>
-							<img src={getFishImageSrc(fish.name)} alt={fish.name} />
-							<div className="name">{fish.name}</div>
+							<img src={getFishImageSrc(fishes[key].name)} alt={fishes[key].name} />
+							<div className="name">{fishes[key].name}</div>
 						</button>
 					))}
 				</div>

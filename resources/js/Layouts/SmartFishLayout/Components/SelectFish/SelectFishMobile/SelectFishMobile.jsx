@@ -37,21 +37,21 @@ export default memo(function SelectFishMobile({
 			role="listbox"
 			aria-label="Select a fish"
 		>
-			{(fishes || []).map((fish) => (
+			{Object.keys(fishes || {}).map((key) => (
 				<button
-					key={fish.name}
+					key={key}
 					role="option"
-					aria-selected={selectedFishId === fish.id}
-					data-id={fish.id}
-					className={`fish ${selectedFishId === fish.id ? 'selected' : ''}`}
-					onClick={() => selectFish(fish.id)}
+					aria-selected={selectedFishId === fishes[key].id}
+					data-id={fishes[key].id}
+					className={`fish ${selectedFishId === fishes[key].id ? 'selected' : ''}`}
+					onClick={() => selectFish(fishes[key].id)}
 				>
 					<ProgressiveImage
 						lowResSrc="/images/fish-shadow.png"
-						highResSrc={getFishImageSrc(fish.name)}
-						alt={fish.name}
+						highResSrc={getFishImageSrc(fishes[key].name)}
+						alt={fishes[key].name}
 					/>
-					<div className="name">{fish.name}</div>
+					<div className="name">{fishes[key].name}</div>
 				</button>
 			))}
 		</div>

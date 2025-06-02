@@ -12,6 +12,8 @@ export default function FishingRestrictions({ isLoading, restrictions, locationI
 
 	const restrictionsByFish = byFish(restrictions)
 
+	const fishName = appContext.getUserSelectedFishName()
+
 	const render = () => {
 		if (isLoading) {
 			return (
@@ -22,7 +24,7 @@ export default function FishingRestrictions({ isLoading, restrictions, locationI
 		} else if (!restrictions) {
 			return null
 		} else if (restrictions.length === 0) {
-			return <div className="no-results">(no results)</div>
+			return <div className="no-results">(no results found for {fishName})</div>
 		} else {
 			return Object.keys(restrictionsByFish ?? {}).map((fishName) => (
 				<FishRestrictionsTable
