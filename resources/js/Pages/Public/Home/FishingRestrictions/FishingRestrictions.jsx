@@ -44,6 +44,7 @@ export default function FishingRestrictions({ isLoading, restrictions, locationI
 						/>
 					) : (
 						<FishRestrictionsExceptionsTable
+							key={''}
 							restrictions={restrictionsByFish[fishName].restrictions}
 							isMobile={appContext.screenOrientation.isMobile}
 						/>

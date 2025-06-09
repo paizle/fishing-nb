@@ -95,7 +95,6 @@ export default function Map({ apiLastModified, selectRegion }) {
 			const svg = mapContainerRef.current.querySelector('svg')
 
 			Object.keys(pathSelectorToLocationName).forEach((key) => {
-				console.log(key)
 				const locationPath = svg.querySelector('#' + key)
 				locationPath.classList.add('location')
 			})
