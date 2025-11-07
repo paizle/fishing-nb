@@ -24,6 +24,13 @@ class PublicController extends Controller
 		]);
 	}
 
+  public function home_new(Request $request)
+	{
+		return Inertia::render('Public/Home/HomeNew', [
+			'apiLastModified' => config('app.api_last_modified'),
+		]);
+	}
+
   public function waters_map()
   {
     return Inertia::render('Public/WatersMap/WatersMap', [

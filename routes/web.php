@@ -34,6 +34,8 @@ Route::controller(PublicController::class)->group(function () {
 
 	Route::get('/home', 'home')->name('home.home');
 
+  Route::get('/home-new', 'home_new')->name('home.home-new');
+
 	Route::get('/map', 'map')->name('location.map');
 	Route::get('/region/{id}', 'region')->name('location.region');
 	Route::get('/water/{id}', 'water')->name('location.water');
