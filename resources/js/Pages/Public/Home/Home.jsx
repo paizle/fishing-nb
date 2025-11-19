@@ -1,47 +1,26 @@
 import './Home.scss'
-import { useState, useEffect, useRef, memo, useMemo, lazy, Suspense } from 'react'
-import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
-import PublicNav from '@/Layouts/PublicLayout/PublicNav'
-import LocationCombobox from '@/Pages/Public/Home/LocationCombobox/LocationCombobox'
+import { useState, useEffect, useRef, useMemo } from 'react'
+import LocationCombobox from '@/Pages/Public/Home/LocationComboboxNew/LocationCombobox'
 import useRest from '@/Hooks/useRest'
-import useLandingPage from '@/Hooks/useLandingPage'
-import SelectFishMobile from '../../../Layouts/SmartFishLayout/Components/SelectFish/SelectFishMobile/SelectFishMobile'
-import SelectFishDesktop from '../../../Layouts/SmartFishLayout/Components/SelectFish/SelectFishDesktop/SelectFishDesktop'
 import FishingRestrictions from './FishingRestrictions/FishingRestrictions'
 import useApplicationContext from '@/Contexts/ApplicationContext'
-import SelectedLocationButton from './SelectedLocationButton/SelectedLocationButton'
 import SmartFishLayout from '@/Layouts/SmartFishLayout/SmartFishLayout'
+import RegionButton from './RegionButton/RegionButton'
+import useWizard from '@/Hooks/useWizard'
 
-import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
-
-const Map = lazy(() => import('./Map/Map.jsx'))
-
-export default function Home({ apiLastModified }) {
+export default function HomeNew({ apiLastModified }) {
 	const [locations, setLocations] = useState(null)
-	const [restrictions, setRestrictions] = useState(null)
 	const [selectedFish, setSelectedFish] = useState(null)
 	const [selectedLocation, setSelectedLocation] = useState(null)
-	const [selectedRegion, setSelectedRegion] = useState(null)
-	const [showMap, setShowMap] = useState(false)
-
-	const comboboxRef = useRef(null)
 
 	const appContext = useApplicationContext()
 	appContext.setLandingPage('home')
 
-	const restFish = useRest(apiLastModified)
+	const wizard = useWizard()
+
 	const restLocations = useRest(apiLastModified)
-	const restRestrictions = useRest(apiLastModified)
 
-	useState(() => {
-		setSelectedRegion(appContext.getUserSelectedRegion())
-	}, [])
-
-	const selectRegion = (regionId) => {
-		appContext.setUserSelectedRegion(regionId)
-		setSelectedRegion(regionId)
-		setShowMap(false)
-	}
+	const inputRef = useRef(null)
 
 	useEffect(() => {
 		restLocations.get('/api/locations').then((request) => setLocations(request.data.locations))
@@ -54,19 +33,6 @@ export default function Home({ apiLastModified }) {
 		}
 	}, [])
 
-	useEffect(() => {
-		if (selectedLocation) {
-			setRestrictions(null)
-			let url = '/api/fishByLocation/' + selectedLocation.value.regionId
-			url += '/' + (selectedLocation.value?.waterId ?? 0)
-			url += '/' + (selectedFish ?? 0)
-
-			restRestrictions.get(url).then((request) => {
-				setRestrictions(request.data.limits)
-			})
-		}
-	}, [selectedLocation, selectedFish])
-
 	const selectFish = (id) => {
 		let newSelectedFish
 		if (selectedFish === id) {
@@ -78,78 +44,105 @@ export default function Home({ apiLastModified }) {
 		setSelectedFish(newSelectedFish)
 	}
 
-	const clearLocation = () => {
-		setSelectedLocation(null)
-		setTimeout(() => {
-			comboboxRef.current.click()
-		}, 10)
-	}
-
 	const selectLocation = (selectedLocation) => {
 		setSelectedLocation(selectedLocation)
+		if (selectedLocation) {
+			if (!selectedLocation.value.waterId) {
+				wizard.selectRegionName(selectedLocation.label)
+			} else {
+				const region = Object.values(appContext.regions).find(
+					(region) => region.id === selectedLocation.value.regionId,
+				)
+				wizard.selectRegionName(region.name)
+			}
+		}
+		wizard.setHasLocation(!!selectedLocation)
 	}
+
+	const selectRegionName = (regionName) => {
+		if (wizard.selectedRegionName !== regionName) {
+			setSelectedLocation(null)
+			wizard.setHasLocation(false)
+		}
+
+		wizard.selectRegionName(regionName)
+		inputRef?.current.focus()
+		inputRef?.current.click()
+	}
+
+	const wizardStepName = wizard.getWizardStep().name
+
+	const [comboboxItems, selectedRegionItem] = useMemo(() => {
+		let selected = null
+
+		const list = (locations ?? []).map((location) => {
+			const item = {
+				value: {
+					regionId: location.region_id,
+					waterId: location.water_id ?? null,
+				},
+				label: location.water_id ? location.water.name : location.region.name,
+				fullName: location.water_id
+					? `${location.region.name}, ${location.water.name}`
+					: location.region.name,
+			}
+
+			if (
+				selected == null &&
+				item.value.waterId === null &&
+				item.label === wizard.selectedRegionName
+			) {
+				selected = item
+			}
+
+			return item
+		})
+
+		return [list.length > 0 ? list : null, selected]
+	}, [locations, wizard.selectedRegionName])
 
 	return (
 		<SmartFishLayout
+			shrink={
+				wizardStepName === wizard.wizardSteps[1].name ||
+				wizardStepName === wizard.wizardSteps[0].name
+			}
 			selectedLocation={selectedLocation}
 			selectedFish={selectedFish}
 			selectFish={selectFish}
 		>
-			{showMap && (
-				<Suspense
-					fallback={
-						<div className="loading">
-							<LoadingSpinner />
-						</div>
-					}
-				>
-					<Map
-						apiLastModified={apiLastModified}
-						locations={locations}
-						selectRegion={selectRegion}
-						setShowMap={setShowMap}
+			<div className={`wizard-layout ${wizardStepName}`}>
+				<div></div>
+				<div>
+					<RegionButton
+						zoomed={wizard.wizardState?.mapFocus}
+						selectedRegionName={wizard.selectedRegionName}
+						onClick={wizard.onRegionClick}
+						onBlur={wizard.onRegionSelected}
+						onSelect={selectRegionName}
 					/>
-				</Suspense>
-			)}
-
-			{!showMap && locations !== null && (
-				<>
-					<div className="focused-layout">
-						<div className="header">
-							{selectedLocation && (
-								<SelectedLocationButton
-									selectedLocation={selectedLocation}
-									onClick={clearLocation}
-								/>
-							)}
-						</div>
-						<div className="body">
-							{!selectedLocation ? null : (
-								<FishingRestrictions
-									isLoading={restRestrictions.state.loading}
-									restrictions={restrictions}
-									regionId={selectedLocation?.value?.regionId}
-									waterId={selectedLocation?.value?.waterId}
-								/>
-							)}
-
-							<LocationCombobox
-								className={selectedLocation ? 'hidden' : ''}
-								inputRef={comboboxRef}
-								locations={locations}
-								selectedRegion={selectedRegion}
-								selectRegion={selectRegion}
-								onChange={selectLocation}
-								setShowMap={setShowMap}
-							/>
-						</div>
-					</div>
-
-					<div className="logo">
-						<img src="/images/logo.png" />
-					</div>
-				</>
-			)}
+				</div>
+				<div>
+					<LocationCombobox
+						inputRef={inputRef}
+						items={comboboxItems}
+						selectedItem={selectedLocation}
+						selectedRegionItem={selectedRegionItem}
+						onInteract={wizard.onComboboxInteract}
+						onChange={selectLocation}
+						onList={wizard.onComboboxList}
+						onFocus={wizard.onComboboxFocus}
+						onBlur={wizard.onComboboxBlur}
+					/>
+				</div>
+				<div></div>
+				<div>
+					<FishingRestrictions
+						selectedLocation={selectedLocation}
+						selectedFish={selectedFish}
+					/>
+				</div>
+			</div>
 		</SmartFishLayout>
 	)
 }

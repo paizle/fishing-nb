@@ -30,11 +30,24 @@ const wizardSteps = [
 export const useWizard = () => {
 	useEffect(() => {}, [])
 
+	const [selectedRegionName, setSelectedRegionName] = useState(null)
+
 	const [wizardState, setWizardState] = useState({
 		mapFocus: false,
 		comboboxFocus: false,
 		comboboxList: false,
 	})
+
+	const selectRegionName = (regionName) => {
+		setSelectedRegionName(regionName)
+		setWizardState((oldWizardState) => {
+			const newWizardState = {
+				...oldWizardState,
+				mapFocus: false,
+			}
+			return newWizardState
+		})
+	}
 
 	const onDropDownClick = () => {
 		console.log('drop down')
@@ -48,8 +61,6 @@ export const useWizard = () => {
 	}
 
 	const onMapClick = () => {
-		console.log('map click')
-		console.log('not this')
 		setWizardState((oldWizardState) => {
 			const newWizardState = {
 				...oldWizardState,
@@ -60,7 +71,6 @@ export const useWizard = () => {
 	}
 
 	const onRegionClick = () => {
-		console.log('really?')
 		setWizardState((oldWizardState) => {
 			const newWizardState = {
 				...oldWizardState,
@@ -71,11 +81,35 @@ export const useWizard = () => {
 	}
 
 	const onRegionSelected = () => {
-		console.log('no idea')
+		console.log('region selected lol')
 		setWizardState((oldWizardState) => {
 			const newWizardState = {
 				...oldWizardState,
 				mapFocus: false,
+			}
+			console.log({ newWizardState })
+			return newWizardState
+		})
+	}
+
+	const onComboboxFocus = () => {
+		console.log('wizard focus')
+		setWizardState((oldWizardState) => {
+			const newWizardState = {
+				...oldWizardState,
+				comboboxFocus: true,
+			}
+			return newWizardState
+		})
+	}
+
+	const onComboboxList = (isOpen, hasFocus) => {
+		console.log('list', { isOpen }, { hasFocus })
+		setWizardState((oldWizardState) => {
+			const newWizardState = {
+				...oldWizardState,
+				comboboxList: isOpen,
+				comboboxFocus: hasFocus,
 			}
 			return newWizardState
 		})
@@ -106,6 +140,7 @@ export const useWizard = () => {
 	}
 
 	const setHasLocation = (hasLocation) => {
+		console.log({ hasLocation })
 		setWizardState((oldWizardState) => {
 			const newWizardState = {
 				...oldWizardState,
@@ -141,11 +176,15 @@ export const useWizard = () => {
 		onRegionClick,
 		onRegionSelected,
 		onComboboxInteract,
+		onComboboxFocus,
 		onComboboxBlur,
 		onDropDownClick,
+		onComboboxList,
 		setHasLocation,
 		wizardSteps,
 		getWizardStep,
+		selectedRegionName,
+		selectRegionName,
 	}
 }
 

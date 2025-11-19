@@ -9,7 +9,6 @@ export default function SmartFishLayout({
 	selectedLocation,
 	selectedFish,
 	selectFish,
-	wizardStepName,
 	children,
 }) {
 	return (

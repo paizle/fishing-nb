@@ -151,24 +151,20 @@ export default function LocationCombobox({
 	}
 
 	const scrollTo = () => {
-		/*
-    const combobox = inputRef.current.closest('.LocationCombobox')
+		const combobox = inputRef.current.closest('.LocationCombobox')
 		combobox.parentElement?.scrollIntoView({
 			behavior: 'smooth',
 			block: 'start',
 		})
-      */
 	}
 
 	const scrollToInput = () => {
-		/*
 		const combobox = inputRef.current.closest('.LocationCombobox')
 		combobox.addEventListener(
 			'transitionstart',
 			() => combobox.addEventListener('transitionend', scrollTo, { once: true }),
 			{ once: true },
 		)
-      */
 	}
 
 	return (

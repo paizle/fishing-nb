@@ -21,8 +21,6 @@ export default function FishingRestrictions({ selectedLocation, selectedFish }) 
 
 	const restRestrictions = useRest(appContext?.apiLastModified ?? '1')
 
-	console.log(restRestrictions)
-
 	let url = ''
 	if (selectedLocation) {
 		url += '/api/fishByLocation/'

@@ -15,89 +15,176 @@
 			}
 		}
 
-		.focused-layout {
+		.wizard-layout {
 			position: relative;
 			z-index: 2;
-			display: grid;
-			grid-template-rows: auto 1fr;
-			overflow: hidden;
+			display: flex;
+			flex-direction: row;
+			grid-template-rows: auto auto auto auto;
+			flex-direction: column;
 			height: 100%;
 			backdrop-filter: blur(2px);
-			> .header {
-				z-index: 1;
-				display: flex;
-				justify-content: center;
-				margin: 0;
-				@apply shadow;
+			transition: all 500ms ease;
+			overflow: hidden;
+			align-items: center;
 
-				.selected-location {
+			justify-content: stretch;
+			align-items: stretch;
+
+			> div {
+				flex-grow: 0;
+
+				&:nth-child(1) {
+					padding: 0;
+				}
+
+				&:nth-child(2) {
+				}
+
+				&:nth-child(3) {
+				}
+
+				&:nth-child(5) {
+					height: 0;
 					background-color: var(--background-color);
-					border: 1px solid var(--heading-color);
-					color: black;
-					padding: 0.25em 0.5em;
-					margin: 0.5em 0.25em;
-					border-radius: 0.5em;
-					font-size: 1.1em;
-					&:focus {
-						outline: 2px solid var(--highlight-color);
-					}
-					strong {
-						display: flex;
-						flex-wrap: wrap;
-						justify-content: center;
-						> * {
-							&:after {
-								content: '/';
-								margin-left: -0.25em;
-							}
-							&:last-child:after {
-								content: '';
-								margin-left: 0;
-							}
-						}
-					}
+					display: flex;
+					align-items: flex-start;
+				}
+			}
 
+			.FishingRestrictions {
+				display: grid;
+			}
+
+			.RegionButton {
+				transition: all 500ms ease;
+				align-self: center;
+				display: flex;
+				flex-direction: column;
+				width: 100%;
+				height: 100%;
+				max-height: 8em;
+				align-items: center;
+				padding: 0.5em 0;
+				min-height: 6em;
+
+				.title {
+				}
+
+				.NewBrunswickRegionMap {
+					transition: all 500ms ease;
+					align-self: center;
+					margin: 0 auto;
+					position: relative;
+					min-height: 6em;
+					height: 100%;
+					max-height: 100%;
+					height: 100%;
+					width: 100%;
+					max-width: 100%;
+					opacity: 1;
+					transition: all 500ms ease;
 					svg {
-						width: 1.25em;
-						height: 1.25em;
-						color: var(--icon-color);
-						stroke-width: 2px;
+						position: absolute;
+						height: 100%;
+						width: 100%;
+						top: 0;
+						left: 50%;
+						transform: translateX(-50%);
+						transform-origin: 50%;
+						transition: all 500ms ease;
 					}
 				}
 			}
-			> .body {
-				overflow-y: auto;
-				position: relative;
-				.FishingRestrictions {
-					background-color: var(--background-color);
-				}
 
-				.two-up {
-					height: 100%;
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					> * {
+			.LocationCombobox {
+				margin: 0 auto;
+				padding: 0.5em 1px;
+				height: 100%;
+				overflow: hidden;
+			}
+
+			&.wizard-step-1 {
+				grid-template-rows: 1fr auto auto 0;
+				padding-bottom: 0;
+
+				> div {
+					flex-grow: 0;
+					&:nth-child(1) {
+						padding: 0;
+					}
+					&:nth-child(2) {
 						flex-grow: 1;
 					}
 				}
 
 				.RegionButton {
-					padding-top: 25vh;
+					max-height: none;
+				}
+			}
+
+			&.wizard-step-2 {
+				grid-template-rows: auto auto 1fr 0;
+
+				> div {
+					&:nth-child(1) {
+						padding: 10% 0;
+					}
+					&:nth-child(3) {
+						padding: 1em 0;
+					}
+				}
+			}
+
+			&.wizard-step-3 {
+				grid-template-rows: auto auto 1fr 0;
+				.RegionButton {
+					min-height: auto;
+				}
+				> div {
+					flex-grow: 0;
+
+					&:nth-child(3) {
+						flex-grow: 1;
+						overflow: hidden;
+						justify-self: flex-start;
+						ul li:last-child {
+							margin-bottom: 12em;
+						}
+					}
 				}
 
-				.LocationCombobox {
-					position: relative;
-					transition: 500ms ease-out;
-					transition-delay: 0.2s;
-					margin: 0 auto;
-					max-width: 90%;
-					width: 25em;
+				.RegionButton .NewBrunswickRegionMap {
+					min-height: 0;
+					height: 0;
+					opacity: 0;
+				}
+			}
 
-					&:has(ul.open) {
-						padding-top: 0.25em;
-						height: 100%;
+			&.wizard-step-4 {
+				> div {
+					flex-grow: 0;
+
+					&:nth-child(5) {
+						display: flex;
+						justify-items: stretch;
+						flex-grow: 1;
 					}
+				}
+				.FishingRestrictions {
+					height: auto;
+				}
+				grid-template-rows: auto auto auto 1fr;
+				.FishingRestrictions {
+					display: grid;
+				}
+				.RegionButton {
+					min-height: auto;
+				}
+				.RegionButton .NewBrunswickRegionMap {
+					min-height: 0;
+					height: 0;
+					opacity: 0;
 				}
 			}
 		}

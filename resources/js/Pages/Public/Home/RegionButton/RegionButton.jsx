@@ -77,14 +77,13 @@ export default function RegionButton({ onClick, onBlur, onSelect, selectedRegion
 	}, [zoomed, mapRef?.current])
 
 	const handleClick = (e) => {
+		console.log('region click')
 		onClick(e)
 	}
 
 	const onRemoveClick = (e) => {
 		console.log('remove', { zoomed })
-		if (zoomed) {
-			e.stopPropagation()
-		}
+		e.stopPropagation()
 		onSelect(null)
 	}
 
