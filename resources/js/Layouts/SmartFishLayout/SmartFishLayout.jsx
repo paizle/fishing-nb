@@ -5,13 +5,15 @@ import SelectFish from './Components/SelectFish/SelectFish'
 
 export default function SmartFishLayout({
 	apiLastModified,
+	shrink,
 	selectedLocation,
 	selectedFish,
 	selectFish,
+	wizardStepName,
 	children,
 }) {
 	return (
-		<PublicLayout className={`SmartFishLayout ${selectedLocation ? 'sub-heading' : ''}`}>
+		<PublicLayout className={`SmartFishLayout ${shrink ? '' : 'sub-heading'}`}>
 			<header>
 				<PublicNav>
 					<h1 className="hero">

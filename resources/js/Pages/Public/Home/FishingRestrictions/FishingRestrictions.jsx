@@ -1,6 +1,6 @@
+import { useState, useEffect } from 'react'
 import './FishingRestrictions.scss'
 import PropTypes from 'prop-types'
-import { useState, useRef, useEffect } from 'react'
 import { byFish } from './FishingRestrictionsTransformers'
 import getFishImageSrc from '@/Util/getFishImageSrc'
 import FishRestrictionsTable from './FishRestrictionsTable'
@@ -8,23 +8,45 @@ import FishRestrictionsExceptionsTable from './FishRestrictionsExceptionsTable'
 import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
 import useApplicationContext from '@/Contexts/ApplicationContext'
 
-export default function FishingRestrictions({ isLoading, restrictions, locationId, waterId }) {
+import useRest from '@/Hooks/useRest'
+
+export default function FishingRestrictions({ selectedLocation, selectedFish }) {
+	const [restrictions, setRestrictions] = useState()
+
 	const appContext = useApplicationContext()
 
 	const restrictionsByFish = byFish(restrictions)
 
 	const fishName = appContext.getUserSelectedFishName()
 
+	const restRestrictions = useRest(appContext?.apiLastModified ?? '1')
+
+	console.log(restRestrictions)
+
+	let url = ''
+	if (selectedLocation) {
+		url += '/api/fishByLocation/'
+		url += selectedLocation.value.regionId
+		url += '/' + (selectedLocation.value?.waterId ?? 0)
+		url += '/' + (selectedFish ?? 0)
+	}
+
+	useEffect(() => {
+		restRestrictions.get(url).then((request) => {
+			setRestrictions(request.data.limits)
+		})
+	}, [url])
+
+	const { loading } = restRestrictions.state
+
 	const render = () => {
-		if (isLoading) {
+		if (loading) {
 			return (
 				<div className="loading">
 					<LoadingSpinner />
 				</div>
 			)
-		} else if (!restrictions) {
-			return null
-		} else if (restrictions.length === 0) {
+		} else if (restrictions?.length === 0) {
 			return <div className="no-results">(no results found for {fishName})</div>
 		} else {
 			return Object.keys(restrictionsByFish ?? {})
@@ -59,6 +81,4 @@ export default function FishingRestrictions({ isLoading, restrictions, locationI
 FishingRestrictions.propTypes = {
 	isLoading: PropTypes.bool,
 	restrictions: PropTypes.arrayOf(PropTypes.object),
-	regionId: PropTypes.number.isRequired,
-	waterId: PropTypes.number,
 }

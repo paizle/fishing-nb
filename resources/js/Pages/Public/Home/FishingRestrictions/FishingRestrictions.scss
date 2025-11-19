@@ -1,7 +1,6 @@
 @use '/resources/css/app.scss';
 
 .FishingRestrictions {
-	@apply shadow;
 	&:after {
 		content: '';
 		padding-bottom: 1em;
@@ -14,7 +13,6 @@
 	max-height: 100%;
 	font-size: 0.8em;
 	width: 100%;
-	height: 100%;
 	margin: auto;
 	justify-content: center;
 	align-items: flex-start;

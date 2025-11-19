@@ -72,13 +72,31 @@
 					background-color: var(--background-color);
 				}
 
+				.two-up {
+					height: 100%;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					> * {
+						flex-grow: 1;
+					}
+				}
+
+				.RegionButton {
+					padding-top: 25vh;
+				}
+
 				.LocationCombobox {
 					position: relative;
 					transition: 500ms ease-out;
 					transition-delay: 0.2s;
-					padding-top: 25vh;
+					margin: 0 auto;
+					max-width: 90%;
+					width: 25em;
+
 					&:has(ul.open) {
 						padding-top: 0.25em;
+						height: 100%;
 					}
 				}
 			}

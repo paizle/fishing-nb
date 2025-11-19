@@ -1,0 +1,71 @@
+.RegionButton {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	margin: 0 auto;
+	font-size: 1em;
+
+	.title {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--heading-color);
+		font-weight: bold;
+
+		span.remove {
+			position: absolute;
+			right: -2.5em;
+			justify-content: center;
+			width: 2em;
+			height: 2em;
+			padding: 0;
+			text-align: center;
+			font-size: 0.75em;
+			font-weight: normal;
+			color: var(--text-color);
+			&:hover,
+			&:focus {
+				font-weight: bold;
+				color: var(--heading-color);
+			}
+		}
+	}
+
+	&.zoomed {
+		.NewBrunswickRegionMap {
+			svg {
+				#layer1 > g {
+					filter: none !important;
+					opacity: 0.3;
+				}
+				&:has(#layer1 > g.highlighted) {
+					#layer1 > g.selected {
+						opacity: 0.3;
+					}
+				}
+				&:has(#layer1 > g.highlighted) {
+					#layer1 > g.highlighted {
+						opacity: 1;
+					}
+				}
+			}
+		}
+	}
+
+	.NewBrunswickRegionMap {
+		overflow: hidden;
+		svg {
+			&:has(#layer1 > g.selected) {
+				#layer1 > g {
+					filter: blur(1px);
+					opacity: 0.3;
+					&.selected {
+						filter: none;
+						opacity: 1;
+					}
+				}
+			}
+		}
+	}
+}

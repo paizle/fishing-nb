@@ -17,7 +17,7 @@ export default function SelectedLocationButton({ selectedLocation, onClick }: Pr
 		}
 	}, [selectedLocationButtonRef])
 
-	return (
+	return selectedLocation ? (
 		<button
 			ref={selectedLocationButtonRef}
 			aria-label="Back to search"
@@ -27,5 +27,5 @@ export default function SelectedLocationButton({ selectedLocation, onClick }: Pr
 			<strong>{selectedLocation.fullName}</strong>
 			<ArrowUturnLeftIcon />
 		</button>
-	)
+	) : null
 }

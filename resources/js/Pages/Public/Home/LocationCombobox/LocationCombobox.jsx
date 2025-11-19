@@ -1,11 +1,8 @@
 import './LocationCombobox.scss'
 import { useMemo } from 'react'
-import Downshift, { useCombobox } from 'downshift'
-import { useState, useRef, useEffect, useLayoutEffect, use, useReducer } from 'react'
-
-import { XCircleIcon, MapPinIcon as MapPinIconOutline } from '@heroicons/react/24/outline'
-
-import { MapPinIcon } from '@heroicons/react/24/solid'
+import { useCombobox } from 'downshift'
+import { useState, useRef, useEffect } from 'react'
+import { XCircleIcon } from '@heroicons/react/24/outline'
 
 export default function LocationCombobox({
 	className = '',
@@ -14,85 +11,89 @@ export default function LocationCombobox({
 	onChange,
 	onFocus,
 	onBlur,
-	selectedRegion,
-	selectRegion,
-	setShowMap,
+	selectedLocation,
+	selectedRegionName,
+	onInteract,
 }) {
-	const [hasFocus, setHasFocus] = useState(false)
+	const [openList, setOpenList] = useState(false)
 
-	const [regionFilterItem, setRegionFilterItem] = useState(null)
-
-	const [inputValue, setInputValue] = useState('')
+	const [userSearch, setUserSearch] = useState('')
 
 	const ref = inputRef ? inputRef : useRef(null)
 
-	const placeholder = selectedRegion
+	const placeholder = selectedRegionName
 		? 'Search by river or lake'
 		: 'Search by river, lake or region'
 
-	const onInputFocus = () => {
-		setHasFocus(true)
+	const onInputFocus = (e) => {
 		scrollToInput()
+		onFocus?.(e)
+		setOpenList(true)
 	}
 
-	const onInputBlur = () => {
-		setHasFocus(false)
+	const onInputBlur = (e) => {
+		onBlur?.(e)
+		setOpenList(false)
 	}
 
-	const items = useMemo(
-		() =>
-			(locations ?? []).map((location) => {
-				const item = {}
-				item.value = {}
-				item.value.regionId = location.region_id
-				if (location.water_id) {
-					item.value.waterId = location.water_id
-					item.label = location.water.name
-					item.fullName = location.region.name + ', ' + location.water.name
-				} else {
-					item.label = location.region.name
-					item.fullName = location.region.name
-				}
-				return item
-			}),
-		[locations],
-	)
+	const [items, selectedRegionItem] = useMemo(() => {
+		let selected = null
+
+		const list = (locations ?? []).map((location) => {
+			const item = {
+				value: {
+					regionId: location.region_id,
+					waterId: location.water_id ?? null,
+				},
+				label: location.water_id ? location.water.name : location.region.name,
+				fullName: location.water_id
+					? `${location.region.name}, ${location.water.name}`
+					: location.region.name,
+			}
+
+			if (
+				selected == null &&
+				item.value.waterId === null &&
+				item.label === selectedRegionName
+			) {
+				selected = item
+			}
+
+			return item
+		})
+
+		return [list, selected]
+	}, [locations, selectedRegionName])
 
 	const filteredItems = useMemo(
 		() =>
 			(items ?? []).filter(
-				(item) => filterByRegion(item, selectedRegion) && filterByText(item, inputValue),
+				(item) =>
+					filterByRegion(item, selectedRegionItem) && filterByText(item, userSearch),
 			),
-		[items, inputValue, selectedRegion, filterByRegion, filterByText],
+		[items, userSearch, selectedRegionItem, filterByRegion, filterByText],
 	)
 
-	useEffect(() => {
-		const regionItem = filteredItems.find(
-			(item) => item.value.regionId === selectedRegion && item.value.waterId === undefined,
-		)
+	const hasFocus = document.activeElement === ref?.current
 
-		if (regionItem) {
-			setRegionFilterItem(regionItem)
+	const [isInit, setIsInit] = useState(true)
+
+	const shouldListOpen = userSearch !== selectedLocation?.label && openList
+
+	useEffect(() => {
+		if (!isInit) {
+			onInteract(hasFocus, shouldListOpen)
+		}
+		setIsInit(false)
+	}, [openList, hasFocus])
+
+	const setUserSearchToSelection = (selectedItem) => {
+		if (selectedItem && selectedItem.value?.waterId) {
+			setUserSearch(selectedItem?.label)
 		} else {
-			setRegionFilterItem(null)
+			setUserSearch('')
 		}
-	}, [selectedRegion, filteredItems])
-
-	useEffect(() => {
-		if (ref.current) {
-			if (onFocus) {
-				ref.current.addEventListener('focus', onFocus)
-			}
-			if (onBlur) {
-				ref.current.addEventListener('blur', onBlur)
-			}
-
-			return () => {
-				ref?.current?.removeEventListener('focus', onFocus)
-				ref?.current?.removeEventListener('blur', onBlur)
-			}
-		}
-	}, [ref.current])
+	}
 
 	const {
 		getLabelProps,
@@ -101,107 +102,113 @@ export default function LocationCombobox({
 		highlightedIndex,
 		getItemProps,
 		selectedItem,
-		stateChangeTypes,
-	} = useCombobox({
+		isOpen,
 		inputValue,
+	} = useCombobox({
+		selectedItem: selectedLocation,
+		isOpen: shouldListOpen,
+		inputValue: userSearch,
 		items: filteredItems,
 		itemToString(item) {
 			return item ? item.label : ''
+		},
+		onSelectedItemChange(e) {
+			onChange(e.selectedItem)
+			setUserSearchToSelection(e.selectedItem)
+			setOpenList(false)
 		},
 		onInputValueChange(e) {
 			const { stateChangeTypes } = useCombobox
 			if (e.type === stateChangeTypes.InputBlur) {
 				return
+				/*
 			} else if (
 				e.type === stateChangeTypes.ItemClick ||
 				e.type === stateChangeTypes.InputKeyDownEnter
 			) {
-				onChange(e.selectedItem)
+			*/
 			} else if (e.type === stateChangeTypes.InputChange) {
-				setInputValue(e.inputValue)
+				setUserSearch(e.inputValue)
+				setOpenList(true)
 			} else {
 				onChange(e.selectedItem)
+				setUserSearchToSelection(e.selectedItem)
+				setOpenList(false)
 			}
 		},
 	})
 
-	const clearSearch = () => {
+	const clearSearch = (e) => {
+		e.preventDefault()
 		if (inputValue) {
-			setInputValue('')
-		} else {
-			selectRegion(null)
+			setUserSearch('')
 		}
-		ref.current.click()
+		if (selectedItem) {
+			onChange(null)
+		}
+		ref.current.dispatchEvent(new Event('mousedown', e))
+		setOpenList(true)
 	}
 
 	const scrollTo = () => {
-		const combobox = inputRef.current.closest('.LocationCombobox')
+		/*
+    const combobox = inputRef.current.closest('.LocationCombobox')
 		combobox.parentElement?.scrollIntoView({
 			behavior: 'smooth',
 			block: 'start',
 		})
+      */
 	}
 
 	const scrollToInput = () => {
+		/*
 		const combobox = inputRef.current.closest('.LocationCombobox')
 		combobox.addEventListener(
 			'transitionstart',
 			() => combobox.addEventListener('transitionend', scrollTo, { once: true }),
 			{ once: true },
 		)
-	}
-
-	const renderItemLabel = (item) => {
-		let result = item.label
-		if (regionFilterItem) {
-			if (regionFilterItem.value.regionId === item.value.regionId && !item.value.waterId) {
-				return <span className="filter-item">{result}</span>
-			} else {
-				result = result.substring(regionFilterItem.label.length + 2)
-			}
-		}
-		return <span>{result}</span>
+      */
 	}
 
 	return (
 		<div className={`LocationCombobox ${className ? className : ''}`} onClick={scrollTo}>
 			<div className="input" {...getLabelProps()}>
-				{regionFilterItem ? (
-					<button
-						className="region-filter"
-						onClick={() => setShowMap(true)}
-						aria-label="Filter by Region"
-					>
-						<span>{renderFilterText(regionFilterItem.label)}</span>
-					</button>
-				) : (
-					<button
-						className="select-region"
-						onClick={() => setShowMap(true)}
-						title="Filter by Region"
-					>
-						<MapPinIcon />
-					</button>
-				)}
 				<input
 					placeholder={placeholder}
-					value={inputValue}
 					{...getInputProps({ ref })}
-					onFocus={() => onInputFocus()}
-					onBlur={() => onInputBlur()}
+					onFocus={(e) => {
+						onInputFocus(e)
+						setOpenList(true)
+					}}
+					onBlur={(e) => {
+						if (selectedLocation && selectedLocation.label !== inputValue) {
+							setInputValue(selectedLocation.label)
+						}
+						onInputBlur(e)
+					}}
+					onMouseDown={() => {
+						const hasFocus = document.activeElement === ref.current
+						setOpenList(true)
+					}}
 				/>
 				<button
 					className="clear-input"
 					aria-label="Clear Search"
 					type="button"
 					onClick={clearSearch}
+					onMouseDown={(e) => e.preventDefault()}
 				>
 					<XCircleIcon />
 				</button>
 			</div>
 
-			<ul className={hasFocus ? 'open' : ''} {...getMenuProps()}>
-				{hasFocus &&
+			<ul className={isOpen ? 'open' : ''} {...getMenuProps()}>
+				{isOpen && filteredItems.length === 0 && inputValue ? (
+					<li>
+						<span>(not found)</span>
+					</li>
+				) : (
 					filteredItems.map((item, index) => (
 						<li
 							className={`${index === highlightedIndex ? 'highlighted' : ''}`}
@@ -218,14 +225,19 @@ export default function LocationCombobox({
 								)}
 							</span>
 						</li>
-					))}
+					))
+				)}
 			</ul>
+			{isOpen && filteredItems && filteredItems.length === 0 && <div>no items</div>}
 		</div>
 	)
 }
 
 const filterByRegion = (item, selectedRegion) => {
-	return !selectedRegion || item.value.regionId === selectedRegion
+	return (
+		!selectedRegion ||
+		(item.value.regionId === selectedRegion.value.regionId && item.value.waterId)
+	)
 }
 
 const filterByText = (item, inputValue) => {
@@ -235,35 +247,4 @@ const filterByText = (item, inputValue) => {
 	return inputChunks.every((inputChunk) =>
 		labelChunks.some((labelChunk) => labelChunk.includes(inputChunk)),
 	)
-}
-
-function renderFilterText(filterText) {
-	switch (filterText) {
-		case 'Inner Bay of Fundy':
-			return (
-				<>
-					Inner Bay
-					<br />
-					of Fundy
-				</>
-			)
-		case 'Lower Saint John':
-			return (
-				<>
-					Lower
-					<br />
-					Saint John
-				</>
-			)
-		case 'Upper Saint John':
-			return (
-				<>
-					Upper
-					<br />
-					Saint John
-				</>
-			)
-		default:
-			return filterText
-	}
 }

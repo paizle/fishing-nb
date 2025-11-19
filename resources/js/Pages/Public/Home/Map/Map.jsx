@@ -41,20 +41,20 @@ const locationsResourse = createResource(() => {
 })
 
 export default function Map({ apiLastModified, selectRegion }) {
-	const locationsByName = locationsResourse.read()
-
-	const [test, setTest] = useState(null)
 	const [selectedPathId, setSelectedPathId] = useState(null)
 
 	const mapContainerRef = useRef(null)
 	const locationTitlesRef = useRef(null)
 
 	const appContext = useApplicationContext()
+
+	const locationsByName = appContext.getRegions()
+
 	const useTapHook = useTap()
 
 	const onLocationClick = (event) => {
 		const key = event.target.id || event.target.closest('[id]').id
-		selectRegion(locationsByName?.[pathSelectorToLocationName[key]]?.id)
+		selectRegion(pathSelectorToLocationName[key])
 	}
 
 	const onLocationMouseEnter = (event) => {
