@@ -26,9 +26,9 @@
 			flex-direction: column;
 			height: 100%;
 			backdrop-filter: blur(2px);
+
 			transition: all 500ms ease;
 			overflow: hidden;
-			align-items: center;
 
 			justify-items: center;
 			align-items: flex-start;
@@ -36,17 +36,13 @@
 			> div {
 				width: 100%;
 				transition: all 500ms ease;
-				flex-grow: 0;
-				flex-shrink: 1;
 				display: flex;
 				overflow: hidden;
 
 				&:nth-child(1) {
-					align-self: stretch;
 				}
 
 				&:nth-child(2) {
-					align-self: stretch;
 				}
 
 				&:nth-child(3) {
@@ -69,8 +65,8 @@
 				}
 
 				.NewBrunswickRegionMap {
-					max-height: 2000px;
 					transition: all 300ms ease;
+					max-height: 2000px;
 					align-self: center;
 					margin: 0 auto;
 					position: relative;
@@ -102,40 +98,33 @@
 				> div {
 					&:nth-child(1) {
 						padding: 0;
+						align-self: stretch;
 					}
 					&:nth-child(2) {
-						flex-grow: 1;
-						flex-shrink: 0;
+						padding: 0;
 					}
 					&:nth-child(3) {
 						padding: 0;
-						flex-grow: 0;
-						flex-shrink: 0;
-					}
-					&:nth-child(4) {
-						padding: 0;
-						flex-grow: 0;
-						flex-shrink: 0;
 					}
 				}
 
 				.RegionButton {
 					width: 100%;
 					.NewBrunswickRegionMap {
-						max-width: none;
+						max-width: 100%;
 					}
 				}
 			}
 
 			&.wizard-step-2 {
-				grid-template-rows: auto auto auto;
+				grid-template-rows: auto auto 1fr;
 
 				> div {
 					&:nth-child(1) {
-						padding: 0;
+						padding: 10% 0;
 					}
 					&:nth-child(2) {
-						padding: 0;
+						padding: 10% 0;
 					}
 					&:nth-child(3) {
 						padding: 0;
@@ -149,14 +138,14 @@
 			}
 
 			&.wizard-step-3 {
-				grid-template-rows: auto auto auto;
+				grid-template-rows: auto 1fr auto;
 
 				> div {
 					&:nth-child(1) {
-						align-self: auto;
 					}
 
 					&:nth-child(2) {
+						align-self: stretch;
 						ul li:last-child {
 							margin-bottom: 12em;
 						}
