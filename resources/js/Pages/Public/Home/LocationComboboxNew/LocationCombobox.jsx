@@ -49,8 +49,23 @@ export default function LocationCombobox({
 		},
 		stateReducer: (state, actionAndChanges) => {
 			const { changes, type } = actionAndChanges
+			console.log('***', { type }, { changes }, { state })
 
 			switch (type) {
+				case useCombobox.stateChangeTypes.InputClick:
+					return {
+						...changes,
+						isOpen: true,
+					}
+				case useCombobox.stateChangeTypes.ItemClick:
+					ref.current.blur()
+					console.log('here?')
+					onList(false, false)
+					onChange(changes.selectedItem)
+					return {
+						...changes,
+						inputValue: state.inputValue,
+					}
 				case useCombobox.stateChangeTypes.ControlledPropUpdatedSelectedItem:
 				case useCombobox.stateChangeTypes.FunctionSelectItem:
 					return {
@@ -67,9 +82,11 @@ export default function LocationCombobox({
 			onList(e.isOpen, hasFocus)
 		},
 		onSelectedItemChange(e) {
+			console.log('no 1')
 			onChange(e.selectedItem)
 		},
 		onInputValueChange(e) {
+			console.log('no 2')
 			const { stateChangeTypes } = useCombobox
 			if (e.type === stateChangeTypes.InputBlur) {
 				return
@@ -119,6 +136,7 @@ export default function LocationCombobox({
 		)
 	}
 
+	/*
 	useEffect(() => {
 		const combobox = ref?.current.closest('.LocationCombobox')
 
@@ -144,9 +162,9 @@ export default function LocationCombobox({
 			}
 		}
 	}, [ref.current])
+  */
 
 	useEffect(() => {
-		console.log({ items })
 		if (items) {
 			const newFilteredItems = inputValue
 				? items.filter(
@@ -156,22 +174,26 @@ export default function LocationCombobox({
 					)
 				: items.filter((item) => filterByRegion(item, selectedRegionItem))
 			setFilteredItems(newFilteredItems)
+		} else {
+			setFilteredItems(null)
 		}
 	}, [inputValue, items])
 
 	const hasFocus = document.activeElement === ref?.current
 
-	console.log({ items })
-
 	return (
 		<div className={`LocationCombobox ${className ? className : ''}`} onClick={scrollTo}>
 			<div className="input" {...getLabelProps()}>
 				<input
+					id="input"
 					placeholder={placeholder}
 					{...getInputProps({
 						ref,
 					})}
 				/>
+				{!isOpen && selectedItem && (
+					<div className="selected-value">{selectedItem.label}</div>
+				)}
 				<button
 					className="clear-input"
 					aria-label="Clear Search"
@@ -183,15 +205,15 @@ export default function LocationCombobox({
 				</button>
 			</div>
 
-			{hasFocus && items === null && <LoadingSpinner />}
+			{hasFocus && filteredItems === null && <LoadingSpinner />}
 
 			<ul className={isOpen ? 'open' : ''} {...getMenuProps()}>
-				{isOpen && filteredItems.length === 0 && inputValue ? (
+				{isOpen && filteredItems?.length === 0 && inputValue ? (
 					<li className="empty">
 						<span>(no waters found for: {inputValue})</span>
 					</li>
 				) : (
-					filteredItems.map((item, index) => (
+					filteredItems?.map((item, index) => (
 						<li
 							className={`${index === highlightedIndex ? 'highlighted' : ''}`}
 							key={item.value.regionId + '-' + item.value.waterId}

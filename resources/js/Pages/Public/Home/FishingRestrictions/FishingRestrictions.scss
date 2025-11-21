@@ -1,19 +1,19 @@
 @use '/resources/css/app.scss';
 
 .FishingRestrictions {
+	/*
 	&:after {
 		content: '';
 		padding-bottom: 1em;
 	}
+    */
 	display: grid;
 	grid-template-columns: 1fr 4em 4em 4em;
-	overflow-y: auto;
 	position: relative;
 	padding: 0 0.5em;
 	max-height: 100%;
 	font-size: 0.8em;
 	width: 100%;
-	margin: auto;
 	justify-content: center;
 	align-items: flex-start;
 	align-content: flex-start;

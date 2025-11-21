@@ -30,9 +30,13 @@ export default function FishingRestrictions({ selectedLocation, selectedFish }) 
 	}
 
 	useEffect(() => {
-		restRestrictions.get(url).then((request) => {
-			setRestrictions(request.data.limits)
-		})
+		if (url) {
+			restRestrictions.get(url).then((request) => {
+				setRestrictions(request.data.limits)
+			})
+		} else {
+			setRestrictions(null)
+		}
 	}, [url])
 
 	const { loading } = restRestrictions.state
@@ -74,9 +78,4 @@ export default function FishingRestrictions({ selectedLocation, selectedFish }) 
 	}
 
 	return <div className="FishingRestrictions">{render()}</div>
-}
-
-FishingRestrictions.propTypes = {
-	isLoading: PropTypes.bool,
-	restrictions: PropTypes.arrayOf(PropTypes.object),
 }

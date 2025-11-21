@@ -107,12 +107,12 @@ export default function HomeNew({ apiLastModified }) {
 				wizardStepName === wizard.wizardSteps[1].name ||
 				wizardStepName === wizard.wizardSteps[0].name
 			}
+			wizard={wizard}
 			selectedLocation={selectedLocation}
 			selectedFish={selectedFish}
 			selectFish={selectFish}
 		>
 			<div className={`wizard-layout ${wizardStepName}`}>
-				<div></div>
 				<div>
 					<RegionButton
 						zoomed={wizard.wizardState?.mapFocus}
@@ -135,7 +135,6 @@ export default function HomeNew({ apiLastModified }) {
 						onBlur={wizard.onComboboxBlur}
 					/>
 				</div>
-				<div></div>
 				<div>
 					<FishingRestrictions
 						selectedLocation={selectedLocation}

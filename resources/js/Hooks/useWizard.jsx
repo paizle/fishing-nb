@@ -160,7 +160,7 @@ export const useWizard = () => {
 		} else if (wizardState.hasLocation) {
 			step = wizardSteps[3]
 		} else if (wizardState.comboboxFocus) {
-			step = wizardSteps[2]
+			step = wizardSteps[1]
 		} else {
 			step = wizardSteps[1]
 		}
