@@ -74,14 +74,14 @@ export const useWizard = () => {
 		setWizardState((oldWizardState) => {
 			const newWizardState = {
 				...oldWizardState,
-				mapFocus: !oldWizardState.mapFocus,
+				mapFocus: true,
+				//mapFocus: !oldWizardState.mapFocus,
 			}
 			return newWizardState
 		})
 	}
 
 	const onRegionSelected = () => {
-		console.log('region selected lol')
 		setWizardState((oldWizardState) => {
 			const newWizardState = {
 				...oldWizardState,

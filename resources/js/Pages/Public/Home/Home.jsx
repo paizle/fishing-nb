@@ -3,10 +3,9 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import LocationCombobox from '@/Pages/Public/Home/LocationComboboxNew/LocationCombobox'
 import useRest from '@/Hooks/useRest'
 import FishingRestrictions from './FishingRestrictions/FishingRestrictions'
-import useApplicationContext from '@/Contexts/ApplicationContext'
+import useApplicationContext, { ApplicationContext } from '@/Contexts/ApplicationContext'
 import SmartFishLayout from '@/Layouts/SmartFishLayout/SmartFishLayout'
 import RegionButton from './RegionButton/RegionButton'
-import useWizard from '@/Hooks/useWizard'
 
 export default function HomeNew({ apiLastModified }) {
 	const [locations, setLocations] = useState(null)
@@ -16,11 +15,7 @@ export default function HomeNew({ apiLastModified }) {
 	const appContext = useApplicationContext()
 	appContext.setLandingPage('home')
 
-	const wizard = useWizard()
-
 	const restLocations = useRest(apiLastModified)
-
-	const inputRef = useRef(null)
 
 	useEffect(() => {
 		restLocations.get('/api/locations').then((request) => setLocations(request.data.locations))
@@ -48,29 +43,28 @@ export default function HomeNew({ apiLastModified }) {
 		setSelectedLocation(selectedLocation)
 		if (selectedLocation) {
 			if (!selectedLocation.value.waterId) {
-				wizard.selectRegionName(selectedLocation.label)
+				appContext.selectRegionName(selectedLocation.label)
 			} else {
+				console.log('**', selectedLocation, appContext.regions)
 				const region = Object.values(appContext.regions).find(
 					(region) => region.id === selectedLocation.value.regionId,
 				)
-				wizard.selectRegionName(region.name)
+				appContext.selectRegionName(region.name)
 			}
 		}
-		wizard.setHasLocation(!!selectedLocation)
+		appContext.setHasLocation(!!selectedLocation)
 	}
 
 	const selectRegionName = (regionName) => {
-		if (wizard.selectedRegionName !== regionName) {
+		if (appContext.selectedRegionName !== regionName) {
 			setSelectedLocation(null)
-			wizard.setHasLocation(false)
+			appContext.setHasLocation(false)
 		}
 
-		wizard.selectRegionName(regionName)
-		inputRef?.current.focus()
-		inputRef?.current.click()
+		appContext.selectRegionName(regionName)
 	}
 
-	const wizardStepName = wizard.getWizardStep().name
+	const wizardStepName = appContext.getWizardStep().name
 
 	const [comboboxItems, selectedRegionItem] = useMemo(() => {
 		let selected = null
@@ -90,7 +84,7 @@ export default function HomeNew({ apiLastModified }) {
 			if (
 				selected == null &&
 				item.value.waterId === null &&
-				item.label === wizard.selectedRegionName
+				item.label === appContext.selectedRegionName
 			) {
 				selected = item
 			}
@@ -99,15 +93,18 @@ export default function HomeNew({ apiLastModified }) {
 		})
 
 		return [list.length > 0 ? list : null, selected]
-	}, [locations, wizard.selectedRegionName])
+	}, [locations, appContext.selectedRegionName])
+
+	const unfocusCombobox = () => {
+		appContext.comboboxInputRef.current.blur()
+	}
 
 	return (
 		<SmartFishLayout
 			shrink={
-				wizardStepName === wizard.wizardSteps[1].name ||
-				wizardStepName === wizard.wizardSteps[0].name
+				wizardStepName === appContext.wizardSteps[1].name ||
+				wizardStepName === appContext.wizardSteps[0].name
 			}
-			wizard={wizard}
 			selectedLocation={selectedLocation}
 			selectedFish={selectedFish}
 			selectFish={selectFish}
@@ -115,28 +112,30 @@ export default function HomeNew({ apiLastModified }) {
 			<div className={`wizard-layout ${wizardStepName}`}>
 				<div>
 					<RegionButton
-						zoomed={wizard.wizardState?.mapFocus}
-						selectedRegionName={wizard.selectedRegionName}
-						onClick={wizard.onRegionClick}
-						onBlur={wizard.onRegionSelected}
+						regions={appContext.regions}
+						zoomed={appContext.wizardState?.mapFocus}
+						selectedRegionName={appContext.selectedRegionName}
+						onClick={appContext.onRegionClick}
+						onBlur={appContext.onRegionSelected}
 						onSelect={selectRegionName}
 					/>
 				</div>
 				<div>
 					<LocationCombobox
-						inputRef={inputRef}
+						inputRef={appContext.comboboxInputRef}
 						items={comboboxItems}
 						selectedItem={selectedLocation}
 						selectedRegionItem={selectedRegionItem}
-						onInteract={wizard.onComboboxInteract}
+						onInteract={appContext.onComboboxInteract}
 						onChange={selectLocation}
-						onList={wizard.onComboboxList}
-						onFocus={wizard.onComboboxFocus}
-						onBlur={wizard.onComboboxBlur}
+						onList={appContext.onComboboxList}
+						onFocus={appContext.onComboboxFocus}
+						onBlur={appContext.onComboboxBlur}
 					/>
 				</div>
 				<div>
 					<FishingRestrictions
+						onTouchMove={unfocusCombobox}
 						selectedLocation={selectedLocation}
 						selectedFish={selectedFish}
 					/>

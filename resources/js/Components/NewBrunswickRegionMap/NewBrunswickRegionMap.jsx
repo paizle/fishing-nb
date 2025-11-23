@@ -1,7 +1,7 @@
 import NewBrunswickMapSvg from '../../../svgs/NewBrunswick.svg?react'
 import './NewBrunswickRegionMap.scss'
 
-// map of location name to it's shape id in the SVG
+// map of a location name to it's shape id in the SVG
 export const locationElements = {
 	Restigouche: 'restigouche',
 	Chaleur: 'chaleur',
