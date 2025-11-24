@@ -10,7 +10,7 @@ import useApplicationContext from '@/Contexts/ApplicationContext'
 
 import useRest from '@/Hooks/useRest'
 
-export default function FishingRestrictions({ selectedLocation, selectedFish }) {
+export default function FishingRestrictions({ selectedLocation, selectedFish, onTouchMove }) {
 	const [restrictions, setRestrictions] = useState()
 
 	const appContext = useApplicationContext()
@@ -77,5 +77,9 @@ export default function FishingRestrictions({ selectedLocation, selectedFish }) 
 		}
 	}
 
-	return <div className="FishingRestrictions">{render()}</div>
+	return (
+		<div onTouchMove={onTouchMove} onScroll={onTouchMove} className="FishingRestrictions">
+			{render()}
+		</div>
+	)
 }

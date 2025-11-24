@@ -13,11 +13,10 @@ export default function LocationCombobox({
 	inputRef,
 	onChange,
 	onList,
-	onFocus,
-	onBlur,
-	selectedRegionName,
 }) {
 	const ref = inputRef ? inputRef : useRef(null)
+
+	const containerRef = useRef(null)
 
 	const [filteredItems, setFilteredItems] = useState([])
 
@@ -27,12 +26,11 @@ export default function LocationCombobox({
 		}
 	}, [items, selectedRegionItem])
 
-	const placeholder = selectedRegionName
+	const placeholder = selectedRegionItem
 		? 'Search by river or lake'
 		: 'Search by river, lake or region'
 
 	const {
-		selectItem,
 		getLabelProps,
 		getMenuProps,
 		getInputProps,
@@ -41,6 +39,7 @@ export default function LocationCombobox({
 		isOpen,
 		inputValue,
 		openMenu,
+		closeMenu,
 	} = useCombobox({
 		selectedItem,
 		items: filteredItems ?? [],
@@ -49,24 +48,26 @@ export default function LocationCombobox({
 		},
 		stateReducer: (state, actionAndChanges) => {
 			const { changes, type } = actionAndChanges
-			console.log('***', { type }, { changes }, { state })
 
 			switch (type) {
+				case useCombobox.stateChangeTypes.InputBlur:
+					console.log('blurred. active:', document.activeElement)
+					return state
 				case useCombobox.stateChangeTypes.InputClick:
 					return {
 						...changes,
 						isOpen: true,
 					}
 				case useCombobox.stateChangeTypes.ItemClick:
-					ref.current.blur()
-					console.log('here?')
-					onList(false, false)
-					onChange(changes.selectedItem)
 					return {
 						...changes,
 						inputValue: state.inputValue,
 					}
 				case useCombobox.stateChangeTypes.ControlledPropUpdatedSelectedItem:
+					return {
+						...changes,
+						inputValue: state.inputValue,
+					}
 				case useCombobox.stateChangeTypes.FunctionSelectItem:
 					return {
 						...changes,
@@ -78,91 +79,37 @@ export default function LocationCombobox({
 			}
 		},
 		onIsOpenChange(e) {
-			const hasFocus = document.activeElement === ref?.current
+			const hasFocus =
+				document.activeElement === ref?.current ||
+				document.activeElement === containerRef?.current
 			onList(e.isOpen, hasFocus)
 		},
 		onSelectedItemChange(e) {
-			console.log('no 1')
+			console.log('item changed', e.selectedItem)
 			onChange(e.selectedItem)
 		},
 		onInputValueChange(e) {
-			console.log('no 2')
-			const { stateChangeTypes } = useCombobox
-			if (e.type === stateChangeTypes.InputBlur) {
-				return
-				/*
-			} else if (
-				e.type === stateChangeTypes.ItemClick ||
-				e.type === stateChangeTypes.InputKeyDownEnter
-			) {
-			*/
-				//} else if (e.type === stateChangeTypes.ControlledPropUpdatedSelectedItem) {
-				//} else if (e.type === stateChangeTypes.InputChange) {
-			} else {
-			}
+			console.log('input changed', e.inputValue)
 		},
 	})
 
-	const onInputBlur = (e) => {
-		onBlur?.(e)
-	}
-
-	useEffect(() => {
-		selectItem(selectedItem)
-		const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set
-		setter.call(ref.current, inputValue)
-	}, [selectedItem])
+	const hasFocus =
+		document.activeElement === ref?.current || document.activeElement === containerRef?.current
 
 	const clearSearch = () => {
-		const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set
-		setter.call(ref.current, '')
-		ref.current.dispatchEvent(new Event('input', { bubbles: true }))
-		onChange(null)
+		console.log('clear')
+		if (!selectedItem || isOpen) {
+			const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set
+			setter.call(ref.current, '')
+			ref.current.dispatchEvent(new Event('input', { bubbles: true }))
+		}
+		if (selectedItem) {
+			onChange(null)
+		}
+		setTimeout(() => {
+			ref.current.focus()
+		}, 0)
 	}
-
-	const scrollToInput = () => {
-		const combobox = ref.current.closest('.LocationCombobox')
-		const scrollTo = () => {
-			const body = ref.current.closest('body')
-			body.parentElement?.scrollIntoView({
-				behavior: 'smooth',
-				block: 'start',
-			})
-		}
-		combobox.addEventListener(
-			'transitionstart',
-			() => combobox.addEventListener('transitionend', scrollTo, { once: true }),
-			{ once: true },
-		)
-	}
-
-	/*
-	useEffect(() => {
-		const combobox = ref?.current.closest('.LocationCombobox')
-
-		const scrollTo = () => {
-			const body = ref.current.closest('body')
-			body.parentElement?.scrollIntoView({
-				behavior: 'smooth',
-				block: 'start',
-			})
-		}
-
-		const transitionStartListener = () =>
-			combobox.addEventListener('transitionend', scrollTo, { once: true })
-
-		if (ref.current) {
-			combobox.addEventListener('transitionstart', transitionStartListener, { once: true })
-		}
-
-		return () => {
-			if (ref.current) {
-				combobox.removeEventListener('transitionstart', transitionStartListener)
-				combobox.removeEventListener('transitionend', scrollTo)
-			}
-		}
-	}, [ref.current])
-  */
 
 	useEffect(() => {
 		if (items) {
@@ -179,15 +126,40 @@ export default function LocationCombobox({
 		}
 	}, [inputValue, items])
 
-	const hasFocus = document.activeElement === ref?.current
+	const focusTrap = () => {
+		if (document.activeElement !== containerRef.current) {
+			containerRef.current.focus()
+		}
+	}
 
 	return (
-		<div className={`LocationCombobox ${className ? className : ''}`} onClick={scrollTo}>
+		<div
+			tabIndex="0"
+			ref={containerRef}
+			onClick={(e) => {
+				if (!containerRef.current.contains(e.target) || e.target === containerRef.current) {
+					containerRef.current.blur()
+				}
+			}}
+			onBlur={(e) => {
+				if (e.relatedTarget !== containerRef.current) {
+					closeMenu()
+				}
+			}}
+			className={`LocationCombobox ${className ? className : ''}`}
+		>
 			<div className="input" {...getLabelProps()}>
 				<input
 					id="input"
 					placeholder={placeholder}
 					{...getInputProps({
+						onFocus: () => {
+							console.log('focus')
+							openMenu()
+						},
+						onBlur: (e) => {
+							console.log({ e })
+						},
 						ref,
 					})}
 				/>
@@ -198,8 +170,7 @@ export default function LocationCombobox({
 					className="clear-input"
 					aria-label="Clear Search"
 					type="button"
-					onClick={clearSearch}
-					onMouseDown={(e) => e.preventDefault()}
+					onMouseDown={clearSearch}
 				>
 					<XCircleIcon />
 				</button>
@@ -207,10 +178,10 @@ export default function LocationCombobox({
 
 			{hasFocus && filteredItems === null && <LoadingSpinner />}
 
-			<ul className={isOpen ? 'open' : ''} {...getMenuProps()}>
+			<ul onTouchMove={focusTrap} className={isOpen ? 'open' : ''} {...getMenuProps()}>
 				{isOpen && filteredItems?.length === 0 && inputValue ? (
 					<li className="empty">
-						<span>(no waters found for: {inputValue})</span>
+						<span>(no waters found)</span>
 					</li>
 				) : (
 					filteredItems?.map((item, index) => (

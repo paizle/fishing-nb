@@ -38,6 +38,7 @@
 				transition: all 500ms ease;
 				display: flex;
 				overflow: hidden;
+				padding: 0;
 
 				&:nth-child(1) {
 				}
@@ -46,6 +47,7 @@
 				}
 
 				&:nth-child(3) {
+					opacity: 0;
 					flex-grow: 1;
 					flex-shrink: 0;
 					align-self: flex-start;
@@ -121,13 +123,13 @@
 
 				> div {
 					&:nth-child(1) {
-						padding: 10% 0;
+						padding: 5% 0;
 					}
 					&:nth-child(2) {
 						padding: 10% 0;
 					}
 					&:nth-child(3) {
-						padding: 0;
+						padding: 10% 0;
 					}
 				}
 
@@ -151,7 +153,6 @@
 						}
 					}
 					&:nth-child(3) {
-						padding: 0;
 					}
 				}
 
@@ -184,16 +185,16 @@
 						align-self: flex-start;
 					}
 					&:nth-child(3) {
-						align-self: flex-start;
-						overflow-y: auto;
-						height: 100%;
+						align-self: stretch;
 						background-color: var(--background-color);
+						opacity: 1;
 					}
 				}
 				.FishingRestrictions {
 					opacity: 1;
 					height: auto;
 					min-height: 40em;
+					overflow-y: auto;
 
 					&:has(.FishRestrictionsTable) {
 					}

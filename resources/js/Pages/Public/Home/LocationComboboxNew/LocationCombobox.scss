@@ -1,4 +1,7 @@
 .LocationCombobox {
+	&:focus {
+		outline: none;
+	}
 	&.hidden {
 		display: none;
 	}
@@ -23,15 +26,16 @@
 			position: absolute;
 			z-index: 2;
 			background-color: inherit;
-			height: 2.5em;
-			padding-left: 0.5em;
-			padding-right: 1.75em;
+			margin: 1px;
+			height: calc(2.5em - 2px);
+			padding-left: calc(0.5em);
+			padding-right: calc(1.75em);
 			font-size: 1em;
 			border-radius: 2em;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			width: 100%;
+			width: calc(100% - 4px);
 			background-color: white;
 			overflow: hidden;
 		}
