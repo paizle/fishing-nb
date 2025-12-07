@@ -3,6 +3,10 @@
 	flex-direction: column;
 	align-items: center;
 
+	&.is-transitoning {
+		pointer-events: none;
+	}
+
 	> div {
 		flex-grow: 0;
 		flex-shrink: 1;

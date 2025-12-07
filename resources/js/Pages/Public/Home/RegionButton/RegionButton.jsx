@@ -14,6 +14,7 @@ export default function RegionButton({
 	regions,
 }) {
 	const mapRef = useRef(null)
+	const buttonRef = useRef(null)
 
 	const [highlightedRegionName, setHighlightedRegionName] = useState(null)
 
@@ -40,7 +41,6 @@ export default function RegionButton({
 
 	const onRegionClick = (e) => {
 		if (zoomed) {
-			//event.stopPropagation()
 			const key = event.target.closest('[id]').id
 			const name = getRegionNameFromId(key)
 			onSelect(name)
@@ -49,7 +49,6 @@ export default function RegionButton({
 
 	const onRegionTap = (e) => {
 		if (zoomed) {
-			//event.stopPropagation()
 			const key = event.target.closest('[id]').id
 			const name = getRegionNameFromId(key)
 			onSelect(name)
@@ -71,6 +70,30 @@ export default function RegionButton({
 		highlightRegion(selectedRegionName)
 	}, [zoomed])
 
+	const handleTransitionStart = (el) => {
+		buttonRef.current.addEventListener('transitionstart', () => {
+			el.classList.add('is-transitioning')
+		})
+	}
+
+	useEffect(() => {
+		if (buttonRef.current) {
+			const transitionStart = () => {
+				buttonRef.current.classList.add('is-transitioning')
+			}
+			const transitionEnd = () => {
+				buttonRef.current.classList.remove('is-transitioning')
+			}
+			buttonRef.current.addEventListener('transitionstart', transitionStart)
+			buttonRef.current.addEventListener('transitionend', transitionEnd)
+
+			return () => {
+				buttonRef.current.removeEventListener('transitionstart', transitionStart)
+				buttonRef.current.removeEventListener('transitionend', transitionEnd)
+			}
+		}
+	}, [buttonRef.current])
+
 	const getRegionNameFromId = (id) => {
 		return Object.keys(locationElements).find((k) => locationElements[k] === id)
 	}
@@ -79,7 +102,6 @@ export default function RegionButton({
 		setHighlightedRegionName(null)
 		if (zoomed && mapRef.current) {
 			const clickHandler = (event) => {
-				//event.stopPropagation()
 				const key = event.target.closest('[id]').id
 				const name = getRegionNameFromId(key)
 				if (isMobile) {
@@ -136,6 +158,7 @@ export default function RegionButton({
 
 	return (
 		<button
+			ref={buttonRef}
 			className={`RegionButton ${zoomed ? 'zoomed' : ''}`}
 			onClick={handleClick}
 			onBlur={onBlur}
