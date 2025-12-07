@@ -4,6 +4,7 @@ import NewBrunswickRegionMap, {
 } from '@/Components/NewBrunswickRegionMap/NewBrunswickRegionMap'
 import { XCircleIcon, ArrowRightCircleIcon } from '@heroicons/react/24/outline'
 import './RegionButton.scss'
+import useTransitionClass from '@/Hooks/useTransitionClass'
 
 export default function RegionButton({
 	onClick,
@@ -14,7 +15,7 @@ export default function RegionButton({
 	regions,
 }) {
 	const mapRef = useRef(null)
-	const buttonRef = useRef(null)
+	const buttonRef = useTransitionClass()
 
 	const [highlightedRegionName, setHighlightedRegionName] = useState(null)
 
@@ -41,6 +42,7 @@ export default function RegionButton({
 
 	const onRegionClick = (e) => {
 		if (zoomed) {
+			console.log('tesrt')
 			const key = event.target.closest('[id]').id
 			const name = getRegionNameFromId(key)
 			onSelect(name)
@@ -49,6 +51,7 @@ export default function RegionButton({
 
 	const onRegionTap = (e) => {
 		if (zoomed) {
+			console.log('test')
 			const key = event.target.closest('[id]').id
 			const name = getRegionNameFromId(key)
 			onSelect(name)
@@ -75,24 +78,6 @@ export default function RegionButton({
 			el.classList.add('is-transitioning')
 		})
 	}
-
-	useEffect(() => {
-		if (buttonRef.current) {
-			const transitionStart = () => {
-				buttonRef.current.classList.add('is-transitioning')
-			}
-			const transitionEnd = () => {
-				buttonRef.current.classList.remove('is-transitioning')
-			}
-			buttonRef.current.addEventListener('transitionstart', transitionStart)
-			buttonRef.current.addEventListener('transitionend', transitionEnd)
-
-			return () => {
-				buttonRef.current.removeEventListener('transitionstart', transitionStart)
-				buttonRef.current.removeEventListener('transitionend', transitionEnd)
-			}
-		}
-	}, [buttonRef.current])
 
 	const getRegionNameFromId = (id) => {
 		return Object.keys(locationElements).find((k) => locationElements[k] === id)

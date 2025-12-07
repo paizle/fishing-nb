@@ -1,6 +1,6 @@
 import './Home.scss'
 import { useState, useEffect, useRef, useMemo } from 'react'
-import LocationCombobox from '@/Pages/Public/Home/LocationComboboxNew/LocationCombobox'
+import LocationCombobox from '@/Pages/Public/Home/LocationCombobox/LocationCombobox'
 import useRest from '@/Hooks/useRest'
 import FishingRestrictions from './FishingRestrictions/FishingRestrictions'
 import useApplicationContext, { ApplicationContext } from '@/Contexts/ApplicationContext'

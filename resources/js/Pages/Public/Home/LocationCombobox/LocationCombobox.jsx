@@ -3,228 +3,214 @@ import { useMemo } from 'react'
 import { useCombobox } from 'downshift'
 import { useState, useRef, useEffect } from 'react'
 import { XCircleIcon } from '@heroicons/react/24/outline'
+import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
 
 export default function LocationCombobox({
+	items,
+	selectedItem,
+	selectedRegionItem,
 	className = '',
 	inputRef,
-	locations = {},
 	onChange,
-	onFocus,
-	onBlur,
-	selectedLocation,
-	selectedRegionName,
-	onInteract,
+	onList,
 }) {
-	const [openList, setOpenList] = useState(false)
-
-	const [userSearch, setUserSearch] = useState('')
+	console.log('**', selectedItem)
 
 	const ref = inputRef ? inputRef : useRef(null)
 
-	const placeholder = selectedRegionName
-		? 'Search by river or lake'
-		: 'Search by river, lake or region'
+	const containerRef = useRef(null)
 
-	const onInputFocus = (e) => {
-		scrollToInput()
-		onFocus?.(e)
-		setOpenList(true)
-	}
-
-	const onInputBlur = (e) => {
-		onBlur?.(e)
-		setOpenList(false)
-	}
-
-	const [items, selectedRegionItem] = useMemo(() => {
-		let selected = null
-
-		const list = (locations ?? []).map((location) => {
-			const item = {
-				value: {
-					regionId: location.region_id,
-					waterId: location.water_id ?? null,
-				},
-				label: location.water_id ? location.water.name : location.region.name,
-				fullName: location.water_id
-					? `${location.region.name}, ${location.water.name}`
-					: location.region.name,
-			}
-
-			if (
-				selected == null &&
-				item.value.waterId === null &&
-				item.label === selectedRegionName
-			) {
-				selected = item
-			}
-
-			return item
-		})
-
-		return [list, selected]
-	}, [locations, selectedRegionName])
-
-	const filteredItems = useMemo(
-		() =>
-			(items ?? []).filter(
-				(item) =>
-					filterByRegion(item, selectedRegionItem) && filterByText(item, userSearch),
-			),
-		[items, userSearch, selectedRegionItem, filterByRegion, filterByText],
-	)
-
-	const hasFocus = document.activeElement === ref?.current
-
-	const [isInit, setIsInit] = useState(true)
-
-	const shouldListOpen = userSearch !== selectedLocation?.label && openList
+	const [filteredItems, setFilteredItems] = useState([])
 
 	useEffect(() => {
-		if (!isInit) {
-			onInteract(hasFocus, shouldListOpen)
+		if (items) {
+			setFilteredItems(items.filter((item) => filterByRegion(item, selectedRegionItem)))
 		}
-		setIsInit(false)
-	}, [openList, hasFocus])
+	}, [items, selectedRegionItem])
 
-	const setUserSearchToSelection = (selectedItem) => {
-		if (selectedItem && selectedItem.value?.waterId) {
-			setUserSearch(selectedItem?.label)
-		} else {
-			setUserSearch('')
-		}
-	}
+	const placeholder = selectedRegionItem
+		? 'Search by river or lake'
+		: 'Search by river, lake or region'
 
 	const {
 		getLabelProps,
 		getMenuProps,
 		getInputProps,
+		selectedIndex,
 		highlightedIndex,
 		getItemProps,
-		selectedItem,
 		isOpen,
 		inputValue,
+		openMenu,
+		closeMenu,
 	} = useCombobox({
-		selectedItem: selectedLocation,
-		isOpen: shouldListOpen,
-		inputValue: userSearch,
-		items: filteredItems,
+		selectedItem,
+		items: filteredItems ?? [],
 		itemToString(item) {
 			return item ? item.label : ''
 		},
+		stateReducer: (state, actionAndChanges) => {
+			const { changes, type } = actionAndChanges
+
+			switch (type) {
+				case useCombobox.stateChangeTypes.InputBlur:
+					console.log('blurred. active:', document.activeElement)
+					return state
+				case useCombobox.stateChangeTypes.InputClick:
+					return {
+						...changes,
+						isOpen: true,
+					}
+				case useCombobox.stateChangeTypes.ItemClick:
+					return {
+						...changes,
+						inputValue: state.inputValue,
+					}
+				case useCombobox.stateChangeTypes.ControlledPropUpdatedSelectedItem:
+					return {
+						...changes,
+						inputValue: state.inputValue,
+					}
+				case useCombobox.stateChangeTypes.FunctionSelectItem:
+					return {
+						...changes,
+						inputValue: state.inputValue,
+					}
+
+				default:
+					return changes
+			}
+		},
+		onIsOpenChange(e) {
+			const hasFocus =
+				document.activeElement === ref?.current ||
+				document.activeElement === containerRef?.current
+			onList(e.isOpen, hasFocus)
+		},
 		onSelectedItemChange(e) {
+			console.log('item changed', e.selectedItem)
 			onChange(e.selectedItem)
-			setUserSearchToSelection(e.selectedItem)
-			setOpenList(false)
 		},
 		onInputValueChange(e) {
-			const { stateChangeTypes } = useCombobox
-			if (e.type === stateChangeTypes.InputBlur) {
-				return
-				/*
-			} else if (
-				e.type === stateChangeTypes.ItemClick ||
-				e.type === stateChangeTypes.InputKeyDownEnter
-			) {
-			*/
-			} else if (e.type === stateChangeTypes.InputChange) {
-				setUserSearch(e.inputValue)
-				setOpenList(true)
-			} else {
-				onChange(e.selectedItem)
-				setUserSearchToSelection(e.selectedItem)
-				setOpenList(false)
-			}
+			console.log('input changed', e.inputValue)
 		},
 	})
 
-	const clearSearch = (e) => {
-		e.preventDefault()
-		if (inputValue) {
-			setUserSearch('')
+	console.log('does this change', selectedIndex, highlightedIndex)
+
+	const hasFocus =
+		document.activeElement === ref?.current || document.activeElement === containerRef?.current
+
+	const clearSearch = () => {
+		console.log('clear')
+		if (!selectedItem || isOpen) {
+			const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set
+			setter.call(ref.current, '')
+			ref.current.dispatchEvent(new Event('input', { bubbles: true }))
 		}
 		if (selectedItem) {
 			onChange(null)
 		}
-		ref.current.dispatchEvent(new Event('mousedown', e))
-		setOpenList(true)
+		setTimeout(() => {
+			ref.current.focus()
+		}, 0)
 	}
 
-	const scrollTo = () => {
-		const combobox = inputRef.current.closest('.LocationCombobox')
-		combobox.parentElement?.scrollIntoView({
-			behavior: 'smooth',
-			block: 'start',
-		})
-	}
+	useEffect(() => {
+		if (items) {
+			const newFilteredItems = inputValue
+				? items.filter(
+						(item) =>
+							filterByRegion(item, selectedRegionItem) &&
+							filterByText(item, inputValue),
+					)
+				: items.filter((item) => filterByRegion(item, selectedRegionItem))
+			setFilteredItems(newFilteredItems)
+		} else {
+			setFilteredItems(null)
+		}
+	}, [inputValue, items])
 
-	const scrollToInput = () => {
-		const combobox = inputRef.current.closest('.LocationCombobox')
-		combobox.addEventListener(
-			'transitionstart',
-			() => combobox.addEventListener('transitionend', scrollTo, { once: true }),
-			{ once: true },
-		)
+	const focusTrap = () => {
+		if (document.activeElement !== containerRef.current) {
+			containerRef.current.focus()
+		}
 	}
 
 	return (
-		<div className={`LocationCombobox ${className ? className : ''}`} onClick={scrollTo}>
+		<div
+			tabIndex="0"
+			ref={containerRef}
+			onClick={(e) => {
+				if (!containerRef.current.contains(e.target) || e.target === containerRef.current) {
+					containerRef.current.blur()
+				}
+			}}
+			onBlur={(e) => {
+				if (e.relatedTarget !== containerRef.current) {
+					closeMenu()
+				}
+			}}
+			className={`LocationCombobox ${className ? className : ''}`}
+		>
 			<div className="input" {...getLabelProps()}>
 				<input
+					id="input"
 					placeholder={placeholder}
-					{...getInputProps({ ref })}
-					onFocus={(e) => {
-						onInputFocus(e)
-						setOpenList(true)
-					}}
-					onBlur={(e) => {
-						if (selectedLocation && selectedLocation.label !== inputValue) {
-							setInputValue(selectedLocation.label)
-						}
-						onInputBlur(e)
-					}}
-					onMouseDown={() => {
-						const hasFocus = document.activeElement === ref.current
-						setOpenList(true)
-					}}
+					{...getInputProps({
+						onFocus: () => {
+							console.log('focus')
+							openMenu()
+						},
+						onBlur: (e) => {
+							console.log({ e })
+						},
+						ref,
+					})}
 				/>
+				{!isOpen && selectedItem && (
+					<div className="selected-value">{selectedItem.label}</div>
+				)}
 				<button
 					className="clear-input"
 					aria-label="Clear Search"
 					type="button"
-					onClick={clearSearch}
-					onMouseDown={(e) => e.preventDefault()}
+					onMouseDown={clearSearch}
 				>
 					<XCircleIcon />
 				</button>
 			</div>
 
-			<ul className={isOpen ? 'open' : ''} {...getMenuProps()}>
-				{isOpen && filteredItems.length === 0 && inputValue ? (
-					<li>
-						<span>(not found)</span>
+			{hasFocus && filteredItems === null && <LoadingSpinner />}
+
+			<ul onTouchMove={focusTrap} className={isOpen ? 'open' : ''} {...getMenuProps()}>
+				{isOpen && filteredItems?.length === 0 && inputValue ? (
+					<li className="empty">
+						<span>(no waters found)</span>
 					</li>
 				) : (
-					filteredItems.map((item, index) => (
-						<li
-							className={`${index === highlightedIndex ? 'highlighted' : ''}`}
-							key={item.value.regionId + '-' + item.value.waterId}
-							{...getItemProps({ item, index })}
-						>
-							<span>
-								{item.value.waterId ? (
-									item.label
-								) : (
-									<span className="flex justify-center font-bold">
-										{item.label}
-									</span>
-								)}
-							</span>
-						</li>
-					))
+					filteredItems?.map((item, index) => {
+						console.log(item)
+						return (
+							<li
+								className={`${item.value.waterId === selectedItem?.value.waterId ? 'selected' : ''} ${index === highlightedIndex ? 'highlighted' : ''}`}
+								key={item.value.regionId + '-' + item.value.waterId}
+								{...getItemProps({ item, index })}
+							>
+								<span>
+									{item.value.waterId ? (
+										item.label
+									) : (
+										<span className="flex justify-center font-bold">
+											{item.label}
+										</span>
+									)}
+								</span>
+							</li>
+						)
+					})
 				)}
 			</ul>
-			{isOpen && filteredItems && filteredItems.length === 0 && <div>no items</div>}
 		</div>
 	)
 }
