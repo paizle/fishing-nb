@@ -129,11 +129,6 @@
 						padding: 10% 0;
 					}
 				}
-
-				.RegionButton {
-					.NewBrunswickRegionMap {
-					}
-				}
 			}
 
 			&.wizard-step-3 {
@@ -185,13 +180,13 @@
 						align-self: stretch;
 						background-color: var(--background-color);
 						opacity: 1;
+						overflow-y: auto;
 					}
 				}
 				.FishingRestrictions {
 					opacity: 1;
 					height: auto;
 					min-height: 40em;
-					overflow-y: auto;
 
 					&:has(.FishRestrictionsTable) {
 					}
