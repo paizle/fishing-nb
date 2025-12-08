@@ -4,6 +4,7 @@ import { useCombobox } from 'downshift'
 import { useState, useRef, useEffect } from 'react'
 import { XCircleIcon } from '@heroicons/react/24/outline'
 import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
+import useApplicationContext, { ApplicationContext } from '@/Contexts/ApplicationContext'
 
 export default function LocationCombobox({
 	items,
@@ -14,19 +15,15 @@ export default function LocationCombobox({
 	onChange,
 	onList,
 }) {
-	console.log('**', selectedItem)
+	const [filteredItems, setFilteredItems] = useState(null)
+
+	useEffect(() => {
+		setFilteredItems(items)
+	}, [items])
 
 	const ref = inputRef ? inputRef : useRef(null)
 
 	const containerRef = useRef(null)
-
-	const [filteredItems, setFilteredItems] = useState([])
-
-	useEffect(() => {
-		if (items) {
-			setFilteredItems(items.filter((item) => filterByRegion(item, selectedRegionItem)))
-		}
-	}, [items, selectedRegionItem])
 
 	const placeholder = selectedRegionItem
 		? 'Search by river or lake'
@@ -102,6 +99,7 @@ export default function LocationCombobox({
 		document.activeElement === ref?.current || document.activeElement === containerRef?.current
 
 	const clearSearch = () => {
+		console.log('wat')
 		console.log('clear')
 		if (!selectedItem || isOpen) {
 			const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set
@@ -119,12 +117,8 @@ export default function LocationCombobox({
 	useEffect(() => {
 		if (items) {
 			const newFilteredItems = inputValue
-				? items.filter(
-						(item) =>
-							filterByRegion(item, selectedRegionItem) &&
-							filterByText(item, inputValue),
-					)
-				: items.filter((item) => filterByRegion(item, selectedRegionItem))
+				? items.filter((item) => filterByText(item, inputValue))
+				: items
 			setFilteredItems(newFilteredItems)
 		} else {
 			setFilteredItems(null)
@@ -164,11 +158,12 @@ export default function LocationCombobox({
 						},
 						onBlur: (e) => {
 							console.log({ e })
+							closeMenu()
 						},
 						ref,
 					})}
 				/>
-				{!isOpen && selectedItem && (
+				{!isOpen && selectedItem && selectedItem.value.waterId && (
 					<div className="selected-value">{selectedItem.label}</div>
 				)}
 				<button
@@ -176,6 +171,7 @@ export default function LocationCombobox({
 					aria-label="Clear Search"
 					type="button"
 					onMouseDown={clearSearch}
+					onClick={clearSearch}
 				>
 					<XCircleIcon />
 				</button>
@@ -190,7 +186,7 @@ export default function LocationCombobox({
 					</li>
 				) : (
 					filteredItems?.map((item, index) => {
-						console.log(item)
+						//console.log(item)
 						return (
 							<li
 								className={`${item.value.waterId === selectedItem?.value.waterId ? 'selected' : ''} ${index === highlightedIndex ? 'highlighted' : ''}`}
@@ -212,13 +208,6 @@ export default function LocationCombobox({
 				)}
 			</ul>
 		</div>
-	)
-}
-
-const filterByRegion = (item, selectedRegion) => {
-	return (
-		!selectedRegion ||
-		(item.value.regionId === selectedRegion.value.regionId && item.value.waterId)
 	)
 }
 
