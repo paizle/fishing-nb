@@ -1,6 +1,7 @@
-import { createContext, useContext, useState, useEffect, useRef, ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, useRef, ReactNode, useMemo } from 'react'
 import useScreenOrientation from '@/Hooks/useScreenOrientation'
 import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
+import useRest from '@/Hooks/useRest'
 
 interface ApplicationData {
 	fishes: Record<string, Fish>
@@ -75,7 +76,7 @@ export const ApplicationContext = createContext<ApplicationContextType | undefin
 
 // Provider component
 export const ApplicationContextProvider = ({ children, ...rest }: { children: ReactNode }) => {
-	console.log({ rest })
+	const apiLastModified = rest.initialPage.props.apiLastModified
 
 	const [data, setData] = useState<ApplicationData>({ fishes: {} })
 
@@ -83,7 +84,96 @@ export const ApplicationContextProvider = ({ children, ...rest }: { children: Re
 
 	const localStorage = useLocalStorageDefaults()
 
+	const [selectedRegionName, setSelectedRegionName] = useState<string>('')
+
 	const [regions, setRegions] = useState<Record<string, Region> | null>(null)
+
+	const [locations, setLocations] = useState(null)
+	const restLocations = useRest(apiLastModified)
+	useEffect(() => {
+		restLocations.get('/api/locations').then((request) => setLocations(request.data.locations))
+	}, [])
+
+	const [locationItems, locationRegionItemsByName] = useMemo(() => {
+		const regionItems = {}
+		const items = (locations ?? []).map((location) => {
+			const item = {
+				value: {
+					regionId: location.region_id,
+					waterId: location.water_id ?? null,
+				},
+				label: location.water_id ? location.water.name : location.region.name,
+				fullName: location.water_id
+					? `${location.region.name}, ${location.water.name}`
+					: location.region.name,
+			}
+			if (!item.value.waterId) {
+				regionItems[item.label] = item
+			}
+			return item
+		})
+
+		return [items.length > 0 ? items : null, regionItems]
+	}, [locations])
+
+	const [locationItemsForSelectedRegion, selectedRegionItem] = useMemo(() => {
+		let filteredItems = null
+		let selectedRegionItem = null
+		if (locationItems && locationRegionItemsByName) {
+			selectedRegionItem = locationRegionItemsByName[selectedRegionName]
+
+			if (selectedRegionItem) {
+				filteredItems = locationItems.filter(filterByRegion(selectedRegionItem))
+			} else {
+				filteredItems = locationItems
+			}
+		}
+
+		return [filteredItems, selectedRegionItem]
+	}, [locationItems, locationRegionItemsByName, selectedRegionName])
+
+	const [selectedLocationItem, setSelectedLocationItem] = useState(null)
+
+	const selectLocationItem = (locationItem) => {
+		setSelectedLocationItem(locationItem)
+		if (locationItem && !locationItem.value.waterId) {
+			selectRegionItem(locationItem)
+		}
+	}
+
+	const selectRegionItem = (locationItem) => {
+		if (locationItem) {
+			setSelectedRegionName(locationItem.label)
+		} else {
+			setSelectedRegionName('')
+			setSelectedLocationItem(null)
+		}
+		setWizardState((oldWizardState) => {
+			const newWizardState = {
+				...oldWizardState,
+				mapFocus: false,
+			}
+			return newWizardState
+		})
+	}
+
+	const selectRegionName = (regionName) => {
+		setSelectedRegionName(regionName)
+		setSelectedLocationItem(null)
+		setWizardState((oldWizardState) => {
+			const newWizardState = {
+				...oldWizardState,
+				mapFocus: false,
+			}
+			return newWizardState
+		})
+	}
+
+	useEffect(() => {
+		if (selectedRegionName && !selectedLocationItem) {
+			setSelectedLocationItem(locationRegionItemsByName[selectedRegionName])
+		}
+	}, [selectedRegionName])
 
 	useEffect(() => {
 		axios.get('/api/regions').then((request) => {
@@ -95,11 +185,6 @@ export const ApplicationContextProvider = ({ children, ...rest }: { children: Re
 			setRegions(regions)
 		})
 	}, [])
-
-	const getRegionId = (regionName: string) => {
-		debugger
-		return (regions || []).filter((region) => region.name === regionName)[0].id
-	}
 
 	// Function to update global data
 	const updateData = (key: string, value: any) => {
@@ -124,11 +209,6 @@ export const ApplicationContextProvider = ({ children, ...rest }: { children: Re
 	const getUserSelectedRegion = () => {
 		return localStorage.get('settings', (settings: Settings) => settings?.selectedRegion)
 	}
-	const getUserSelectedRegionId = () => {
-		const regionName = getUserSelectedRegion()
-		return (regions || {})[regionName]?.id
-	}
-
 	const setUserSelectedRegion = (regionName: string) => {
 		localStorage.set('settings', (settings: Settings) => (settings.selectedRegion = regionName))
 	}
@@ -152,27 +232,13 @@ export const ApplicationContextProvider = ({ children, ...rest }: { children: Re
 		return fish?.name
 	}
 
-	const [selectedRegionName, setSelectedRegionName] = useState<string>('')
-
 	const [wizardState, setWizardState] = useState({
 		mapFocus: false,
 		comboboxFocus: false,
 		comboboxList: false,
-		hasLocation: false,
 	})
 
 	const comboboxInputRef = useRef(null)
-
-	const selectRegionName = (regionName: string) => {
-		setSelectedRegionName(regionName)
-		setWizardState((oldWizardState) => {
-			const newWizardState = {
-				...oldWizardState,
-				mapFocus: false,
-			}
-			return newWizardState
-		})
-	}
 
 	const onDropDownClick = () => {
 		console.log('drop down')
@@ -264,17 +330,6 @@ export const ApplicationContextProvider = ({ children, ...rest }: { children: Re
 		})
 	}
 
-	const setHasLocation = (hasLocation) => {
-		console.log({ hasLocation })
-		setWizardState((oldWizardState) => {
-			const newWizardState = {
-				...oldWizardState,
-				hasLocation,
-			}
-			return newWizardState
-		})
-	}
-
 	const getWizardStep = () => {
 		let step
 
@@ -282,7 +337,7 @@ export const ApplicationContextProvider = ({ children, ...rest }: { children: Re
 			step = wizardSteps[0]
 		} else if (wizardState.comboboxList) {
 			step = wizardSteps[2]
-		} else if (wizardState.hasLocation) {
+		} else if (selectedLocationItem) {
 			step = wizardSteps[3]
 		} else if (wizardState.comboboxFocus) {
 			step = wizardSteps[1]
@@ -298,6 +353,10 @@ export const ApplicationContextProvider = ({ children, ...rest }: { children: Re
 	const value: ApplicationContextType = {
 		screenOrientation,
 		data,
+		locationItems: locationItemsForSelectedRegion,
+		selectedRegionItem,
+		selectedLocationItem,
+		selectLocationItem,
 		updateData,
 		getSettings,
 		getLandingPage,
@@ -309,8 +368,6 @@ export const ApplicationContextProvider = ({ children, ...rest }: { children: Re
 		setFishes,
 		getFishes,
 		getUserSelectedFishName,
-		getRegionId,
-		regions,
 		wizardState,
 		comboboxInputRef,
 		onMapClick,
@@ -321,14 +378,21 @@ export const ApplicationContextProvider = ({ children, ...rest }: { children: Re
 		onComboboxBlur,
 		onDropDownClick,
 		onComboboxList,
-		setHasLocation,
 		wizardSteps,
 		getWizardStep,
 		selectedRegionName,
 		selectRegionName,
+		regions,
 	}
 
 	return <ApplicationContext.Provider value={value}>{children}</ApplicationContext.Provider>
+}
+
+const filterByRegion = (selectedRegion) => (item) => {
+	return (
+		!selectedRegion ||
+		(item.value.regionId === selectedRegion.value.regionId && item.value.waterId)
+	)
 }
 
 export const useApplicationContext = (): ApplicationContextType => {
