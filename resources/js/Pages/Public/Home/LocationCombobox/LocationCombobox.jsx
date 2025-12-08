@@ -156,10 +156,6 @@ export default function LocationCombobox({
 							console.log('focus')
 							openMenu()
 						},
-						onBlur: (e) => {
-							console.log({ e })
-							closeMenu()
-						},
 						ref,
 					})}
 				/>
