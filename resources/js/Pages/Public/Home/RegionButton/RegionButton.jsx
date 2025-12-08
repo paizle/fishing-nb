@@ -42,7 +42,6 @@ export default function RegionButton({
 
 	const onRegionClick = (e) => {
 		if (zoomed) {
-			console.log('tesrt')
 			const key = event.target.closest('[id]').id
 			const name = getRegionNameFromId(key)
 			onSelect(name)
@@ -51,7 +50,6 @@ export default function RegionButton({
 
 	const onRegionTap = (e) => {
 		if (zoomed) {
-			console.log('test')
 			const key = event.target.closest('[id]').id
 			const name = getRegionNameFromId(key)
 			onSelect(name)
@@ -72,12 +70,6 @@ export default function RegionButton({
 		}
 		highlightRegion(selectedRegionName)
 	}, [zoomed])
-
-	const handleTransitionStart = (el) => {
-		buttonRef.current.addEventListener('transitionstart', () => {
-			el.classList.add('is-transitioning')
-		})
-	}
 
 	const getRegionNameFromId = (id) => {
 		return Object.keys(locationElements).find((k) => locationElements[k] === id)

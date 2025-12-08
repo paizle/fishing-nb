@@ -135,6 +135,7 @@ export const ApplicationContextProvider = ({ children, ...rest }: { children: Re
 	const [selectedLocationItem, setSelectedLocationItem] = useState(null)
 
 	const selectLocationItem = (locationItem) => {
+		debugger
 		setSelectedLocationItem(locationItem)
 		if (locationItem && !locationItem.value.waterId) {
 			selectRegionItem(locationItem)
@@ -142,6 +143,7 @@ export const ApplicationContextProvider = ({ children, ...rest }: { children: Re
 	}
 
 	const selectRegionItem = (locationItem) => {
+		debugger
 		if (locationItem) {
 			setSelectedRegionName(locationItem.label)
 		} else {
@@ -159,7 +161,9 @@ export const ApplicationContextProvider = ({ children, ...rest }: { children: Re
 
 	const selectRegionName = (regionName) => {
 		setSelectedRegionName(regionName)
-		setSelectedLocationItem(null)
+		if (regionName) {
+			setSelectedLocationItem(locationRegionItemsByName[regionName])
+		}
 		setWizardState((oldWizardState) => {
 			const newWizardState = {
 				...oldWizardState,
@@ -168,12 +172,6 @@ export const ApplicationContextProvider = ({ children, ...rest }: { children: Re
 			return newWizardState
 		})
 	}
-
-	useEffect(() => {
-		if (selectedRegionName && !selectedLocationItem) {
-			setSelectedLocationItem(locationRegionItemsByName[selectedRegionName])
-		}
-	}, [selectedRegionName])
 
 	useEffect(() => {
 		axios.get('/api/regions').then((request) => {
