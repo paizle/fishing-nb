@@ -42,6 +42,8 @@ Route::controller(PublicController::class)->group(function () {
 	Route::get('/fish/{id}', 'fish')->name('fish.fish');
 
 	Route::get('/settings', 'settings')->name('settings.edit');
+
+	Route::get('/verify-source', 'verifySource')->name('verify.source');
 });
 
 require __DIR__ . '/auth.php';
