@@ -17,6 +17,8 @@ export interface FishingRestriction {
 	boundary: String
 	waterDescription: String
 	note: String
+	sourcePage: Number | null
+	sourceLocation: String | null
 }
 
 export interface FishRestrictionGroup extends FishingRestriction {
@@ -52,6 +54,8 @@ class Fish {
 			boundary: row?.boundary || '',
 			waterDescription: row.water_description ?? '',
 			note: row.note,
+			sourcePage: row.source_page ?? null,
+			sourceLocation: row.source_location ?? null,
 		}
 	}
 	static sortBySeasonAndGenerality(restrictions: FishRestrictionGroup[]) {

@@ -122,5 +122,7 @@ class FishingRestriction extends Model
 		'method',
 		'tidal',
 		'water_type',
+		'source_page',
+		'source_location',
 	];
 }

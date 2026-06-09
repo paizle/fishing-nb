@@ -43,7 +43,9 @@ Route::controller(PublicController::class)->group(function () {
 
 	Route::get('/settings', 'settings')->name('settings.edit');
 
-  Route::get('/waters-map', 'waters_map')->name('maps.waters');
+	Route::get('/waters-map', 'waters_map')->name('maps.waters');
+
+	Route::get('/verify-source', 'verifySource')->name('verify.source');
 });
 
 require __DIR__ . '/auth.php';

@@ -95,6 +95,23 @@ export default function FishRestrictionsTable({ fishName, fishImageSrc, restrict
 		return text
 	}
 
+	const renderVerifyLink = (restriction) => {
+		if (!restriction.sourcePage || !restriction.sourceLocation) {
+			return null
+		}
+
+		const params = new URLSearchParams({
+			page: String(restriction.sourcePage),
+			location: restriction.sourceLocation,
+		})
+
+		return (
+			<a href={`/verify-source?${params}`} target="_blank" rel="noopener noreferrer">
+				verify
+			</a>
+		)
+	}
+
 	const renderMaxSize = (restriction) => {
 		const text = restriction?.maxSize ?? 'N/A'
 		if (!restriction.bagLimit === 0 && !restriction.hookLimit) {
@@ -147,6 +164,7 @@ export default function FishRestrictionsTable({ fishName, fishImageSrc, restrict
 				<td>{renderBagLimit(restriction)}</td>
 				<td>{renderMinSize(restriction)}</td>
 				<td>{renderMaxSize(restriction)}</td>
+				<td>{renderVerifyLink(restriction)}</td>
 			</tr>
 		)
 	}
@@ -207,6 +225,7 @@ export default function FishRestrictionsTable({ fishName, fishImageSrc, restrict
 					<th className="column-header">Bag Limit</th>
 					<th className="column-header">{isMobile ? 'Min.' : 'Minimum'} Size</th>
 					<th className="column-header">{isMobile ? 'Max.' : 'Maximum'} Size</th>
+					<th className="column-header verify" aria-label="verify" />
 				</tr>
 			</thead>
 			<tbody>{renderRestrictions(restrictions)}</tbody>

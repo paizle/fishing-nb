@@ -182,6 +182,21 @@ class PublicController extends Controller
 		]);
 	}
 
+	public function verifySource(Request $request)
+	{
+		$page = (int) $request->query('page', 0);
+		$location = trim((string) $request->query('location', ''));
+
+		if ($page < 1 || $location === '') {
+			abort(404);
+		}
+
+		return view('verify-source', [
+			'title' => "Page {$page} — {$location}",
+			'pdfUrl' => url("/regulations/Fish.pdf#page={$page}"),
+		]);
+	}
+
 	private function getBreadcrumbMap()
 	{
 		return [
