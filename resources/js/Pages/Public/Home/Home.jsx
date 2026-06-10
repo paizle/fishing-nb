@@ -130,6 +130,7 @@ export default function Home({ apiLastModified }) {
 									restrictions={restrictions}
 									regionId={selectedLocation?.value?.regionId}
 									waterId={selectedLocation?.value?.waterId}
+									regionName={selectedLocation?.value?.regionName}
 								/>
 							)}
 

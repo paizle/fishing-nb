@@ -7,9 +7,20 @@ import FishRestrictionsTable from './FishRestrictionsTable'
 import FishRestrictionsExceptionsTable from './FishRestrictionsExceptionsTable'
 import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
 import useApplicationContext from '@/Contexts/ApplicationContext'
+import useVerifySourceModal from '@/Hooks/useVerifySourceModal'
 
-export default function FishingRestrictions({ isLoading, restrictions, locationId, waterId }) {
+export default function FishingRestrictions({
+	isLoading,
+	restrictions,
+	locationId,
+	waterId,
+	regionName,
+}) {
 	const appContext = useApplicationContext()
+	const { openVerify, modal } = useVerifySourceModal(
+		regionName,
+		appContext.screenOrientation.isMobile,
+	)
 
 	const restrictionsByFish = byFish(restrictions)
 
@@ -41,19 +52,26 @@ export default function FishingRestrictions({ isLoading, restrictions, locationI
 							fishImageSrc={getFishImageSrc(fishName)}
 							restrictions={restrictionsByFish[fishName].restrictions}
 							isMobile={appContext.screenOrientation.isMobile}
+							onVerify={(row) => openVerify(row, fishName, getFishImageSrc(fishName))}
 						/>
 					) : (
 						<FishRestrictionsExceptionsTable
 							key={''}
 							restrictions={restrictionsByFish[fishName].restrictions}
 							isMobile={appContext.screenOrientation.isMobile}
+							onVerify={(row) => openVerify(row)}
 						/>
 					),
 				)
 		}
 	}
 
-	return <div className="FishingRestrictions">{render()}</div>
+	return (
+		<div className="FishingRestrictions">
+			{render()}
+			{modal}
+		</div>
+	)
 }
 
 FishingRestrictions.propTypes = {
@@ -61,4 +79,5 @@ FishingRestrictions.propTypes = {
 	restrictions: PropTypes.arrayOf(PropTypes.object),
 	regionId: PropTypes.number.isRequired,
 	waterId: PropTypes.number,
+	regionName: PropTypes.string,
 }

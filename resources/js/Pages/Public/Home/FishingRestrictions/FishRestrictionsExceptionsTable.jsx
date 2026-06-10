@@ -6,14 +6,32 @@ import { format } from 'date-fns'
 import { Fragment } from 'react/jsx-runtime'
 import Tooltip from '@/Components/Tooltip/Tooltip'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { getVerifiableRowProps } from '@/Util/verifiableRow'
+import useSingleClick from '@/Hooks/useSingleClick'
 
-export default function FishRestrictionsExceptionsTable({ restrictions, isMobile }) {
+export default function FishRestrictionsExceptionsTable({ restrictions, isMobile, onVerify }) {
+	const singleClick = useSingleClick()
 	const ExclamationTriangleIconMemo = memo(ExclamationTriangleIcon)
 
-	const transformCaseForSentance = (sentance, value) => {
-		return sentance
-			? value.charAt(0).toLowerCase() + value.slice(1)
-			: value.charAt(0).toUpperCase() + value.slice(1)
+	const renderSeasonDateRange = (restriction, comma = false) => {
+		return (
+			<>
+				<span>
+					{format(
+						restriction.seasonStart,
+						isMobile ? config.displayDayMonthShortFormat : config.displayDayMonthFormat,
+					)}{' '}
+				</span>
+				<span>
+					-{' '}
+					{format(
+						restriction.seasonEnd,
+						isMobile ? config.displayDayMonthShortFormat : config.displayDayMonthFormat,
+					)}
+					{comma ? ',' : ''}
+				</span>
+			</>
+		)
 	}
 
 	const uppercaseFirst = (value) => {
@@ -105,9 +123,17 @@ export default function FishRestrictionsExceptionsTable({ restrictions, isMobile
 	}
 
 	const renderRestriction = (restriction, inGroup = false, lastInGroup = false) => {
+		const { rowClassName, cellProps } = getVerifiableRowProps(
+			restriction,
+			onVerify,
+			singleClick,
+		)
+
 		return (
-			<tr className={`${inGroup && !restriction.group ? 'group' : ''}`}>
-				<td className="season-exception">
+			<tr
+				className={`${inGroup && !restriction.group ? 'group' : ''} ${rowClassName}`.trim()}
+			>
+				<td className="season-exception" {...cellProps}>
 					<strong className="date-range">
 						{renderSeasonDateRange(
 							restriction,
@@ -123,9 +149,9 @@ export default function FishRestrictionsExceptionsTable({ restrictions, isMobile
 						</Tooltip>
 					)}
 				</td>
-				<td>{renderBagLimit(restriction)}</td>
-				<td>{renderMinSize(restriction)}</td>
-				<td>{renderMaxSize(restriction)}</td>
+				<td {...cellProps}>{renderBagLimit(restriction)}</td>
+				<td {...cellProps}>{renderMinSize(restriction)}</td>
+				<td {...cellProps}>{renderMaxSize(restriction)}</td>
 			</tr>
 		)
 	}
@@ -146,7 +172,7 @@ export default function FishRestrictionsExceptionsTable({ restrictions, isMobile
 	const renderRestrictionGroup = (restriction) => (
 		<>
 			{renderRestriction(restriction)}
-			{renderRestrictions(restriction.group, true)}
+			{renderExceptions(restriction.group, true)}
 			{renderGroupWaterDescription(restriction)}
 		</>
 	)
@@ -168,9 +194,15 @@ export default function FishRestrictionsExceptionsTable({ restrictions, isMobile
 	}
 
 	const renderException = (restriction) => {
+		const { rowClassName, cellProps } = getVerifiableRowProps(
+			restriction,
+			onVerify,
+			singleClick,
+		)
+
 		return (
-			<tr>
-				<td className="season-exception exception">
+			<tr className={rowClassName}>
+				<td className="season-exception exception" {...cellProps}>
 					<em className="water-description">{renderExceptionDetail(restriction)}</em>
 
 					<strong>{restriction.note}</strong>
@@ -199,4 +231,6 @@ export default function FishRestrictionsExceptionsTable({ restrictions, isMobile
 
 FishRestrictionsExceptionsTable.propTypes = {
 	restrictions: PropTypes.arrayOf(PropTypes.object).isRequired,
+	isMobile: PropTypes.bool,
+	onVerify: PropTypes.func.isRequired,
 }

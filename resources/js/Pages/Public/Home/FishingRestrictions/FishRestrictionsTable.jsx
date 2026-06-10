@@ -6,8 +6,17 @@ import { format } from 'date-fns'
 import { Fragment } from 'react/jsx-runtime'
 import Tooltip from '@/Components/Tooltip/Tooltip'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { getVerifiableRowProps } from '@/Util/verifiableRow'
+import useSingleClick from '@/Hooks/useSingleClick'
 
-export default function FishRestrictionsTable({ fishName, fishImageSrc, restrictions, isMobile }) {
+export default function FishRestrictionsTable({
+	fishName,
+	fishImageSrc,
+	restrictions,
+	isMobile,
+	onVerify,
+}) {
+	const singleClick = useSingleClick()
 	const ExclamationTriangleIconMemo = memo(ExclamationTriangleIcon)
 
 	const renderSeasonDateRange = (restriction, comma = false) => {
@@ -29,12 +38,6 @@ export default function FishRestrictionsTable({ fishName, fishImageSrc, restrict
 				</span>
 			</>
 		)
-	}
-
-	const transformCaseForSentance = (sentance, value) => {
-		return sentance
-			? value.charAt(0).toLowerCase() + value.slice(1)
-			: value.charAt(0).toUpperCase() + value.slice(1)
 	}
 
 	const uppercaseFirst = (value) => {
@@ -95,23 +98,6 @@ export default function FishRestrictionsTable({ fishName, fishImageSrc, restrict
 		return text
 	}
 
-	const renderVerifyLink = (restriction) => {
-		if (!restriction.sourcePage || !restriction.sourceLocation) {
-			return null
-		}
-
-		const params = new URLSearchParams({
-			page: String(restriction.sourcePage),
-			location: restriction.sourceLocation,
-		})
-
-		return (
-			<a href={`/verify-source?${params}`} target="_blank" rel="noopener noreferrer">
-				verify
-			</a>
-		)
-	}
-
 	const renderMaxSize = (restriction) => {
 		const text = restriction?.maxSize ?? 'N/A'
 		if (!restriction.bagLimit === 0 && !restriction.hookLimit) {
@@ -143,9 +129,17 @@ export default function FishRestrictionsTable({ fishName, fishImageSrc, restrict
 	}
 
 	const renderRestriction = (restriction, inGroup = false, lastInGroup = false) => {
+		const { rowClassName, cellProps } = getVerifiableRowProps(
+			restriction,
+			onVerify,
+			singleClick,
+		)
+
 		return (
-			<tr className={`${inGroup && !restriction.group ? 'group' : ''}`}>
-				<td className="season-exception">
+			<tr
+				className={`${inGroup && !restriction.group ? 'group' : ''} ${rowClassName}`.trim()}
+			>
+				<td className="season-exception" {...cellProps}>
 					<strong className="date-range">
 						{renderSeasonDateRange(
 							restriction,
@@ -161,10 +155,9 @@ export default function FishRestrictionsTable({ fishName, fishImageSrc, restrict
 						</Tooltip>
 					)}
 				</td>
-				<td>{renderBagLimit(restriction)}</td>
-				<td>{renderMinSize(restriction)}</td>
-				<td>{renderMaxSize(restriction)}</td>
-				<td>{renderVerifyLink(restriction)}</td>
+				<td {...cellProps}>{renderBagLimit(restriction)}</td>
+				<td {...cellProps}>{renderMinSize(restriction)}</td>
+				<td {...cellProps}>{renderMaxSize(restriction)}</td>
 			</tr>
 		)
 	}
@@ -225,7 +218,6 @@ export default function FishRestrictionsTable({ fishName, fishImageSrc, restrict
 					<th className="column-header">Bag Limit</th>
 					<th className="column-header">{isMobile ? 'Min.' : 'Minimum'} Size</th>
 					<th className="column-header">{isMobile ? 'Max.' : 'Maximum'} Size</th>
-					<th className="column-header verify" aria-label="verify" />
 				</tr>
 			</thead>
 			<tbody>{renderRestrictions(restrictions)}</tbody>
@@ -237,4 +229,5 @@ FishRestrictionsTable.propTypes = {
 	fishName: PropTypes.string.isRequired,
 	fishImageSrc: PropTypes.string.isRequired,
 	restrictions: PropTypes.arrayOf(PropTypes.object).isRequired,
+	onVerify: PropTypes.func.isRequired,
 }

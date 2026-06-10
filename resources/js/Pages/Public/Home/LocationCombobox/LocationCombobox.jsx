@@ -45,6 +45,7 @@ export default function LocationCombobox({
 				const item = {}
 				item.value = {}
 				item.value.regionId = location.region_id
+				item.value.regionName = location.region.name
 				if (location.water_id) {
 					item.value.waterId = location.water_id
 					item.label = location.water.name

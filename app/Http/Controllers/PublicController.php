@@ -191,8 +191,38 @@ class PublicController extends Controller
 			abort(404);
 		}
 
+		$separators = [" — ", " ??? ", " - "];
+		$table = $location;
+		$row = '';
+		$separatorIndex = -1;
+		$separatorLength = 0;
+
+		foreach ($separators as $separator) {
+			$index = strrpos($location, $separator);
+			if ($index !== false && $index > $separatorIndex) {
+				$separatorIndex = $index;
+				$separatorLength = strlen($separator);
+			}
+		}
+
+		if ($separatorIndex >= 0) {
+			$table = trim(substr($location, 0, $separatorIndex));
+			$row = trim(substr($location, $separatorIndex + $separatorLength));
+		}
+
+		$region = trim((string) $request->query('region', ''));
+		$displayPage = $page - 2;
+		$section = $row !== '' ? "{$table} - {$row}" : $table;
+		$descriptionParts = ["Page {$displayPage}"];
+		if ($region !== '') {
+			$descriptionParts[] = $region;
+		}
+		$descriptionParts[] = $section;
+		$description = implode(' - ', $descriptionParts);
+
 		return view('verify-source', [
-			'title' => "Page {$page} — {$location}",
+			'title' => $description,
+			'description' => $description,
 			'pdfUrl' => url("/regulations/Fish.pdf#page={$page}"),
 		]);
 	}
