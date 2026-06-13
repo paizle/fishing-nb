@@ -12,6 +12,11 @@
 		min-width: 18em;
 		flex-basis: 33%;
 
+		.load-error {
+			padding: 1em;
+			color: #991b1b;
+		}
+
 		ul {
 			padding: 0 1em;
 			li {
