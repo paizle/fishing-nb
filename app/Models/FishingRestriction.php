@@ -123,6 +123,7 @@ class FishingRestriction extends Model
 		'tidal',
 		'water_type',
 		'source_page',
-		'source_location',
+		'source_table',
+		'source_row',
 	];
 }

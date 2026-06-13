@@ -185,29 +185,33 @@ class PublicController extends Controller
 	public function verifySource(Request $request)
 	{
 		$page = (int) $request->query('page', 0);
+		$table = trim((string) $request->query('table', ''));
+		$row = trim((string) $request->query('row', ''));
 		$location = trim((string) $request->query('location', ''));
 
-		if ($page < 1 || $location === '') {
-			abort(404);
-		}
+		if ($table === '' && $location !== '') {
+			$separators = [" — ", " ??? ", " - "];
+			$table = $location;
+			$row = '';
+			$separatorIndex = -1;
+			$separatorLength = 0;
 
-		$separators = [" — ", " ??? ", " - "];
-		$table = $location;
-		$row = '';
-		$separatorIndex = -1;
-		$separatorLength = 0;
+			foreach ($separators as $separator) {
+				$index = strrpos($location, $separator);
+				if ($index !== false && $index > $separatorIndex) {
+					$separatorIndex = $index;
+					$separatorLength = strlen($separator);
+				}
+			}
 
-		foreach ($separators as $separator) {
-			$index = strrpos($location, $separator);
-			if ($index !== false && $index > $separatorIndex) {
-				$separatorIndex = $index;
-				$separatorLength = strlen($separator);
+			if ($separatorIndex >= 0) {
+				$table = trim(substr($location, 0, $separatorIndex));
+				$row = trim(substr($location, $separatorIndex + $separatorLength));
 			}
 		}
 
-		if ($separatorIndex >= 0) {
-			$table = trim(substr($location, 0, $separatorIndex));
-			$row = trim(substr($location, $separatorIndex + $separatorLength));
+		if ($page < 1 || $table === '') {
+			abort(404);
 		}
 
 		$region = trim((string) $request->query('region', ''));

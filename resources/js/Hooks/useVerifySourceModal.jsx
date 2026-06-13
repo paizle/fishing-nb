@@ -5,33 +5,39 @@ export default function useVerifySourceModal(regionName = '', isMobile = false) 
 	const [state, setState] = useState({
 		open: false,
 		page: null,
-		location: null,
+		table: null,
+		row: null,
 		regionName: '',
 		restriction: null,
 		fishName: '',
 		fishImageSrc: '',
 	})
 
-	const openVerify = useCallback((restriction, fishName = '', fishImageSrc = '') => {
-		if (!restriction?.sourcePage || !restriction?.sourceLocation) {
-			return
-		}
-		setState({
-			open: true,
-			page: restriction.sourcePage,
-			location: restriction.sourceLocation,
-			regionName,
-			restriction,
-			fishName,
-			fishImageSrc,
-		})
-	}, [])
+	const openVerify = useCallback(
+		(restriction, fishName = '', fishImageSrc = '') => {
+			if (!restriction?.sourcePage || !restriction?.sourceTable) {
+				return
+			}
+			setState({
+				open: true,
+				page: restriction.sourcePage,
+				table: restriction.sourceTable,
+				row: restriction.sourceRow ?? '',
+				regionName,
+				restriction,
+				fishName,
+				fishImageSrc,
+			})
+		},
+		[regionName],
+	)
 
 	const closeVerify = useCallback(() => {
 		setState({
 			open: false,
 			page: null,
-			location: null,
+			table: null,
+			row: null,
 			regionName: '',
 			restriction: null,
 			fishName: '',
@@ -43,7 +49,8 @@ export default function useVerifySourceModal(regionName = '', isMobile = false) 
 		<VerifySourceModal
 			open={state.open}
 			page={state.page}
-			location={state.location}
+			table={state.table}
+			row={state.row}
 			regionName={state.regionName}
 			restriction={state.restriction}
 			fishName={state.fishName}
