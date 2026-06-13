@@ -8,14 +8,23 @@ import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
 
 export default function WatersMap({ apiLastModified }) {
 	const [geoJson, setGeojson] = useState(null)
+	const [loadError, setLoadError] = useState(null)
 	const [selectedFeature, setSelectedFeature] = useState()
 	const [hoveredFeature, setHovereadFeature] = useState()
 
 	useEffect(() => {
 		async function load() {
-			const response = await fetch('/waters.geojson', { cache: 'default' })
-			const data = await response.json()
-			setGeojson(data)
+			try {
+				const response = await fetch('/waters.geojson', { cache: 'default' })
+				if (!response.ok) {
+					setLoadError(`Could not load waters map data (HTTP ${response.status}).`)
+					return
+				}
+				const data = await response.json()
+				setGeojson(data)
+			} catch {
+				setLoadError('Could not load waters map data.')
+			}
 		}
 		load()
 	}, [])
@@ -42,7 +51,9 @@ export default function WatersMap({ apiLastModified }) {
 			<main>
 				<FeaturesMap geoJson={selectedFeature} highlightedGeoJson={hoveredFeature} />
 				<Sidebar>
-					{geoJson ? (
+					{loadError ? (
+						<p className="load-error">{loadError}</p>
+					) : geoJson ? (
 						<ul onMouseLeave={() => setHovereadFeature(null)}>
 							{geoJson.features.map((feature) => (
 								<li key={feature.properties.OBJECTID}>

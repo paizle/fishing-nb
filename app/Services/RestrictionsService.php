@@ -35,8 +35,12 @@ class RestrictionsService
     // general restrictions
 		$water_type_record_ids = FishingRestriction::query()
       ->where('region_id', $region_id)
-			->where('water_type', $water_type)
 			->where('water_id', null)
+			->where(function ($query) use ($water_type) {
+				$query
+					->where('water_type', $water_type)
+					->orWhereNull('water_type');
+			})
 			->pluck('id')
 			->toArray();
 
@@ -119,8 +123,12 @@ class RestrictionsService
       FishingRestriction::query()
         ->where('region_id', $region_id)
         ->where('fish_id', $fish_id)
-        ->where('water_type', $water_type)
         ->where('water_id', null)
+        ->where(function ($query) use ($water_type) {
+          $query
+            ->where('water_type', $water_type)
+            ->orWhereNull('water_type');
+        })
         ->pluck('id')
         ->toArray()
     );

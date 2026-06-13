@@ -8,7 +8,8 @@ import { formatVerifyRestriction } from '@/Util/formatVerifyRestriction'
 export default function VerifySourceModal({
 	open,
 	page,
-	location,
+	table,
+	row,
 	restriction,
 	fishName,
 	regionName,
@@ -40,12 +41,12 @@ export default function VerifySourceModal({
 		}
 	}, [open, onClose])
 
-	if (!open || !page || !location || !restriction) {
+	if (!open || !page || !table || !restriction) {
 		return null
 	}
 
-	const description = formatVerifyDescription(page, location, regionName)
-	const pdfUrl = buildVerifySourceUrl(page, location, regionName)
+	const description = formatVerifyDescription(page, table, row, regionName)
+	const pdfUrl = buildVerifySourceUrl(page, table, row, regionName)
 	const details = formatVerifyRestriction({ restriction, fishName, regionName, isMobile })
 
 	return createPortal(
@@ -122,7 +123,8 @@ export default function VerifySourceModal({
 VerifySourceModal.propTypes = {
 	open: PropTypes.bool.isRequired,
 	page: PropTypes.number,
-	location: PropTypes.string,
+	table: PropTypes.string,
+	row: PropTypes.string,
 	restriction: PropTypes.object,
 	fishName: PropTypes.string,
 	regionName: PropTypes.string,

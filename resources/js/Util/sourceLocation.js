@@ -1,29 +1,13 @@
-const ROW_REF_SEPARATORS = [' — ', ' ??? ', ' - ']
+const ROW_REF_SEPARATOR = ' - '
 
-export function parseSourceLocation(location) {
-	if (!location) {
-		return { table: '', row: '' }
+export function joinSourceTableRow(table, row) {
+	if (!table) {
+		return ''
 	}
-
-	let separatorIndex = -1
-	let separatorLength = 0
-
-	for (const separator of ROW_REF_SEPARATORS) {
-		const index = location.lastIndexOf(separator)
-		if (index > separatorIndex) {
-			separatorIndex = index
-			separatorLength = separator.length
-		}
+	if (!row) {
+		return table
 	}
-
-	if (separatorIndex < 0) {
-		return { table: location.trim(), row: '' }
-	}
-
-	return {
-		table: location.slice(0, separatorIndex).trim(),
-		row: location.slice(separatorIndex + separatorLength).trim(),
-	}
+	return `${table}${ROW_REF_SEPARATOR}${row}`
 }
 
 // Stored source_page is the PDF file index; footer page numbers are 2 less.
@@ -33,25 +17,30 @@ export function displayPageNumber(page) {
 	return Number(page) - PAGE_DISPLAY_OFFSET
 }
 
-export function formatVerifyDescription(page, location, regionName = '') {
-	const { table, row } = parseSourceLocation(location)
-	const section = row ? `${table} - ${row}` : table
+export function formatVerifyDescription(page, table, row, regionName = '') {
+	const section = joinSourceTableRow(table, row)
 	const parts = [`Page ${displayPageNumber(page)}`]
 
 	if (regionName) {
 		parts.push(regionName)
 	}
 
-	parts.push(section)
+	if (section) {
+		parts.push(section)
+	}
 
 	return parts.join(' - ')
 }
 
-export function buildVerifySourceUrl(page, location, regionName = '') {
+export function buildVerifySourceUrl(page, table, row, regionName = '') {
 	const params = new URLSearchParams({
 		page: String(page),
-		location,
+		table,
 	})
+
+	if (row) {
+		params.set('row', row)
+	}
 
 	if (regionName) {
 		params.set('region', regionName)
@@ -61,5 +50,5 @@ export function buildVerifySourceUrl(page, location, regionName = '') {
 }
 
 export function hasSourceCitation(restriction) {
-	return !!(restriction?.sourcePage && restriction?.sourceLocation)
+	return !!(restriction?.sourcePage && restriction?.sourceTable)
 }
