@@ -12,7 +12,8 @@ interface ApplicationContextType {
 	data: ApplicationData
 	updateData: (key: string, value: any) => void
 	screenOrientation: any
-	getSettings: () => any
+	getSettings: () => Settings
+	updateSetting: (name: string, value: unknown) => void
 	getLandingPage: () => string
 	setLandingPage: (name: string) => void
 	getUserSelectedFish: () => number | null
@@ -42,19 +43,32 @@ export const ApplicationContextProvider = ({ children }: { children: ReactNode }
 
 	const localStorage = useLocalStorageDefaults()
 
+	const readSettings = (): Settings => ({ ...localStorage.getItem('settings') })
+	const [settings, setSettingsState] = useState<Settings>(readSettings)
+
+	const syncSettings = () => {
+		setSettingsState(readSettings())
+	}
+
 	// Function to update global data
 	const updateData = (key: string, value: any) => {
 		setData((prev) => ({ ...prev, [key]: value }))
 	}
 
-	const getSettings = () => {
-		return localStorage.getItem('settings')
+	const getSettings = () => settings
+
+	const updateSetting = (name: string, value: unknown) => {
+		localStorage.set('settings', (stored: Settings) => {
+			stored[name] = value
+		})
+		syncSettings()
 	}
 	const getLandingPage = () => {
 		return localStorage.getItem('settings')?.landingPage
 	}
 	const setLandingPage = (name: string) => {
 		localStorage.set('settings', (settings: Settings) => (settings.landingPage = name))
+		syncSettings()
 	}
 	const getUserSelectedFish = () => {
 		return normalizeFishId(
@@ -63,6 +77,7 @@ export const ApplicationContextProvider = ({ children }: { children: ReactNode }
 	}
 	const setUserSelectedFish = (fishId: number | null) => {
 		localStorage.set('settings', (settings: Settings) => (settings.selectedFish = fishId))
+		syncSettings()
 	}
 	const getUserSelectedRegion = () => {
 		return normalizeFishId(
@@ -71,6 +86,7 @@ export const ApplicationContextProvider = ({ children }: { children: ReactNode }
 	}
 	const setUserSelectedRegion = (regionId: number | null) => {
 		localStorage.set('settings', (settings: Settings) => (settings.selectedRegion = regionId))
+		syncSettings()
 	}
 	const setFishes = (fishes: Array<Fish>) => {
 		const map = fishes.reduce<Record<number, Fish>>((a, v) => {
@@ -97,6 +113,7 @@ export const ApplicationContextProvider = ({ children }: { children: ReactNode }
 		data,
 		updateData,
 		getSettings,
+		updateSetting,
 		getLandingPage,
 		setLandingPage,
 		getUserSelectedFish,
