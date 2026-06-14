@@ -2,6 +2,7 @@ import './SelectFishMobile.scss'
 import { useState, useRef, useEffect, memo } from 'react'
 import getFishImageSrc from '@/Util/getFishImageSrc'
 import ProgressiveImage from '@/Components/ProgressiveImage'
+import normalizeFishId, { fishIdsEqual } from '@/Util/normalizeFishId'
 
 export default memo(function SelectFishMobile({
 	fishes = null,
@@ -16,15 +17,16 @@ export default memo(function SelectFishMobile({
 	useEffect(() => {
 		if (scrollToFish && fishListRef.current && fishes) {
 			if (selectedFishId) {
-				setTimeout(() => {
-					const element = fishListRef.current.querySelector(
-						`[data-id="${selectedFishId}"]`,
-					)
-					element?.scrollIntoView({
-						behavior: 'smooth',
-						inline: 'center',
+				const id = normalizeFishId(selectedFishId)
+				if (id !== null) {
+					setTimeout(() => {
+						const element = fishListRef.current.querySelector(`[data-id="${id}"]`)
+						element?.scrollIntoView({
+							behavior: 'smooth',
+							inline: 'center',
+						})
 					})
-				})
+				}
 			}
 			setScrollToFish(false)
 		}
@@ -41,9 +43,9 @@ export default memo(function SelectFishMobile({
 				<button
 					key={key}
 					role="option"
-					aria-selected={selectedFishId === fishes[key].id}
+					aria-selected={fishIdsEqual(selectedFishId, fishes[key].id)}
 					data-id={fishes[key].id}
-					className={`fish ${selectedFishId === fishes[key].id ? 'selected' : ''}`}
+					className={`fish ${fishIdsEqual(selectedFishId, fishes[key].id) ? 'selected' : ''}`}
 					onClick={() => selectFish(fishes[key].id)}
 				>
 					<ProgressiveImage

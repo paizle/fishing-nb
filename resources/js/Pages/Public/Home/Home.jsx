@@ -11,6 +11,7 @@ import FishingRestrictions from './FishingRestrictions/FishingRestrictions'
 import useApplicationContext from '@/Contexts/ApplicationContext'
 import SelectedLocationButton from './SelectedLocationButton/SelectedLocationButton'
 import SmartFishLayout from '@/Layouts/SmartFishLayout/SmartFishLayout'
+import normalizeFishId from '@/Util/normalizeFishId'
 
 import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
 
@@ -33,7 +34,7 @@ export default function Home({ apiLastModified }) {
 	const restLocations = useRest(apiLastModified)
 	const restRestrictions = useRest(apiLastModified)
 
-	useState(() => {
+	useEffect(() => {
 		setSelectedRegion(appContext.getUserSelectedRegion())
 	}, [])
 
@@ -48,9 +49,9 @@ export default function Home({ apiLastModified }) {
 	}, [])
 
 	useEffect(() => {
-		const selectedFish = appContext.getUserSelectedFish()
-		if (selectedFish) {
-			setSelectedFish(selectedFish)
+		const storedFish = normalizeFishId(appContext.getUserSelectedFish())
+		if (storedFish !== null) {
+			setSelectedFish(storedFish)
 		}
 	}, [])
 
@@ -59,7 +60,7 @@ export default function Home({ apiLastModified }) {
 			setRestrictions(null)
 			let url = '/api/fishByLocation/' + selectedLocation.value.regionId
 			url += '/' + (selectedLocation.value?.waterId ?? 0)
-			url += '/' + (selectedFish ?? 0)
+			url += '/' + (normalizeFishId(selectedFish) ?? 0)
 
 			restRestrictions.get(url).then((request) => {
 				setRestrictions(request.data.limits)
@@ -68,12 +69,9 @@ export default function Home({ apiLastModified }) {
 	}, [selectedLocation, selectedFish])
 
 	const selectFish = (id) => {
-		let newSelectedFish
-		if (selectedFish === id) {
-			newSelectedFish = null
-		} else {
-			newSelectedFish = id
-		}
+		const fishId = normalizeFishId(id)
+		const currentId = normalizeFishId(selectedFish)
+		const newSelectedFish = fishId !== null && fishId === currentId ? null : fishId
 		appContext.setUserSelectedFish(newSelectedFish)
 		setSelectedFish(newSelectedFish)
 	}
@@ -91,6 +89,7 @@ export default function Home({ apiLastModified }) {
 
 	return (
 		<SmartFishLayout
+			apiLastModified={apiLastModified}
 			selectedLocation={selectedLocation}
 			selectedFish={selectedFish}
 			selectFish={selectFish}
