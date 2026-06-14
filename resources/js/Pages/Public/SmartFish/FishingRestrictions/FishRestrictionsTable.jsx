@@ -1,9 +1,8 @@
 import './FishRestrictionsTable.scss'
-import { memo } from 'react'
+import { Fragment, memo } from 'react'
 import PropTypes from 'prop-types'
 import config from '@/Util/config'
 import { format } from 'date-fns'
-import { Fragment } from 'react/jsx-runtime'
 import Tooltip from '@/Components/Tooltip/Tooltip'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { getVerifiableRowProps } from '@/Util/verifiableRow'
@@ -14,192 +13,105 @@ const ExclamationTriangleIconMemo = memo(ExclamationTriangleIcon)
 export default function FishRestrictionsTable({
 	fishName,
 	fishImageSrc,
-	restrictions,
+	rows,
 	isMobile,
 	onVerify,
 }) {
 	const singleClick = useSingleClick()
 
-	const renderSeasonDateRange = (restriction, comma = false) => {
-		return (
-			<>
-				<span>
-					{format(
-						restriction.seasonStart,
-						isMobile ? config.displayDayMonthShortFormat : config.displayDayMonthFormat,
-					)}{' '}
-				</span>
-				<span>
-					-{' '}
-					{format(
-						restriction.seasonEnd,
-						isMobile ? config.displayDayMonthShortFormat : config.displayDayMonthFormat,
-					)}
-					{comma ? ',' : ''}
-				</span>
-			</>
-		)
-	}
+	const formatDate = (date) =>
+		format(date, isMobile ? config.displayDayMonthShortFormat : config.displayDayMonthFormat)
 
-	const uppercaseFirst = (value) => {
-		return value.charAt(0).toUpperCase() + value.slice(1)
-	}
+	const renderDateRange = (row) => (
+		<>
+			<span>{formatDate(row.seasonStart)} </span>
+			<span>
+				- {formatDate(row.seasonEnd)}
+				{row.dateTrailingComma ? ',' : ''}
+			</span>
+		</>
+	)
 
-	const renderExceptionDetail = (restriction) => {
-		let text = ''
-
-		if (restriction.tidal) {
-			text += restriction.tidal
-			if (restriction.water || restriction.watersCategory || restriction.boundary) {
-				text += ' portions of '
-			} else {
-				text += ' waters'
-			}
-		}
-
-		if (restriction.boundary) {
-			text += restriction.boundary
-		}
-
-		if (!restriction.water && restriction.watersCategory) {
-			if (restriction.boundary) {
-				text += ' of '
-			}
-			text += restriction.watersCategory
-		}
-
-		if (restriction.water) {
-			if (restriction.watersCategory) {
-				text += text ? ' in ' : ''
-			} else if (restriction.boundary) {
-				text += ' of '
-			}
-			text += restriction.water
-		}
-
-		if (restriction.fishingMethod) {
-			text = restriction.fishingMethod + ' in ' + text
-		}
-
-		if (restriction.waterDescription) {
-			text += text ? ' ' : ''
-			text += restriction.waterDescription
-		}
-
-		text = uppercaseFirst(text)
-
-		return ' ' + text
-	}
-
-	const renderMinSize = (restriction) => {
-		const text = restriction?.minSize ?? 'N/A'
-		if (restriction.bagLimit === 0 && !restriction.hookLimit) {
-			return <span className="invalid">{text}</span>
-		}
-		return text
-	}
-
-	const renderMaxSize = (restriction) => {
-		const text = restriction?.maxSize ?? 'N/A'
-		if (restriction.bagLimit === 0 && !restriction.hookLimit) {
-			return <span className="invalid">{text}</span>
-		}
-		return text
-	}
-
-	const renderBagLimit = (restriction) => {
-		if (restriction.hookLimit) {
+	const renderBagLimit = (row) => {
+		if (row.hookLimit) {
 			return (
 				<>
-					{renderBagLimitValue(restriction)}
-					<Tooltip message={'Daily Hook and Release Limit: ' + restriction.hookLimit}>
+					{row.bagLimitShowInfinity ? (
+						<span className="text-md leading-4">&#8734;</span>
+					) : (
+						row.bagLimit
+					)}
+					<Tooltip message={'Daily Hook and Release Limit: ' + row.hookLimit}>
 						<ExclamationTriangleIconMemo className="alert" />
 					</Tooltip>
 				</>
 			)
 		}
-		return renderBagLimitValue(restriction)
-	}
 
-	const renderBagLimitValue = (restriction) => {
-		return restriction.bagLimit === null ? (
+		return row.bagLimitShowInfinity ? (
 			<span className="text-md leading-4">&#8734;</span>
 		) : (
-			restriction.bagLimit
+			row.bagLimit
 		)
 	}
 
-	const renderRestriction = (restriction, inGroup = false, lastInGroup = false) => {
+	const renderSize = (value, invalid) =>
+		invalid ? <span className="invalid">{value}</span> : value
+
+	const renderDetail = (locationDetail, exceptionDetail) => (
+		<>
+			{locationDetail ? <em className="water-description">{locationDetail}</em> : null}
+			{exceptionDetail ? (
+				<em className="water-description exception-overlay">{exceptionDetail}</em>
+			) : null}
+		</>
+	)
+
+	const renderDataRow = (row) => {
 		const { rowClassName, firstCellProps, cellProps } = getVerifiableRowProps(
-			restriction,
+			row.verify,
 			onVerify,
 			singleClick,
 		)
 
 		return (
-			<tr
-				className={`${inGroup && !restriction.group ? 'group' : ''} ${rowClassName}`.trim()}
-			>
+			<tr className={`${row.rowClassName} ${rowClassName}`.trim()}>
 				<td className="season-exception" {...firstCellProps}>
-					<strong className="date-range">
-						{renderSeasonDateRange(
-							restriction,
-							restriction.group || (inGroup && !lastInGroup),
-						)}
-					</strong>
-					{!inGroup && !restriction.group && (
-						<em className="water-description">{renderExceptionDetail(restriction)}</em>
-					)}
-					{restriction.note && !inGroup && !restriction.group && (
-						<Tooltip message={restriction.note}>
+					<strong className="date-range">{renderDateRange(row)}</strong>
+					{row.showLocationDetail
+						? renderDetail(row.locationDetail, row.exceptionDetail)
+						: null}
+					{row.note && row.showLocationDetail ? (
+						<Tooltip message={row.note}>
 							<ExclamationTriangleIconMemo className="alert" />
 						</Tooltip>
-					)}
+					) : null}
 				</td>
-				<td {...cellProps}>{renderBagLimit(restriction)}</td>
-				<td {...cellProps}>{renderMinSize(restriction)}</td>
-				<td {...cellProps}>{renderMaxSize(restriction)}</td>
+				<td {...cellProps}>{renderBagLimit(row)}</td>
+				<td {...cellProps}>{renderSize(row.minSize, row.minSizeInvalid)}</td>
+				<td {...cellProps}>{renderSize(row.maxSize, row.maxSizeInvalid)}</td>
 			</tr>
 		)
 	}
 
-	const renderGroupWaterDescription = (restriction) => (
-		<tr className="group-water-description">
+	const renderGroupFooterRow = (row) => (
+		<tr className="group-water-description" key={row.key}>
 			<td>
-				<em>{renderExceptionDetail(restriction)}</em>
-				{restriction.note && (
-					<Tooltip message={restriction.note}>
+				{renderDetail(row.locationDetail, row.exceptionDetail)}
+				{row.note ? (
+					<Tooltip message={row.note}>
 						<ExclamationTriangleIconMemo className="alert" />
 					</Tooltip>
-				)}
+				) : null}
 			</td>
 		</tr>
 	)
-
-	const renderRestrictionGroup = (restriction) => (
-		<>
-			{renderRestriction(restriction)}
-			{renderRestrictions(restriction.group, true)}
-			{renderGroupWaterDescription(restriction)}
-		</>
-	)
-
-	const renderRestrictions = (restrictions, inGroup = false) => {
-		return restrictions.map((restriction, index) => (
-			<Fragment key={restriction.id}>
-				{restriction?.group
-					? renderRestrictionGroup(restriction)
-					: renderRestriction(restriction, inGroup, index === restrictions.length - 1)}
-			</Fragment>
-		))
-	}
 
 	const renderCaption = () => (
 		<caption>
 			<div className="fish-name">
 				<strong>{fishName}</strong>
 			</div>
-
 			<div className="fish-image">
 				<img src={fishImageSrc} />
 			</div>
@@ -209,7 +121,6 @@ export default function FishRestrictionsTable({
 	return (
 		<table className="FishRestrictionsTable">
 			{renderCaption()}
-
 			<thead className="header">
 				<tr>
 					<th className="column-header date-range">
@@ -221,7 +132,15 @@ export default function FishRestrictionsTable({
 					<th className="column-header">{isMobile ? 'Max.' : 'Maximum'} Size</th>
 				</tr>
 			</thead>
-			<tbody>{renderRestrictions(restrictions)}</tbody>
+			<tbody>
+				{rows.map((row) =>
+					row.kind === 'data' ? (
+						<Fragment key={row.key}>{renderDataRow(row)}</Fragment>
+					) : (
+						renderGroupFooterRow(row)
+					),
+				)}
+			</tbody>
 		</table>
 	)
 }
@@ -229,6 +148,7 @@ export default function FishRestrictionsTable({
 FishRestrictionsTable.propTypes = {
 	fishName: PropTypes.string.isRequired,
 	fishImageSrc: PropTypes.string.isRequired,
-	restrictions: PropTypes.arrayOf(PropTypes.object).isRequired,
+	rows: PropTypes.arrayOf(PropTypes.object).isRequired,
+	isMobile: PropTypes.bool,
 	onVerify: PropTypes.func.isRequired,
 }

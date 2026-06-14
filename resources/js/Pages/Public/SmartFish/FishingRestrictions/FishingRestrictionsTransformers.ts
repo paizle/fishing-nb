@@ -1,176 +1,151 @@
 import parseMySqlDate from '@/Util/parseMySqlDate'
 import { compareAsc } from 'date-fns'
+import type { NormalizedRecord } from './restrictionRecordTypes'
 
-export interface FishingRestriction {
-	id: Number
-	isException: Boolean
-	seasonStart: Date | null
-	seasonEnd: Date | null
-	bagLimit: Number
-	hookLimit: Number
-	minSize: String
-	maxSize: String
-	fishingMethod: String
-	tidal: String
-	water: String
-	watersCategory: String
-	boundary: String
-	waterDescription: String
-	note: String
-	sourcePage: Number | null
-	sourceTable: String | null
-	sourceRow: String | null
-}
+export function formatFishingMethod(row: {
+	method?: string | null
+	fishing_method?: { name?: string | null } | null
+}): string {
+	const raw =
+		(typeof row?.method === 'string' ? row.method : null) ?? row?.fishing_method?.name ?? ''
 
-export interface FishRestrictionGroup extends FishingRestriction {
-	group: Array<FishingRestriction>
-}
-
-export interface FishRestrictions {
-	restrictions: Array<FishRestrictionGroup>
-}
-
-interface FishRestrictionMap {
-	[key: string]: FishRestrictions
-}
-
-class Fish {
-	constructor(row: any) {
-		Object.assign(this, Fish.convertToFishingRestriction(row))
+	if (!raw) {
+		return ''
 	}
-	static convertToFishingRestriction(row: any): FishingRestriction {
-		return {
-			id: row.id,
-			isException: !!row.is_exception,
-			seasonStart: !row.is_exception ? parseMySqlDate(row.season_start) : null,
-			seasonEnd: !row.is_exception ? parseMySqlDate(row.season_end) : null,
-			bagLimit: row.bag_limit,
-			hookLimit: row.hook_release_limit,
-			minSize: row.minimum_size,
-			maxSize: row.maximum_size,
-			water: row?.water?.name ?? '',
-			fishingMethod: Fish.formatFishingMethod(row),
-			tidal: row?.tidal || '',
-			watersCategory: row?.water_type || '',
-			boundary: row?.boundary || '',
-			waterDescription: row.water_description ?? '',
-			note: row.note,
-			sourcePage: row.source_page ?? null,
-			sourceTable: row.source_table ?? null,
-			sourceRow: row.source_row ?? null,
+
+	if (
+		raw === 'fly fishing' ||
+		raw === 'May only be angled by artificial fly or baited barbless hook with a single point'
+	) {
+		return 'Fly Fishing'
+	}
+
+	if (raw === 'angling') {
+		return 'Angling'
+	}
+
+	if (raw === 'dip net') {
+		return 'Dip Net'
+	}
+
+	return raw
+}
+
+export function normalizeApiRow(row: Record<string, unknown>): NormalizedRecord {
+	const seasonStart = row.season_start ? parseMySqlDate(row.season_start as string) : null
+	const seasonEnd = row.season_end ? parseMySqlDate(row.season_end as string) : null
+	const fish = row.fish as { id?: number; name?: string } | null | undefined
+	const water = row.water as { id?: number; name?: string } | null | undefined
+
+	return {
+		id: row.id as number,
+		fishId: fish?.id ?? null,
+		fishName: fish?.name ?? '',
+		waterId: water?.id ?? (row.water_id as number | null) ?? null,
+		isException: !!row.is_exception,
+		seasonStart,
+		seasonEnd,
+		bagLimit: row.bag_limit as number | null,
+		hookLimit: row.hook_release_limit as number | null,
+		minSize: (row.minimum_size as string | null) ?? null,
+		maxSize: (row.maximum_size as string | null) ?? null,
+		fishingMethod: formatFishingMethod(row),
+		tidal: (row.tidal as string) || '',
+		watersCategory: (row.water_type as string) || '',
+		boundary: (row.boundary as string) || '',
+		water: water?.name ?? '',
+		waterDescription: (row.water_description as string) ?? '',
+		note: (row.note as string | null) ?? null,
+		sourcePage: (row.source_page as number | null) ?? null,
+		sourceTable: (row.source_table as string | null) ?? null,
+		sourceRow: (row.source_row as string | null) ?? null,
+	}
+}
+
+export function sortNormalizedRecords(records: NormalizedRecord[]): NormalizedRecord[] {
+	return [...records].sort((a, b) => {
+		let startComparison: number | null = null
+
+		if (a.fishingMethod) {
+			startComparison = a.fishingMethod.localeCompare(b.fishingMethod)
 		}
-	}
-	static sortBySeasonAndGenerality(restrictions: FishRestrictionGroup[]) {
-		return restrictions.sort((a, b) => {
-			let startComparison = null
-			if (!startComparison && a.fishingMethod) {
-				startComparison = a.fishingMethod.localeCompare(b.fishingMethod)
-			}
 
-			if (!startComparison) {
-				startComparison = compareAsc(a.seasonStart, b.seasonStart)
-			}
+		if (!startComparison && a.seasonStart && b.seasonStart) {
+			startComparison = compareAsc(a.seasonStart, b.seasonStart)
+		}
 
-			if (!startComparison && a.boundary) {
-				startComparison = b.boundary.localeCompare(a.boundary)
-			}
+		if (!startComparison && a.boundary) {
+			startComparison = b.boundary.localeCompare(a.boundary)
+		}
 
-			if (!startComparison) {
-				if (a.water || a.fishingMethod || a.tidal || a.waterDescription) {
-					return 1
-				}
+		if (!startComparison) {
+			if (a.water || a.fishingMethod || a.tidal || a.waterDescription) {
+				return 1
+			}
+			if (a.seasonEnd && b.seasonEnd) {
 				return compareAsc(b.seasonEnd, a.seasonEnd)
 			}
-			return startComparison
-		})
-	}
-	static formatFishingMethod(row: any): string {
-		const raw =
-			(typeof row?.method === 'string' ? row.method : null) ?? row?.fishing_method?.name ?? ''
-
-		if (!raw) {
-			return ''
 		}
 
-		if (
-			raw === 'fly fishing' ||
-			raw ===
-				'May only be angled by artificial fly or baited barbless hook with a single point'
-		) {
-			return 'Fly Fishing'
-		}
-
-		if (raw === 'angling') {
-			return 'Angling'
-		}
-
-		if (raw === 'dip net') {
-			return 'Dip Net'
-		}
-
-		return raw
-	}
-
-	static setupGroups(fish: FishRestrictionMap, groupBy: string[]) {
-		Object.keys(fish).forEach((fishName: string) => {
-			// create groups for restrictions with the same attributes
-			const groupMap = {} as Record<string, FishRestrictionGroup>
-			let i = 0
-			while (i < fish[fishName].restrictions.length) {
-				const limit = fish[fishName].restrictions[i]
-				const key = groupBy.map((name) => limit[name]).join('-')
-
-				if (groupMap[key]) {
-					if (!groupMap[key].group) {
-						groupMap[key].group = []
-					}
-					groupMap[key].group.push(limit)
-					fish[fishName].restrictions.splice(i, 1)
-				} else {
-					groupMap[key] = limit
-					i++
-				}
-			}
-		})
-	}
-
-	static sortRestrictions(fish: FishRestrictionMap) {
-		Object.keys(fish).forEach((fishName) => {
-			fish[fishName].restrictions = Fish.sortBySeasonAndGenerality(
-				fish[fishName].restrictions,
-			)
-		})
-	}
+		return startComparison ?? 0
+	})
 }
 
-export function byFish(results: any) {
-	if (!results?.length) {
-		return
+const GROUP_KEY_FIELDS = [
+	'note',
+	'fishingMethod',
+	'tidal',
+	'waterDescription',
+	'water',
+	'boundary',
+	'watersCategory',
+] as const
+
+export function groupKey(record: NormalizedRecord): string {
+	return GROUP_KEY_FIELDS.map((name) => String(record[name] ?? '')).join('-')
+}
+
+/** Legacy shape for FishRestrictionsExceptionsTable placeholder */
+export interface FishingRestriction {
+	id: number
+	isException: boolean
+	seasonStart: Date | null
+	seasonEnd: Date | null
+	bagLimit: number | null
+	hookLimit: number | null
+	minSize: string | null
+	maxSize: string | null
+	fishingMethod: string
+	tidal: string
+	water: string
+	watersCategory: string
+	boundary: string
+	waterDescription: string
+	note: string | null
+	sourcePage: number | null
+	sourceTable: string | null
+	sourceRow: string | null
+}
+
+export function toLegacyRestriction(record: NormalizedRecord): FishingRestriction {
+	return {
+		id: record.id,
+		isException: record.isException,
+		seasonStart: record.seasonStart,
+		seasonEnd: record.seasonEnd,
+		bagLimit: record.bagLimit,
+		hookLimit: record.hookLimit,
+		minSize: record.minSize,
+		maxSize: record.maxSize,
+		fishingMethod: record.fishingMethod,
+		tidal: record.tidal,
+		water: record.water,
+		watersCategory: record.watersCategory,
+		boundary: record.boundary,
+		waterDescription: record.waterDescription,
+		note: record.note,
+		sourcePage: record.sourcePage,
+		sourceTable: record.sourceTable,
+		sourceRow: record.sourceRow,
 	}
-
-	// create map of fish name and a list of restrictions
-	const fish: FishRestrictionMap = results.reduce((a, v) => {
-		const fishName = v?.fish?.name ?? ''
-		if (!a[fishName]) {
-			a[fishName] = {
-				restrictions: [],
-			}
-		}
-		a[fishName].restrictions.push(Fish.convertToFishingRestriction(v))
-		return a
-	}, {})
-
-	Fish.sortRestrictions(fish)
-
-	Fish.setupGroups(fish, [
-		'note',
-		'fishingMethod',
-		'tidal',
-		'waterDescription',
-		'water',
-		'boundary',
-		'watersCategory',
-	])
-
-	return fish
 }

@@ -1,7 +1,7 @@
 import './FishingRestrictions.scss'
 import PropTypes from 'prop-types'
-import { useState, useRef, useEffect } from 'react'
-import { byFish } from './FishingRestrictionsTransformers'
+import { useMemo } from 'react'
+import { buildFishTables } from './buildFishTables'
 import getFishImageSrc from '@/Util/getFishImageSrc'
 import FishRestrictionsTable from './FishRestrictionsTable'
 import FishRestrictionsExceptionsTable from './FishRestrictionsExceptionsTable'
@@ -22,7 +22,10 @@ export default function FishingRestrictions({
 		appContext.screenOrientation.isMobile,
 	)
 
-	const restrictionsByFish = byFish(restrictions)
+	const { fishTables, undatedExceptions } = useMemo(
+		() => buildFishTables(restrictions, { waterId }),
+		[restrictions, waterId],
+	)
 
 	const fishName = appContext.getUserSelectedFishName()
 
@@ -38,31 +41,30 @@ export default function FishingRestrictions({
 		} else if (restrictions.length === 0) {
 			return <div className="no-results">(no results found for {fishName})</div>
 		} else {
-			return Object.keys(restrictionsByFish ?? {})
-				.sort((a, b) => {
-					if (a === '') return 1
-					if (b === '') return -1
-					return a.localeCompare(b)
-				})
-				.map((fishName) =>
-					fishName ? (
+			return (
+				<>
+					{fishTables.map((table) => (
 						<FishRestrictionsTable
-							key={fishName}
-							fishName={fishName}
-							fishImageSrc={getFishImageSrc(fishName)}
-							restrictions={restrictionsByFish[fishName].restrictions}
+							key={table.fishName}
+							fishName={table.fishName}
+							fishImageSrc={getFishImageSrc(table.fishName)}
+							rows={table.rows}
 							isMobile={appContext.screenOrientation.isMobile}
-							onVerify={(row) => openVerify(row, fishName, getFishImageSrc(fishName))}
+							onVerify={(verify) =>
+								openVerify(verify, table.fishName, getFishImageSrc(table.fishName))
+							}
 						/>
-					) : (
+					))}
+					{undatedExceptions.length > 0 ? (
 						<FishRestrictionsExceptionsTable
-							key={''}
-							restrictions={restrictionsByFish[fishName].restrictions}
+							key="exceptions-placeholder"
+							restrictions={undatedExceptions}
 							isMobile={appContext.screenOrientation.isMobile}
 							onVerify={(row) => openVerify(row)}
 						/>
-					),
-				)
+					) : null}
+				</>
+			)
 		}
 	}
 
