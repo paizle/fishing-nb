@@ -44,6 +44,13 @@ function buildRulesUrl(selectedLocation, selectedFish) {
 	return `/api/rules?${params}`
 }
 
+function indexRegionsByName(regions) {
+	return regions.reduce((accumulator, region) => {
+		accumulator[region.name] = region
+		return accumulator
+	}, {})
+}
+
 /** Update the address bar without an Inertia visit (keeps React state). */
 function syncLocationUrl(locationItem) {
 	const { regionSlug, waterSlug } = locationItem.value
@@ -67,22 +74,24 @@ export default function SmartFish({
 	waterSlug = null,
 }) {
 	const [locations, setLocations] = useState(null)
+	const [fishes, setFishes] = useState(null)
+	const [regionsByName, setRegionsByName] = useState(null)
 	const [restrictions, setRestrictions] = useState(null)
 	const [selectedFish, setSelectedFish] = useState(null)
 	const [selectedLocation, setSelectedLocation] = useState(null)
 	const [selectedRegion, setSelectedRegion] = useState(null)
 	const [showMap, setShowMap] = useState(false)
+	const [comboboxFocusRequest, setComboboxFocusRequest] = useState(0)
+	const [restrictionsLoading, setRestrictionsLoading] = useState(false)
 
 	const comboboxRef = useRef(null)
 
 	const appContext = useApplicationContext()
+	const rest = useRest(apiLastModified)
 
 	useEffect(() => {
 		appContext.setLandingPage('smartFish')
 	}, [])
-
-	const restLocations = useRest(apiLastModified)
-	const restRestrictions = useRest(apiLastModified)
 
 	useEffect(() => {
 		if (regionId !== null && regionName) {
@@ -103,12 +112,41 @@ export default function SmartFish({
 	}, [regionId, waterId, regionName, waterName, regionSlug, waterSlug])
 
 	useEffect(() => {
-		restLocations.get('/api/locations').then((request) => {
-			if (request?.data?.locations) {
+		let cancelled = false
+
+		rest.get('/api/locations').then((request) => {
+			if (!cancelled && request?.data?.locations) {
 				setLocations(request.data.locations)
 			}
 		})
+
+		return () => {
+			cancelled = true
+		}
 	}, [])
+
+	useEffect(() => {
+		let cancelled = false
+
+		rest.get('/api/fishes').then((request) => {
+			if (cancelled || !request?.data?.fishes) {
+				return
+			}
+
+			const map = appContext.setFishes(request.data.fishes)
+			setFishes(map)
+
+			const selectedId = normalizeFishId(selectedFish ?? appContext.getUserSelectedFish())
+			if (selectedId !== null && !map[selectedId]) {
+				setSelectedFish(null)
+				appContext.setUserSelectedFish(null)
+			}
+		})
+
+		return () => {
+			cancelled = true
+		}
+	}, [apiLastModified])
 
 	useEffect(() => {
 		const storedFish = normalizeFishId(appContext.getUserSelectedFish())
@@ -118,13 +156,47 @@ export default function SmartFish({
 	}, [])
 
 	useEffect(() => {
-		if (selectedLocation?.value?.regionSlug) {
-			setRestrictions(null)
-			restRestrictions.get(buildRulesUrl(selectedLocation, selectedFish)).then((request) => {
-				if (request?.data?.limits) {
+		if (!showMap) {
+			return
+		}
+
+		let cancelled = false
+		setRegionsByName(null)
+
+		rest.get('/api/regions').then((request) => {
+			if (!cancelled && request?.data?.regions) {
+				setRegionsByName(indexRegionsByName(request.data.regions))
+			}
+		})
+
+		return () => {
+			cancelled = true
+		}
+	}, [showMap, apiLastModified])
+
+	useEffect(() => {
+		if (!selectedLocation?.value?.regionSlug) {
+			return
+		}
+
+		let cancelled = false
+		setRestrictions(null)
+		setRestrictionsLoading(true)
+
+		rest.get(buildRulesUrl(selectedLocation, selectedFish))
+			.then((request) => {
+				if (!cancelled && request?.data?.limits) {
 					setRestrictions(request.data.limits)
 				}
 			})
+			.finally(() => {
+				if (!cancelled) {
+					setRestrictionsLoading(false)
+				}
+			})
+
+		return () => {
+			cancelled = true
 		}
 	}, [selectedLocation, selectedFish])
 
@@ -160,9 +232,7 @@ export default function SmartFish({
 	const clearLocation = () => {
 		setSelectedLocation(null)
 		syncRootUrl()
-		setTimeout(() => {
-			comboboxRef.current?.click()
-		}, 10)
+		setComboboxFocusRequest((count) => count + 1)
 	}
 
 	const selectLocation = (locationItem) => {
@@ -172,7 +242,7 @@ export default function SmartFish({
 
 	return (
 		<SmartFishLayout
-			apiLastModified={apiLastModified}
+			fishes={fishes}
 			selectedLocation={selectedLocation}
 			selectedFish={selectedFish}
 			selectFish={selectFish}
@@ -185,11 +255,13 @@ export default function SmartFish({
 						</div>
 					}
 				>
-					<Map
-						apiLastModified={apiLastModified}
-						selectRegion={selectRegion}
-						setShowMap={setShowMap}
-					/>
+					{regionsByName ? (
+						<Map regionsByName={regionsByName} selectRegion={selectRegion} />
+					) : (
+						<div className="loading">
+							<LoadingSpinner />
+						</div>
+					)}
 				</Suspense>
 			)}
 
@@ -207,7 +279,7 @@ export default function SmartFish({
 						<div className="body">
 							{!selectedLocation ? null : (
 								<FishingRestrictions
-									isLoading={restRestrictions.state.loading}
+									isLoading={restrictionsLoading}
 									restrictions={restrictions}
 									regionId={selectedLocation?.value?.regionId}
 									waterId={selectedLocation?.value?.waterId}
@@ -218,6 +290,7 @@ export default function SmartFish({
 							<LocationCombobox
 								className={selectedLocation ? 'hidden' : ''}
 								inputRef={comboboxRef}
+								focusRequest={comboboxFocusRequest}
 								locations={locations}
 								selectedRegion={selectedRegion}
 								selectRegion={selectRegion}

@@ -19,6 +19,7 @@ export default function LocationCombobox({
 	selectedRegion,
 	selectRegion,
 	setShowMap,
+	focusRequest = 0,
 }) {
 	const [hasFocus, setHasFocus] = useState(false)
 
@@ -105,7 +106,13 @@ export default function LocationCombobox({
 				ref?.current?.removeEventListener('blur', onBlur)
 			}
 		}
-	}, [ref.current])
+	}, [onFocus, onBlur, ref])
+
+	useEffect(() => {
+		if (focusRequest > 0) {
+			ref.current?.focus()
+		}
+	}, [focusRequest, ref])
 
 	const { getLabelProps, getMenuProps, getInputProps, highlightedIndex, getItemProps } =
 		useCombobox({

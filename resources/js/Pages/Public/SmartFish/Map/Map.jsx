@@ -1,60 +1,19 @@
 import './Map.scss'
-import { useState, useEffect, useRef, useCallback } from 'react'
-import useRest from '@/Hooks/useRest'
-import useApplicationContext from '@/Contexts/ApplicationContext'
-import { ArrowRightCircleIcon, XCircleIcon } from '@heroicons/react/24/solid'
+import { useState, useEffect, useRef } from 'react'
+import { ArrowRightCircleIcon } from '@heroicons/react/24/solid'
 import NewBrunswickMap, {
 	pathSelectorToLocationName,
 } from '@/Components/NewBrunswickMap/NewBrunswickMap'
-import useTap from '@/Hooks/useScreenTap'
 
-const createResource = (asyncFn) => {
-	let status = 'pending'
-	let result
-	let suspender = asyncFn().then(
-		(res) => {
-			status = 'success'
-			result = res
-		},
-		(err) => {
-			status = 'error'
-			result = err
-		},
-	)
-
-	return {
-		read() {
-			if (status === 'pending') throw suspender // ⏳ Suspends rendering
-			if (status === 'error') throw result // ❌ Throw error if failed
-			return result // ✅ Return data when ready
-		},
-	}
-}
-
-const locationsResourse = createResource(() => {
-	return axios.get('/api/regions').then((request) => {
-		return request.data.regions.reduce((a, v) => {
-			a[v.name] = v
-			return a
-		}, {})
-	})
-})
-
-export default function Map({ apiLastModified, selectRegion }) {
-	const locationsByName = locationsResourse.read()
-
-	const [test, setTest] = useState(null)
+export default function Map({ regionsByName, selectRegion }) {
 	const [selectedPathId, setSelectedPathId] = useState(null)
 
 	const mapContainerRef = useRef(null)
 	const locationTitlesRef = useRef(null)
 
-	const appContext = useApplicationContext()
-	const useTapHook = useTap()
-
 	const onLocationClick = (event) => {
 		const key = event.target.id || event.target.closest('[id]')?.id
-		const region = locationsByName?.[pathSelectorToLocationName[key]]
+		const region = regionsByName?.[pathSelectorToLocationName[key]]
 		if (region) {
 			selectRegion(region.id, region.name)
 		}
@@ -77,7 +36,7 @@ export default function Map({ apiLastModified, selectRegion }) {
 		const target = event.target
 		const key = target.id || target.closest('[id]')?.id
 		if (selectedPathId === key) {
-			const region = locationsByName?.[pathSelectorToLocationName[key]]
+			const region = regionsByName?.[pathSelectorToLocationName[key]]
 			if (region) {
 				selectRegion(region.id, region.name)
 			}
@@ -93,18 +52,15 @@ export default function Map({ apiLastModified, selectRegion }) {
 	}
 
 	useEffect(() => {
-		if (mapContainerRef.current && locationsByName) {
-			const svg = mapContainerRef.current.querySelector('svg')
-
-			Object.keys(pathSelectorToLocationName).forEach((pathKey) => {
-				svg?.querySelector('#' + pathKey)?.classList.add('location')
-			})
+		if (!mapContainerRef.current || !regionsByName) {
+			return
 		}
-	}, [mapContainerRef.current, locationsByName])
 
-	function closeLocation(event) {
-		selectLocation(null)
-	}
+		const svg = mapContainerRef.current.querySelector('svg')
+		Object.keys(pathSelectorToLocationName).forEach((pathKey) => {
+			svg?.querySelector('#' + pathKey)?.classList.add('location')
+		})
+	}, [regionsByName])
 
 	const selectLocation = (pathId) => {
 		locationTitlesRef.current
@@ -123,16 +79,18 @@ export default function Map({ apiLastModified, selectRegion }) {
 		}
 	}
 
-	return locationsByName ? (
+	if (!regionsByName) {
+		return null
+	}
+
+	return (
 		<div className={`Map ${selectedPathId ? 'location-selected' : ''}`}>
-			{!locationsByName ? null : (
-				<NewBrunswickMap
-					containerRef={mapContainerRef}
-					onLocationClick={onLocationClick}
-					onLocationMouseEnter={onLocationMouseEnter}
-					onLocationTap={onLocationTap}
-				/>
-			)}
+			<NewBrunswickMap
+				containerRef={mapContainerRef}
+				onLocationClick={onLocationClick}
+				onLocationMouseEnter={onLocationMouseEnter}
+				onLocationTap={onLocationTap}
+			/>
 
 			<div className="locations" ref={locationTitlesRef}>
 				<ul>
@@ -147,8 +105,7 @@ export default function Map({ apiLastModified, selectRegion }) {
 						>
 							<button
 								onClick={() => {
-									const region =
-										locationsByName?.[pathSelectorToLocationName[key]]
+									const region = regionsByName?.[pathSelectorToLocationName[key]]
 									if (region) {
 										selectRegion(region.id, region.name)
 									}
@@ -158,10 +115,7 @@ export default function Map({ apiLastModified, selectRegion }) {
 									{pathSelectorToLocationName[key]} <ArrowRightCircleIcon />{' '}
 								</h3>
 								<em>
-									{
-										locationsByName?.[pathSelectorToLocationName[key]]
-											?.description
-									}
+									{regionsByName?.[pathSelectorToLocationName[key]]?.description}
 								</em>
 							</button>
 						</li>
@@ -169,5 +123,5 @@ export default function Map({ apiLastModified, selectRegion }) {
 				</ul>
 			</div>
 		</div>
-	) : null
+	)
 }

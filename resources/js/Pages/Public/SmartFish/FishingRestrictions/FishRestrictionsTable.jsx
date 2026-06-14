@@ -9,6 +9,8 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { getVerifiableRowProps } from '@/Util/verifiableRow'
 import useSingleClick from '@/Hooks/useSingleClick'
 
+const ExclamationTriangleIconMemo = memo(ExclamationTriangleIcon)
+
 export default function FishRestrictionsTable({
 	fishName,
 	fishImageSrc,
@@ -17,7 +19,6 @@ export default function FishRestrictionsTable({
 	onVerify,
 }) {
 	const singleClick = useSingleClick()
-	const ExclamationTriangleIconMemo = memo(ExclamationTriangleIcon)
 
 	const renderSeasonDateRange = (restriction, comma = false) => {
 		return (

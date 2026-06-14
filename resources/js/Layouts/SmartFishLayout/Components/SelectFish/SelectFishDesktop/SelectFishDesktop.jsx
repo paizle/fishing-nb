@@ -26,7 +26,7 @@ export default memo(function SelectFishDesktop({
 				})
 			}
 		}
-	}, [fishListRef.current, fishes, selectedFishId])
+	}, [fishes, selectedFishId])
 
 	const scrollFishesLeft = () => {
 		if (fishListRef.current.scrollLeft === 0) {

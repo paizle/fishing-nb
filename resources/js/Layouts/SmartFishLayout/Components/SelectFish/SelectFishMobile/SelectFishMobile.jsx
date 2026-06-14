@@ -30,7 +30,7 @@ export default memo(function SelectFishMobile({
 			}
 			setScrollToFish(false)
 		}
-	}, [scrollToFish, fishListRef.current, fishes, selectedFishId])
+	}, [scrollToFish, fishes, selectedFishId])
 
 	return (
 		<div
