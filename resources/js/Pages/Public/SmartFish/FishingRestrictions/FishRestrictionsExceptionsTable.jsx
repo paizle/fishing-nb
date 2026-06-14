@@ -123,7 +123,7 @@ export default function FishRestrictionsExceptionsTable({ restrictions, isMobile
 	}
 
 	const renderRestriction = (restriction, inGroup = false, lastInGroup = false) => {
-		const { rowClassName, cellProps } = getVerifiableRowProps(
+		const { rowClassName, firstCellProps, cellProps } = getVerifiableRowProps(
 			restriction,
 			onVerify,
 			singleClick,
@@ -133,7 +133,7 @@ export default function FishRestrictionsExceptionsTable({ restrictions, isMobile
 			<tr
 				className={`${inGroup && !restriction.group ? 'group' : ''} ${rowClassName}`.trim()}
 			>
-				<td className="season-exception" {...cellProps}>
+				<td className="season-exception" {...firstCellProps}>
 					<strong className="date-range">
 						{renderSeasonDateRange(
 							restriction,
@@ -194,7 +194,7 @@ export default function FishRestrictionsExceptionsTable({ restrictions, isMobile
 	}
 
 	const renderException = (restriction) => {
-		const { rowClassName, cellProps } = getVerifiableRowProps(
+		const { rowClassName, firstCellProps, cellProps } = getVerifiableRowProps(
 			restriction,
 			onVerify,
 			singleClick,
@@ -202,7 +202,7 @@ export default function FishRestrictionsExceptionsTable({ restrictions, isMobile
 
 		return (
 			<tr className={rowClassName}>
-				<td className="season-exception exception" {...cellProps}>
+				<td className="season-exception exception" {...firstCellProps}>
 					<em className="water-description">{renderExceptionDetail(restriction)}</em>
 
 					<strong>{restriction.note}</strong>

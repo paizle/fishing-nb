@@ -12,7 +12,7 @@ import useVerifySourceModal from '@/Hooks/useVerifySourceModal'
 export default function FishingRestrictions({
 	isLoading,
 	restrictions,
-	locationId,
+	regionId,
 	waterId,
 	regionName,
 }) {

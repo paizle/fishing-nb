@@ -129,7 +129,7 @@ export default function FishRestrictionsTable({
 	}
 
 	const renderRestriction = (restriction, inGroup = false, lastInGroup = false) => {
-		const { rowClassName, cellProps } = getVerifiableRowProps(
+		const { rowClassName, firstCellProps, cellProps } = getVerifiableRowProps(
 			restriction,
 			onVerify,
 			singleClick,
@@ -139,7 +139,7 @@ export default function FishRestrictionsTable({
 			<tr
 				className={`${inGroup && !restriction.group ? 'group' : ''} ${rowClassName}`.trim()}
 			>
-				<td className="season-exception" {...cellProps}>
+				<td className="season-exception" {...firstCellProps}>
 					<strong className="date-range">
 						{renderSeasonDateRange(
 							restriction,
