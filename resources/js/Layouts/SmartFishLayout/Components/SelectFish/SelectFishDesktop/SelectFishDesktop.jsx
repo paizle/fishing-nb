@@ -3,6 +3,7 @@ import { useRef, useEffect, memo } from 'react'
 import { ArrowLeftCircleIcon } from '@heroicons/react/24/outline'
 import getFishImageSrc from '@/Util/getFishImageSrc'
 import ProgressiveImage from '@/Components/ProgressiveImage'
+import normalizeFishId, { fishIdsEqual } from '@/Util/normalizeFishId'
 
 export default memo(function SelectFishDesktop({
 	fishes = null,
@@ -14,13 +15,16 @@ export default memo(function SelectFishDesktop({
 	// scroll to last selected fish
 	useEffect(() => {
 		if (fishListRef.current && fishes && selectedFishId) {
-			setTimeout(() => {
-				const element = fishListRef.current.querySelector(`[data-id="${selectedFishId}"]`)
-				element?.scrollIntoView({
-					behavior: 'smooth',
-					inline: 'center',
+			const id = normalizeFishId(selectedFishId)
+			if (id !== null) {
+				setTimeout(() => {
+					const element = fishListRef.current.querySelector(`[data-id="${id}"]`)
+					element?.scrollIntoView({
+						behavior: 'smooth',
+						inline: 'center',
+					})
 				})
-			})
+			}
 		}
 	}, [fishListRef.current, fishes, selectedFishId])
 
@@ -57,9 +61,9 @@ export default memo(function SelectFishDesktop({
 						<button
 							key={fishes[key].name}
 							role="option"
-							aria-selected={selectedFishId === fishes[key].id}
+							aria-selected={fishIdsEqual(selectedFishId, fishes[key].id)}
 							data-id={fishes[key].id}
-							className={`fish ${selectedFishId === fishes[key].id ? 'selected' : ''}`}
+							className={`fish ${fishIdsEqual(selectedFishId, fishes[key].id) ? 'selected' : ''}`}
 							onClick={() => selectFish(fishes[key].id)}
 						>
 							<img src={getFishImageSrc(fishes[key].name)} alt={fishes[key].name} />

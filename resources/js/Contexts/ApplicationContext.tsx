@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from 'react'
 import useScreenOrientation from '@/Hooks/useScreenOrientation'
 import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
+import normalizeFishId from '@/Util/normalizeFishId'
 
 interface ApplicationData {
 	fishes: Record<string, Fish>
@@ -14,8 +15,8 @@ interface ApplicationContextType {
 	getSettings: () => any
 	getLandingPage: () => string
 	setLandingPage: (name: string) => void
-	getUserSelectedFish: () => string
-	setUserSelectedFish: (fishName: string) => void
+	getUserSelectedFish: () => number | null
+	setUserSelectedFish: (fishId: number | null) => void
 	getUserSelectedRegion: () => string
 	setUserSelectedRegion: (fishName: string) => void
 	setFishes: (fishes: Array<Fish>) => Record<string, Fish>
@@ -24,7 +25,7 @@ interface ApplicationContextType {
 }
 
 interface Fish {
-	id: string
+	id: number
 	name: string
 }
 
@@ -56,10 +57,12 @@ export const ApplicationContextProvider = ({ children }: { children: ReactNode }
 		localStorage.set('settings', (settings: Settings) => (settings.landingPage = name))
 	}
 	const getUserSelectedFish = () => {
-		return localStorage.get('settings', (settings: Settings) => settings?.selectedFish)
+		return normalizeFishId(
+			localStorage.get('settings', (settings: Settings) => settings?.selectedFish),
+		)
 	}
-	const setUserSelectedFish = (fishName: string) => {
-		localStorage.set('settings', (settings: Settings) => (settings.selectedFish = fishName))
+	const setUserSelectedFish = (fishId: number | null) => {
+		localStorage.set('settings', (settings: Settings) => (settings.selectedFish = fishId))
 	}
 	const getUserSelectedRegion = () => {
 		return localStorage.get('settings', (settings: Settings) => settings?.selectedRegion)
@@ -68,8 +71,8 @@ export const ApplicationContextProvider = ({ children }: { children: ReactNode }
 		localStorage.set('settings', (settings: Settings) => (settings.selectedRegion = regionId))
 	}
 	const setFishes = (fishes: Array<Fish>) => {
-		const map = fishes.reduce((a, v) => {
-			a[v.id] = v
+		const map = fishes.reduce<Record<number, Fish>>((a, v) => {
+			a[Number(v.id)] = v
 			return a
 		}, {})
 		updateData('fishes', map)
@@ -80,11 +83,11 @@ export const ApplicationContextProvider = ({ children }: { children: ReactNode }
 	}
 	const getUserSelectedFishName = () => {
 		const fishId = getUserSelectedFish()
-		if (!fishId && fishId !== 0) {
+		if (fishId === null) {
 			return ''
 		}
 		const fish = getFishes()?.[fishId]
-		return fish?.name
+		return fish?.name ?? ''
 	}
 
 	const value: ApplicationContextType = {

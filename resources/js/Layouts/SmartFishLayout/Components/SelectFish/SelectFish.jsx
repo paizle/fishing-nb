@@ -3,6 +3,7 @@ import useApplicationContext from '@/Contexts/ApplicationContext'
 import SelectFishDesktop from '@/Layouts/SmartFishLayout/Components/SelectFish/SelectFishDesktop/SelectFishDesktop'
 import SelectFishMobile from '@/Layouts/SmartFishLayout/Components/SelectFish/SelectFishMobile/SelectFishMobile'
 import useRest from '@/Hooks/useRest'
+import normalizeFishId from '@/Util/normalizeFishId'
 
 export default function SelectFish({
 	apiLastModified,
@@ -15,14 +16,25 @@ export default function SelectFish({
 	const restFish = useRest(apiLastModified)
 
 	useEffect(() => {
-		if (!fishes) {
-			restFish.get('/api/fishes').then((request) => {
-				setFishes(appContext.setFishes(request.data.fishes))
-			})
-		} else {
-			setFishes(appContext.getFishes())
+		let cancelled = false
+
+		restFish.get('/api/fishes').then((request) => {
+			if (cancelled) {
+				return
+			}
+			const map = appContext.setFishes(request.data.fishes)
+			setFishes(map)
+
+			const selectedId = normalizeFishId(selectedFish ?? appContext.getUserSelectedFish())
+			if (selectedId !== null && !map[selectedId]) {
+				selectFish(null)
+			}
+		})
+
+		return () => {
+			cancelled = true
 		}
-	}, [])
+	}, [apiLastModified])
 
 	return appContext.screenOrientation.isMobile ? (
 		<SelectFishMobile fishes={fishes} selectedFishId={selectedFish} selectFish={selectFish} />
