@@ -1,9 +1,23 @@
+import axios from 'axios'
 import { useReducer } from 'react'
 
 type State = {
 	loading: boolean
 	error: string | null
 	data: any
+}
+
+function getErrorMessage(error: unknown): string {
+	if (axios.isAxiosError(error)) {
+		if (error.response) {
+			return `Request failed (HTTP ${error.response.status}).`
+		}
+		return error.message || 'Network request failed.'
+	}
+	if (error instanceof Error) {
+		return error.message
+	}
+	return 'Request failed.'
 }
 
 export default function useRest(apiLastModified: string): {
@@ -44,10 +58,12 @@ export default function useRest(apiLastModified: string): {
 				payload: response.data,
 			})
 			return response
-		} catch (error: any) {
+		} catch (error: unknown) {
+			const message = getErrorMessage(error)
+			console.error(`[useRest] GET ${url} failed: ${message}`, error)
 			dispatch({
 				type: ActionTypes.FETCH_FAILURE,
-				payload: error.message,
+				payload: message,
 			})
 			return null
 		}
