@@ -4,7 +4,7 @@ import { useCombobox } from 'downshift'
 import { useState, useRef, useEffect } from 'react'
 import normalizeFishId from '@/Util/normalizeFishId'
 
-import { XCircleIcon, MapPinIcon as MapPinIconOutline } from '@heroicons/react/24/outline'
+import { XCircleIcon } from '@heroicons/react/24/outline'
 
 import { MapPinIcon } from '@heroicons/react/24/solid'
 
@@ -78,9 +78,8 @@ export default function LocationCombobox({
 				if (!filterByRegion(item, selectedRegion)) {
 					return false
 				}
-				// Region is shown in the chip; dropdown lists waters only when filtered.
-				if (normalizeFishId(selectedRegion) !== null && item.value.waterId === undefined) {
-					return false
+				if (item.value.waterId === undefined) {
+					return shouldShowRegionItem(item, items, inputValue, selectedRegion)
 				}
 				return filterByText(item, inputValue)
 			}),
@@ -103,35 +102,28 @@ export default function LocationCombobox({
 		}
 	}, [ref.current])
 
-	const {
-		getLabelProps,
-		getMenuProps,
-		getInputProps,
-		highlightedIndex,
-		getItemProps,
-		selectedItem,
-		stateChangeTypes,
-	} = useCombobox({
-		inputValue,
-		items: filteredItems,
-		itemToString(item) {
-			return item ? item.label : ''
-		},
-		onSelectedItemChange({ selectedItem }) {
-			if (selectedItem) {
-				onChange(selectedItem)
-			}
-		},
-		onInputValueChange({ inputValue: newValue, type }) {
-			const { stateChangeTypes } = useCombobox
-			if (type === stateChangeTypes.InputBlur) {
-				return
-			}
-			if (type === stateChangeTypes.InputChange) {
-				setInputValue(newValue ?? '')
-			}
-		},
-	})
+	const { getLabelProps, getMenuProps, getInputProps, highlightedIndex, getItemProps } =
+		useCombobox({
+			inputValue,
+			items: filteredItems,
+			itemToString(item) {
+				return item ? item.label : ''
+			},
+			onSelectedItemChange({ selectedItem }) {
+				if (selectedItem) {
+					onChange(selectedItem)
+				}
+			},
+			onInputValueChange({ inputValue: newValue, type }) {
+				const { stateChangeTypes } = useCombobox
+				if (type === stateChangeTypes.InputBlur) {
+					return
+				}
+				if (type === stateChangeTypes.InputChange) {
+					setInputValue(newValue ?? '')
+				}
+			},
+		})
 
 	const clearSearch = () => {
 		if (inputValue) {
@@ -157,18 +149,6 @@ export default function LocationCombobox({
 			() => combobox.addEventListener('transitionend', scrollTo, { once: true }),
 			{ once: true },
 		)
-	}
-
-	const renderItemLabel = (item) => {
-		let result = item.label
-		if (regionFilterItem) {
-			if (regionFilterItem.value.regionId === item.value.regionId && !item.value.waterId) {
-				return <span className="filter-item">{result}</span>
-			} else {
-				result = result.substring(regionFilterItem.label.length + 2)
-			}
-		}
-		return <span>{result}</span>
 	}
 
 	return (
@@ -213,7 +193,7 @@ export default function LocationCombobox({
 					filteredItems.map((item, index) => (
 						<li
 							className={`${index === highlightedIndex ? 'highlighted' : ''}`}
-							key={item.value.regionId + '-' + item.value.waterId}
+							key={`${item.value.regionId}-${item.value.waterId ?? 'region'}`}
 							{...getItemProps({ item, index })}
 						>
 							<span>
@@ -246,6 +226,20 @@ const filterByText = (item, inputValue) => {
 	const labelChunks = item.label.split(' ').map((chunk) => chunk.toLowerCase())
 	return inputChunks.every((inputChunk) =>
 		labelChunks.some((labelChunk) => labelChunk.includes(inputChunk)),
+	)
+}
+
+const shouldShowRegionItem = (item, items, inputValue, selectedRegion) => {
+	if (filterByText(item, inputValue)) {
+		return true
+	}
+	const regionId = normalizeFishId(item.value.regionId)
+	return (items ?? []).some(
+		(other) =>
+			other.value.waterId !== undefined &&
+			normalizeFishId(other.value.regionId) === regionId &&
+			filterByRegion(other, selectedRegion) &&
+			filterByText(other, inputValue),
 	)
 }
 
