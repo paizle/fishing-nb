@@ -24,7 +24,8 @@ export default function LocationCombobox({
 
 	const [inputValue, setInputValue] = useState('')
 
-	const ref = inputRef ? inputRef : useRef(null)
+	const internalRef = useRef(null)
+	const ref = inputRef ?? internalRef
 
 	const placeholder = selectedRegion
 		? 'Search by river or lake'
@@ -139,15 +140,18 @@ export default function LocationCombobox({
 	}
 
 	const scrollTo = () => {
-		const combobox = inputRef.current.closest('.LocationCombobox')
-		combobox.parentElement?.scrollIntoView({
+		const combobox = ref.current?.closest('.LocationCombobox')
+		combobox?.parentElement?.scrollIntoView({
 			behavior: 'smooth',
 			block: 'start',
 		})
 	}
 
 	const scrollToInput = () => {
-		const combobox = inputRef.current.closest('.LocationCombobox')
+		const combobox = ref.current?.closest('.LocationCombobox')
+		if (!combobox) {
+			return
+		}
 		combobox.addEventListener(
 			'transitionstart',
 			() => combobox.addEventListener('transitionend', scrollTo, { once: true }),
