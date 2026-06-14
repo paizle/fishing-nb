@@ -39,8 +39,9 @@ export default function Home({ apiLastModified }) {
 	}, [])
 
 	const selectRegion = (regionId) => {
-		appContext.setUserSelectedRegion(regionId)
-		setSelectedRegion(regionId)
+		const id = normalizeFishId(regionId)
+		appContext.setUserSelectedRegion(id)
+		setSelectedRegion(id)
 		setShowMap(false)
 	}
 
