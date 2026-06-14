@@ -76,7 +76,10 @@ export default function SmartFish({
 	const comboboxRef = useRef(null)
 
 	const appContext = useApplicationContext()
-	appContext.setLandingPage('smartFish')
+
+	useEffect(() => {
+		appContext.setLandingPage('smartFish')
+	}, [])
 
 	const restLocations = useRest(apiLastModified)
 	const restRestrictions = useRest(apiLastModified)
