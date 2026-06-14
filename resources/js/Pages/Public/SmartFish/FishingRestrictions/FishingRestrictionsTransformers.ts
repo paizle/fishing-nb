@@ -49,7 +49,7 @@ class Fish {
 			minSize: row.minimum_size,
 			maxSize: row.maximum_size,
 			water: row?.water?.name ?? '',
-			fishingMethod: row?.method || '',
+			fishingMethod: Fish.formatFishingMethod(row),
 			tidal: row?.tidal || '',
 			watersCategory: row?.water_type || '',
 			boundary: row?.boundary || '',
@@ -84,18 +84,31 @@ class Fish {
 			return startComparison
 		})
 	}
-	static formatFishingMethod(row: any) {
-		let fishingMethod = ''
+	static formatFishingMethod(row: any): string {
+		const raw =
+			(typeof row?.method === 'string' ? row.method : null) ?? row?.fishing_method?.name ?? ''
+
+		if (!raw) {
+			return ''
+		}
 
 		if (
-			row?.fishing_method?.name ===
-			'May only be angled by artificial fly or baited barbless hook with a single point'
+			raw === 'fly fishing' ||
+			raw ===
+				'May only be angled by artificial fly or baited barbless hook with a single point'
 		) {
-			fishingMethod = 'Fly Fishing'
-		} else {
-			fishingMethod = row?.fishing_method?.name ?? ''
+			return 'Fly Fishing'
 		}
-		return fishingMethod
+
+		if (raw === 'angling') {
+			return 'Angling'
+		}
+
+		if (raw === 'dip net') {
+			return 'Dip Net'
+		}
+
+		return raw
 	}
 
 	static setupGroups(fish: FishRestrictionMap, groupBy: string[]) {
