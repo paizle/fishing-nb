@@ -1,7 +1,8 @@
 import './LocationCombobox.scss'
 import { useMemo } from 'react'
-import Downshift, { useCombobox } from 'downshift'
-import { useState, useRef, useEffect, useLayoutEffect, use, useReducer } from 'react'
+import { useCombobox } from 'downshift'
+import { useState, useRef, useEffect } from 'react'
+import normalizeFishId from '@/Util/normalizeFishId'
 
 import { XCircleIcon, MapPinIcon as MapPinIconOutline } from '@heroicons/react/24/outline'
 
@@ -19,8 +20,6 @@ export default function LocationCombobox({
 	setShowMap,
 }) {
 	const [hasFocus, setHasFocus] = useState(false)
-
-	const [regionFilterItem, setRegionFilterItem] = useState(null)
 
 	const [inputValue, setInputValue] = useState('')
 
@@ -59,25 +58,34 @@ export default function LocationCombobox({
 		[locations],
 	)
 
+	const regionFilterItem = useMemo(() => {
+		const regionId = normalizeFishId(selectedRegion)
+		if (regionId === null) {
+			return null
+		}
+		return (
+			(items ?? []).find(
+				(item) =>
+					normalizeFishId(item.value.regionId) === regionId &&
+					item.value.waterId === undefined,
+			) ?? null
+		)
+	}, [items, selectedRegion])
+
 	const filteredItems = useMemo(
 		() =>
-			(items ?? []).filter(
-				(item) => filterByRegion(item, selectedRegion) && filterByText(item, inputValue),
-			),
-		[items, inputValue, selectedRegion, filterByRegion, filterByText],
+			(items ?? []).filter((item) => {
+				if (!filterByRegion(item, selectedRegion)) {
+					return false
+				}
+				// Region is shown in the chip; dropdown lists waters only when filtered.
+				if (normalizeFishId(selectedRegion) !== null && item.value.waterId === undefined) {
+					return false
+				}
+				return filterByText(item, inputValue)
+			}),
+		[items, inputValue, selectedRegion],
 	)
-
-	useEffect(() => {
-		const regionItem = filteredItems.find(
-			(item) => item.value.regionId === selectedRegion && item.value.waterId === undefined,
-		)
-
-		if (regionItem) {
-			setRegionFilterItem(regionItem)
-		} else {
-			setRegionFilterItem(null)
-		}
-	}, [selectedRegion, filteredItems])
 
 	useEffect(() => {
 		if (ref.current) {
@@ -109,19 +117,18 @@ export default function LocationCombobox({
 		itemToString(item) {
 			return item ? item.label : ''
 		},
-		onInputValueChange(e) {
+		onSelectedItemChange({ selectedItem }) {
+			if (selectedItem) {
+				onChange(selectedItem)
+			}
+		},
+		onInputValueChange({ inputValue: newValue, type }) {
 			const { stateChangeTypes } = useCombobox
-			if (e.type === stateChangeTypes.InputBlur) {
+			if (type === stateChangeTypes.InputBlur) {
 				return
-			} else if (
-				e.type === stateChangeTypes.ItemClick ||
-				e.type === stateChangeTypes.InputKeyDownEnter
-			) {
-				onChange(e.selectedItem)
-			} else if (e.type === stateChangeTypes.InputChange) {
-				setInputValue(e.inputValue)
-			} else {
-				onChange(e.selectedItem)
+			}
+			if (type === stateChangeTypes.InputChange) {
+				setInputValue(newValue ?? '')
 			}
 		},
 	})
@@ -226,7 +233,11 @@ export default function LocationCombobox({
 }
 
 const filterByRegion = (item, selectedRegion) => {
-	return !selectedRegion || item.value.regionId === selectedRegion
+	const regionId = normalizeFishId(selectedRegion)
+	if (regionId === null) {
+		return true
+	}
+	return normalizeFishId(item.value.regionId) === regionId
 }
 
 const filterByText = (item, inputValue) => {
