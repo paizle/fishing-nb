@@ -35,33 +35,50 @@
 				position: absolute;
 				visibility: collapse;
 				width: 100%;
-				button {
-					&:hover {
-						h3 {
-							text-decoration: underline;
-						}
-					}
+
+				.region-row {
+					display: flex;
+					align-items: center;
+					justify-content: space-around;
+					gap: 0.25em;
+
 					h3 {
-						display: inline-flex;
-						align-items: center;
-						position: relative;
 						font-size: 1.25em;
 						margin: 0.25em 0;
 						font-weight: bold;
-						svg {
-							margin-left: 0.25em;
-							width: 1.25em;
-							height: 1.25em;
-							color: var(--icon-color);
-							box-sizing: content-box;
+						cursor: pointer;
+
+						&:hover {
+							text-decoration: underline;
 						}
 					}
+				}
 
-					em {
-						display: block;
-						padding: 0 0.5em 0 0.5em;
+				.region-cancel,
+				.region-confirm {
+					flex-shrink: 0;
+					padding: 0;
+					border: none;
+					background: none;
+					cursor: pointer;
+
+					svg {
+						width: 1.25em;
+						height: 1.25em;
+						color: var(--icon-color);
+						box-sizing: content-box;
+					}
+
+					&:hover svg {
+						opacity: 0.8;
 					}
 				}
+
+				em {
+					display: block;
+					padding: 0 0.5em;
+				}
+
 				transition: 300ms;
 				opacity: 0;
 

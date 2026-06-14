@@ -1,5 +1,6 @@
 import './Map.scss'
 import { useState, useEffect, useRef } from 'react'
+import { XCircleIcon } from '@heroicons/react/24/outline'
 import { ArrowRightCircleIcon } from '@heroicons/react/24/solid'
 import NewBrunswickMap, {
 	pathSelectorToLocationName,
@@ -97,29 +98,58 @@ export default function Map({ regionsByName, selectRegion }) {
 					<li className={!selectedPathId ? 'highlighted' : 'hidden'}>
 						<h3>New Brunswick</h3>
 					</li>
-					{Object.keys(pathSelectorToLocationName).map((key) => (
-						<li
-							key={key}
-							data-path-id={key}
-							className={selectedPathId === key ? 'highlighted' : ''}
-						>
-							<button
-								onClick={() => {
-									const region = regionsByName?.[pathSelectorToLocationName[key]]
-									if (region) {
-										selectRegion(region.id, region.name)
-									}
-								}}
+					{Object.keys(pathSelectorToLocationName).map((key) => {
+						const regionName = pathSelectorToLocationName[key]
+						const confirmRegion = () => {
+							const region = regionsByName?.[regionName]
+							if (region) {
+								selectRegion(region.id, region.name)
+							}
+						}
+
+						return (
+							<li
+								key={key}
+								data-path-id={key}
+								className={selectedPathId === key ? 'highlighted' : ''}
 							>
-								<h3>
-									{pathSelectorToLocationName[key]} <ArrowRightCircleIcon />{' '}
-								</h3>
-								<em>
-									{regionsByName?.[pathSelectorToLocationName[key]]?.description}
-								</em>
-							</button>
-						</li>
-					))}
+								<div className="region-row">
+									{selectedPathId === key && (
+										<button
+											type="button"
+											className="region-cancel"
+											aria-label="Clear region filter"
+											onClick={() => selectRegion(null)}
+										>
+											<XCircleIcon />
+										</button>
+									)}
+									<h3
+										role="button"
+										tabIndex={0}
+										onClick={confirmRegion}
+										onKeyDown={(event) => {
+											if (event.key === 'Enter' || event.key === ' ') {
+												event.preventDefault()
+												confirmRegion()
+											}
+										}}
+									>
+										{regionName}
+									</h3>
+									<button
+										type="button"
+										className="region-confirm"
+										aria-label={`Select ${regionName}`}
+										onClick={confirmRegion}
+									>
+										<ArrowRightCircleIcon />
+									</button>
+								</div>
+								<em>{regionsByName?.[regionName]?.description}</em>
+							</li>
+						)
+					})}
 				</ul>
 			</div>
 		</div>

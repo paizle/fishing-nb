@@ -44,13 +44,6 @@ function buildRulesUrl(selectedLocation, selectedFish) {
 	return `/api/rules?${params}`
 }
 
-function indexRegionsByName(regions) {
-	return regions.reduce((accumulator, region) => {
-		accumulator[region.name] = region
-		return accumulator
-	}, {})
-}
-
 /** Update the address bar without an Inertia visit (keeps React state). */
 function syncLocationUrl(locationItem) {
 	const { regionSlug, waterSlug } = locationItem.value
@@ -75,7 +68,6 @@ export default function SmartFish({
 }) {
 	const [locations, setLocations] = useState(null)
 	const [fishes, setFishes] = useState(null)
-	const [regionsByName, setRegionsByName] = useState(null)
 	const [restrictions, setRestrictions] = useState(null)
 	const [selectedFish, setSelectedFish] = useState(null)
 	const [selectedLocation, setSelectedLocation] = useState(null)
@@ -88,6 +80,7 @@ export default function SmartFish({
 
 	const appContext = useApplicationContext()
 	const rest = useRest(apiLastModified)
+	const regionsByName = appContext.getRegionsByName()
 
 	useEffect(() => {
 		appContext.setLandingPage('smartFish')
@@ -156,23 +149,26 @@ export default function SmartFish({
 	}, [])
 
 	useEffect(() => {
-		if (!showMap) {
+		appContext.setRegions(null)
+	}, [apiLastModified])
+
+	useEffect(() => {
+		if (appContext.getRegionsByName()) {
 			return
 		}
 
 		let cancelled = false
-		setRegionsByName(null)
 
 		rest.get('/api/regions').then((request) => {
 			if (!cancelled && request?.data?.regions) {
-				setRegionsByName(indexRegionsByName(request.data.regions))
+				appContext.setRegions(request.data.regions)
 			}
 		})
 
 		return () => {
 			cancelled = true
 		}
-	}, [showMap, apiLastModified])
+	}, [apiLastModified])
 
 	useEffect(() => {
 		if (!selectedLocation?.value?.regionSlug) {

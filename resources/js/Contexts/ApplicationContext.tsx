@@ -5,6 +5,13 @@ import normalizeFishId from '@/Util/normalizeFishId'
 
 interface ApplicationData {
 	fishes: Record<string, Fish>
+	regionsByName: Record<string, Region> | null
+}
+
+interface Region {
+	id: number
+	name: string
+	description?: string
 }
 
 // Define the type for the context value
@@ -22,6 +29,8 @@ interface ApplicationContextType {
 	setUserSelectedRegion: (regionId: number | null) => void
 	setFishes: (fishes: Array<Fish>) => Record<string, Fish>
 	getFishes: () => Record<string, Fish>
+	setRegions: (regions: Array<Region> | null) => void
+	getRegionsByName: () => Record<string, Region> | null
 	getUserSelectedFishName: () => string
 }
 
@@ -37,7 +46,7 @@ export const ApplicationContext = createContext<ApplicationContextType | undefin
 
 // Provider component
 export const ApplicationContextProvider = ({ children }: { children: ReactNode }) => {
-	const [data, setData] = useState<ApplicationData>({ fishes: {} })
+	const [data, setData] = useState<ApplicationData>({ fishes: {}, regionsByName: null })
 
 	const screenOrientation = useScreenOrientation()
 
@@ -99,6 +108,21 @@ export const ApplicationContextProvider = ({ children }: { children: ReactNode }
 	const getFishes = () => {
 		return data['fishes']
 	}
+	const setRegions = (regions: Array<Region> | null) => {
+		if (regions === null) {
+			updateData('regionsByName', null)
+			return
+		}
+
+		const byName = regions.reduce<Record<string, Region>>((accumulator, region) => {
+			accumulator[region.name] = region
+			return accumulator
+		}, {})
+		updateData('regionsByName', byName)
+	}
+	const getRegionsByName = () => {
+		return data.regionsByName
+	}
 	const getUserSelectedFishName = () => {
 		const fishId = getUserSelectedFish()
 		if (fishId === null) {
@@ -122,6 +146,8 @@ export const ApplicationContextProvider = ({ children }: { children: ReactNode }
 		setUserSelectedRegion,
 		setFishes,
 		getFishes,
+		setRegions,
+		getRegionsByName,
 		getUserSelectedFishName,
 	}
 
