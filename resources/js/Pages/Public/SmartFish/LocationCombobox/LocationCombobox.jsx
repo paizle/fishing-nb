@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import { useCombobox } from 'downshift'
 import { useState, useRef, useEffect } from 'react'
 import normalizeFishId from '@/Util/normalizeFishId'
+import locationSlug from '@/Util/locationSlug'
 
 import { XCircleIcon } from '@heroicons/react/24/outline'
 
@@ -45,8 +46,11 @@ export default function LocationCombobox({
 				item.value = {}
 				item.value.regionId = location.region_id
 				item.value.regionName = location.region.name
+				item.value.regionSlug = locationSlug(location.region.name)
 				if (location.water_id) {
 					item.value.waterId = location.water_id
+					item.value.waterName = location.water.name
+					item.value.waterSlug = locationSlug(location.water.name)
 					item.label = location.water.name
 					item.fullName = location.region.name + ', ' + location.water.name
 				} else {

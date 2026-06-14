@@ -1,9 +1,9 @@
-describe('Fishing NB Home Page', { testIsolation: false }, () => {
+describe('Smart Fish page', { testIsolation: false }, () => {
 	before(() => {
 		cy.visit('http://127.0.0.1')
 	})
 
-	it('should load the home page successfully', () => {
+	it('should load the Smart Fish page successfully', () => {
 		cy.get('nav').should('exist')
 		cy.contains('Smart Fish').should('be.visible')
 	})

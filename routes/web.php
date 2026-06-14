@@ -1,21 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicController;
-use App\Http\Controllers\ApiController;
-
-Route::get('/', function () {
-	return Inertia::render('Welcome', [
-		'canLogin' => Route::has('login'),
-		'canRegister' => Route::has('register'),
-		'laravelVersion' => Application::VERSION,
-		'phpVersion' => PHP_VERSION,
-	]);
-});
+use App\Http\Controllers\SmartFishController;
 
 Route::get('/dashboard', function () {
 	return Inertia::render('Dashboard');
@@ -29,23 +18,25 @@ Route::middleware('auth')->group(function () {
 	Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::controller(PublicController::class)->group(function () {
-	Route::get('/', 'index')->name('root.page');
-
-	Route::get('/home', 'home')->name('home.home');
-
-	Route::get('/map', 'map')->name('location.map');
-	Route::get('/region/{id}', 'region')->name('location.region');
-	Route::get('/water/{id}', 'water')->name('location.water');
-
-	Route::get('/fishes', 'fishes')->name('fish.fishes');
-	Route::get('/fish/{id}', 'fish')->name('fish.fish');
-
-	Route::get('/settings', 'settings')->name('settings.edit');
-
-	Route::get('/waters-map', 'waters_map')->name('maps.waters');
-
-	Route::get('/verify-source', 'verifySource')->name('verify.source');
+// -------------------------------------------------------------------------
+// Smart Fish — main app page (Inertia + React via SmartFishController).
+// Region/water slugs in the path drive page state; see laravel-web-server/ROUTING.md.
+// -------------------------------------------------------------------------
+Route::controller(SmartFishController::class)->group(function () {
+	Route::get('/', 'index')->name('smart_fish.page');
+	Route::get('/fish/{region}/{water}', 'fishLocation')->name('fish.region.water');
+	Route::get('/fish/{region}', 'fishLocation')->name('fish.region');
 });
+
+Route::controller(PublicController::class)->group(function () {
+	Route::get('/settings', 'settings')->name('settings.edit');
+	Route::get('/waters-map', 'waters_map')->name('maps.waters');
+});
+
+// -------------------------------------------------------------------------
+// Non-Inertia web routes — Blade utilities (no React shell).
+// -------------------------------------------------------------------------
+Route::get('/verify-source', [PublicController::class, 'verifySource'])
+	->name('verify.source');
 
 require __DIR__ . '/auth.php';

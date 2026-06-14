@@ -8,7 +8,7 @@ type State = {
 
 export default function useRest(apiLastModified: string): {
 	state: State
-	get: (url: string) => Promise<any>
+	get: (url: string) => Promise<any | null>
 } {
 	const initialState: State = {
 		loading: false,
@@ -49,7 +49,7 @@ export default function useRest(apiLastModified: string): {
 				type: ActionTypes.FETCH_FAILURE,
 				payload: error.message,
 			})
-			return error
+			return null
 		}
 	}
 

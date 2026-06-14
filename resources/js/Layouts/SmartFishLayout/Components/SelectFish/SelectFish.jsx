@@ -19,7 +19,7 @@ export default function SelectFish({
 		let cancelled = false
 
 		restFish.get('/api/fishes').then((request) => {
-			if (cancelled) {
+			if (cancelled || !request?.data?.fishes) {
 				return
 			}
 			const map = appContext.setFishes(request.data.fishes)

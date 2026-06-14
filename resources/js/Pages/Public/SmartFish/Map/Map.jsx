@@ -54,7 +54,10 @@ export default function Map({ apiLastModified, selectRegion }) {
 
 	const onLocationClick = (event) => {
 		const key = event.target.id || event.target.closest('[id]').id
-		selectRegion(locationsByName?.[pathSelectorToLocationName[key]]?.id)
+		const region = locationsByName?.[pathSelectorToLocationName[key]]
+		if (region) {
+			selectRegion(region.id, region.name)
+		}
 	}
 
 	const onLocationMouseEnter = (event) => {
@@ -75,7 +78,10 @@ export default function Map({ apiLastModified, selectRegion }) {
 		const target = event.target
 		const key = target.id || target.closest('[id]').id
 		if (selectedPathId === key) {
-			selectRegion(locationsByName?.[pathSelectorToLocationName[key]]?.id)
+			const region = locationsByName?.[pathSelectorToLocationName[key]]
+			if (region) {
+				selectRegion(region.id, region.name)
+			}
 		} else {
 			if (mapContainerRef.current) {
 				Object.keys(pathSelectorToLocationName).forEach((key) => {
@@ -144,11 +150,13 @@ export default function Map({ apiLastModified, selectRegion }) {
 							className={selectedPathId === key ? 'highlighted' : ''}
 						>
 							<button
-								onClick={() =>
-									selectRegion(
-										locationsByName?.[pathSelectorToLocationName[key]]?.id,
-									)
-								}
+								onClick={() => {
+									const region =
+										locationsByName?.[pathSelectorToLocationName[key]]
+									if (region) {
+										selectRegion(region.id, region.name)
+									}
+								}}
 							>
 								<h3>
 									{pathSelectorToLocationName[key]} <ArrowRightCircleIcon />{' '}
