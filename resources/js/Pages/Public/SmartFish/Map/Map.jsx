@@ -53,7 +53,7 @@ export default function Map({ apiLastModified, selectRegion }) {
 	const useTapHook = useTap()
 
 	const onLocationClick = (event) => {
-		const key = event.target.id || event.target.closest('[id]').id
+		const key = event.target.id || event.target.closest('[id]')?.id
 		const region = locationsByName?.[pathSelectorToLocationName[key]]
 		if (region) {
 			selectRegion(region.id, region.name)
@@ -62,13 +62,12 @@ export default function Map({ apiLastModified, selectRegion }) {
 
 	const onLocationMouseEnter = (event) => {
 		const key = event.target.id
-		const svg = mapContainerRef.current.querySelector('svg')
+		const svg = mapContainerRef.current?.querySelector('svg')
 		if (svg) {
-			Object.keys(pathSelectorToLocationName).forEach((key) => {
-				const locationPath = svg.querySelector('#' + key)
-				locationPath.classList.remove('active')
+			Object.keys(pathSelectorToLocationName).forEach((pathKey) => {
+				svg.querySelector('#' + pathKey)?.classList.remove('active')
 			})
-			const locationPath = svg.querySelector('#' + key).classList.add('active')
+			svg.querySelector('#' + key)?.classList.add('active')
 
 			selectLocation(key)
 		}
@@ -76,7 +75,7 @@ export default function Map({ apiLastModified, selectRegion }) {
 
 	const onLocationTap = (event) => {
 		const target = event.target
-		const key = target.id || target.closest('[id]').id
+		const key = target.id || target.closest('[id]')?.id
 		if (selectedPathId === key) {
 			const region = locationsByName?.[pathSelectorToLocationName[key]]
 			if (region) {
@@ -84,13 +83,10 @@ export default function Map({ apiLastModified, selectRegion }) {
 			}
 		} else {
 			if (mapContainerRef.current) {
-				Object.keys(pathSelectorToLocationName).forEach((key) => {
-					const locationPath = mapContainerRef.current.querySelector('#' + key)
-					locationPath.classList.remove('active')
+				Object.keys(pathSelectorToLocationName).forEach((pathKey) => {
+					mapContainerRef.current.querySelector('#' + pathKey)?.classList.remove('active')
 				})
-				const locationPath = mapContainerRef.current
-					.querySelector('#' + key)
-					.classList.add('active')
+				mapContainerRef.current.querySelector('#' + key)?.classList.add('active')
 			}
 			selectLocation(key)
 		}
@@ -100,9 +96,8 @@ export default function Map({ apiLastModified, selectRegion }) {
 		if (mapContainerRef.current && locationsByName) {
 			const svg = mapContainerRef.current.querySelector('svg')
 
-			Object.keys(pathSelectorToLocationName).forEach((key) => {
-				const locationPath = svg.querySelector('#' + key)
-				locationPath.classList.add('location')
+			Object.keys(pathSelectorToLocationName).forEach((pathKey) => {
+				svg?.querySelector('#' + pathKey)?.classList.add('location')
 			})
 		}
 	}, [mapContainerRef.current, locationsByName])
@@ -113,16 +108,17 @@ export default function Map({ apiLastModified, selectRegion }) {
 
 	const selectLocation = (pathId) => {
 		locationTitlesRef.current
-			.querySelectorAll('.highlighted')
-			.forEach((element) => element.classList.remove('highlighted'))
+			?.querySelectorAll('.highlighted')
+			?.forEach((element) => element.classList.remove('highlighted'))
 
 		if (pathId) {
-			locationTitlesRef.current.classList.add('selected')
-			const title = locationTitlesRef.current.querySelector(`[data-path-id=${pathId}]`)
-			title.classList.add('highlighted')
+			locationTitlesRef.current?.classList.add('selected')
+			locationTitlesRef.current
+				?.querySelector(`[data-path-id=${pathId}]`)
+				?.classList.add('highlighted')
 			setSelectedPathId(pathId)
 		} else {
-			locationTitlesRef.current.classList.remove('selected')
+			locationTitlesRef.current?.classList.remove('selected')
 			setSelectedPathId(null)
 		}
 	}
