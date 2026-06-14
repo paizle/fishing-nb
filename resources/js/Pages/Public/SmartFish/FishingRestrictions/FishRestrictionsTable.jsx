@@ -92,7 +92,7 @@ export default function FishRestrictionsTable({
 
 	const renderMinSize = (restriction) => {
 		const text = restriction?.minSize ?? 'N/A'
-		if (!restriction.bagLimit === 0 && !restriction.hookLimit) {
+		if (restriction.bagLimit === 0 && !restriction.hookLimit) {
 			return <span className="invalid">{text}</span>
 		}
 		return text
@@ -100,7 +100,7 @@ export default function FishRestrictionsTable({
 
 	const renderMaxSize = (restriction) => {
 		const text = restriction?.maxSize ?? 'N/A'
-		if (!restriction.bagLimit === 0 && !restriction.hookLimit) {
+		if (restriction.bagLimit === 0 && !restriction.hookLimit) {
 			return <span className="invalid">{text}</span>
 		}
 		return text
