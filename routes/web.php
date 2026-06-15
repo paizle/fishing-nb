@@ -22,6 +22,8 @@ Route::middleware('auth')->group(function () {
 // Smart Fish — main app page (Inertia + React via SmartFishController).
 // Region/water slugs in the path drive page state; see laravel-web-server/ROUTING.md.
 // -------------------------------------------------------------------------
+Route::redirect('/home', '/', 301);
+
 Route::controller(SmartFishController::class)->group(function () {
 	Route::get('/', 'index')->name('smart_fish.page');
 	Route::get('/fish/{region}/{water}', 'fishLocation')->name('fish.region.water');
