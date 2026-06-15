@@ -117,5 +117,5 @@ return [
 		'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
 		'store' => env('APP_MAINTENANCE_STORE', 'database'),
 	],
-	'api_last_modified' => '16 Jun 2026 02:00:00 GMT',
+	'api_last_modified' => '17 Jun 2026 02:00:00 GMT',
 ];
