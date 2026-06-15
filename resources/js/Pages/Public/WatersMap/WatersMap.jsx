@@ -1,5 +1,6 @@
 import './WatersMap.scss'
 import React, { useState, useEffect } from 'react'
+import { Head } from '@inertiajs/react'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import PublicNav from '@/Layouts/PublicLayout/PublicNav'
 import FeaturesMap from './Components/FeaturesMap/FeaturesMap'
@@ -41,6 +42,7 @@ export default function WatersMap({ apiLastModified }) {
 
 	return (
 		<PublicLayout className="WatersMap">
+			<Head title="Waters Map" />
 			<header>
 				<PublicNav>
 					<h1 className="hero">
