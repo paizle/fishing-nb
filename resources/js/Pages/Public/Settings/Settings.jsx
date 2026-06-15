@@ -1,27 +1,16 @@
 import './Settings.scss'
-import { useState } from 'react'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import PublicNav from '@/Layouts/PublicLayout/PublicNav'
+import useApplicationContext from '@/Contexts/ApplicationContext'
 
-import useLocalStorageDefaults from '@/Hooks/useLocalStorageDefaults'
-
-export default function Settings({}) {
-	const [, setStateTrigger] = useState(false) // Dummy state
-	const localStorage = useLocalStorageDefaults()
-	const settings = localStorage.getItem('settings')
+export default function Settings() {
+	const appContext = useApplicationContext()
+	const settings = appContext.getSettings()
 
 	const handleChange = (event) => {
 		const element = event.currentTarget
-		switch (element.type) {
-			case 'checkbox':
-				settings[element.name] = element.checked
-				break
-			default:
-				settings[element.name] = element.value
-		}
-
-		localStorage.setItem('settings', settings)
-		setStateTrigger((prev) => !prev)
+		const value = element.type === 'checkbox' ? element.checked : element.value
+		appContext.updateSetting(element.name, value)
 	}
 
 	return (

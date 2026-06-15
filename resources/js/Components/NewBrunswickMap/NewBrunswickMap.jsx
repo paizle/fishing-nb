@@ -23,18 +23,23 @@ export default function NewBrunswickMap({
 }) {
 	const useTap = useScreenTap((target) => (!target.id ? target.closest('[id]') : target))
 
-	const containerRefLocal = containerRef || useRef(null)
+	const internalContainerRef = useRef(null)
+	const containerRefLocal = containerRef ?? internalContainerRef
 
 	const [locationsMap, setLocationsMap] = useState({})
 
 	useEffect(() => {
-		const locationsMap = {}
+		const container = containerRefLocal.current
+		if (!container) {
+			return
+		}
+
+		const nextLocationsMap = {}
 		Object.keys(pathSelectorToLocationName).forEach((selector) => {
-			const element = containerRefLocal.current.querySelector('#' + selector)
-			locationsMap[selector] = element
+			nextLocationsMap[selector] = container.querySelector('#' + selector)
 		})
-		setLocationsMap(locationsMap)
-	}, [containerRef.current])
+		setLocationsMap(nextLocationsMap)
+	}, [containerRefLocal])
 
 	useEffect(() => {
 		if (containerRefLocal.current) {

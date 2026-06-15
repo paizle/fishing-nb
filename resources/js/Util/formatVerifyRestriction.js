@@ -1,5 +1,10 @@
 import { format } from 'date-fns'
 import config from '@/Util/config'
+import { normalizeExportText } from '@/Util/normalizeExportText'
+
+function normalizeOptional(value) {
+	return normalizeExportText(value) ?? ''
+}
 
 function capitalize(text) {
 	if (!text) {
@@ -20,45 +25,38 @@ function formatDateRange(restriction, isMobile) {
 	return `${start} - ${end}`
 }
 
-function formatBagLimit(restriction) {
-	if (restriction.bagLimit === null) {
-		return '∞'
-	}
-
-	return String(restriction.bagLimit)
-}
-
 function formatWaterContext(restriction) {
 	const locationParts = []
 
 	if (restriction.boundary) {
-		locationParts.push(restriction.boundary)
+		locationParts.push(normalizeOptional(restriction.boundary))
 	}
 
 	if (restriction.watersCategory && !restriction.water) {
-		locationParts.push(restriction.watersCategory)
+		locationParts.push(normalizeOptional(restriction.watersCategory))
 	}
 
 	if (restriction.water) {
-		locationParts.push(restriction.water)
+		locationParts.push(normalizeOptional(restriction.water))
 	}
 
 	if (restriction.waterDescription) {
-		locationParts.push(restriction.waterDescription)
+		locationParts.push(normalizeOptional(restriction.waterDescription))
 	}
 
 	let text = locationParts.join(' ')
 
 	if (restriction.tidal) {
 		if (restriction.water || restriction.watersCategory || restriction.boundary) {
-			text = `${restriction.tidal} portions of ${text}`
+			text = `${normalizeOptional(restriction.tidal)} portions of ${text}`
 		} else {
-			text = `${restriction.tidal} waters`
+			text = `${normalizeOptional(restriction.tidal)} waters`
 		}
 	}
 
 	if (restriction.fishingMethod) {
-		text = text ? `${restriction.fishingMethod} in ${text}` : restriction.fishingMethod
+		const method = normalizeOptional(restriction.fishingMethod)
+		text = text ? `${method} in ${text}` : method
 	}
 
 	text = capitalize(text.trim())
@@ -67,17 +65,27 @@ function formatWaterContext(restriction) {
 }
 
 function formatLimits(restriction, isMobile) {
-	return [
-		{ label: 'Bag Limit', value: formatBagLimit(restriction) },
-		{
+	const limits = []
+
+	if (restriction.bagLimit != null) {
+		limits.push({ label: 'Bag Limit', value: String(restriction.bagLimit) })
+	}
+
+	if (restriction.minSize != null && restriction.minSize !== '') {
+		limits.push({
 			label: isMobile ? 'Min. Size' : 'Minimum Size',
-			value: restriction.minSize ?? 'N/A',
-		},
-		{
+			value: restriction.minSize,
+		})
+	}
+
+	if (restriction.maxSize != null && restriction.maxSize !== '') {
+		limits.push({
 			label: isMobile ? 'Max. Size' : 'Maximum Size',
-			value: restriction.maxSize ?? 'N/A',
-		},
-	]
+			value: restriction.maxSize,
+		})
+	}
+
+	return limits.length > 0 ? limits : null
 }
 
 function formatHeadline(fishName, regionName) {
@@ -97,7 +105,7 @@ export function formatVerifyRestriction({ restriction, fishName, regionName, isM
 			headline,
 			date: null,
 			water,
-			limits: null,
+			limits: formatLimits(restriction, isMobile),
 		}
 	}
 

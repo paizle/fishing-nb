@@ -4,7 +4,7 @@ import PublicNav from '../PublicLayout/PublicNav'
 import SelectFish from './Components/SelectFish/SelectFish'
 
 export default function SmartFishLayout({
-	apiLastModified,
+	fishes,
 	selectedLocation,
 	selectedFish,
 	selectFish,
@@ -21,12 +21,7 @@ export default function SmartFishLayout({
 			</header>
 			<main>{children}</main>
 			<footer>
-				<SelectFish
-					apiLastModified={apiLastModified}
-					selectedLocation={selectedLocation}
-					selectedFish={selectedFish}
-					selectFish={selectFish}
-				/>
+				<SelectFish fishes={fishes} selectedFish={selectedFish} selectFish={selectFish} />
 			</footer>
 		</PublicLayout>
 	)

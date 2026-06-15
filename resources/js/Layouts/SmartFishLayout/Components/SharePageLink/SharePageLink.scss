@@ -1,0 +1,138 @@
+.SharePageLink {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	margin: 0 0.5em 0.5em;
+
+	.share-trigger {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4em;
+		padding: 0.35em 0.85em 0.35em 0.65em;
+		border-radius: 999px;
+		background: var(--highlight-color-lightest);
+		border: 2px solid var(--highlight-color-lighter);
+		color: var(--heading-color);
+		font-size: 0.85em;
+		font-weight: 600;
+		line-height: 1;
+		cursor: pointer;
+		box-shadow: 0 2px 8px var(--highlight-color-transparent);
+		transition:
+			transform 200ms ease,
+			border-color 200ms ease,
+			box-shadow 200ms ease;
+
+		&:hover {
+			border-color: var(--highlight-color);
+			box-shadow: 0 4px 14px var(--highlight-color-transparent);
+			transform: scale(1.03);
+		}
+
+		&:active {
+			transform: scale(0.96);
+		}
+
+		&:focus {
+			outline: 2px solid var(--highlight-color);
+		}
+
+		.share-icon {
+			display: flex;
+			color: var(--highlight-color);
+			transition: transform 300ms ease;
+
+			svg {
+				height: 1.15em;
+			}
+		}
+
+		.share-label {
+			letter-spacing: 0.02em;
+		}
+	}
+
+	&.is-copied .share-trigger .share-icon {
+		animation: share-wiggle 450ms ease;
+	}
+
+	.share-url {
+		overflow: hidden;
+		max-height: 0;
+		opacity: 0;
+		margin-top: 0;
+		transition:
+			max-height 350ms ease,
+			opacity 300ms ease,
+			margin-top 350ms ease;
+
+		.share-url-text {
+			display: block;
+			padding: 0.45em 0.75em;
+			border-radius: 0.5em;
+			background: white;
+			border: 1px dashed var(--highlight-color);
+			color: var(--text-color);
+			font-size: 0.72em;
+			line-height: 1.35;
+			word-break: break-all;
+			text-align: center;
+		}
+	}
+
+	&.is-revealed .share-url {
+		max-height: 5em;
+		opacity: 1;
+		margin-top: 0.45em;
+	}
+
+	.share-toast {
+		margin-top: 0.45em;
+		padding: 0.4em 0.85em;
+		border-radius: 999px;
+		background: var(--highlight-color);
+		color: white;
+		font-size: 0.78em;
+		font-weight: 700;
+		white-space: nowrap;
+		box-shadow: 0 4px 16px var(--highlight-color-translucent);
+		animation: share-toast-in 2200ms ease forwards;
+		pointer-events: none;
+	}
+}
+
+@keyframes share-wiggle {
+	0%,
+	100% {
+		transform: rotate(0deg);
+	}
+	25% {
+		transform: rotate(-14deg);
+	}
+	75% {
+		transform: rotate(14deg);
+	}
+}
+
+@keyframes share-toast-in {
+	0% {
+		opacity: 0;
+		transform: scale(0.85);
+	}
+	12% {
+		opacity: 1;
+		transform: scale(1.05);
+	}
+	18% {
+		transform: scale(1);
+	}
+	75% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+}

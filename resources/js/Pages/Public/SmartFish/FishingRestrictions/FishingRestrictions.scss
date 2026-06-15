@@ -1,0 +1,100 @@
+@use '/resources/css/app.scss';
+
+.FishingRestrictions {
+	@apply shadow;
+	&:after {
+		content: '';
+		padding-bottom: 1em;
+	}
+	display: grid;
+	grid-template-columns: 1fr 4em 4em 4em;
+	overflow-y: auto;
+	position: relative;
+	padding: 0 0.5em;
+	max-height: 100%;
+	font-size: 0.8em;
+	width: 100%;
+	height: 100%;
+	margin: auto;
+	justify-content: center;
+	align-items: flex-start;
+	align-content: flex-start;
+
+	.SharePageLink {
+		grid-column: 1 / -1;
+		justify-self: start;
+
+		&:not(.SharePageLink--bottom) {
+			margin-top: 1.5em;
+			margin-bottom: -1.5em;
+		}
+
+		&--bottom {
+			justify-self: end;
+			align-items: flex-end;
+			margin-top: 0.75em;
+			margin-bottom: 1em;
+		}
+	}
+
+	@screen sm {
+		grid-template-columns:
+			minmax(auto, 23em)
+			minmax(4em, 100px) minmax(4em, 140px) minmax(4em, 140px);
+		padding: 0 1em;
+		font-size: 1em;
+		> .header {
+			br {
+				display: none;
+			}
+		}
+	}
+
+	.loading {
+		grid-column: span 4;
+		display: flex;
+		justify-content: center;
+		align-self: stretch;
+		align-items: center;
+		margin: 1em auto;
+		.LoadingSpinner {
+			color: var(--highlight-color);
+			height: 50px;
+			width: 50px;
+		}
+	}
+
+	.no-results {
+		grid-column: span 4;
+		text-align: center;
+		margin: 1em;
+	}
+
+	.FishRestrictionsTable {
+		display: contents;
+		thead th {
+			color: var(--heading-color);
+			&:first-child {
+				@screen md {
+					font-size: 1.2em;
+				}
+			}
+		}
+		tbody td {
+			color: var(--heading-color);
+		}
+		tbody td.exception-limits-note,
+		.exception-marker,
+		.exception-date-range {
+			color: var(--error-color);
+		}
+	}
+
+	.alert {
+		width: 1.5em;
+		height: 1.5em;
+		display: inline-block;
+		margin: 0;
+		color: var(--actionable-color);
+	}
+}
