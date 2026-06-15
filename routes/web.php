@@ -26,6 +26,7 @@ Route::redirect('/home', '/', 301);
 
 Route::controller(SmartFishController::class)->group(function () {
 	Route::get('/', 'index')->name('smart_fish.page');
+	Route::get('/search', 'search')->name('search.page');
 	Route::get('/fish/{region}/{water}', 'fishLocation')->name('fish.region.water');
 	Route::get('/fish/{region}', 'fishLocation')->name('fish.region');
 });

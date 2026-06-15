@@ -32,4 +32,11 @@ class SmartFishController extends Controller
 			'waterName' => $waterModel?->name,
 		]);
 	}
+
+	public function search(): Response
+	{
+		return Inertia::render('Public/SmartFish/Search/SearchResults', [
+			'apiLastModified' => config('app.api_last_modified'),
+		]);
+	}
 }

@@ -27,29 +27,36 @@
 
 	&-logo {
 		flex-shrink: 0;
+		width: auto;
+		height: 2.75rem;
 		object-fit: contain;
 	}
 
 	&-brandText {
 		display: flex;
 		flex-direction: column;
-		line-height: 1.2;
+		justify-content: center;
+		gap: 0.125rem;
+		line-height: 1.15;
 	}
 
 	&-title {
 		font-family: 'Outfit', sans-serif;
 		font-weight: 600;
-		font-size: 1.25rem;
+		font-size: 1.125rem;
+		letter-spacing: -0.01em;
 		color: var(--redesign-white);
 	}
 
 	&-tagline {
-		font-size: 0.7rem;
+		font-family: 'Outfit', sans-serif;
+		font-size: 0.6875rem;
 		font-weight: 400;
-		color: rgba(255, 255, 255, 0.75);
+		color: rgba(255, 255, 255, 0.82);
+		white-space: nowrap;
 		display: none;
 
-		@media (min-width: 480px) {
+		@media (min-width: 640px) {
 			display: block;
 		}
 	}

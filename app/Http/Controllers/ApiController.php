@@ -5,11 +5,14 @@ use Illuminate\Http\Request;
 use App\Models\Region;
 use App\Models\FishingRestriction;
 use App\Services\FishService;
+use App\Services\RegulationSearchService;
 
 class ApiController extends Controller
 {
-	public function __construct(protected FishService $fishService)
-	{
+	public function __construct(
+		protected FishService $fishService,
+		protected RegulationSearchService $searchService,
+	) {
 	}
 
 	public function regions()
@@ -40,5 +43,25 @@ class ApiController extends Controller
 			->get();
 
 		return response(['locations' => $restrictions]);
+	}
+
+	public function search(Request $request)
+	{
+		$query = trim((string) $request->query('q', ''));
+		$scope = (string) $request->query('scope', 'all');
+
+		if (strlen($query) < 2) {
+			return response([
+				'query' => $query,
+				'scope' => $scope,
+				'results' => [],
+			]);
+		}
+
+		return response([
+			'query' => $query,
+			'scope' => $scope,
+			'results' => $this->searchService->search($query, $scope),
+		]);
 	}
 }

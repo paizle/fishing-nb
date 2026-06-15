@@ -7,7 +7,7 @@ const NAV_LINKS = [
 	{ label: 'Waters Map', href: 'maps.waters', type: 'route' },
 	{ label: 'Regulations', href: '#find-regulations', type: 'anchor' },
 	{ label: 'Species', href: '#species', type: 'anchor' },
-	{ label: 'Search', href: '#find-regulations', type: 'anchor' },
+	{ label: 'Search', href: 'search.page', type: 'route' },
 	{ label: 'About', href: '#about', type: 'anchor' },
 	{ label: 'Resources', href: '#resources', type: 'anchor' },
 ]
@@ -35,13 +35,7 @@ export default function RedesignNav() {
 		<nav className="RedesignNav" aria-label="Main navigation">
 			<div className="RedesignNav-inner">
 				<Link href={route('smart_fish.page')} className="RedesignNav-brand">
-					<img
-						src="/images/redesign/logo.png"
-						alt=""
-						className="RedesignNav-logo"
-						width={40}
-						height={40}
-					/>
+					<img src="/images/redesign/logo.png" alt="" className="RedesignNav-logo" />
 					<div className="RedesignNav-brandText">
 						<span className="RedesignNav-title">Smart Fish</span>
 						<span className="RedesignNav-tagline">

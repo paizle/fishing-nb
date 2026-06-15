@@ -11,6 +11,7 @@ Route::controller(ApiController::class)->group(function () {
 	Route::get('/regions', 'regions')->name('api.regions');
 	Route::get('/locations', 'locations')->name('api.locations');
 	Route::get('/fishes', 'fishes')->name('api.fishes');
+	Route::get('/search', 'search')->name('api.search');
 });
 
 // -------------------------------------------------------------------------
