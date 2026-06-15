@@ -2,6 +2,11 @@
 	display: grid;
 	grid-template-columns: 1fr 4em 4em 4em;
 
+	.exception-marker {
+		color: var(--error-color);
+		font-weight: 700;
+	}
+
 	&.exceptions {
 		thead tr th:first-child {
 			margin: 2em 0 0 0;
@@ -69,6 +74,12 @@
 			border-top: 2px solid var(--highlight-color);
 			text-align: center;
 
+			&.exception-limits-note {
+				grid-column: span 3;
+				text-align: center;
+				font-weight: bold;
+			}
+
 			.Tooltip {
 				margin: 0 0.25em;
 			}
@@ -82,6 +93,37 @@
 		tr.group td,
 		tr.group-water-description td {
 			border-top: 0;
+		}
+
+		tr.exception-section td {
+			border-top: 0;
+		}
+
+		tr.water-group-continue td {
+			border-top: 0;
+		}
+
+		tr.exceptions-heading {
+			display: contents;
+
+			td {
+				grid-column: span 4;
+				text-align: left;
+				font-weight: bold;
+				border-top: 2px solid var(--highlight-color);
+				padding-bottom: 0;
+				@screen md {
+					font-size: 1.2em;
+				}
+
+				.exception-marker {
+					margin-left: 0.15em;
+				}
+			}
+
+			&.water-group-continue td {
+				border-top: 0;
+			}
 		}
 
 		.limit:first-child td {
@@ -112,6 +154,10 @@
 				cursor: pointer;
 			}
 
+			.exception-date-range {
+				color: var(--error-color);
+			}
+
 			> * {
 				&.season-exception {
 					text-align: left;
@@ -121,6 +167,7 @@
 						min-width: 4.5em;
 					}
 				}
+
 				&.exception {
 					grid-column: span 4;
 					em {

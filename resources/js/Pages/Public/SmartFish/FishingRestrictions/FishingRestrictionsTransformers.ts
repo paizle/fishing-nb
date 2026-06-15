@@ -1,6 +1,11 @@
 import parseMySqlDate from '@/Util/parseMySqlDate'
+import { normalizeExportText } from '@/Util/normalizeExportText'
 import { compareAsc } from 'date-fns'
 import type { NormalizedRecord } from './restrictionRecordTypes'
+
+function normalizeOptionalText(value: unknown): string {
+	return normalizeExportText(value) ?? ''
+}
 
 export function formatFishingMethod(row: {
 	method?: string | null
@@ -40,22 +45,22 @@ export function normalizeApiRow(row: Record<string, unknown>): NormalizedRecord 
 	return {
 		id: row.id as number,
 		fishId: fish?.id ?? null,
-		fishName: fish?.name ?? '',
+		fishName: normalizeOptionalText(fish?.name),
 		waterId: water?.id ?? (row.water_id as number | null) ?? null,
 		isException: !!row.is_exception,
 		seasonStart,
 		seasonEnd,
 		bagLimit: row.bag_limit as number | null,
 		hookLimit: row.hook_release_limit as number | null,
-		minSize: (row.minimum_size as string | null) ?? null,
-		maxSize: (row.maximum_size as string | null) ?? null,
+		minSize: normalizeExportText(row.minimum_size),
+		maxSize: normalizeExportText(row.maximum_size),
 		fishingMethod: formatFishingMethod(row),
-		tidal: (row.tidal as string) || '',
-		watersCategory: (row.water_type as string) || '',
-		boundary: (row.boundary as string) || '',
-		water: water?.name ?? '',
-		waterDescription: (row.water_description as string) ?? '',
-		note: (row.note as string | null) ?? null,
+		tidal: normalizeOptionalText(row.tidal),
+		watersCategory: normalizeOptionalText(row.water_type),
+		boundary: normalizeOptionalText(row.boundary),
+		water: normalizeOptionalText(water?.name),
+		waterDescription: normalizeOptionalText(row.water_description),
+		note: normalizeExportText(row.note),
 		sourcePage: (row.source_page as number | null) ?? null,
 		sourceTable: (row.source_table as string | null) ?? null,
 		sourceRow: (row.source_row as string | null) ?? null,
@@ -102,7 +107,26 @@ const GROUP_KEY_FIELDS = [
 ] as const
 
 export function groupKey(record: NormalizedRecord): string {
+	if (record.isExceptionRow) {
+		return `exception-${record.id}-${record.pairedRestrictionId ?? ''}-${record.seasonStart?.getTime() ?? ''}-${record.seasonEnd?.getTime() ?? ''}`
+	}
+
 	return GROUP_KEY_FIELDS.map((name) => String(record[name] ?? '')).join('-')
+}
+
+/** Groups restrictions/exceptions by specific water (id or name); general rows share one bucket. */
+export function waterGroupKey(record: NormalizedRecord): string {
+	if (record.waterId != null) {
+		return `id:${record.waterId}`
+	}
+	if (record.water) {
+		return `name:${record.water}`
+	}
+	return '__general__'
+}
+
+export function waterGroupSortName(record: NormalizedRecord): string {
+	return record.water || record.watersCategory || ''
 }
 
 /** Legacy shape for FishRestrictionsExceptionsTable placeholder */

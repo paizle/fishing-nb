@@ -20,6 +20,23 @@
 	align-items: flex-start;
 	align-content: flex-start;
 
+	.SharePageLink {
+		grid-column: 1 / -1;
+		justify-self: start;
+
+		&:not(.SharePageLink--bottom) {
+			margin-top: 1.5em;
+			margin-bottom: -1.5em;
+		}
+
+		&--bottom {
+			justify-self: end;
+			align-items: flex-end;
+			margin-top: 0.75em;
+			margin-bottom: 1em;
+		}
+	}
+
 	@screen sm {
 		grid-template-columns:
 			minmax(auto, 23em)
@@ -65,6 +82,11 @@
 		}
 		tbody td {
 			color: var(--heading-color);
+		}
+		tbody td.exception-limits-note,
+		.exception-marker,
+		.exception-date-range {
+			color: var(--error-color);
 		}
 	}
 

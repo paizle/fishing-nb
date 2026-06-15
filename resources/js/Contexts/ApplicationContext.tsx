@@ -23,15 +23,12 @@ interface ApplicationContextType {
 	updateSetting: (name: string, value: unknown) => void
 	getLandingPage: () => string
 	setLandingPage: (name: string) => void
-	getUserSelectedFish: () => number | null
-	setUserSelectedFish: (fishId: number | null) => void
 	getUserSelectedRegion: () => number | null
 	setUserSelectedRegion: (regionId: number | null) => void
 	setFishes: (fishes: Array<Fish>) => Record<string, Fish>
 	getFishes: () => Record<string, Fish>
 	setRegions: (regions: Array<Region> | null) => void
 	getRegionsByName: () => Record<string, Region> | null
-	getUserSelectedFishName: () => string
 }
 
 interface Fish {
@@ -79,15 +76,6 @@ export const ApplicationContextProvider = ({ children }: { children: ReactNode }
 		localStorage.set('settings', (settings: Settings) => (settings.landingPage = name))
 		syncSettings()
 	}
-	const getUserSelectedFish = () => {
-		return normalizeFishId(
-			localStorage.get('settings', (settings: Settings) => settings?.selectedFish),
-		)
-	}
-	const setUserSelectedFish = (fishId: number | null) => {
-		localStorage.set('settings', (settings: Settings) => (settings.selectedFish = fishId))
-		syncSettings()
-	}
 	const getUserSelectedRegion = () => {
 		return normalizeFishId(
 			localStorage.get('settings', (settings: Settings) => settings?.selectedRegion),
@@ -123,15 +111,6 @@ export const ApplicationContextProvider = ({ children }: { children: ReactNode }
 	const getRegionsByName = () => {
 		return data.regionsByName
 	}
-	const getUserSelectedFishName = () => {
-		const fishId = getUserSelectedFish()
-		if (fishId === null) {
-			return ''
-		}
-		const fish = getFishes()?.[fishId]
-		return fish?.name ?? ''
-	}
-
 	const value: ApplicationContextType = {
 		screenOrientation,
 		data,
@@ -140,15 +119,12 @@ export const ApplicationContextProvider = ({ children }: { children: ReactNode }
 		updateSetting,
 		getLandingPage,
 		setLandingPage,
-		getUserSelectedFish,
-		setUserSelectedFish,
 		getUserSelectedRegion,
 		setUserSelectedRegion,
 		setFishes,
 		getFishes,
 		setRegions,
 		getRegionsByName,
-		getUserSelectedFishName,
 	}
 
 	return <ApplicationContext.Provider value={value}>{children}</ApplicationContext.Provider>

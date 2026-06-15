@@ -1,4 +1,3 @@
-import { applyExceptionsToRecords } from './applyExceptions'
 import { buildTableRows } from './buildTableRows'
 import {
 	normalizeApiRow,
@@ -77,6 +76,8 @@ export function buildFishTables(
 	const restrictionBuckets = bucketByFish(restrictions)
 	const fishTables: FishTableViewModel[] = []
 
+	const onWaterPage = options.waterId != null
+
 	for (const [fishName, fishRestrictions] of restrictionBuckets) {
 		if (!fishName) {
 			continue
@@ -86,15 +87,13 @@ export function buildFishTables(
 
 		const fishId = fishRestrictions[0]?.fishId ?? null
 
-		if (options.waterId != null && datedExceptions.length > 0) {
-			records = sortNormalizedRecords(
-				applyExceptionsToRecords(records, datedExceptions, fishId),
-			)
-		}
-
 		fishTables.push({
 			fishName,
-			rows: buildTableRows(records),
+			rows: buildTableRows(records, {
+				onWaterPage,
+				overlapExceptions: datedExceptions,
+				fishId,
+			}),
 		})
 	}
 

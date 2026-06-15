@@ -1,5 +1,6 @@
 import './FishRestrictionsTable.scss'
 import { memo } from 'react'
+import { formatRestrictionDetail } from './formatRestrictionDetail'
 import PropTypes from 'prop-types'
 import config from '@/Util/config'
 import { format } from 'date-fns'
@@ -11,7 +12,12 @@ import useSingleClick from '@/Hooks/useSingleClick'
 
 const ExclamationTriangleIconMemo = memo(ExclamationTriangleIcon)
 
-export default function FishRestrictionsExceptionsTable({ restrictions, isMobile, onVerify }) {
+export default function FishRestrictionsExceptionsTable({
+	restrictions,
+	isMobile,
+	onVerify,
+	onWaterPage = false,
+}) {
 	const singleClick = useSingleClick()
 
 	const renderSeasonDateRange = (restriction, comma = false) => {
@@ -35,55 +41,18 @@ export default function FishRestrictionsExceptionsTable({ restrictions, isMobile
 		)
 	}
 
-	const uppercaseFirst = (value) => {
-		return value.charAt(0).toUpperCase() + value.slice(1)
-	}
-
-	const renderExceptionDetail = (restriction) => {
-		let text = ''
-
-		if (restriction.tidal) {
-			text += restriction.tidal
-			if (restriction.water || restriction.watersCategory || restriction.boundary) {
-				text += ' portions of '
-			} else {
-				text += ' waters'
-			}
-		}
-
-		if (restriction.boundary) {
-			text += restriction.boundary
-		}
-
-		if (!restriction.water && restriction.watersCategory) {
-			if (restriction.boundary) {
-				text += ' of '
-			}
-			text += restriction.watersCategory
-		}
-
-		if (restriction.water) {
-			if (restriction.watersCategory) {
-				text += text ? ' in ' : ''
-			} else if (restriction.boundary) {
-				text += ' of '
-			}
-			text += restriction.water
-		}
-
-		if (restriction.fishingMethod) {
-			text = restriction.fishingMethod + ' in ' + text
-		}
-
-		if (restriction.waterDescription) {
-			text += text ? ' ' : ''
-			text += restriction.waterDescription
-		}
-
-		text = uppercaseFirst(text)
-
-		return ' ' + text
-	}
+	const renderExceptionDetail = (restriction) =>
+		formatRestrictionDetail(
+			{
+				tidal: restriction.tidal,
+				boundary: restriction.boundary,
+				watersCategory: restriction.watersCategory,
+				water: restriction.water,
+				fishingMethod: restriction.fishingMethod,
+				waterDescription: restriction.waterDescription,
+			},
+			onWaterPage,
+		)
 
 	const renderMinSize = (restriction) => {
 		const text = restriction?.minSize ?? 'N/A'
@@ -234,4 +203,5 @@ FishRestrictionsExceptionsTable.propTypes = {
 	restrictions: PropTypes.arrayOf(PropTypes.object).isRequired,
 	isMobile: PropTypes.bool,
 	onVerify: PropTypes.func.isRequired,
+	onWaterPage: PropTypes.bool,
 }

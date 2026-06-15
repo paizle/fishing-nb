@@ -4,6 +4,7 @@
 	"scripts": {
 		"build": "vite build",
 		"dev": "vite",
+		"test": "vitest run",
 		"lint": "eslint resources/js --ext .js,.jsx --ignore-path .gitignore --fix",
 		"prepare": "husky"
 	},
@@ -53,7 +54,8 @@
 		"typescript": "^5.8.2",
 		"typescript-eslint": "^8.26.1",
 		"vite": "^6.2.1",
-		"vite-plugin-svgr": "^4.3.0"
+		"vite-plugin-svgr": "^4.3.0",
+		"vitest": "^3.2.4"
 	},
 	"dependencies": {
 		"@heroicons/react": "^2.2.0",

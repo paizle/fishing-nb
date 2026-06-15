@@ -6,6 +6,7 @@ import getFishImageSrc from '@/Util/getFishImageSrc'
 import FishRestrictionsTable from './FishRestrictionsTable'
 import FishRestrictionsExceptionsTable from './FishRestrictionsExceptionsTable'
 import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
+import SharePageLink from '@/Layouts/SmartFishLayout/Components/SharePageLink/SharePageLink'
 import useApplicationContext from '@/Contexts/ApplicationContext'
 import useVerifySourceModal from '@/Hooks/useVerifySourceModal'
 
@@ -15,6 +16,7 @@ export default function FishingRestrictions({
 	regionId,
 	waterId,
 	regionName,
+	selectedFishName = '',
 }) {
 	const appContext = useApplicationContext()
 	const { openVerify, modal } = useVerifySourceModal(
@@ -27,7 +29,7 @@ export default function FishingRestrictions({
 		[restrictions, waterId],
 	)
 
-	const fishName = appContext.getUserSelectedFishName()
+	const fishName = selectedFishName
 
 	const render = () => {
 		if (isLoading) {
@@ -50,6 +52,7 @@ export default function FishingRestrictions({
 							fishImageSrc={getFishImageSrc(table.fishName)}
 							rows={table.rows}
 							isMobile={appContext.screenOrientation.isMobile}
+							onWaterPage={waterId != null}
 							onVerify={(verify) =>
 								openVerify(verify, table.fishName, getFishImageSrc(table.fishName))
 							}
@@ -61,6 +64,7 @@ export default function FishingRestrictions({
 							restrictions={undatedExceptions}
 							isMobile={appContext.screenOrientation.isMobile}
 							onVerify={(row) => openVerify(row)}
+							onWaterPage={waterId != null}
 						/>
 					) : null}
 				</>
@@ -70,7 +74,9 @@ export default function FishingRestrictions({
 
 	return (
 		<div className="FishingRestrictions">
+			<SharePageLink />
 			{render()}
+			{!isLoading && !selectedFishName && <SharePageLink className="SharePageLink--bottom" />}
 			{modal}
 		</div>
 	)
@@ -82,4 +88,5 @@ FishingRestrictions.propTypes = {
 	regionId: PropTypes.number.isRequired,
 	waterId: PropTypes.number,
 	regionName: PropTypes.string,
+	selectedFishName: PropTypes.string,
 }

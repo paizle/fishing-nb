@@ -1,12 +1,3 @@
-export type ExceptionOverlay = {
-	waterDescription: string
-	note: string | null
-	fishingMethod: string
-	sourcePage: number | null
-	sourceTable: string | null
-	sourceRow: string | null
-}
-
 export type NormalizedRecord = {
 	id: number
 	fishId: number | null
@@ -29,7 +20,9 @@ export type NormalizedRecord = {
 	sourcePage: number | null
 	sourceTable: string | null
 	sourceRow: string | null
-	exceptionOverlay?: ExceptionOverlay
+	isExceptionRow?: boolean
+	hasOverlap?: boolean
+	pairedRestrictionId?: number
 }
 
 export type DateInterval = {

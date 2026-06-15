@@ -11,12 +11,17 @@ function uppercaseFirst(value: string): string {
 	return value.charAt(0).toUpperCase() + value.slice(1)
 }
 
-export function formatRestrictionDetail(source: RestrictionDetailSource): string {
+export function formatRestrictionDetail(
+	source: RestrictionDetailSource,
+	onWaterPage = false,
+): string {
+	const water = onWaterPage ? '' : (source.water ?? '')
+	const watersCategory = onWaterPage ? '' : (source.watersCategory ?? '')
 	let text = ''
 
 	if (source.tidal) {
 		text += source.tidal
-		if (source.water || source.watersCategory || source.boundary) {
+		if (water || watersCategory || source.boundary) {
 			text += ' portions of '
 		} else {
 			text += ' waters'
@@ -27,24 +32,24 @@ export function formatRestrictionDetail(source: RestrictionDetailSource): string
 		text += source.boundary
 	}
 
-	if (!source.water && source.watersCategory) {
+	if (!water && watersCategory) {
 		if (source.boundary) {
 			text += ' of '
 		}
-		text += source.watersCategory
+		text += watersCategory
 	}
 
-	if (source.water) {
-		if (source.watersCategory) {
+	if (water) {
+		if (watersCategory) {
 			text += text ? ' in ' : ''
 		} else if (source.boundary) {
 			text += ' of '
 		}
-		text += source.water
+		text += water
 	}
 
 	if (source.fishingMethod) {
-		text = source.fishingMethod + ' in ' + text
+		text = text ? source.fishingMethod + ' in ' + text : source.fishingMethod
 	}
 
 	if (source.waterDescription) {

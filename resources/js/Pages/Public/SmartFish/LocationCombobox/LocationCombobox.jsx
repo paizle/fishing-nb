@@ -1,5 +1,5 @@
 import './LocationCombobox.scss'
-import { useMemo } from 'react'
+import { useMemo, useCallback } from 'react'
 import { useCombobox } from 'downshift'
 import { useState, useRef, useEffect } from 'react'
 import normalizeFishId from '@/Util/normalizeFishId'
@@ -11,6 +11,7 @@ import { MapPinIcon } from '@heroicons/react/24/solid'
 
 export default function LocationCombobox({
 	className = '',
+	active = true,
 	inputRef,
 	locations = {},
 	onChange,
@@ -114,16 +115,26 @@ export default function LocationCombobox({
 		}
 	}, [focusRequest, ref])
 
-	const { getLabelProps, getMenuProps, getInputProps, highlightedIndex, getItemProps } =
+	const pickItem = useCallback(
+		(item) => {
+			setInputValue('')
+			setHasFocus(false)
+			onChange(item)
+		},
+		[onChange],
+	)
+
+	const { getLabelProps, getMenuProps, getInputProps, highlightedIndex, getItemProps, reset } =
 		useCombobox({
 			inputValue,
 			items: filteredItems,
+			selectedItem: null,
 			itemToString(item) {
 				return item ? item.label : ''
 			},
 			onSelectedItemChange({ selectedItem }) {
 				if (selectedItem) {
-					onChange(selectedItem)
+					pickItem(selectedItem)
 				}
 			},
 			onInputValueChange({ inputValue: newValue, type }) {
@@ -136,6 +147,16 @@ export default function LocationCombobox({
 				}
 			},
 		})
+
+	useEffect(() => {
+		if (!active) {
+			setHasFocus(false)
+			setInputValue('')
+			reset()
+		}
+	}, [active, reset])
+
+	const inputProps = getInputProps({ ref })
 
 	const clearSearch = () => {
 		if (inputValue) {
@@ -188,10 +209,15 @@ export default function LocationCombobox({
 				)}
 				<input
 					placeholder={placeholder}
-					value={inputValue}
-					{...getInputProps({ ref })}
-					onFocus={() => onInputFocus()}
-					onBlur={() => onInputBlur()}
+					{...inputProps}
+					onFocus={(event) => {
+						inputProps.onFocus?.(event)
+						onInputFocus()
+					}}
+					onBlur={(event) => {
+						inputProps.onBlur?.(event)
+						onInputBlur()
+					}}
 				/>
 				<button
 					className="clear-input"
