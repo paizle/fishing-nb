@@ -1,5 +1,7 @@
 import './SpeciesGridSection.scss'
+import { Link } from '@inertiajs/react'
 import { FishIconPlaceholder } from './FishIconPlaceholder'
+import { speciesSearchHref } from '../../Search/popularTags'
 
 const PROTOTYPE_SPECIES = [
 	'Landlocked Salmon',
@@ -38,17 +40,20 @@ export default function SpeciesGridSection({ fishes }) {
 						<article key={name} className="SpeciesGridSection-card">
 							<FishIconPlaceholder name={name} />
 							<h3 className="SpeciesGridSection-name">{name}</h3>
-							<a href="#find-regulations" className="SpeciesGridSection-link">
+							<Link
+								href={speciesSearchHref(name)}
+								className="SpeciesGridSection-link"
+							>
 								View Regulations
-							</a>
+							</Link>
 						</article>
 					))}
 				</div>
 
 				<div className="SpeciesGridSection-more">
-					<a href="#find-regulations" className="SpeciesGridSection-moreBtn">
+					<Link href={route('search.page')} className="SpeciesGridSection-moreBtn">
 						View All Species
-					</a>
+					</Link>
 				</div>
 			</div>
 		</section>
