@@ -10,6 +10,7 @@ import SmartFishLayout from '@/Layouts/SmartFishLayout/SmartFishLayout'
 import normalizeFishId from '@/Util/normalizeFishId'
 import locationSlug from '@/Util/locationSlug'
 import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
+import Homepage from './Homepage/Homepage'
 
 const Map = lazy(() => import('./Map/Map.jsx'))
 
@@ -125,7 +126,6 @@ export default function SmartFish({
 			setSelectedRegion(appContext.getUserSelectedRegion())
 		}
 		// Hydrate from Inertia props once on load; client-side search owns selection after that.
-		 
 	}, [])
 
 	useEffect(() => {
@@ -260,6 +260,12 @@ export default function SmartFish({
 			value: { ...locationItem.value },
 		})
 		visitLocation(locationItem)
+	}
+
+	const showHomepage = regionId === null && !selectedLocation && !showMap
+
+	if (showHomepage) {
+		return <Homepage fishes={fishes} />
 	}
 
 	return (

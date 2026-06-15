@@ -1,0 +1,103 @@
+@use '/resources/css/redesign-tokens.scss' as *;
+
+.FishIconPlaceholder {
+	position: relative;
+	width: 4rem;
+	height: 3rem;
+	margin: 0 auto 0.75rem;
+	color: var(--redesign-forest-light);
+
+	svg {
+		width: 100%;
+		height: 100%;
+	}
+
+	&-initial {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.65rem;
+		font-weight: 700;
+		color: var(--redesign-forest);
+		opacity: 0;
+	}
+}
+
+.SpeciesGridSection {
+	background-color: var(--redesign-white);
+	padding: 3rem 0;
+
+	&-inner {
+		@include redesign-section;
+	}
+
+	&-heading {
+		@include redesign-heading;
+		font-size: 1.75rem;
+		text-align: center;
+		margin: 0 0 0.5rem;
+	}
+
+	&-sub {
+		text-align: center;
+		color: var(--redesign-text-muted);
+		margin: 0 0 2rem;
+		font-size: 1rem;
+	}
+
+	&-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1rem;
+
+		@media (min-width: 640px) {
+			grid-template-columns: repeat(3, 1fr);
+		}
+
+		@media (min-width: 900px) {
+			grid-template-columns: repeat(5, 1fr);
+		}
+	}
+
+	&-card {
+		background: var(--redesign-off-white);
+		border: 1px solid var(--redesign-off-white-dark);
+		border-radius: 0.5rem;
+		padding: 1.25rem 0.75rem;
+		text-align: center;
+		transition: box-shadow 0.15s;
+
+		&:hover {
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+		}
+	}
+
+	&-name {
+		@include redesign-heading;
+		font-size: 0.85rem;
+		margin: 0 0 0.5rem;
+		line-height: 1.3;
+	}
+
+	&-link {
+		font-size: 0.8rem;
+		font-weight: 600;
+		color: var(--redesign-forest-light);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	&-more {
+		text-align: center;
+		margin-top: 2rem;
+	}
+
+	&-moreBtn {
+		@include redesign-btn-primary;
+	}
+}

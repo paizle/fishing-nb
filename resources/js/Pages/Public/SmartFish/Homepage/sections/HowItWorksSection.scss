@@ -1,0 +1,61 @@
+@use '/resources/css/redesign-tokens.scss' as *;
+
+.HowItWorksSection {
+	background-color: var(--redesign-off-white);
+	padding: 3rem 0 4rem;
+
+	&-inner {
+		@include redesign-section;
+	}
+
+	&-heading {
+		@include redesign-heading;
+		font-size: 1.75rem;
+		text-align: center;
+		margin: 0 0 2.5rem;
+	}
+
+	&-steps {
+		display: grid;
+		gap: 2rem;
+
+		@media (min-width: 768px) {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	&-step {
+		text-align: center;
+		padding: 0 0.5rem;
+	}
+
+	&-iconWrap {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 3.5rem;
+		height: 3.5rem;
+		margin: 0 auto 1rem;
+		border-radius: 50%;
+		background-color: var(--redesign-forest);
+		color: var(--redesign-white);
+
+		svg {
+			width: 1.75rem;
+			height: 1.75rem;
+		}
+	}
+
+	&-stepTitle {
+		@include redesign-heading;
+		font-size: 1.1rem;
+		margin: 0 0 0.5rem;
+	}
+
+	&-stepText {
+		font-size: 0.9rem;
+		line-height: 1.6;
+		color: var(--redesign-text);
+		margin: 0;
+	}
+}

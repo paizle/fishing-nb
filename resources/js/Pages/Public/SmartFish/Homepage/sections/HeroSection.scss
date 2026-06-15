@@ -1,0 +1,93 @@
+@use '/resources/css/redesign-tokens.scss' as *;
+
+.HeroSection {
+	position: relative;
+	min-height: 28rem;
+	display: flex;
+	align-items: center;
+	color: var(--redesign-white);
+	overflow: hidden;
+
+	&-backdrop {
+		position: absolute;
+		inset: 0;
+		background-image: url('/images/redesign/hero-background.jpg');
+		background-size: cover;
+		background-position: center;
+		z-index: 0;
+
+		&::after {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background: linear-gradient(
+				135deg,
+				rgba(15, 41, 32, 0.88) 0%,
+				rgba(27, 67, 50, 0.75) 50%,
+				rgba(15, 41, 32, 0.85) 100%
+			);
+		}
+	}
+
+	&-inner {
+		@include redesign-section;
+		position: relative;
+		z-index: 1;
+		width: 100%;
+		display: grid;
+		gap: 2rem;
+		align-items: start;
+		padding-top: 3rem;
+		padding-bottom: 3rem;
+
+		@media (min-width: 900px) {
+			grid-template-columns: 1fr auto;
+			align-items: center;
+		}
+	}
+
+	&-content {
+		max-width: 36rem;
+	}
+
+	&-heading {
+		font-family: 'Outfit', sans-serif;
+		font-weight: 600;
+		font-size: clamp(1.75rem, 4vw, 2.75rem);
+		line-height: 1.15;
+		margin: 0 0 1rem;
+		color: var(--redesign-white);
+	}
+
+	&-subheading {
+		font-size: 1.05rem;
+		line-height: 1.6;
+		margin: 0 0 1.5rem;
+		color: rgba(255, 255, 255, 0.9);
+		font-weight: 400;
+	}
+
+	&-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin-bottom: 1rem;
+	}
+
+	&-btn {
+		&--primary {
+			@include redesign-btn-primary;
+		}
+
+		&--outline {
+			@include redesign-btn-outline;
+		}
+	}
+
+	&-disclaimer {
+		font-size: 0.75rem;
+		color: rgba(255, 255, 255, 0.65);
+		margin: 0;
+		line-height: 1.5;
+	}
+}
