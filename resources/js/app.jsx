@@ -6,10 +6,11 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { createRoot } from 'react-dom/client'
 import { ApplicationContextProvider } from '@/Contexts/ApplicationContext'
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
+const appName = import.meta.env.VITE_APP_NAME || 'Smart Fish'
 
 createInertiaApp({
-	title: (title) => `${appName}`,
+	title: (title) =>
+		title ? `${title} · ${appName}` : `${appName} — New Brunswick Fishing Regulations`,
 	resolve: (name) =>
 		resolvePageComponent(`./Pages/${name}.jsx`, import.meta.glob('./Pages/**/*.jsx')),
 	setup({ el, App, props }) {

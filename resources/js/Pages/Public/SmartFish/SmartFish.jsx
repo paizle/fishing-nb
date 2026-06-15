@@ -1,5 +1,6 @@
 import './SmartFish.scss'
 import { useState, useEffect, useRef, useMemo, lazy, Suspense } from 'react'
+import { Head } from '@inertiajs/react'
 import LocationCombobox from '@/Pages/Public/SmartFish/LocationCombobox/LocationCombobox'
 import useRest from '@/Hooks/useRest'
 import useQueryParam, { replacePathname } from '@/Hooks/useQueryParam'
@@ -268,6 +269,12 @@ export default function SmartFish({
 		return <Homepage fishes={fishes} />
 	}
 
+	const pageTitle = showMap
+		? 'Map'
+		: selectedLocation?.label
+			? `${selectedLocation.label} Regulations`
+			: 'Regulations'
+
 	return (
 		<SmartFishLayout
 			fishes={fishes}
@@ -275,6 +282,7 @@ export default function SmartFish({
 			selectedFish={selectedFishId}
 			selectFish={selectFish}
 		>
+			<Head title={pageTitle} />
 			{showMap && (
 				<Suspense
 					fallback={

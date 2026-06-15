@@ -79,7 +79,7 @@ export default function SearchResults({ apiLastModified }) {
 	const hasGroups = Object.values(grouped).some((items) => items.length > 0)
 
 	return (
-		<RedesignLayout>
+		<RedesignLayout title="Search">
 			<div className="SearchResults">
 				<div className="SearchResults-inner">
 					<p className="SearchResults-back">
