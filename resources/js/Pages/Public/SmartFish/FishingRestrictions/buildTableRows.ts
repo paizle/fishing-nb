@@ -60,10 +60,6 @@ function locationDetailFor(record: NormalizedRecord, onWaterPage: boolean): stri
 	)
 }
 
-function sizeInvalid(record: NormalizedRecord): boolean {
-	return record.bagLimit === 0 && !record.hookLimit
-}
-
 function overlapFieldsForRestriction(
 	record: NormalizedRecord,
 	options: BuildTableRowsOptions,
@@ -112,16 +108,23 @@ function dataRowFromRecord(
 	}
 
 	const isExceptionRow = options.asExceptionRow ?? !!record.isExceptionRow
-	const exceptionNoteSpan =
+	const exceptionHasLimit =
+		record.bagLimit !== null ||
+		!!record.hookLimit ||
+		record.minSize !== null ||
+		record.maxSize !== null
+	const exceptionNoteSpan = isExceptionRow && !!record.note && !exceptionHasLimit
+	const showExceptionLimitCells = isExceptionRow && exceptionHasLimit
+	const hideBagLimit =
+		!exceptionNoteSpan &&
 		isExceptionRow &&
 		record.bagLimit === null &&
 		!record.hookLimit &&
-		record.minSize === null &&
-		record.maxSize === null
-	const hideBagLimit =
-		!exceptionNoteSpan && isExceptionRow && record.bagLimit === null && !record.hookLimit
-	const hideMinSize = !exceptionNoteSpan && isExceptionRow && record.minSize === null
-	const hideMaxSize = !exceptionNoteSpan && isExceptionRow && record.maxSize === null
+		!showExceptionLimitCells
+	const hideMinSize =
+		!exceptionNoteSpan && isExceptionRow && record.minSize === null && !showExceptionLimitCells
+	const hideMaxSize =
+		!exceptionNoteSpan && isExceptionRow && record.maxSize === null && !showExceptionLimitCells
 	const overlapFields =
 		!isExceptionRow && options.overlapOptions
 			? overlapFieldsForRestriction(record, options.overlapOptions)
@@ -138,16 +141,17 @@ function dataRowFromRecord(
 		locationDetail: locationDetailFor(record, options.onWaterPage),
 		note: record.note,
 		bagLimit: record.bagLimit,
-		bagLimitShowInfinity: !hideBagLimit && record.bagLimit === null,
+		bagLimitShowInfinity: !showExceptionLimitCells && !hideBagLimit && record.bagLimit === null,
 		hookLimit: record.hookLimit,
-		minSize: record.minSize ?? 'N/A',
-		maxSize: record.maxSize ?? 'N/A',
-		minSizeInvalid: sizeInvalid(record),
-		maxSizeInvalid: sizeInvalid(record),
+		minSize:
+			showExceptionLimitCells && record.minSize === null ? '-' : (record.minSize ?? 'N/A'),
+		maxSize:
+			showExceptionLimitCells && record.maxSize === null ? '-' : (record.maxSize ?? 'N/A'),
 		hideBagLimit,
 		hideMinSize,
 		hideMaxSize,
 		exceptionNoteSpan,
+		showExceptionLimitCells,
 		isExceptionRow,
 		hasOverlap: isExceptionRow,
 		rowClassName: options.rowClassName,

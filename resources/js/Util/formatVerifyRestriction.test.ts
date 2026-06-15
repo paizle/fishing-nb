@@ -29,6 +29,30 @@ describe('formatVerifyRestriction', () => {
 		expect(details.water).not.toContain('??')
 	})
 
+	it('shows bag limit 0 for exceptions', () => {
+		const details = formatVerifyRestriction({
+			restriction: {
+				isException: true,
+				seasonStart: new Date('2026-09-01T12:00:00'),
+				seasonEnd: new Date('2026-12-31T12:00:00'),
+				bagLimit: 0,
+				minSize: null,
+				maxSize: null,
+				fishingMethod: '',
+				tidal: '',
+				water: 'First Lake (Green River)',
+				watersCategory: 'lakes, ponds and reservoirs',
+				boundary: '',
+				waterDescription: '',
+			},
+			fishName: 'Landlocked Salmon',
+			regionName: 'Upper Saint John',
+			isMobile: false,
+		})
+
+		expect(details.limits).toEqual([{ label: 'Bag Limit', value: '0' }])
+	})
+
 	it('shows only defined limits for regular restrictions', () => {
 		const details = formatVerifyRestriction({
 			restriction: {

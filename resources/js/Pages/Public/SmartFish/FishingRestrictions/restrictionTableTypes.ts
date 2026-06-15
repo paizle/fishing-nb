@@ -17,12 +17,11 @@ export type DataTableRow = {
 	hookLimit: number | null
 	minSize: string
 	maxSize: string
-	minSizeInvalid: boolean
-	maxSizeInvalid: boolean
 	hideBagLimit: boolean
 	hideMinSize: boolean
 	hideMaxSize: boolean
 	exceptionNoteSpan: boolean
+	showExceptionLimitCells: boolean
 	isExceptionRow: boolean
 	hasOverlap: boolean
 	pairedRestrictionId?: number

@@ -105,7 +105,7 @@ export function formatVerifyRestriction({ restriction, fishName, regionName, isM
 			headline,
 			date: null,
 			water,
-			limits: null,
+			limits: formatLimits(restriction, isMobile),
 		}
 	}
 

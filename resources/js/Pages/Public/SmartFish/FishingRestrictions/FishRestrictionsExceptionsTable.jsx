@@ -54,21 +54,9 @@ export default function FishRestrictionsExceptionsTable({
 			onWaterPage,
 		)
 
-	const renderMinSize = (restriction) => {
-		const text = restriction?.minSize ?? 'N/A'
-		if (restriction.bagLimit === 0 && !restriction.hookLimit) {
-			return <span className="invalid">{text}</span>
-		}
-		return text
-	}
+	const renderMinSize = (restriction) => restriction?.minSize ?? 'N/A'
 
-	const renderMaxSize = (restriction) => {
-		const text = restriction?.maxSize ?? 'N/A'
-		if (restriction.bagLimit === 0 && !restriction.hookLimit) {
-			return <span className="invalid">{text}</span>
-		}
-		return text
-	}
+	const renderMaxSize = (restriction) => restriction?.maxSize ?? 'N/A'
 
 	const renderBagLimit = (restriction) => {
 		if (restriction.hookLimit) {

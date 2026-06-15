@@ -55,6 +55,10 @@ export default function FishRestrictionsTable({
 			return null
 		}
 
+		if (row.showExceptionLimitCells && row.bagLimit === null && !row.hookLimit) {
+			return <span className="limit-placeholder">-</span>
+		}
+
 		if (row.hookLimit) {
 			return (
 				<>
@@ -84,9 +88,11 @@ export default function FishRestrictionsTable({
 		}
 
 		const value = field === 'min' ? row.minSize : row.maxSize
-		const invalid = field === 'min' ? row.minSizeInvalid : row.maxSizeInvalid
+		if (value === '-') {
+			return <span className="limit-placeholder">-</span>
+		}
 
-		return invalid ? <span className="invalid">{value}</span> : value
+		return value
 	}
 
 	const renderLimitCells = (row, cellProps) => {

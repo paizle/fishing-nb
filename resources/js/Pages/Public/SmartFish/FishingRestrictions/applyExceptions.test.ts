@@ -211,4 +211,48 @@ describe('collectMatchingExceptions', () => {
 
 		expect(matched.map((row) => row.id)).toEqual([107, 108])
 	})
+
+	it('matches Nictau Lake brook trout exception to regional lake rule on region page', () => {
+		const nictauBrookTroutException = record({
+			id: 701,
+			isException: true,
+			fishId: 18,
+			waterId: 191,
+			water: 'Nictau Lake',
+			watersCategory: 'lakes, ponds and reservoirs',
+			seasonStart: d('2026-01-01'),
+			seasonEnd: d('2026-12-31'),
+			bagLimit: 2,
+			minSize: '25cm',
+		})
+		const regionalBrookTroutLake = record({
+			id: 749,
+			fishId: 18,
+			watersCategory: 'lakes, ponds and reservoirs',
+			boundary: 'non-boundary waters',
+			seasonStart: d('2026-05-15'),
+			seasonEnd: d('2026-09-15'),
+			bagLimit: 5,
+			minSize: '10cm',
+		})
+		const regionalBrookTroutRiver = record({
+			id: 752,
+			fishId: 18,
+			watersCategory: 'rivers, brooks and streams',
+			boundary: 'non-boundary waters',
+			seasonStart: d('2026-04-15'),
+			seasonEnd: d('2026-09-30'),
+			bagLimit: 5,
+			minSize: '10cm',
+		})
+
+		const matched = collectMatchingExceptions(
+			[regionalBrookTroutLake, regionalBrookTroutRiver],
+			[nictauBrookTroutException],
+			18,
+			false,
+		)
+
+		expect(matched.map((row) => row.id)).toEqual([701])
+	})
 })

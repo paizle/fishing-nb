@@ -102,3 +102,142 @@ describe('buildTableRows waterGroupContinue', () => {
 		}
 	})
 })
+
+describe('buildTableRows exception limit cells', () => {
+	it('shows dashes for empty limit fields when another limit is set', () => {
+		const baseLakeRule = record({
+			id: 749,
+			fishId: 18,
+			fishName: 'Brook Trout',
+			watersCategory: 'lakes, ponds and reservoirs',
+			seasonStart: d('2026-05-15'),
+			seasonEnd: d('2026-09-15'),
+			bagLimit: 5,
+			minSize: '10cm',
+		})
+		const nictauException = record({
+			id: 701,
+			fishId: 18,
+			fishName: 'Brook Trout',
+			isException: true,
+			waterId: 191,
+			water: 'Nictau Lake',
+			watersCategory: 'lakes, ponds and reservoirs',
+			seasonStart: d('2026-01-01'),
+			seasonEnd: d('2026-12-31'),
+			bagLimit: 2,
+			minSize: '25cm',
+			maxSize: null,
+		})
+
+		const rows = buildTableRows([baseLakeRule], {
+			onWaterPage: false,
+			overlapExceptions: [nictauException],
+			fishId: 18,
+		})
+
+		const exceptionRow = rows.find(
+			(row) => row.kind === 'data' && row.key.startsWith('exc-701'),
+		)
+
+		expect(exceptionRow?.kind).toBe('data')
+		if (exceptionRow?.kind !== 'data') {
+			return
+		}
+
+		expect(exceptionRow.exceptionNoteSpan).toBe(false)
+		expect(exceptionRow.showExceptionLimitCells).toBe(true)
+		expect(exceptionRow.bagLimit).toBe(2)
+		expect(exceptionRow.minSize).toBe('25cm')
+		expect(exceptionRow.maxSize).toBe('-')
+		expect(exceptionRow.hideBagLimit).toBe(false)
+		expect(exceptionRow.hideMaxSize).toBe(false)
+	})
+
+	it('shows note text when exception has no limit values', () => {
+		const baseLakeRule = record({
+			id: 749,
+			fishId: 18,
+			fishName: 'Brook Trout',
+			watersCategory: 'lakes, ponds and reservoirs',
+			seasonStart: d('2026-05-15'),
+			seasonEnd: d('2026-09-15'),
+			bagLimit: 5,
+			minSize: '10cm',
+		})
+		const closedException = record({
+			id: 688,
+			fishId: null,
+			fishName: 'Brook Trout',
+			isException: true,
+			waterId: 191,
+			water: 'Nictau Lake',
+			watersCategory: 'lakes, ponds and reservoirs',
+			waterDescription: 'all brooks flowing into Nictau Lake',
+			fishingMethod: 'angling',
+			seasonStart: d('2026-01-01'),
+			seasonEnd: d('2026-12-31'),
+			note: 'Closed to angling',
+		})
+
+		const rows = buildTableRows([baseLakeRule], {
+			onWaterPage: false,
+			overlapExceptions: [closedException],
+			fishId: 18,
+		})
+
+		const exceptionRow = rows.find(
+			(row) => row.kind === 'data' && row.key.startsWith('exc-688'),
+		)
+
+		expect(exceptionRow?.kind).toBe('data')
+		if (exceptionRow?.kind !== 'data') {
+			return
+		}
+
+		expect(exceptionRow.exceptionNoteSpan).toBe(true)
+		expect(exceptionRow.showExceptionLimitCells).toBe(false)
+	})
+
+	it('shows placeholder dashes for empty limit fields when bag limit is 0', () => {
+		const baseLakeRule = record({
+			id: 740,
+			fishId: 3,
+			fishName: 'Landlocked Salmon',
+			watersCategory: 'lakes, ponds and reservoirs',
+			seasonStart: d('2026-05-15'),
+			seasonEnd: d('2026-09-30'),
+			bagLimit: 2,
+		})
+		const bagZeroException = record({
+			id: 704,
+			fishId: 3,
+			fishName: 'Landlocked Salmon',
+			isException: true,
+			waterId: 183,
+			water: 'First Lake (Green River)',
+			watersCategory: 'lakes, ponds and reservoirs',
+			seasonStart: d('2026-09-01'),
+			seasonEnd: d('2026-12-31'),
+			bagLimit: 0,
+		})
+
+		const rows = buildTableRows([baseLakeRule], {
+			onWaterPage: false,
+			overlapExceptions: [bagZeroException],
+			fishId: 3,
+		})
+
+		const exceptionRow = rows.find(
+			(row) => row.kind === 'data' && row.key.startsWith('exc-704'),
+		)
+
+		expect(exceptionRow?.kind).toBe('data')
+		if (exceptionRow?.kind !== 'data') {
+			return
+		}
+
+		expect(exceptionRow.minSize).toBe('-')
+		expect(exceptionRow.maxSize).toBe('-')
+	})
+})

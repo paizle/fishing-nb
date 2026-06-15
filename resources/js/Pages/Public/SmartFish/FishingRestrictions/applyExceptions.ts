@@ -38,11 +38,7 @@ function exceptionAppliesToRestriction(
 		return restriction.waterId === exception.waterId
 	}
 
-	if (!onWaterPage) {
-		return false
-	}
-
-	if (!restriction.watersCategory) {
+	if (!restriction.watersCategory || !exception.watersCategory) {
 		return true
 	}
 
