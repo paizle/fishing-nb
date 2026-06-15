@@ -16,4 +16,12 @@ class ExampleTest extends TestCase
 
 		$response->assertStatus(200);
 	}
+
+	public function test_legacy_home_url_redirects_to_root(): void
+	{
+		$response = $this->get('/home');
+
+		$response->assertRedirect('/');
+		$response->assertStatus(301);
+	}
 }
