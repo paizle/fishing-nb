@@ -31,6 +31,14 @@
 			font-weight: 400;
 		}
 
+		.verify-header-actions {
+			margin-top: 0.75rem;
+		}
+
+		.verify-header-actions a {
+			color: #1d4ed8;
+		}
+
 		.verify-pdf {
 			display: block;
 			width: 100%;
@@ -68,6 +76,11 @@
 <body>
 	<header class="verify-header">
 		<p>{{ $description }}</p>
+		@if ($usePdfJs)
+			<p class="verify-header-actions">
+				<a href="{{ $pdfUrl }}">Open PDF directly</a>
+			</p>
+		@endif
 	</header>
 
 	@if ($usePdfJs)
@@ -75,7 +88,7 @@
 			<p class="verify-pdf-status" id="pdf-status">Loading document…</p>
 		</div>
 		<script type="module">
-			import * as pdfjsLib from '{{ asset('pdfjs/pdf.mjs') }}';
+			import * as pdfjsLib from @json(asset('pdfjs/pdf.mjs'));
 
 			pdfjsLib.GlobalWorkerOptions.workerSrc = @json(asset('pdfjs/pdf.worker.mjs'));
 
@@ -85,27 +98,27 @@
 			const pageNumber = {{ $pdfPage }};
 
 			try {
-				const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+				const pdf = await pdfjsLib.getDocument({ url: pdfUrl }).promise;
 				const page = await pdf.getPage(pageNumber);
 				const baseViewport = page.getViewport({ scale: 1 });
 				const scale = Math.min(
-					(viewport.clientWidth - 16) / baseViewport.width,
+					Math.max((viewport.clientWidth - 16) / baseViewport.width, 0.5),
 					2,
 				);
-				const scaledViewport = page.getViewport({ scale: Math.max(scale, 0.5) });
+				const scaledViewport = page.getViewport({ scale });
 				const canvas = document.createElement('canvas');
 				canvas.width = scaledViewport.width;
 				canvas.height = scaledViewport.height;
-
-				status.remove();
-				viewport.appendChild(canvas);
 
 				await page.render({
 					canvasContext: canvas.getContext('2d'),
 					viewport: scaledViewport,
 				}).promise;
+
+				status.remove();
+				viewport.appendChild(canvas);
 			} catch (error) {
-				status.textContent = 'Unable to display this page. Open the PDF directly instead.';
+				status.textContent = 'Unable to display this page. Use Open PDF directly above.';
 				status.classList.add('verify-pdf-status--error');
 				console.error(error);
 			}
