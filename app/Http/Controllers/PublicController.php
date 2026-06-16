@@ -3,7 +3,6 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Support\VerifySourcePdfViewer;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class PublicController extends Controller
@@ -94,9 +93,6 @@ class PublicController extends Controller
 			'title' => $description,
 			'description' => $description,
 			'pdfUrl' => url("/regulations/Fish.pdf#page={$page}"),
-			'pdfBaseUrl' => url('/regulations/Fish.pdf'),
-			'pdfPage' => $page,
-			'usePdfJs' => VerifySourcePdfViewer::needsPdfJs($request->userAgent()),
 		]);
 	}
 }

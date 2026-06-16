@@ -2,8 +2,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "vite build && node scripts/copy-pdfjs.mjs",
-		"postinstall": "node scripts/copy-pdfjs.mjs",
+		"build": "vite build",
 		"dev": "vite",
 		"test": "vitest run",
 		"lint": "eslint resources/js --ext .js,.jsx --ignore-path .gitignore --fix",
@@ -43,7 +42,6 @@
 		"husky": "^9.1.7",
 		"laravel-vite-plugin": "^1.0",
 		"lint-staged": "^15.4.3",
-		"pdfjs-dist": "^4.10.38",
 		"postcss": "^8.5.4",
 		"prettier": "^3.4.2",
 		"prettier-plugin-organize-imports": "^4.0.0",
