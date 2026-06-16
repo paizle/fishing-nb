@@ -1,0 +1,6 @@
+<IfModule mod_headers.c>
+	<FilesMatch "\.pdf$">
+		Header set Content-Type "application/pdf"
+		Header set Content-Disposition "inline"
+	</FilesMatch>
+</IfModule>
