@@ -3,9 +3,36 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class PublicController extends Controller
 {
+	public function regulationPdf(): BinaryFileResponse
+	{
+		$path = $this->regulationPdfPath();
+
+		return response()->file($path, [
+			'Content-Type' => 'application/pdf',
+			'Content-Disposition' => 'inline; filename="Fish.pdf"',
+		]);
+	}
+
+	private function regulationPdfPath(): string
+	{
+		$candidates = [
+			storage_path('app/regulations/Fish.pdf'),
+			public_path('regulations/Fish.pdf'),
+		];
+
+		foreach ($candidates as $path) {
+			if (is_file($path)) {
+				return $path;
+			}
+		}
+
+		abort(404);
+	}
+
 	public function waters_map()
 	{
 		return Inertia::render('Public/WatersMap/WatersMap', [
