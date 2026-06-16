@@ -20,7 +20,8 @@ class VerifySourceTest extends TestCase
 
 		$response->assertOk();
 		$response->assertSee('id="pdf-viewport"', false);
-		$response->assertSee('pdfjs/pdf.mjs', false);
+		$response->assertSee('pdf.worker.mjs', false);
+		$response->assertSee('Open PDF directly', false);
 		$response->assertDontSee('<iframe class="verify-pdf"', false);
 	}
 
