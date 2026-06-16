@@ -50,20 +50,19 @@ Shareable citation links for regulation rows:
 VerifySourceModal (React)
   → link target: VERIFY_SOURCE_WINDOW ("fishnb-verify-source")
   → /verify-source?page=&table=&row=&region=  (Blade)
-  → iframe src=/regulations/Fish.pdf#page=N
+  → iframe src=/regulations/Fish.pdf#page=N  (Laravel route, Content-Disposition: inline)
 ```
 
 Key files:
 
-| File                                                                                                       | Role                                                 |
-| ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
-| [`Util/sourceLocation.js`](Util/sourceLocation.js)                                                         | `buildVerifySourceUrl`, `VERIFY_SOURCE_WINDOW`       |
-| [`Components/VerifySourceModal/VerifySourceModal.jsx`](Components/VerifySourceModal/VerifySourceModal.jsx) | Modal + "Check Source Document" link                 |
-| [`Hooks/useVerifySourceModal.jsx`](Hooks/useVerifySourceModal.jsx)                                         | Hook wiring from restriction tables                  |
-| [`app/Http/Controllers/PublicController.php`](../../app/Http/Controllers/PublicController.php)             | `verifySource` route handler                         |
-| [`public/regulations/.htaccess`](../../public/regulations/.htaccess)                                       | `Content-Disposition: inline` for PDF iframe display |
-
-**Android Chrome:** iframe PDF display may still download on some devices even with correct headers. Do not add PDF.js or other renderers without user approval — discuss tradeoffs first.
+| File                                                                                                       | Role                                                        |
+| ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| [`Util/sourceLocation.js`](Util/sourceLocation.js)                                                         | `buildVerifySourceUrl`, `VERIFY_SOURCE_WINDOW`              |
+| [`Components/VerifySourceModal/VerifySourceModal.jsx`](Components/VerifySourceModal/VerifySourceModal.jsx) | Modal + "Check Source Document" link                        |
+| [`Hooks/useVerifySourceModal.jsx`](Hooks/useVerifySourceModal.jsx)                                         | Hook wiring from restriction tables                         |
+| [`app/Http/Controllers/PublicController.php`](../../app/Http/Controllers/PublicController.php)             | `verifySource` route handler                                |
+| [`public/regulations/.htaccess`](../../public/regulations/.htaccess)                                       | Rewrites `Fish.pdf` to Laravel; fallback inline headers     |
+| [`PublicController::regulationPdf`](../../app/Http/Controllers/PublicController.php)                       | Serves PDF via `response()->file()` with inline disposition |
 
 ## Conventions
 

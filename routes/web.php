@@ -38,6 +38,9 @@ Route::controller(PublicController::class)->group(function () {
 // -------------------------------------------------------------------------
 // Non-Inertia web routes — Blade utilities (no React shell).
 // -------------------------------------------------------------------------
+Route::get('/regulations/Fish.pdf', [PublicController::class, 'regulationPdf'])
+	->name('regulations.fish_pdf');
+
 Route::get('/verify-source', [PublicController::class, 'verifySource'])
 	->name('verify.source');
 
