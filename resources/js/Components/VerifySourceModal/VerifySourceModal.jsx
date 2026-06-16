@@ -2,7 +2,11 @@ import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import PropTypes from 'prop-types'
 import './VerifySourceModal.scss'
-import { buildVerifySourceUrl, formatVerifyDescription } from '@/Util/sourceLocation'
+import {
+	buildVerifySourceUrl,
+	formatVerifyDescription,
+	VERIFY_SOURCE_WINDOW,
+} from '@/Util/sourceLocation'
 import { formatVerifyRestriction } from '@/Util/formatVerifyRestriction'
 
 export default function VerifySourceModal({
@@ -105,7 +109,7 @@ export default function VerifySourceModal({
 				<a
 					className="VerifySourceModal-open"
 					href={pdfUrl}
-					target="_blank"
+					target={VERIFY_SOURCE_WINDOW}
 					rel="noopener noreferrer"
 				>
 					Check Source Document

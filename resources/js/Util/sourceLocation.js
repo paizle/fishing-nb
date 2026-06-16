@@ -1,5 +1,8 @@
 const ROW_REF_SEPARATOR = ' - '
 
+/** Reuse the same browser tab when opening verify-source from the modal. */
+export const VERIFY_SOURCE_WINDOW = 'fishnb-verify-source'
+
 export function joinSourceTableRow(table, row) {
 	if (!table) {
 		return ''
