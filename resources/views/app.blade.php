@@ -23,6 +23,7 @@
         @inertiaHead
     </head>
     <body>
+        @include('seo.restrictions-summary')
         @inertia
     </body>
 </html>

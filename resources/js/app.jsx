@@ -20,6 +20,7 @@ createInertiaApp({
 				<App {...props} />
 			</ApplicationContextProvider>,
 		)
+		document.body.classList.add('inertia-loaded')
 	},
 	progress: {
 		color: '#70b9b0',
