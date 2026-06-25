@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	# Force Laravel to serve Fish.pdf with Content-Disposition: inline (Android Chrome).
+	RewriteRule ^Fish\.pdf$ /index.php [L,QSA]
+</IfModule>
+
+<IfModule mod_headers.c>
+	<FilesMatch "\.pdf$">
+		Header set Content-Type "application/pdf"
+		Header set Content-Disposition "inline"
+	</FilesMatch>
+</IfModule>

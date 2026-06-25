@@ -16,7 +16,12 @@ export default function WatersMap({ apiLastModified }) {
 	useEffect(() => {
 		async function load() {
 			try {
-				const response = await fetch('/waters.geojson', { cache: 'default' })
+				const nocache = Date.parse(apiLastModified)
+				const url = Number.isNaN(nocache)
+					? '/waters.geojson'
+					: `/waters.geojson?nocache=${nocache}`
+				// Avoid serving a stale cached 404 (e.g. before waters.geojson was on Hostinger).
+				const response = await fetch(url, { cache: 'no-store' })
 				if (!response.ok) {
 					setLoadError(`Could not load waters map data (HTTP ${response.status}).`)
 					return
@@ -28,7 +33,7 @@ export default function WatersMap({ apiLastModified }) {
 			}
 		}
 		load()
-	}, [])
+	}, [apiLastModified])
 
 	const selectFeature = (id) => {
 		const feature = geoJson.features.find((feature) => feature.properties.OBJECTID === id)
