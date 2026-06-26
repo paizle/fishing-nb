@@ -46,6 +46,15 @@ class RestrictionsService
 
 		$record_ids = array_merge($record_ids, $water_type_record_ids);
 
+		$record_ids = array_merge(
+			$record_ids,
+			FishingRestriction::query()
+				->where('region_id', $region_id)
+				->whereNotNull('exception_type')
+				->pluck('id')
+				->toArray(),
+		);
+
 		return self::applyOrderBy(
 			FishingRestriction::whereIn('fishing_restrictions.id', $record_ids)
         ->leftJoin('fish', 'fish.id', '=', 'fishing_restrictions.fish_id')

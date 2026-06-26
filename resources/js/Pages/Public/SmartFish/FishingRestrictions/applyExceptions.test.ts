@@ -14,7 +14,7 @@ function record(
 		fishId: null,
 		fishName: '',
 		waterId: null,
-		exceptionType: null,
+		isException: false,
 		bagLimit: null,
 		hookLimit: null,
 		minSize: null,
@@ -35,7 +35,7 @@ function record(
 
 const exception107 = record({
 	id: 107,
-	exceptionType: 'specifier',
+	isException: true,
 	seasonStart: d('2026-01-01'),
 	seasonEnd: d('2026-04-30'),
 	waterId: 3,
@@ -45,7 +45,7 @@ const exception107 = record({
 
 const exception108 = record({
 	id: 108,
-	exceptionType: 'specifier',
+	isException: true,
 	seasonStart: d('2026-09-16'),
 	seasonEnd: d('2026-12-31'),
 	waterId: 3,
@@ -93,7 +93,7 @@ const littleTracadie = record({
 
 const littleTracadieException = record({
 	id: 201,
-	exceptionType: 'specifier',
+	isException: true,
 	seasonStart: d('2026-01-01'),
 	seasonEnd: d('2026-04-30'),
 	waterId: 4,
@@ -154,14 +154,14 @@ describe('annotateSeasonBoundaries', () => {
 		})
 		const earlyStart = record({
 			id: 10,
-			exceptionType: 'specifier',
+			isException: true,
 			seasonStart: d('2026-01-01'),
 			seasonEnd: d('2026-05-31'),
 			waterId: 3,
 		})
 		const laterStart = record({
 			id: 11,
-			exceptionType: 'specifier',
+			isException: true,
 			seasonStart: d('2026-02-01'),
 			seasonEnd: d('2026-06-30'),
 			waterId: 3,
@@ -181,14 +181,14 @@ describe('annotateSeasonBoundaries', () => {
 		})
 		const earlierEnd = record({
 			id: 12,
-			exceptionType: 'specifier',
+			isException: true,
 			seasonStart: d('2026-08-01'),
 			seasonEnd: d('2026-10-31'),
 			waterId: 3,
 		})
 		const laterEnd = record({
 			id: 13,
-			exceptionType: 'specifier',
+			isException: true,
 			seasonStart: d('2026-09-01'),
 			seasonEnd: d('2026-12-31'),
 			waterId: 3,
@@ -215,7 +215,7 @@ describe('collectMatchingExceptions', () => {
 	it('matches Nictau Lake brook trout exception to regional lake rule on region page', () => {
 		const nictauBrookTroutException = record({
 			id: 701,
-			exceptionType: 'specifier',
+			isException: true,
 			fishId: 18,
 			waterId: 191,
 			water: 'Nictau Lake',

@@ -36,7 +36,7 @@ function partitionRecords(records: NormalizedRecord[]) {
 	const undatedExceptions: NormalizedRecord[] = []
 
 	for (const record of records) {
-		if (record.exceptionType != null) {
+		if (record.isException) {
 			if (isValidSeason(record)) {
 				datedExceptions.push(record)
 			} else {
