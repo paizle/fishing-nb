@@ -5,6 +5,7 @@
 		"build": "vite build",
 		"dev": "vite",
 		"test": "vitest run",
+		"export-restriction-fixtures": "vitest run --config scripts/vitest.fixtures.config.ts",
 		"lint": "eslint resources/js --ext .js,.jsx --ignore-path .gitignore --fix",
 		"prepare": "husky"
 	},

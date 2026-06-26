@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\FishingRestriction\Boundary;
+use App\Models\FishingRestriction\ExceptionType;
 use App\Models\FishingRestriction\FishingMethod;
 use App\Models\FishingRestriction\Tidal;
 use App\Models\FishingRestriction\WaterType;
@@ -18,6 +19,7 @@ class FishingRestriction extends Model
 		'tidal' => Tidal::class,
 		'water_type' => WaterType::class,
 		'method' => FishingMethod::class,
+		'exception_type' => ExceptionType::class,
 	];
 
 	public static function getOrInitialize(FishingRestriction $fishingRestriction)

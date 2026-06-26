@@ -5,7 +5,7 @@ describe('formatVerifyRestriction', () => {
 	it('omits undefined limit fields for exceptions', () => {
 		const details = formatVerifyRestriction({
 			restriction: {
-				isException: true,
+				exceptionType: 'specifier',
 				seasonStart: new Date('2026-01-01T12:00:00'),
 				seasonEnd: new Date('2026-04-30T12:00:00'),
 				bagLimit: null,
@@ -32,7 +32,7 @@ describe('formatVerifyRestriction', () => {
 	it('shows bag limit 0 for exceptions', () => {
 		const details = formatVerifyRestriction({
 			restriction: {
-				isException: true,
+				exceptionType: 'specifier',
 				seasonStart: new Date('2026-09-01T12:00:00'),
 				seasonEnd: new Date('2026-12-31T12:00:00'),
 				bagLimit: 0,
@@ -56,7 +56,7 @@ describe('formatVerifyRestriction', () => {
 	it('shows only defined limits for regular restrictions', () => {
 		const details = formatVerifyRestriction({
 			restriction: {
-				isException: false,
+				exceptionType: null,
 				seasonStart: new Date('2026-05-01T12:00:00'),
 				seasonEnd: new Date('2026-09-15T12:00:00'),
 				bagLimit: 5,

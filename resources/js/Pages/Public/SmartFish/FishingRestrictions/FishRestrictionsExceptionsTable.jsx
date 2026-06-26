@@ -138,7 +138,7 @@ export default function FishRestrictionsExceptionsTable({
 	const renderExceptions = (restrictions, inGroup = false) => {
 		return restrictions.map((restriction, index) => (
 			<Fragment key={restriction.id}>
-				{restriction.isException
+				{restriction.exceptionType != null
 					? renderException(restriction)
 					: restriction?.group
 						? renderRestrictionGroup(restriction)

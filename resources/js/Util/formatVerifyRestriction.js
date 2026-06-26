@@ -100,7 +100,7 @@ export function formatVerifyRestriction({ restriction, fishName, regionName, isM
 	const water = formatWaterContext(restriction)
 	const headline = formatHeadline(fishName, regionName)
 
-	if (restriction.isException) {
+	if (restriction.exceptionType != null) {
 		return {
 			headline,
 			date: null,
