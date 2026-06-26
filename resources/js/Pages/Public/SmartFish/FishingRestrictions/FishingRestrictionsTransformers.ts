@@ -1,7 +1,7 @@
 import parseMySqlDate from '@/Util/parseMySqlDate'
 import { normalizeExportText } from '@/Util/normalizeExportText'
 import { compareAsc } from 'date-fns'
-import type { ExceptionType, NormalizedRecord } from './restrictionRecordTypes'
+import type { NormalizedRecord } from './restrictionRecordTypes'
 
 function normalizeOptionalText(value: unknown): string {
 	return normalizeExportText(value) ?? ''
@@ -42,14 +42,12 @@ export function normalizeApiRow(row: Record<string, unknown>): NormalizedRecord 
 	const fish = row.fish as { id?: number; name?: string } | null | undefined
 	const water = row.water as { id?: number; name?: string } | null | undefined
 
-	const exceptionType = (row.exception_type as ExceptionType | null | undefined) ?? null
-
 	return {
 		id: row.id as number,
 		fishId: fish?.id ?? null,
 		fishName: normalizeOptionalText(fish?.name),
 		waterId: water?.id ?? (row.water_id as number | null) ?? null,
-		exceptionType,
+		isException: !!row.exception_type,
 		seasonStart,
 		seasonEnd,
 		bagLimit: row.bag_limit as number | null,
@@ -134,7 +132,7 @@ export function waterGroupSortName(record: NormalizedRecord): string {
 /** Legacy shape for FishRestrictionsExceptionsTable placeholder */
 export interface FishingRestriction {
 	id: number
-	exceptionType: ExceptionType | null
+	isException: boolean
 	seasonStart: Date | null
 	seasonEnd: Date | null
 	bagLimit: number | null
@@ -156,7 +154,7 @@ export interface FishingRestriction {
 export function toLegacyRestriction(record: NormalizedRecord): FishingRestriction {
 	return {
 		id: record.id,
-		exceptionType: record.exceptionType,
+		isException: record.isException,
 		seasonStart: record.seasonStart,
 		seasonEnd: record.seasonEnd,
 		bagLimit: record.bagLimit,
