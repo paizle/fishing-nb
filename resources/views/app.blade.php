@@ -4,7 +4,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title inertia>{{ config('app.name', 'Smart Fish') }}</title>
+        @if (isset($pageMeta))
+            <title>{{ $pageMeta['title'] }}</title>
+            <meta name="description" content="{{ $pageMeta['description'] }}">
+            <link rel="canonical" href="{{ $pageMeta['canonical'] }}">
+        @else
+            <title inertia>{{ config('app.name', 'Smart Fish') }}</title>
+        @endif
 
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -19,11 +25,18 @@
         <!-- Scripts -->
         @routes
         @viteReactRefresh
-        @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
+        @vite(['resources/js/app.jsx'])
         @inertiaHead
     </head>
     <body>
-        @include('seo.restrictions-summary')
+        @include('partials.regulations-entry-prerender')
+        @include('partials.restrictions-prerender')
         @inertia
+        @unless (app()->environment('local'))
+            @include('partials.static-shell-hide')
+        @endunless
+        @if (app()->environment('local') && (isset($staticRestrictions) || !empty($regulationsEntry)))
+            @include('partials.dev-spa-toggle')
+        @endif
     </body>
 </html>

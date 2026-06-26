@@ -4,195 +4,198 @@
 	@include redesign-section;
 	padding-top: 0.75rem;
 	padding-bottom: 0.75rem;
+	position: relative;
+	z-index: 100;
+	background-color: rgba(50, 0, 0, 0.1);
+}
 
-	&-inner {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
+.RedesignNav-inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.RedesignNav-brand {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	text-decoration: none;
+	color: var(--redesign-white);
+
+	&:hover {
+		text-decoration: none;
+		opacity: 0.95;
 	}
+}
 
-	&-brand {
+.RedesignNav-logo {
+	flex-shrink: 0;
+	width: auto;
+	height: 2.75rem;
+	object-fit: contain;
+}
+
+.RedesignNav-brandText {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 0.125rem;
+	line-height: 1.15;
+}
+
+.RedesignNav-title {
+	font-family: 'Outfit', sans-serif;
+	font-weight: 600;
+	font-size: 1.125rem;
+	letter-spacing: -0.01em;
+	color: var(--redesign-white);
+}
+
+.RedesignNav-tagline {
+	font-family: 'Outfit', sans-serif;
+	font-size: 0.6875rem;
+	font-weight: 400;
+	color: rgba(255, 255, 255, 0.82);
+	white-space: nowrap;
+	display: none;
+
+	@media (min-width: 640px) {
+		display: block;
+	}
+}
+
+.RedesignNav-links {
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.RedesignNav-links--desktop {
+	display: none;
+
+	@media (min-width: 900px) {
 		display: flex;
-		align-items: center;
-		gap: 0.75rem;
+	}
+}
+
+.RedesignNav-link {
+	padding: 0.5rem 0.75rem;
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: rgba(255, 255, 255, 0.9);
+	text-decoration: none;
+	border-radius: 0.25rem;
+	transition: background-color 0.15s;
+
+	&:hover {
+		background-color: rgba(255, 255, 255, 0.1);
 		text-decoration: none;
 		color: var(--redesign-white);
+	}
+}
 
-		&:hover {
-			text-decoration: none;
-			opacity: 0.95;
-		}
+.RedesignNav-settings {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.25rem;
+	height: 2.25rem;
+	margin-left: 0.5rem;
+	color: rgba(255, 255, 255, 0.9);
+	border-radius: 0.25rem;
+	text-decoration: none;
+
+	svg {
+		width: 1.25rem;
+		height: 1.25rem;
 	}
 
-	&-logo {
-		flex-shrink: 0;
-		width: auto;
-		height: 2.75rem;
-		object-fit: contain;
+	&:hover {
+		background-color: rgba(255, 255, 255, 0.1);
 	}
+}
 
-	&-brandText {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		gap: 0.125rem;
-		line-height: 1.15;
-	}
+.RedesignNav-menuBtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	padding: 0;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	border-radius: 0.25rem;
 
-	&-title {
-		font-family: 'Outfit', sans-serif;
-		font-weight: 600;
-		font-size: 1.125rem;
-		letter-spacing: -0.01em;
-		color: var(--redesign-white);
-	}
-
-	&-tagline {
-		font-family: 'Outfit', sans-serif;
-		font-size: 0.6875rem;
-		font-weight: 400;
-		color: rgba(255, 255, 255, 0.82);
-		white-space: nowrap;
+	@media (min-width: 900px) {
 		display: none;
-
-		@media (min-width: 640px) {
-			display: block;
-		}
 	}
 
-	&-links {
-		align-items: center;
-		gap: 0.25rem;
-
-		&--desktop {
-			display: none;
-
-			@media (min-width: 900px) {
-				display: flex;
-			}
-		}
+	&:hover {
+		background-color: rgba(255, 255, 255, 0.1);
 	}
+}
 
-	&-link {
-		padding: 0.5rem 0.75rem;
-		font-size: 0.875rem;
-		font-weight: 500;
-		color: rgba(255, 255, 255, 0.9);
-		text-decoration: none;
-		border-radius: 0.25rem;
-		transition: background-color 0.15s;
+.RedesignNav-menuIcon {
+	position: relative;
+	width: 1.25rem;
+	height: 2px;
+	background-color: var(--redesign-white);
+	transition: background-color 0.2s;
 
-		&:hover {
-			background-color: rgba(255, 255, 255, 0.1);
-			text-decoration: none;
-			color: var(--redesign-white);
-		}
-	}
-
-	&-settings {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 2.25rem;
-		height: 2.25rem;
-		margin-left: 0.5rem;
-		color: rgba(255, 255, 255, 0.9);
-		border-radius: 0.25rem;
-		text-decoration: none;
-
-		svg {
-			width: 1.25rem;
-			height: 1.25rem;
-		}
-
-		&:hover {
-			background-color: rgba(255, 255, 255, 0.1);
-		}
-	}
-
-	&-menuBtn {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 2.5rem;
-		height: 2.5rem;
-		padding: 0;
-		border: none;
-		background: transparent;
-		cursor: pointer;
-		border-radius: 0.25rem;
-
-		@media (min-width: 900px) {
-			display: none;
-		}
-
-		&:hover {
-			background-color: rgba(255, 255, 255, 0.1);
-		}
-	}
-
-	&-menuIcon {
-		position: relative;
+	&::before,
+	&::after {
+		content: '';
+		position: absolute;
+		left: 0;
 		width: 1.25rem;
 		height: 2px;
 		background-color: var(--redesign-white);
-		transition: background-color 0.2s;
-
-		&::before,
-		&::after {
-			content: '';
-			position: absolute;
-			left: 0;
-			width: 1.25rem;
-			height: 2px;
-			background-color: var(--redesign-white);
-			transition: transform 0.2s;
-		}
-
-		&::before {
-			top: -6px;
-		}
-
-		&::after {
-			top: 6px;
-		}
-
-		&.is-open {
-			background-color: transparent;
-
-			&::before {
-				transform: translateY(6px) rotate(45deg);
-			}
-
-			&::after {
-				transform: translateY(-6px) rotate(-45deg);
-			}
-		}
+		transition: transform 0.2s;
 	}
 
-	&-mobile {
-		display: flex;
-		flex-direction: column;
-		padding: 0.5rem 0 1rem;
-		border-top: 1px solid rgba(255, 255, 255, 0.15);
-		margin-top: 0.5rem;
-
-		@media (min-width: 900px) {
-			display: none;
-		}
+	&::before {
+		top: -6px;
 	}
 
-	&-mobileLink {
-		padding: 0.75rem 0;
-		color: var(--redesign-white);
+	&::after {
+		top: 6px;
+	}
+}
+
+.RedesignNav-menuIcon.is-open {
+	background-color: transparent;
+
+	&::before {
+		transform: translateY(6px) rotate(45deg);
+	}
+
+	&::after {
+		transform: translateY(-6px) rotate(-45deg);
+	}
+}
+
+.RedesignNav-mobile {
+	display: flex;
+	flex-direction: column;
+	padding: 0.5rem 0 1rem;
+	border-top: 1px solid rgba(255, 255, 255, 0.15);
+	margin-top: 0.5rem;
+
+	@media (min-width: 900px) {
+		display: none;
+	}
+}
+
+.RedesignNav-mobileLink {
+	padding: 0.75rem 0;
+	color: var(--redesign-white);
+	text-decoration: none;
+	font-weight: 500;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+	&:hover {
 		text-decoration: none;
-		font-weight: 500;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-
-		&:hover {
-			text-decoration: none;
-			opacity: 0.9;
-		}
+		opacity: 0.9;
 	}
 }

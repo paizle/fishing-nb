@@ -11,7 +11,6 @@ import SmartFishLayout from '@/Layouts/SmartFishLayout/SmartFishLayout'
 import normalizeFishId from '@/Util/normalizeFishId'
 import locationSlug from '@/Util/locationSlug'
 import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
-import Homepage from './Homepage/Homepage'
 
 const Map = lazy(() => import('./Map/Map.jsx'))
 
@@ -71,7 +70,7 @@ function syncLocationUrl(locationItem) {
 }
 
 function syncRootUrl() {
-	replacePathname(new URL(route('smart_fish.page'), window.location.origin).pathname)
+	replacePathname(new URL(route('regulations.page'), window.location.origin).pathname)
 }
 
 export default function SmartFish({
@@ -261,12 +260,6 @@ export default function SmartFish({
 			value: { ...locationItem.value },
 		})
 		visitLocation(locationItem)
-	}
-
-	const showHomepage = regionId === null && !selectedLocation && !showMap
-
-	if (showHomepage) {
-		return <Homepage fishes={fishes} />
 	}
 
 	const pageTitle = showMap

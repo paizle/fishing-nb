@@ -28,13 +28,13 @@
 			margin-top: 1.5em;
 			margin-bottom: -1.5em;
 		}
+	}
 
-		&--bottom {
-			justify-self: end;
-			align-items: flex-end;
-			margin-top: 0.75em;
-			margin-bottom: 1em;
-		}
+	.SharePageLink--bottom {
+		justify-self: end;
+		align-items: flex-end;
+		margin-top: 0.75em;
+		margin-bottom: 1em;
 	}
 
 	@screen sm {

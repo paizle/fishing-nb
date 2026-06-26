@@ -69,6 +69,7 @@ PDF is served with `Content-Type: application/pdf` and `Content-Disposition: inl
 ## Conventions
 
 - Match surrounding file style (JS vs TS, SCSS colocated with components).
+- **SCSS class names must be written in full** (e.g. `.RedesignNav-inner { … }`). Do not use parent-reference concatenation (`&-inner`, `&--modifier`) — it hides class names from search.
 - Minimize scope — no drive-by refactors.
 - Tests live next to utils (`*.test.ts`) where they already exist; add tests only when they cover real behavior the user cares about.
 

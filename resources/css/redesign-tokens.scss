@@ -31,7 +31,6 @@ $redesign-warning: #d69e2e;
 
 @mixin redesign-section {
 	max-width: var(--redesign-max-width);
-	margin: 0 auto;
 	padding: var(--redesign-section-padding);
 }
 
@@ -90,4 +89,10 @@ $redesign-warning: #d69e2e;
 	@include redesign-btn-primary;
 	background-color: var(--redesign-forest);
 	border-color: var(--redesign-forest);
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0;
 }

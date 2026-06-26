@@ -5,7 +5,7 @@ import { Cog6ToothIcon } from '@heroicons/react/24/outline'
 
 const NAV_LINKS = [
 	{ label: 'Waters Map', href: 'maps.waters', type: 'route' },
-	{ label: 'Regulations', href: '#find-regulations', type: 'anchor' },
+	{ label: 'Regulations', href: 'regulations.page', type: 'route' },
 	{ label: 'Species', href: '#species', type: 'anchor' },
 	{ label: 'Search', href: 'search.page', type: 'route' },
 	{ label: 'About', href: '#about', type: 'anchor' },

@@ -19,15 +19,10 @@ class PublicController extends Controller
 
 	private function regulationPdfPath(): string
 	{
-		$candidates = [
-			storage_path('app/regulations/Fish.pdf'),
-			public_path('regulations/Fish.pdf'),
-		];
+		$path = storage_path('app/regulations/Fish.pdf');
 
-		foreach ($candidates as $path) {
-			if (is_file($path)) {
-				return $path;
-			}
+		if (is_file($path)) {
+			return $path;
 		}
 
 		abort(404);

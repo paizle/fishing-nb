@@ -7,21 +7,20 @@
 	background-color: var(--redesign-off-white);
 	font-family: 'Outfit', 'Poppins', sans-serif;
 	color: var(--redesign-text);
+}
 
-	&-header {
-		position: sticky;
-		top: 0;
-		z-index: 50;
-		background-color: var(--redesign-forest-dark);
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-	}
+.RedesignLayout-header {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	background-color: var(--redesign-forest-dark);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
 
-	&-main {
-		flex: 1 1 auto;
-		overflow-x: hidden;
-	}
+.RedesignLayout-main {
+	flex: 1 1 auto;
+}
 
-	&-footer {
-		flex-shrink: 0;
-	}
+.RedesignLayout-footer {
+	flex-shrink: 0;
 }

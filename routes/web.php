@@ -26,6 +26,7 @@ Route::redirect('/home', '/', 301);
 
 Route::controller(SmartFishController::class)->group(function () {
 	Route::get('/', 'index')->name('smart_fish.page');
+	Route::get('/regulations', 'regulations')->name('regulations.page');
 	Route::get('/search', 'search')->name('search.page');
 	Route::get('/fish/{region}/{water}', 'fishLocation')->name('fish.region.water');
 	Route::get('/fish/{region}', 'fishLocation')->name('fish.region');
@@ -34,6 +35,11 @@ Route::controller(SmartFishController::class)->group(function () {
 Route::controller(PublicController::class)->group(function () {
 	Route::get('/settings', 'settings')->name('settings.edit');
 	Route::get('/waters-map', 'waters_map')->name('maps.waters');
+});
+
+Route::controller(\App\Http\Controllers\SeoController::class)->group(function () {
+	Route::get('/sitemap.xml', 'sitemap')->name('sitemap');
+	Route::get('/robots.txt', 'robots')->name('robots');
 });
 
 // -------------------------------------------------------------------------

@@ -60,9 +60,9 @@ export default function PublicNav({ children }) {
 
 								<Dropdown.Content>
 									<Dropdown.Link
-										href={route('smart_fish.page')}
+										href={route('regulations.page')}
 										active={
-											route().current('smart_fish.page') ||
+											route().current('regulations.page') ||
 											route().current('fish.*')
 										}
 										className="flex justify-between"
@@ -140,8 +140,8 @@ export default function PublicNav({ children }) {
 			>
 				<div className="py-1">
 					<ResponsiveNavLink
-						href={route('smart_fish.page')}
-						active={route().current('smart_fish.page') || route().current('fish.*')}
+						href={route('regulations.page')}
+						active={route().current('regulations.page') || route().current('fish.*')}
 					>
 						Smart Fish
 						<DevicePhoneMobileIcon className="h-5 w-5" />
