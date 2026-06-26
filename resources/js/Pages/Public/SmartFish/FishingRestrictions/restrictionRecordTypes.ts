@@ -1,9 +1,11 @@
+export type ExceptionType = 'exclusive' | 'specifier'
+
 export type NormalizedRecord = {
 	id: number
 	fishId: number | null
 	fishName: string
 	waterId: number | null
-	isException: boolean
+	exceptionType: ExceptionType | null
 	seasonStart: Date | null
 	seasonEnd: Date | null
 	bagLimit: number | null

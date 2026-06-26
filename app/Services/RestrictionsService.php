@@ -77,7 +77,7 @@ class RestrictionsService
       $record_ids = array_merge($record_ids, 
         FishingRestriction::query()
           ->where('region_id', $region_id)
-          ->where('is_exception', 1)
+          ->whereNotNull('exception_type')
           ->pluck('id')
           ->toArray()
         );
@@ -96,7 +96,7 @@ class RestrictionsService
         ->where(function ($query) use ($fish_id) {
           $query
             ->where('fish.id', $fish_id)
-            ->orWhere('is_exception', 1);
+            ->orWhereNotNull('exception_type');
         })
         ->with(['fish', 'water'])
         ->select([
@@ -137,7 +137,7 @@ class RestrictionsService
 		$record_ids = array_merge($record_ids, FishingRestriction::query()
 			->where('region_id', $region_id)
 			->where('water_id', $water_id)
-			->where('is_exception', 1)
+			->whereNotNull('exception_type')
 			->pluck('id')
 			->toArray()
     );
