@@ -1,5 +1,9 @@
 @extends('layouts.public-site')
 
+@section('vite')
+    @vite(['resources/css/public-pages.scss', 'resources/js/public-home.jsx'])
+@endsection
+
 @section('content')
     <div class="Homepage">
         {{-- Hero --}}
@@ -23,26 +27,33 @@
                     </p>
                 </div>
 
-                <aside class="WhatsOpenNowCard" aria-labelledby="whats-open-heading">
-                    <h2 id="whats-open-heading" class="WhatsOpenNowCard-title">What&apos;s Open Right Now?</h2>
-                    <p class="WhatsOpenNowCard-date">{{ now()->format('l, F j, Y') }}</p>
-                    <ul class="WhatsOpenNowCard-list">
-                        @foreach ([
-                            ['Brook Trout', 'open', 'Open'],
-                            ['Smallmouth Bass', 'open', 'Open'],
-                            ['Chain Pickerel', 'open', 'Open'],
-                            ['Landlocked Salmon', 'open', 'Open'],
-                            ['Lake Trout', 'open', 'Open'],
-                            ['Atlantic Salmon', 'warning', 'Retention prohibited'],
-                        ] as [$name, $status, $label])
-                            <li class="WhatsOpenNowCard-item is-{{ $status }}">
-                                <span class="WhatsOpenNowCard-name">{{ $name }}</span>
-                                <span class="WhatsOpenNowCard-status">{{ $label }}</span>
-                            </li>
-                        @endforeach
-                    </ul>
-                    <a href="#species" class="WhatsOpenNowCard-link">View All Seasons</a>
-                </aside>
+                <div class="HeroSection-asideColumn">
+                    <aside class="WhatsOpenNowCard" aria-hidden="true">
+                        <h2 class="WhatsOpenNowCard-title">What&apos;s Open Right Now?</h2>
+                        <p class="WhatsOpenNowCard-date">{{ now()->format('l, F j, Y') }}</p>
+                        <ul class="WhatsOpenNowCard-list">
+                            @foreach ([
+                                ['Brook Trout', 'open', 'Open'],
+                                ['Smallmouth Bass', 'open', 'Open'],
+                                ['Chain Pickerel', 'open', 'Open'],
+                                ['Landlocked Salmon', 'open', 'Open'],
+                                ['Lake Trout', 'open', 'Open'],
+                                ['Atlantic Salmon', 'warning', 'Retention prohibited'],
+                            ] as [$name, $status, $label])
+                                <li class="WhatsOpenNowCard-item is-{{ $status }}">
+                                    <span class="WhatsOpenNowCard-name">{{ $name }}</span>
+                                    <span class="WhatsOpenNowCard-status">{{ $label }}</span>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <a href="#species" class="WhatsOpenNowCard-link">View All Seasons</a>
+                    </aside>
+
+                    <div
+                        id="whats-open-now-widget"
+                        data-api-last-modified="{{ config('app.api_last_modified') }}"
+                    ></div>
+                </div>
             </div>
         </section>
 

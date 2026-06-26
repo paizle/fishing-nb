@@ -1,0 +1,1 @@
+import{d as o,j as e}from"./client-DP3ikFuO.js";import i from"./WhatsOpenNowCardLive-CA4LJPNT.js";import"./useRest-Ck3u6CVj.js";import"./format-6k-ph54I.js";const t=document.getElementById("whats-open-now-widget");t&&o.createRoot(t).render(e.jsx(i,{apiLastModified:t.dataset.apiLastModified??""}));

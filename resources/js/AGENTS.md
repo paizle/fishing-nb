@@ -66,6 +66,20 @@ Key files:
 
 PDF is served with `Content-Type: application/pdf` and `Content-Disposition: inline` via `PublicController::regulationPdf`. Some mobile browsers may still download instead of displaying in an iframe — there is no client-side PDF renderer in this app.
 
+## Blade React islands
+
+Some Blade pages mount small React trees without Inertia:
+
+| File                                                                                                                                     | Role                                                           |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| [`resources/js/public-home.jsx`](public-home.jsx)                                                                                        | Vite entry; mounts on `#whats-open-now-widget` on the homepage |
+| [`Pages/Public/SmartFish/Homepage/sections/WhatsOpenNowCardLive.jsx`](Pages/Public/SmartFish/Homepage/sections/WhatsOpenNowCardLive.jsx) | Live “What’s Open Right Now?” card                             |
+| [`Pages/Public/SmartFish/Homepage/whatsOpenNowFeatured.ts`](Pages/Public/SmartFish/Homepage/whatsOpenNowFeatured.ts)                     | Featured species filter + Atlantic Salmon rollup               |
+
+Homepage Blade ([`pages/home.blade.php`](../../views/pages/home.blade.php)) uses `@section('vite')` to load `public-home.jsx` alongside `public-pages.scss`. Other public Blade pages keep CSS-only via the default layout `@vite`.
+
+Data: `GET /api/calendar` (today by default) via [`useRest.ts`](Hooks/useRest.ts).
+
 ## Conventions
 
 - Match surrounding file style (JS vs TS, SCSS colocated with components).

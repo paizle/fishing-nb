@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\CalendarApiController;
 use App\Http\Controllers\RulesController;
 
 // -------------------------------------------------------------------------
@@ -22,3 +23,9 @@ Route::controller(RulesController::class)->group(function () {
 	Route::get('/rules', 'index')->name('api.rules');
 	Route::get('/rule/{fish_id}', 'show')->whereNumber('fish_id')->name('api.rule');
 });
+
+// -------------------------------------------------------------------------
+// Season calendar — province-wide daily status (JSON).
+// Query param: date (optional, Y-m-d; default today).
+// -------------------------------------------------------------------------
+Route::get('/calendar', [CalendarApiController::class, 'index'])->name('api.calendar');

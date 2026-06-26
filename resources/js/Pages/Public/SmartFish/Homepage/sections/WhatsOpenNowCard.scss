@@ -52,11 +52,23 @@
 	font-weight: 600;
 }
 
+.WhatsOpenNowCard-item.is-catch-release .WhatsOpenNowCard-status {
+	color: var(--redesign-warning);
+	font-weight: 600;
+	font-size: 0.75rem;
+	text-align: right;
+}
+
 .WhatsOpenNowCard-item.is-warning .WhatsOpenNowCard-status {
 	color: var(--redesign-warning);
 	font-weight: 600;
 	font-size: 0.75rem;
 	text-align: right;
+}
+
+.WhatsOpenNowCard-item.is-closed .WhatsOpenNowCard-status {
+	color: var(--redesign-closed);
+	font-weight: 600;
 }
 
 .WhatsOpenNowCard-name {

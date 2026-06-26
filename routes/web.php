@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\SmartFishController;
@@ -50,5 +51,8 @@ Route::get('/regulations/Fish.pdf', [PublicController::class, 'regulationPdf'])
 
 Route::get('/verify-source', [PublicController::class, 'verifySource'])
 	->name('verify.source');
+
+Route::get('/calendar', [CalendarController::class, 'index'])
+	->name('calendar.page');
 
 require __DIR__ . '/auth.php';
