@@ -1,0 +1,78 @@
+@use '../../redesign-tokens' as *;
+
+:root {
+	--nav-height: 4.5rem;
+}
+
+html,
+body {
+	height: 100%;
+}
+
+.RedesignLayout {
+	display: flex;
+	flex-direction: column;
+	.RedesignLayout-main {
+		flex-grow: 1;
+	}
+
+	height: 100%;
+	background-color: var(--redesign-off-white);
+	font-family: 'Outfit', 'Poppins', sans-serif;
+	color: var(--redesign-text);
+	position: relative;
+
+	&:after {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: var(--nav-height);
+		width: 100%;
+		background-color: var(--redesign-forest-dark);
+		z-index: 1;
+	}
+	.RedesignNav {
+		position: relative;
+		z-index: 10;
+		position: relative;
+		background-color: rgba(50, 0, 0, 0.1);
+		transition: background-color 0.3s ease;
+		&:hover {
+			background-color: rgba(50, 0, 0, 0.3);
+		}
+		.RedesignNav-inner {
+			@include stage;
+		}
+	}
+	.RedesignLayout-main {
+		position: relative;
+		z-index: 2;
+	}
+}
+
+.RedesignLayout-header {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	background-color: var(--redesign-forest-dark);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.RedesignLayout-main {
+	.HeroSection-inner,
+	.FindRegulationsSection-inner,
+	.MapPreviewSection-inner,
+	.SpeciesGridSection-inner,
+	.HowItWorksSection-inner {
+		@include stage;
+	}
+}
+
+.RedesignLayout-footer {
+	background-color: var(--redesign-forest-dark);
+	color: rgba(255, 255, 255, 0.85);
+	.PublicFooter {
+		@include stage;
+	}
+}

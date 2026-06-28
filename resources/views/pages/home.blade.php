@@ -1,14 +1,20 @@
 @extends('layouts.public-site')
 
 @section('vite')
-    @vite(['resources/css/public-pages.scss', 'resources/js/public-home.jsx'])
+    @if (config('app.react_islands_on'))
+        @viteReactRefresh
+    @endif
+    @vite(array_values(array_filter([
+        'resources/css/public-pages.scss',
+        config('app.react_islands_on') ? 'resources/js/public-home.jsx' : null,
+    ])))
 @endsection
 
 @section('content')
     <div class="Homepage">
         {{-- Hero --}}
         <section class="HeroSection" aria-labelledby="hero-heading">
-            <div class="HeroSection-backdrop" aria-hidden="true"></div>
+            <div class="HeroSection-backdrop" aria-hidden="true" style="--hero-background-image: url('{{ asset('images/redesign/hero-background.jpg') }}')"></div>
             <div class="HeroSection-inner">
                 <div class="HeroSection-content">
                     <h1 id="hero-heading" class="HeroSection-heading">
@@ -19,7 +25,7 @@
                         all in one place. Plan your next trip with confidence.
                     </p>
                     <div class="HeroSection-actions">
-                        <a href="#find-regulations" class="HeroSection-btn HeroSection-btn--primary">Search a Waterbody</a>
+                        <a href="{{ route('regulations.page') }}" class="HeroSection-btn HeroSection-btn--primary">Search a Waterbody</a>
                         <a href="{{ route('maps.waters') }}" class="HeroSection-btn HeroSection-btn--outline">Open Interactive Map</a>
                     </div>
                     <p class="HeroSection-disclaimer">
@@ -28,31 +34,26 @@
                 </div>
 
                 <div class="HeroSection-asideColumn">
-                    <aside class="WhatsOpenNowCard" aria-hidden="true">
-                        <h2 class="WhatsOpenNowCard-title">What&apos;s Open Right Now?</h2>
-                        <p class="WhatsOpenNowCard-date">{{ now()->format('l, F j, Y') }}</p>
-                        <ul class="WhatsOpenNowCard-list">
-                            @foreach ([
-                                ['Brook Trout', 'open', 'Open'],
-                                ['Smallmouth Bass', 'open', 'Open'],
-                                ['Chain Pickerel', 'open', 'Open'],
-                                ['Landlocked Salmon', 'open', 'Open'],
-                                ['Lake Trout', 'open', 'Open'],
-                                ['Atlantic Salmon', 'warning', 'Retention prohibited'],
-                            ] as [$name, $status, $label])
-                                <li class="WhatsOpenNowCard-item is-{{ $status }}">
-                                    <span class="WhatsOpenNowCard-name">{{ $name }}</span>
-                                    <span class="WhatsOpenNowCard-status">{{ $label }}</span>
-                                </li>
-                            @endforeach
-                        </ul>
-                        <a href="#species" class="WhatsOpenNowCard-link">View All Seasons</a>
-                    </aside>
-
-                    <div
-                        id="whats-open-now-widget"
-                        data-api-last-modified="{{ config('app.api_last_modified') }}"
-                    ></div>
+                    @if ($reactIslandsOn)
+                        <div
+                            id="whats-open-now-widget"
+                            data-api-last-modified="{{ config('app.api_last_modified') }}"
+                        ></div>
+                    @else
+                        <aside class="WhatsOpenNowCard" aria-labelledby="whats-open-heading">
+                            <h2 id="whats-open-heading" class="WhatsOpenNowCard-title">What&apos;s Open Right Now?</h2>
+                            <p class="WhatsOpenNowCard-date">{{ $whatsOpenNow['dateLabel'] }}</p>
+                            <ul class="WhatsOpenNowCard-list">
+                                @foreach ($whatsOpenNow['rows'] as $row)
+                                    <li class="WhatsOpenNowCard-item is-{{ $row['statusClass'] }}">
+                                        <span class="WhatsOpenNowCard-name">{{ $row['fishName'] }}</span>
+                                        <span class="WhatsOpenNowCard-status">{{ $row['statusLabel'] }}</span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                            <a href="/calendar" class="WhatsOpenNowCard-link">View All Seasons</a>
+                        </aside>
+                    @endif
                 </div>
             </div>
         </section>
@@ -65,7 +66,7 @@
                 <form class="FindRegulationsSection-search search-page-form" method="get" action="{{ route('search.page') }}">
                     <input type="search" name="q" minlength="2" placeholder="Search waterbodies, species, or regions…" aria-label="Search regulations" required>
                     <input type="hidden" name="scope" value="all">
-                    <button type="submit" class="HeroSection-btn HeroSection-btn--primary">Search</button>
+                    <button type="submit" class="btn--primary">Search</button>
                 </form>
 
                 <div class="FindRegulationsSection-tags">

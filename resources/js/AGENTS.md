@@ -68,17 +68,28 @@ PDF is served with `Content-Type: application/pdf` and `Content-Disposition: inl
 
 ## Blade React islands
 
-Some Blade pages mount small React trees without Inertia:
+Some Blade pages can mount small React trees without Inertia. Enable with `REACT_ISLANDS_ON=true` in `.env` (`config('app.react_islands_on')`).
+
+| Mode                               | Homepage “What’s Open”                                                                                                                                              |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `REACT_ISLANDS_ON=false` (default) | Server-rendered Blade card via [`WhatsOpenNowService`](../../app/Services/WhatsOpenNowService.php) + [`WhatsOpenFeatured`](../../app/Support/WhatsOpenFeatured.php) |
+| `REACT_ISLANDS_ON=true`            | React island on `#whats-open-now-widget`; loads `public-home.jsx`                                                                                                   |
 
 | File                                                                                                                                     | Role                                                           |
 | ---------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| [`resources/js/public-home.jsx`](public-home.jsx)                                                                                        | Vite entry; mounts on `#whats-open-now-widget` on the homepage |
-| [`Pages/Public/SmartFish/Homepage/sections/WhatsOpenNowCardLive.jsx`](Pages/Public/SmartFish/Homepage/sections/WhatsOpenNowCardLive.jsx) | Live “What’s Open Right Now?” card                             |
-| [`Pages/Public/SmartFish/Homepage/whatsOpenNowFeatured.ts`](Pages/Public/SmartFish/Homepage/whatsOpenNowFeatured.ts)                     | Featured species filter + Atlantic Salmon rollup               |
+| [`resources/js/public-home.jsx`](public-home.jsx)                                                                                        | Vite entry; mounts on `#whats-open-now-widget` when islands on |
+| [`Pages/Public/SmartFish/Homepage/sections/WhatsOpenNowCardLive.jsx`](Pages/Public/SmartFish/Homepage/sections/WhatsOpenNowCardLive.jsx) | Live “What’s Open Right Now?” card (React mode)                |
+| [`Pages/Public/SmartFish/Homepage/whatsOpenNowFeatured.ts`](Pages/Public/SmartFish/Homepage/whatsOpenNowFeatured.ts)                     | Featured species filter + Atlantic Salmon rollup (React mode)  |
 
-Homepage Blade ([`pages/home.blade.php`](../../views/pages/home.blade.php)) uses `@section('vite')` to load `public-home.jsx` alongside `public-pages.scss`. Other public Blade pages keep CSS-only via the default layout `@vite`.
+Homepage Blade ([`pages/home.blade.php`](../../views/pages/home.blade.php)) uses `@section('vite')` to load `public-home.jsx` only when islands are enabled. Other public Blade pages keep CSS-only via the default layout `@vite`.
 
-Data: `GET /api/calendar` (today by default) via [`useRest.ts`](Hooks/useRest.ts).
+React mode data: `GET /api/calendar` (today by default) via [`useRest.ts`](Hooks/useRest.ts).
+
+## Blade static page styles
+
+Server-rendered public pages (`/`, `/search`, `/calendar`) load a single Vite entry: [`resources/css/public-pages.scss`](../css/public-pages.scss). Partials live under [`resources/css/blade/`](../css/blade/) (layout, homepage sections, calendar, search utilities). Shared tokens: [`resources/css/redesign-tokens.scss`](../css/redesign-tokens.scss).
+
+Do not add Blade page styles under `resources/js/` — the Inertia app uses [`resources/css/app.scss`](../css/app.scss) and colocated component SCSS only.
 
 ## Conventions
 

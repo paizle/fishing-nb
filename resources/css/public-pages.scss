@@ -1,95 +1,14 @@
-@import '../js/Layouts/RedesignLayout/RedesignLayout.scss';
-@import '../js/Layouts/RedesignLayout/RedesignNav.scss';
-@import '../js/Layouts/RedesignLayout/PublicFooter.scss';
-@import '../js/Pages/Public/SmartFish/Homepage/Homepage.scss';
-@import '../js/Pages/Public/SmartFish/Homepage/sections/HeroSection.scss';
-@import '../js/Pages/Public/SmartFish/Homepage/sections/WhatsOpenNowCard.scss';
-@import '../js/Pages/Public/SmartFish/Homepage/sections/FindRegulationsSection.scss';
-@import '../js/Pages/Public/SmartFish/Homepage/sections/MapPreviewSection.scss';
-@import '../js/Pages/Public/SmartFish/Homepage/sections/SpeciesGridSection.scss';
-@import '../js/Pages/Public/SmartFish/Homepage/sections/HowItWorksSection.scss';
-@import 'calendar-page.scss';
-
-.site-directory-nav {
-	margin: 1.25rem auto;
-	max-width: var(--redesign-max-width);
-	padding: 1.25rem;
-	border-top: 1px solid var(--redesign-off-white-dark);
-}
-
-.site-directory-nav__heading {
-	font-family: 'Outfit', sans-serif;
-	font-weight: 600;
-	color: var(--redesign-forest-dark);
-	font-size: 1rem;
-	margin: 0 0 0.35rem;
-}
-.site-directory-nav__list {
-	list-style: none;
-	padding: 0;
-	margin: 0 0 0.75rem;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.35rem 1rem;
-}
-
-.site-directory-nav__list a {
-	color: var(--redesign-forest-light);
-	text-decoration: none;
-}
-
-.site-directory-nav__list a:hover {
-	text-decoration: underline;
-}
-
-.search-page-form {
-	margin: 1rem 0;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.5rem;
-	align-items: center;
-	justify-content: center;
-}
-
-.search-page-form input[type='search'],
-.search-page-form select {
-	padding: 0.5rem 0.75rem;
-	font-size: 1rem;
-	border: 1px solid var(--redesign-off-white-dark);
-	border-radius: 0.25rem;
-}
-
-.search-page-results {
-	margin-top: 1.5rem;
-}
-
-.search-page-results ul {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-}
-
-.search-page-results li {
-	margin: 0.35rem 0;
-}
-
-.search-page-results .result-badge {
-	font-size: 0.8rem;
-	color: var(--redesign-text-muted);
-	margin-left: 0.35rem;
-}
-
-.static-breadcrumb {
-	font-size: 0.9rem;
-	margin-bottom: 0.75rem;
-	color: var(--redesign-text-muted);
-}
-
-.static-breadcrumb a {
-	color: var(--redesign-forest-light);
-	text-decoration: none;
-}
-
-.static-breadcrumb a:hover {
-	text-decoration: underline;
-}
+@use 'blade/layout/redesign-layout';
+@use 'blade/layout/redesign-nav';
+@use 'blade/layout/public-footer';
+@use 'blade/layout/buttons';
+@use 'blade/pages/homepage';
+@use 'blade/sections/hero-section';
+@use 'blade/sections/whats-open-now-card';
+@use 'blade/sections/find-regulations-section';
+@use 'blade/sections/map-preview-section';
+@use 'blade/sections/species-grid-section';
+@use 'blade/sections/how-it-works-section';
+@use 'blade/pages/calendar';
+@use 'blade/pages/utilities';
+@use 'blade/pages/search-page';

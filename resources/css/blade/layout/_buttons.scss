@@ -1,0 +1,5 @@
+@use '../../redesign-tokens' as *;
+
+.btn--primary {
+	@include redesign-btn-primary;
+}

@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\SeasonStatusDaily;
+use App\Support\WhatsOpenFeatured;
+use Carbon\Carbon;
+
+class WhatsOpenNowService
+{
+	/**
+	 * @return array{
+	 *     dateLabel: string,
+	 *     anchorDate: string,
+	 *     rows: list<array{fishName: string, statusLabel: string, statusClass: string}>
+	 * }
+	 */
+	public function forToday(?Carbon $date = null): array
+	{
+		$date = ($date ?? now())->copy()->startOfDay();
+		$regulationYear = (int) config('fishing.regulation_year');
+
+		$entries = SeasonStatusDaily::query()
+			->with('fish')
+			->join('fish', 'fish.id', '=', 'season_status_daily.fish_id')
+			->where('season_status_daily.regulation_year', $regulationYear)
+			->where('season_status_daily.calendar_date', $date->toDateString())
+			->orderBy('fish.name')
+			->select('season_status_daily.*')
+			->get()
+			->map(fn (SeasonStatusDaily $row) => [
+				'fishId' => (int) $row->fish_id,
+				'fishName' => (string) $row->fish->name,
+				'status' => $row->status->value,
+				'statusLabel' => $row->status->label(),
+				'statusClass' => $row->status->cssClass(),
+			])
+			->values()
+			->all();
+
+		return [
+			'dateLabel' => $date->format('l, F j, Y'),
+			'anchorDate' => $date->toDateString(),
+			'rows' => WhatsOpenFeatured::pickFeaturedRows($entries),
+		];
+	}
+}

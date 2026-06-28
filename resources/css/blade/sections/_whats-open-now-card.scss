@@ -1,0 +1,86 @@
+@use '../../redesign-tokens' as *;
+
+.WhatsOpenNowCard {
+	background: var(--redesign-white);
+	border-radius: 0.5rem;
+	padding: 1.25rem 1.5rem;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+	color: var(--redesign-text);
+	justify-self: center;
+
+	@media (min-width: 900px) {
+		justify-self: end;
+	}
+}
+
+.WhatsOpenNowCard-title {
+	@include redesign-heading;
+	font-size: 1.1rem;
+	margin: 0 0 0.25rem;
+}
+
+.WhatsOpenNowCard-date {
+	font-size: 0.8rem;
+	color: var(--redesign-text-muted);
+	margin: 0 0 1rem;
+}
+
+.WhatsOpenNowCard-list {
+	list-style: none;
+	margin: 0 0 1rem;
+	padding: 0;
+}
+
+.WhatsOpenNowCard-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.5rem 0;
+	border-bottom: 1px solid var(--redesign-off-white-dark);
+	font-size: 0.875rem;
+
+	&:last-child {
+		border-bottom: none;
+	}
+}
+
+.WhatsOpenNowCard-item.is-open .WhatsOpenNowCard-status {
+	color: var(--redesign-open);
+	font-weight: 600;
+}
+
+.WhatsOpenNowCard-item.is-catch-release .WhatsOpenNowCard-status {
+	color: var(--redesign-warning);
+	font-weight: 600;
+	font-size: 0.75rem;
+	text-align: right;
+}
+
+.WhatsOpenNowCard-item.is-warning .WhatsOpenNowCard-status {
+	color: var(--redesign-warning);
+	font-weight: 600;
+	font-size: 0.75rem;
+	text-align: right;
+}
+
+.WhatsOpenNowCard-item.is-closed .WhatsOpenNowCard-status {
+	color: var(--redesign-closed);
+	font-weight: 600;
+}
+
+.WhatsOpenNowCard-name {
+	font-weight: 500;
+	color: var(--redesign-forest-dark);
+}
+
+.WhatsOpenNowCard-link {
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: var(--redesign-forest-light);
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}

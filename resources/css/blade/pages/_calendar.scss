@@ -1,0 +1,139 @@
+@use '../../redesign-tokens' as *;
+
+.CalendarPage {
+	@include redesign-section;
+	margin: 0 auto;
+}
+
+.CalendarPage-header {
+	margin-bottom: 2rem;
+}
+
+.CalendarPage-title {
+	@include redesign-heading;
+	font-size: 1.75rem;
+	margin: 0 0 0.5rem;
+}
+
+.CalendarPage-meta {
+	margin: 0 0 1.25rem;
+	color: var(--redesign-text-muted);
+	font-size: 0.95rem;
+}
+
+.CalendarPage-nav {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem 1.25rem;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.CalendarPage-navLink {
+	color: var(--redesign-forest-light);
+	font-weight: 600;
+	text-decoration: none;
+	font-size: 0.95rem;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.CalendarPage-dateForm {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	align-items: center;
+}
+
+.CalendarPage-dateLabel {
+	font-size: 0.875rem;
+	color: var(--redesign-text-muted);
+}
+
+.CalendarPage-dateInput,
+.CalendarPage-dateSubmit {
+	padding: 0.45rem 0.65rem;
+	font-size: 0.95rem;
+	border: 1px solid var(--redesign-off-white-dark);
+	border-radius: 0.25rem;
+}
+
+.CalendarPage-dateSubmit {
+	background: var(--redesign-forest-light);
+	color: var(--redesign-white);
+	border-color: var(--redesign-forest-light);
+	cursor: pointer;
+	font-weight: 600;
+
+	&:hover {
+		background: var(--redesign-forest-dark);
+		border-color: var(--redesign-forest-dark);
+	}
+}
+
+.CalendarPage-days {
+	display: grid;
+	gap: 1rem;
+}
+
+.CalendarPage-day {
+	background: var(--redesign-white);
+	border: 1px solid var(--redesign-off-white-dark);
+	border-radius: 0.5rem;
+	padding: 1rem 1.25rem;
+}
+
+.CalendarPage-dayHeading {
+	@include redesign-heading;
+	font-size: 1rem;
+	margin: 0 0 0.75rem;
+}
+
+.CalendarPage-empty {
+	margin: 0;
+	color: var(--redesign-text-muted);
+	font-size: 0.9rem;
+}
+
+.CalendarPage-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.CalendarPage-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.45rem 0;
+	border-bottom: 1px solid var(--redesign-off-white-dark);
+	font-size: 0.9rem;
+
+	&:last-child {
+		border-bottom: none;
+	}
+}
+
+.CalendarPage-fish {
+	font-weight: 500;
+	color: var(--redesign-forest-dark);
+}
+
+.CalendarPage-status {
+	font-weight: 600;
+}
+
+.CalendarPage-item.is-open .CalendarPage-status {
+	color: var(--redesign-open);
+}
+
+.CalendarPage-item.is-catch-release .CalendarPage-status {
+	color: var(--redesign-warning);
+}
+
+.CalendarPage-item.is-closed .CalendarPage-status {
+	color: var(--redesign-closed);
+}

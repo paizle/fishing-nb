@@ -7,6 +7,7 @@ use App\Services\DirectoryNavBuilder;
 use App\Services\FishService;
 use App\Services\RegulationSearchService;
 use App\Services\RestrictionsService;
+use App\Services\WhatsOpenNowService;
 use App\Support\LocationSlug;
 use App\Support\PopularLocations;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ class SmartFishController extends Controller
 		protected DirectoryNavBuilder $directoryNav,
 		protected RegulationSearchService $searchService,
 		protected FishService $fishService,
+		protected WhatsOpenNowService $whatsOpenNow,
 	) {
 	}
 
@@ -33,12 +35,16 @@ class SmartFishController extends Controller
 			->values()
 			->all();
 
+		$reactIslandsOn = (bool) config('app.react_islands_on');
+
 		return view('pages.home', [
 			'title' => 'Smart Fish — New Brunswick Fishing Regulations',
 			'metaDescription' => 'Check seasons, bag limits, size restrictions, and waterbody-specific fishing rules for New Brunswick.',
 			'popularLocations' => PopularLocations::tags(),
 			'speciesList' => $speciesList,
 			'directoryNav' => $this->directoryNav->build(),
+			'reactIslandsOn' => $reactIslandsOn,
+			'whatsOpenNow' => $reactIslandsOn ? null : $this->whatsOpenNow->forToday(),
 		]);
 	}
 

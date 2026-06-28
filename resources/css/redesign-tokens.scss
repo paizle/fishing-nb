@@ -44,7 +44,7 @@ $redesign-warning: #d69e2e;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	padding: 0.875rem 1.75rem;
+	padding: 0.4rem 1.75rem;
 	border-radius: 0.375rem;
 	font-family: 'Outfit', sans-serif;
 	font-weight: 600;
@@ -52,7 +52,7 @@ $redesign-warning: #d69e2e;
 	text-decoration: none;
 	background-color: var(--redesign-forest-light);
 	color: var(--redesign-white);
-	border: 2px solid var(--redesign-forest-light);
+	border: 0.15rem solid var(--redesign-forest-light);
 	transition:
 		background-color 0.2s,
 		border-color 0.2s;
@@ -68,7 +68,7 @@ $redesign-warning: #d69e2e;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	padding: 0.875rem 1.75rem;
+	padding: 0.4rem 1.75rem;
 	border-radius: 0.375rem;
 	font-family: 'Outfit', sans-serif;
 	font-weight: 600;
@@ -76,7 +76,7 @@ $redesign-warning: #d69e2e;
 	text-decoration: none;
 	background-color: transparent;
 	color: var(--redesign-white);
-	border: 2px solid var(--redesign-white);
+	border: 0.15rem solid var(--redesign-white);
 	transition: background-color 0.2s;
 
 	&:hover {
@@ -89,6 +89,12 @@ $redesign-warning: #d69e2e;
 	@include redesign-btn-primary;
 	background-color: var(--redesign-forest);
 	border-color: var(--redesign-forest);
+}
+
+@mixin stage {
+	max-width: var(--redesign-max-width);
+	margin: 0 auto;
+	padding: 0 1rem;
 }
 
 html,
