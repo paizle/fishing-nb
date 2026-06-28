@@ -12,9 +12,9 @@ export function setShowSpa(showSpa) {
 	window.dispatchEvent(new CustomEvent('fishnb-dev-spa-toggle'))
 }
 
-/** Show React (#app) or server prerender blocks (.static-page-shell). */
+/** Show React (#app) or server prerender chrome (.static-site-chrome). */
 export function applyShowSpa(showSpa) {
-	document.querySelectorAll('.static-page-shell').forEach((el) => {
+	document.querySelectorAll('.static-site-chrome').forEach((el) => {
 		el.hidden = showSpa
 	})
 
@@ -34,5 +34,5 @@ export function applyShowSpa(showSpa) {
 }
 
 export function hasStaticPageShell() {
-	return document.querySelector('.static-page-shell') !== null
+	return document.querySelector('.static-site-chrome') !== null
 }

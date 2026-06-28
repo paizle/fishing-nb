@@ -1,32 +1,12 @@
 @use '../../redesign-tokens' as *;
 
-.CalendarPage {
-	@include redesign-section;
-	margin: 0 auto;
-}
-
-.CalendarPage-header {
-	margin-bottom: 2rem;
-}
-
-.CalendarPage-title {
-	@include redesign-heading;
-	font-size: 1.75rem;
-	margin: 0 0 0.5rem;
-}
-
-.CalendarPage-meta {
-	margin: 0 0 1.25rem;
-	color: var(--redesign-text-muted);
-	font-size: 0.95rem;
-}
-
 .CalendarPage-nav {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.75rem 1.25rem;
 	align-items: center;
 	justify-content: space-between;
+	margin-bottom: 2rem;
 }
 
 .CalendarPage-navLink {
@@ -40,42 +20,17 @@
 	}
 }
 
-.CalendarPage-dateForm {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.5rem;
-	align-items: center;
-}
-
-.CalendarPage-dateLabel {
-	font-size: 0.875rem;
-	color: var(--redesign-text-muted);
-}
-
-.CalendarPage-dateInput,
-.CalendarPage-dateSubmit {
-	padding: 0.45rem 0.65rem;
-	font-size: 0.95rem;
-	border: 1px solid var(--redesign-off-white-dark);
-	border-radius: 0.25rem;
-}
-
-.CalendarPage-dateSubmit {
-	background: var(--redesign-forest-light);
-	color: var(--redesign-white);
-	border-color: var(--redesign-forest-light);
-	cursor: pointer;
-	font-weight: 600;
-
-	&:hover {
-		background: var(--redesign-forest-dark);
-		border-color: var(--redesign-forest-dark);
-	}
-}
-
 .CalendarPage-days {
 	display: grid;
 	gap: 1rem;
+	grid-template-columns: auto;
+
+	@media (min-width: 700px) {
+		grid-template-columns: auto auto auto;
+		.CalendarPage-day {
+			max-width: 20rem;
+		}
+	}
 }
 
 .CalendarPage-day {
@@ -124,6 +79,7 @@
 
 .CalendarPage-status {
 	font-weight: 600;
+	text-align: right;
 }
 
 .CalendarPage-item.is-open .CalendarPage-status {

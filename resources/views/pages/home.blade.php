@@ -25,7 +25,7 @@
                         all in one place. Plan your next trip with confidence.
                     </p>
                     <div class="HeroSection-actions">
-                        <a href="{{ route('regulations.page') }}" class="HeroSection-btn HeroSection-btn--primary">Search a Waterbody</a>
+                        <a href="{{ route('search.page') }}" class="HeroSection-btn HeroSection-btn--primary">Search a Waterbody</a>
                         <a href="{{ route('maps.waters') }}" class="HeroSection-btn HeroSection-btn--outline">Open Interactive Map</a>
                     </div>
                     <p class="HeroSection-disclaimer">
@@ -59,15 +59,11 @@
         </section>
 
         {{-- Find regulations --}}
-        <section id="find-regulations" class="FindRegulationsSection" aria-labelledby="find-regulations-heading">
+        <section id="find-regulations" class="FindRegulationsSection BladePage--centered" aria-labelledby="find-regulations-heading">
             <div class="FindRegulationsSection-inner">
                 <h2 id="find-regulations-heading" class="FindRegulationsSection-heading">Find Regulations Fast</h2>
 
-                <form class="FindRegulationsSection-search search-page-form" method="get" action="{{ route('search.page') }}">
-                    <input type="search" name="q" minlength="2" placeholder="Search waterbodies, species, or regions…" aria-label="Search regulations" required>
-                    <input type="hidden" name="scope" value="all">
-                    <button type="submit" class="btn--primary">Search</button>
-                </form>
+                @include('partials.public.search-form')
 
                 <div class="FindRegulationsSection-tags">
                     <span class="FindRegulationsSection-tagsLabel">Popular:</span>

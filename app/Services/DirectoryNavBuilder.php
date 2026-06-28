@@ -92,7 +92,7 @@ class DirectoryNavBuilder
 		$regionEntries = $regions->map(fn (Region $region) => [
 			'name' => $region->name,
 			'slug' => LocationSlug::slug($region->name),
-			'url' => route('fish.region', ['region' => LocationSlug::slug($region->name)]),
+			'url' => route('regulations.region', ['region' => LocationSlug::slug($region->name)]),
 		])->values()->all();
 
 		$restrictionIds = FishingRestriction::query()
@@ -120,7 +120,7 @@ class DirectoryNavBuilder
 				'slug' => $waterSlug,
 				'regionSlug' => $regionSlug,
 				'regionName' => $row->region->name,
-				'url' => route('fish.region.water', ['region' => $regionSlug, 'water' => $waterSlug]),
+				'url' => route('regulations.region.water', ['region' => $regionSlug, 'water' => $waterSlug]),
 			];
 		})->values()->all();
 

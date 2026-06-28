@@ -4,16 +4,6 @@ namespace App\Support;
 
 class WhatsOpenFeatured
 {
-	/** @var list<array{displayName: string, matchNames: list<string>}> */
-	private const FEATURED_DISPLAY = [
-		['displayName' => 'Brook Trout', 'matchNames' => ['Brook Trout']],
-		['displayName' => 'Smallmouth Bass', 'matchNames' => ['Smallmouth Bass']],
-		['displayName' => 'Chain Pickerel', 'matchNames' => ['Chain Pickerel']],
-		['displayName' => 'Landlocked Salmon', 'matchNames' => ['Landlocked Salmon']],
-		['displayName' => 'Lake Trout', 'matchNames' => ['Lake Trout']],
-		['displayName' => 'Atlantic Salmon', 'matchNames' => ['Bright Salmon', 'Spring Kelt']],
-	];
-
 	/** @var list<string> */
 	private const STATUS_PRECEDENCE = ['open', 'catch_release', 'closed'];
 
@@ -25,7 +15,7 @@ class WhatsOpenFeatured
 	{
 		$rows = [];
 
-		foreach (self::FEATURED_DISPLAY as $featured) {
+		foreach (FishGroups::featuredDisplay() as $featured) {
 			$matched = array_values(array_filter(
 				$entries,
 				fn (array $entry) => in_array($entry['fishName'], $featured['matchNames'], true),

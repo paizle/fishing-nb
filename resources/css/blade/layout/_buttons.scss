@@ -1,5 +1,17 @@
 @use '../../redesign-tokens' as *;
 
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-family: inherit;
+	cursor: pointer;
+}
+
 .btn--primary {
 	@include redesign-btn-primary;
+}
+
+.btn--outline-on-dark {
+	@include redesign-btn-outline;
 }

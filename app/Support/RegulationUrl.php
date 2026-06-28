@@ -12,11 +12,11 @@ class RegulationUrl
 	public static function fromSearchResult(array $result): string
 	{
 		$path = ! empty($result['waterSlug'])
-			? route('fish.region.water', [
+			? route('regulations.region.water', [
 				'region' => $result['regionSlug'],
 				'water' => $result['waterSlug'],
 			])
-			: route('fish.region', ['region' => $result['regionSlug']]);
+			: route('regulations.region', ['region' => $result['regionSlug']]);
 
 		if (! empty($result['speciesSlug'])) {
 			return $path . '?species=' . rawurlencode($result['speciesSlug']);

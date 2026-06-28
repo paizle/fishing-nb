@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { FEATURED_DISPLAY } from './fishGroups'
 import {
 	findTodayEntries,
 	mergeStatuses,
@@ -19,6 +20,18 @@ const entry = (
 	status,
 	statusLabel,
 	statusClass,
+})
+
+describe('FEATURED_DISPLAY', () => {
+	it('lists five featured groups in fixed order', () => {
+		expect(FEATURED_DISPLAY.map((row) => row.displayName)).toEqual([
+			'Trout',
+			'Smallmouth Bass',
+			'Non-Sport Fish',
+			'Landlocked Salmon',
+			'Atlantic Salmon',
+		])
+	})
 })
 
 describe('findTodayEntries', () => {
@@ -64,7 +77,7 @@ describe('mergeStatuses', () => {
 })
 
 describe('pickFeaturedRows', () => {
-	it('returns six rows in fixed order with Atlantic Salmon rollup', () => {
+	it('returns five rows in fixed order with Atlantic Salmon rollup', () => {
 		const rows = pickFeaturedRows([
 			entry('Lake Trout', 'open', 'Open', 'open', 20),
 			entry('Brook Trout', 'closed', 'Closed', 'closed', 18),
@@ -74,15 +87,33 @@ describe('pickFeaturedRows', () => {
 		])
 
 		expect(rows.map((row) => row.fishName)).toEqual([
-			'Brook Trout',
+			'Trout',
 			'Smallmouth Bass',
-			'Chain Pickerel',
+			'Non-Sport Fish',
 			'Landlocked Salmon',
-			'Lake Trout',
 			'Atlantic Salmon',
 		])
-		expect(rows[0]?.statusLabel).toBe('Closed')
-		expect(rows[5]?.statusLabel).toBe('Catch & release')
-		expect(rows[5]?.statusClass).toBe('catch-release')
+		expect(rows[0]?.statusLabel).toBe('Open')
+		expect(rows[4]?.statusLabel).toBe('Catch & release')
+		expect(rows[4]?.statusClass).toBe('catch-release')
+	})
+
+	it('rolls up trout group status from any member species', () => {
+		const rows = pickFeaturedRows([
+			entry('Rainbow Trout', 'open', 'Open', 'open', 19),
+			entry('Brook Trout', 'closed', 'Closed', 'closed', 18),
+		])
+
+		expect(rows[0]?.fishName).toBe('Trout')
+		expect(rows[0]?.statusLabel).toBe('Open')
+	})
+
+	it('uses method label from winning Atlantic Salmon entry', () => {
+		const rows = pickFeaturedRows([
+			entry('Bright Salmon', 'catch_release', 'Fly Fishing', 'catch-release', 1),
+			entry('Spring Kelt', 'closed', 'Closed', 'closed', 2),
+		])
+
+		expect(rows[4]?.statusLabel).toBe('Fly Fishing')
 	})
 })

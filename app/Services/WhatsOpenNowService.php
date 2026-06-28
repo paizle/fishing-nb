@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\SeasonStatusDaily;
+use App\Support\SeasonMethodContext;
+use App\Support\SeasonStatusEntryBuilder;
 use App\Support\WhatsOpenFeatured;
 use Carbon\Carbon;
 
@@ -20,6 +22,9 @@ class WhatsOpenNowService
 		$date = ($date ?? now())->copy()->startOfDay();
 		$regulationYear = (int) config('fishing.regulation_year');
 
+		$methodContext = SeasonMethodContext::forRegulationYear($regulationYear);
+		$entryBuilder = new SeasonStatusEntryBuilder($methodContext);
+
 		$entries = SeasonStatusDaily::query()
 			->with('fish')
 			->join('fish', 'fish.id', '=', 'season_status_daily.fish_id')
@@ -28,13 +33,7 @@ class WhatsOpenNowService
 			->orderBy('fish.name')
 			->select('season_status_daily.*')
 			->get()
-			->map(fn (SeasonStatusDaily $row) => [
-				'fishId' => (int) $row->fish_id,
-				'fishName' => (string) $row->fish->name,
-				'status' => $row->status->value,
-				'statusLabel' => $row->status->label(),
-				'statusClass' => $row->status->cssClass(),
-			])
+			->map(fn (SeasonStatusDaily $row) => $entryBuilder->fromDailyRow($row))
 			->values()
 			->all();
 

@@ -1,6 +1,10 @@
 @use 'blade/layout/redesign-layout';
 @use 'blade/layout/redesign-nav';
 @use 'blade/layout/public-footer';
+@use 'blade/layout/page-shell';
+@use 'blade/layout/typography';
+@use 'blade/layout/forms';
+@use 'blade/layout/lists';
 @use 'blade/layout/buttons';
 @use 'blade/pages/homepage';
 @use 'blade/sections/hero-section';
@@ -11,4 +15,3 @@
 @use 'blade/sections/how-it-works-section';
 @use 'blade/pages/calendar';
 @use 'blade/pages/utilities';
-@use 'blade/pages/search-page';

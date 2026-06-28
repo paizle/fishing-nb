@@ -1,3 +1,5 @@
+import { FEATURED_DISPLAY } from './fishGroups'
+
 export type CalendarEntry = {
 	fishId: number
 	fishName: string
@@ -27,14 +29,7 @@ export type FeaturedDisplayRow = {
 	statusClass: string
 }
 
-export const FEATURED_DISPLAY = [
-	{ displayName: 'Brook Trout', matchNames: ['Brook Trout'] },
-	{ displayName: 'Smallmouth Bass', matchNames: ['Smallmouth Bass'] },
-	{ displayName: 'Chain Pickerel', matchNames: ['Chain Pickerel'] },
-	{ displayName: 'Landlocked Salmon', matchNames: ['Landlocked Salmon'] },
-	{ displayName: 'Lake Trout', matchNames: ['Lake Trout'] },
-	{ displayName: 'Atlantic Salmon', matchNames: ['Bright Salmon', 'Spring Kelt'] },
-] as const
+export { FEATURED_DISPLAY } from './fishGroups'
 
 const STATUS_PRECEDENCE = ['open', 'catch_release', 'closed'] as const
 

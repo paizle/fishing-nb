@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\SeasonStatusDaily;
+use App\Support\SeasonMethodContext;
+use App\Support\SeasonStatusEntryBuilder;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 
@@ -48,6 +50,9 @@ class SeasonCalendarService
 			->get()
 			->groupBy(fn (SeasonStatusDaily $row) => $row->calendar_date->toDateString());
 
+		$methodContext = SeasonMethodContext::forRegulationYear($regulationYear);
+		$entryBuilder = new SeasonStatusEntryBuilder($methodContext);
+
 		$days = [];
 		$period = CarbonPeriod::create($monthStart, '1 day', $monthEnd);
 
@@ -55,13 +60,7 @@ class SeasonCalendarService
 			/** @var Carbon $day */
 			$dateKey = $day->toDateString();
 			$entries = $rowsByDate->get($dateKey, collect())->map(
-				fn (SeasonStatusDaily $row) => [
-					'fishId' => (int) $row->fish_id,
-					'fishName' => (string) $row->fish->name,
-					'status' => $row->status->value,
-					'statusLabel' => $row->status->label(),
-					'statusClass' => $row->status->cssClass(),
-				],
+				fn (SeasonStatusDaily $row) => $entryBuilder->fromDailyRow($row),
 			)->values()->all();
 
 			$days[] = [

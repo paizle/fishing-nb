@@ -1,0 +1,17 @@
+@use '../../redesign-tokens' as *;
+
+.BladePage {
+	padding: 2.5rem 0 3rem;
+}
+
+.BladePage--panel {
+	background-color: var(--redesign-white);
+}
+
+.BladePage-inner {
+	@include stage;
+}
+
+.BladePage-header {
+	margin-bottom: 1.5rem;
+}

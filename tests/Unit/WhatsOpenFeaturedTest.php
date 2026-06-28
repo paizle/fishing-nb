@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use App\Support\WhatsOpenFeatured;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class WhatsOpenFeaturedTest extends TestCase
 {
@@ -23,7 +23,7 @@ class WhatsOpenFeaturedTest extends TestCase
 		];
 	}
 
-	public function test_pick_featured_rows_returns_six_species_in_fixed_order(): void
+	public function test_pick_featured_rows_returns_five_groups_in_fixed_order(): void
 	{
 		$rows = WhatsOpenFeatured::pickFeaturedRows([
 			self::entry('Lake Trout', 'open', 'Open', 'open', 20),
@@ -32,13 +32,23 @@ class WhatsOpenFeaturedTest extends TestCase
 		]);
 
 		$this->assertSame([
-			'Brook Trout',
+			'Trout',
 			'Smallmouth Bass',
-			'Chain Pickerel',
+			'Non-Sport Fish',
 			'Landlocked Salmon',
-			'Lake Trout',
 			'Atlantic Salmon',
 		], array_column($rows, 'fishName'));
+	}
+
+	public function test_trout_group_rollup_prefers_open_over_closed(): void
+	{
+		$rows = WhatsOpenFeatured::pickFeaturedRows([
+			self::entry('Lake Trout', 'open', 'Open', 'open', 20),
+			self::entry('Brook Trout', 'closed', 'Closed', 'closed', 18),
+		]);
+
+		$this->assertSame('Open', $rows[0]['statusLabel']);
+		$this->assertSame('open', $rows[0]['statusClass']);
 	}
 
 	public function test_merge_statuses_prefers_open_over_catch_release_and_closed(): void
@@ -69,15 +79,25 @@ class WhatsOpenFeaturedTest extends TestCase
 			self::entry('Spring Kelt', 'catch_release', 'Catch & release', 'catch-release', 2),
 		]);
 
-		$this->assertSame('Catch & release', $rows[5]['statusLabel']);
-		$this->assertSame('catch-release', $rows[5]['statusClass']);
+		$this->assertSame('Catch & release', $rows[4]['statusLabel']);
+		$this->assertSame('catch-release', $rows[4]['statusClass']);
+	}
+
+	public function test_atlantic_salmon_rollup_uses_method_label_from_winning_entry(): void
+	{
+		$rows = WhatsOpenFeatured::pickFeaturedRows([
+			self::entry('Bright Salmon', 'catch_release', 'Fly Fishing', 'catch-release', 1),
+			self::entry('Spring Kelt', 'closed', 'Closed', 'closed', 2),
+		]);
+
+		$this->assertSame('Fly Fishing', $rows[4]['statusLabel']);
 	}
 
 	public function test_missing_fish_defaults_to_closed(): void
 	{
 		$rows = WhatsOpenFeatured::pickFeaturedRows([]);
 
-		$this->assertCount(6, $rows);
+		$this->assertCount(5, $rows);
 		$this->assertSame('Closed', $rows[0]['statusLabel']);
 		$this->assertSame('closed', $rows[0]['statusClass']);
 	}

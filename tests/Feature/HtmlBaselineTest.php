@@ -137,28 +137,28 @@ class HtmlBaselineTest extends TestCase
 	/**
 	 * Chaleur / Bass River — water-body page.
 	 *
-	 * Capture baseline: follow README.md for /fish/chaleur/bass-river
+	 * Capture baseline: follow README.md for /regulations/chaleur/bass-river
 	 * Save to: tests/fixtures/restrictions-html/chaleur-bass-river.react.html
 	 */
 	public function test_chaleur_bass_river_html_parity(): void
 	{
 		$this->assertReactHtmlParity(
 			slug: 'chaleur-bass-river',
-			url: '/fish/chaleur/bass-river',
+			url: '/regulations/chaleur/bass-river',
 		);
 	}
 
 	/**
 	 * Chaleur — region page.
 	 *
-	 * Capture baseline: follow README.md for /fish/chaleur
+	 * Capture baseline: follow README.md for /regulations/chaleur
 	 * Save to: tests/fixtures/restrictions-html/chaleur.react.html
 	 */
 	public function test_chaleur_region_html_parity(): void
 	{
 		$this->assertReactHtmlParity(
 			slug: 'chaleur',
-			url: '/fish/chaleur',
+			url: '/regulations/chaleur',
 		);
 	}
 }

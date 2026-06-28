@@ -64,8 +64,8 @@ function fishIdFromSpeciesSlug(fishes, speciesSlug) {
 function syncLocationUrl(locationItem) {
 	const { regionSlug, waterSlug } = locationItem.value
 	const path = waterSlug
-		? route('fish.region.water', { region: regionSlug, water: waterSlug })
-		: route('fish.region', { region: regionSlug })
+		? route('regulations.region.water', { region: regionSlug, water: waterSlug })
+		: route('regulations.region', { region: regionSlug })
 	replacePathname(new URL(path, window.location.origin).pathname)
 }
 

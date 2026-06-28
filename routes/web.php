@@ -20,17 +20,25 @@ Route::middleware('auth')->group(function () {
 });
 
 // -------------------------------------------------------------------------
-// Smart Fish — main app page (Inertia + React via SmartFishController).
-// Region/water slugs in the path drive page state; see laravel-web-server/ROUTING.md.
+// Smart Fish — Blade marketing pages + Inertia regulations app.
+// Location slugs: /regulations/{region}/{water?}. See laravel-web-server/ROUTING.md.
 // -------------------------------------------------------------------------
 Route::redirect('/home', '/', 301);
 
 Route::controller(SmartFishController::class)->group(function () {
 	Route::get('/', 'index')->name('smart_fish.page');
-	Route::get('/regulations', 'regulations')->name('regulations.page');
 	Route::get('/search', 'search')->name('search.page');
-	Route::get('/fish/{region}/{water}', 'fishLocation')->name('fish.region.water');
-	Route::get('/fish/{region}', 'fishLocation')->name('fish.region');
+	Route::get('/regulations/{region}/{water}', 'fishLocation')->name('regulations.region.water');
+	Route::get('/regulations/{region}', 'fishLocation')->name('regulations.region');
+	Route::get('/regulations', 'regulations')->name('regulations.page');
+});
+
+Route::get('/fish/{region}/{water}', function (string $region, string $water) {
+	return redirect()->route('regulations.region.water', ['region' => $region, 'water' => $water], 301);
+});
+
+Route::get('/fish/{region}', function (string $region) {
+	return redirect()->route('regulations.region', ['region' => $region], 301);
 });
 
 Route::controller(PublicController::class)->group(function () {

@@ -12,7 +12,7 @@
             }
 
             function applyShowSpa(showSpa) {
-                document.querySelectorAll('.static-page-shell').forEach(function (el) {
+                document.querySelectorAll('.static-site-chrome').forEach(function (el) {
                     el.hidden = showSpa;
                 });
                 var app = document.getElementById('app');
@@ -37,7 +37,7 @@
             }
 
             function boot() {
-                if (!document.querySelector('.static-page-shell')) {
+                if (!document.querySelector('.static-site-chrome')) {
                     return;
                 }
 

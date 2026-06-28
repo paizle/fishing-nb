@@ -13,15 +13,19 @@
     <section id="restrictions-prerender" class="static-page-shell restrictions-prerender" aria-label="Fishing restrictions for {{ $heading }}">
         <nav class="static-breadcrumb" aria-label="Breadcrumb">
             <a href="{{ route('smart_fish.page') }}">Home</a>
+            <span class="static-breadcrumb-separator" aria-hidden="true">/</span>
+            <a href="{{ route('regulations.page') }}">Regulations</a>
             @if ($regionSlug)
-                &rarr; <a href="{{ route('fish.region', ['region' => $regionSlug]) }}">{{ $locationMeta['regionName'] }}</a>
+                <span class="static-breadcrumb-separator" aria-hidden="true">/</span>
+                <a href="{{ route('regulations.region', ['region' => $regionSlug]) }}">{{ $locationMeta['regionName'] }}</a>
             @endif
             @if ($waterSlug && !empty($locationMeta['waterName']))
-                &rarr; {{ $locationMeta['waterName'] }}
+                <span class="static-breadcrumb-separator" aria-hidden="true">/</span>
+                <span>{{ $locationMeta['waterName'] }}</span>
             @endif
         </nav>
 
-        <h1>{{ $heading }} — Fishing restrictions</h1>
+        <h1 class="BladePage-title">{{ $heading }} — Fishing restrictions</h1>
 
         @if (empty($fishTables) && empty($undatedExceptions))
             <p>No restriction records found for this location.</p>
@@ -165,21 +169,4 @@
 
         @include('partials.site-directory-nav')
     </section>
-
-    @include('partials.static-page-shell-styles')
-    <style>
-        .restrictions-prerender .FishRestrictionsTable { border-collapse: collapse; width: 100%; margin-bottom: 1.5rem; }
-        .restrictions-prerender caption { font-weight: bold; text-align: left; padding: 0.4rem 0; font-size: 1rem; }
-        .restrictions-prerender th,
-        .restrictions-prerender td { border: 1px solid #ccc; padding: 0.35rem 0.5rem; text-align: left; vertical-align: top; }
-        .restrictions-prerender th { background: #f5f5f5; }
-        .restrictions-prerender .exceptions-heading td { background: #fff8e1; font-style: italic; }
-        .restrictions-prerender .exception-row td { background: #fafafa; }
-        .restrictions-prerender .water-group-continue td { border-top: none; }
-        .restrictions-prerender .water-description { color: #555; font-style: italic; display: block; font-size: 0.9em; }
-        .restrictions-prerender .limit-placeholder { color: #aaa; }
-        .restrictions-prerender .exception-marker { color: #e07000; }
-        .restrictions-prerender .note-indicator { color: #b55; font-size: 0.9em; cursor: help; }
-        .restrictions-prerender .hook-limit { font-size: 0.85em; color: #555; }
-    </style>
 @endif

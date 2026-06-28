@@ -1,6 +1,6 @@
 import './Settings.scss'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
-import PublicNav from '@/Layouts/PublicLayout/PublicNav'
+import SiteHeader from '@/Layouts/SiteHeader/SiteHeader'
 import useApplicationContext from '@/Contexts/ApplicationContext'
 
 export default function Settings() {
@@ -15,11 +15,10 @@ export default function Settings() {
 
 	return (
 		<PublicLayout>
-			<header className="shadow">
-				<PublicNav>Settings</PublicNav>
-			</header>
+			<SiteHeader />
 			<main>
 				<div className="Settings">
+					<h1 className="BladePage-title">Settings</h1>
 					<label>
 						<input
 							type="checkbox"

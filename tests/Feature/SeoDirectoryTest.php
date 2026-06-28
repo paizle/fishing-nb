@@ -80,7 +80,7 @@ class SeoDirectoryTest extends TestCase
 
 		$this->assertStringContainsString(url('/search'), $content);
 
-		$this->assertStringContainsString('/fish/chaleur', $content);
+		$this->assertStringContainsString('/regulations/chaleur', $content);
 
 	}
 
@@ -104,7 +104,7 @@ class SeoDirectoryTest extends TestCase
 
 		$response->assertSee('Browse by region', false);
 
-		$response->assertSee('href="' . url('/fish/chaleur') . '"', false);
+		$response->assertSee('href="' . url('/regulations/chaleur') . '"', false);
 
 		$response->assertDontSee('@inertia', false);
 
@@ -126,7 +126,7 @@ class SeoDirectoryTest extends TestCase
 
 		$response->assertSee('Fishing regulations by region', false);
 
-		$response->assertSee('href="' . url('/fish/chaleur') . '"', false);
+		$response->assertSee('href="' . url('/regulations/chaleur') . '"', false);
 
 		$response->assertSee('id="app"', false);
 
@@ -172,7 +172,7 @@ class SeoDirectoryTest extends TestCase
 
 		$response->assertSee('Results for', false);
 
-		$response->assertSee('/fish/chaleur', false);
+		$response->assertSee('/regulations/chaleur', false);
 
 	}
 
@@ -182,7 +182,7 @@ class SeoDirectoryTest extends TestCase
 
 	{
 
-		$response = $this->get('/fish/chaleur');
+		$response = $this->get('/regulations/chaleur');
 
 
 

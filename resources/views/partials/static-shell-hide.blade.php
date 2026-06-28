@@ -1,7 +1,7 @@
 <script>
     (function () {
         function hideStaticShells() {
-            document.querySelectorAll('.static-page-shell').forEach(function (el) {
+            document.querySelectorAll('.static-site-chrome').forEach(function (el) {
                 el.hidden = true;
             });
         }

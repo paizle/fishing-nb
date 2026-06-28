@@ -10,6 +10,7 @@ export default defineConfig({
 				'resources/js/app.jsx',
 				'resources/js/public-home.jsx',
 				'resources/css/public-pages.scss',
+				'resources/css/spa-shell.scss',
 			],
 			refresh: true,
 		}),

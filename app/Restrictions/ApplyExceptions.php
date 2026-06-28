@@ -146,6 +146,18 @@ class ApplyExceptions
 			&& self::exceptionOverlapsRestriction($exception, $restriction);
 	}
 
+	/**
+	 * Whether a dated exception applies to a restriction (province-wide species context).
+	 */
+	public static function exceptionMatchesRestriction(
+		NormalizedRecord $restriction,
+		NormalizedRecord $exception,
+		?int $fishId,
+		bool $onWaterPage = false,
+	): bool {
+		return self::restrictionMatchesException($restriction, $exception, $fishId, $onWaterPage);
+	}
+
 	// ── public API ───────────────────────────────────────────────────────────
 
 	/**

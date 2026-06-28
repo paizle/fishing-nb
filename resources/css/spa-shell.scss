@@ -1,0 +1,185 @@
+@use 'redesign-tokens' as *;
+@use 'blade/layout/redesign-layout';
+@use 'blade/layout/redesign-nav';
+@use 'blade/layout/public-footer';
+@use 'blade/pages/utilities';
+@use 'blade/layout/typography';
+@use 'blade/layout/page-shell';
+@use 'blade/layout/buttons';
+
+.SiteHeader {
+	position: relative;
+	z-index: 10;
+	background-color: var(--redesign-forest-dark);
+}
+
+.static-page-shell {
+	@include stage;
+	padding-top: 2rem;
+	padding-bottom: 3rem;
+	font-family: 'Outfit', 'Poppins', sans-serif;
+	color: var(--redesign-text);
+	background-color: var(--redesign-off-white);
+}
+
+.static-page-shell h1,
+.static-page-shell .BladePage-title {
+	@include redesign-heading;
+	font-size: 1.75rem;
+	margin: 0 0 0.5rem;
+}
+
+.static-page-shell h2 {
+	@include redesign-heading;
+	font-size: 1.1rem;
+	margin: 1.25rem 0 0.5rem;
+}
+
+.static-page-shell p {
+	line-height: 1.6;
+	margin: 0.5rem 0;
+	color: var(--redesign-text);
+}
+
+.static-page-shell a {
+	color: var(--redesign-forest-light);
+	text-decoration: none;
+}
+
+.static-page-shell a:hover {
+	text-decoration: underline;
+}
+
+.regulations-entry__list {
+	list-style: none;
+	padding: 0;
+	margin: 1rem 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem 1.5rem;
+}
+
+.regulations-entry__list a {
+	font-weight: 500;
+}
+
+.popular-locations {
+	margin: 1rem 0;
+}
+
+.popular-locations__list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.35rem 0.75rem;
+}
+
+.static-search-form {
+	margin: 1rem 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	align-items: center;
+}
+
+.static-search-form input[type='search'],
+.static-search-form select {
+	padding: 0.5rem 0.75rem;
+	font-size: 1rem;
+	border: 1px solid var(--redesign-off-white-dark);
+	border-radius: 0.25rem;
+	background-color: var(--redesign-white);
+	color: var(--redesign-text);
+}
+
+.static-search-results {
+	margin-top: 1rem;
+}
+
+.static-search-results ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.static-search-results li {
+	margin: 0.35rem 0;
+}
+
+.static-search-results .result-badge {
+	font-size: 0.8rem;
+	color: var(--redesign-text-muted);
+	margin-left: 0.35rem;
+}
+
+.restrictions-prerender .FishRestrictionsTable {
+	border-collapse: collapse;
+	width: 100%;
+	margin-bottom: 1.5rem;
+	background: var(--redesign-white);
+}
+
+.restrictions-prerender caption {
+	@include redesign-heading;
+	text-align: left;
+	padding: 0.4rem 0;
+	font-size: 1rem;
+}
+
+.restrictions-prerender th,
+.restrictions-prerender td {
+	border: 1px solid var(--redesign-off-white-dark);
+	padding: 0.35rem 0.5rem;
+	text-align: left;
+	vertical-align: top;
+}
+
+.restrictions-prerender th {
+	background: var(--redesign-off-white);
+	color: var(--redesign-forest-dark);
+}
+
+.restrictions-prerender .exceptions-heading td {
+	background: rgba(214, 158, 46, 0.12);
+	font-style: italic;
+}
+
+.restrictions-prerender .exception-row td {
+	background: var(--redesign-white);
+}
+
+.restrictions-prerender .water-group-continue td {
+	border-top: none;
+}
+
+.restrictions-prerender .water-description {
+	color: var(--redesign-text-muted);
+	font-style: italic;
+	display: block;
+	font-size: 0.9em;
+}
+
+.restrictions-prerender .limit-placeholder {
+	color: var(--redesign-text-muted);
+}
+
+.restrictions-prerender .exception-marker {
+	color: var(--redesign-warning);
+}
+
+.restrictions-prerender .note-indicator {
+	color: var(--redesign-closed);
+	font-size: 0.9em;
+	cursor: help;
+}
+
+.restrictions-prerender .hook-limit {
+	font-size: 0.85em;
+	color: var(--redesign-text-muted);
+}
+
+.restrictions-prerender .undated-exceptions ul {
+	padding-left: 1.25rem;
+}

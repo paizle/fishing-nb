@@ -1,23 +1,6 @@
 .SmartFishLayout {
-	header {
-		@apply shadow;
-	}
-
-	header nav .title .child-wrapper h1.hero {
-		transition: 700ms;
-	}
-
-	&.sub-heading {
-		header {
-			box-shadow: none;
-			nav .title .child-wrapper h1.hero {
-				font-size: 1.5em;
-			}
-		}
-	}
-
 	main {
-		padding: 0 0 0 0;
+		padding: 0;
 		overflow: hidden;
 		position: relative;
 		height: 100%;
@@ -37,8 +20,5 @@
 				padding: 2em;
 			}
 		}
-	}
-
-	footer {
 	}
 }

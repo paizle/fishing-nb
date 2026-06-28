@@ -27,12 +27,18 @@ class StaticRestrictionsPrerenderTest extends TestCase
 
 	public function test_unknown_region_returns_404(): void
 	{
-		$this->get('/fish/not-a-real-region-slug')->assertNotFound();
+		$this->get('/regulations/not-a-real-region-slug')->assertNotFound();
+	}
+
+	public function test_legacy_fish_url_redirects_to_regulations(): void
+	{
+		$this->get('/fish/chaleur')
+			->assertRedirect('/regulations/chaleur');
 	}
 
 	public function test_location_page_renders_restrictions_prerender_when_region_exists(): void
 	{
-		$response = $this->get('/fish/chaleur');
+		$response = $this->get('/regulations/chaleur');
 
 		$response->assertOk();
 		$response->assertSee('id="restrictions-prerender"', false);

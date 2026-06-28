@@ -25,12 +25,23 @@
         <!-- Scripts -->
         @routes
         @viteReactRefresh
-        @vite(['resources/js/app.jsx'])
+        @vite(['resources/css/spa-shell.scss', 'resources/js/app.jsx'])
         @inertiaHead
     </head>
     <body>
-        @include('partials.regulations-entry-prerender')
-        @include('partials.restrictions-prerender')
+        @if (isset($staticRestrictions) || !empty($regulationsEntry))
+            <div class="RedesignLayout static-site-chrome">
+                @include('partials.public.nav')
+                <main class="RedesignLayout-main">
+                    @include('partials.regulations-entry-prerender')
+                    @include('partials.restrictions-prerender')
+                </main>
+                @include('partials.public.footer')
+            </div>
+        @else
+            @include('partials.regulations-entry-prerender')
+            @include('partials.restrictions-prerender')
+        @endif
         @inertia
         @unless (app()->environment('local'))
             @include('partials.static-shell-hide')

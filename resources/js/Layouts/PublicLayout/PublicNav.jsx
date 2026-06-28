@@ -63,7 +63,8 @@ export default function PublicNav({ children }) {
 										href={route('regulations.page')}
 										active={
 											route().current('regulations.page') ||
-											route().current('fish.*')
+											route().current('regulations.region') ||
+											route().current('regulations.region.water')
 										}
 										className="flex justify-between"
 									>
@@ -141,7 +142,11 @@ export default function PublicNav({ children }) {
 				<div className="py-1">
 					<ResponsiveNavLink
 						href={route('regulations.page')}
-						active={route().current('regulations.page') || route().current('fish.*')}
+						active={
+							route().current('regulations.page') ||
+							route().current('regulations.region') ||
+							route().current('regulations.region.water')
+						}
 					>
 						Smart Fish
 						<DevicePhoneMobileIcon className="h-5 w-5" />

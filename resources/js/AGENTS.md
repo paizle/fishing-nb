@@ -85,11 +85,36 @@ Homepage Blade ([`pages/home.blade.php`](../../views/pages/home.blade.php)) uses
 
 React mode data: `GET /api/calendar` (today by default) via [`useRest.ts`](Hooks/useRest.ts).
 
+## Site header in Inertia
+
+The redesign nav partial is rendered server-side and shared as HTML via [`SiteHeaderHtml`](../../app/Support/SiteHeaderHtml.php) → `siteHeader` in [`HandleInertiaRequests`](../../app/Http/Middleware/HandleInertiaRequests.php).
+
+[`Layouts/SiteHeader/SiteHeader.jsx`](Layouts/SiteHeader/SiteHeader.jsx) injects that markup into the SPA header slot. Styles come from [`spa-shell.scss`](../css/spa-shell.scss). Edit links in [`partials/public/nav.blade.php`](../../views/partials/public/nav.blade.php) only.
+
 ## Blade static page styles
 
-Server-rendered public pages (`/`, `/search`, `/calendar`) load a single Vite entry: [`resources/css/public-pages.scss`](../css/public-pages.scss). Partials live under [`resources/css/blade/`](../css/blade/) (layout, homepage sections, calendar, search utilities). Shared tokens: [`resources/css/redesign-tokens.scss`](../css/redesign-tokens.scss).
+Server-rendered public pages (`/`, `/search`, `/calendar`) load a single Vite entry: [`resources/css/public-pages.scss`](../css/public-pages.scss). Partials live under [`resources/css/blade/`](../css/blade/) (layout, homepage sections, calendar). Shared tokens: [`resources/css/redesign-tokens.scss`](../css/redesign-tokens.scss).
+
+Reusable Blade markup lives in [`resources/views/partials/public/`](../views/partials/public/) (`page-header`, `search-form`, `result-group`).
 
 Do not add Blade page styles under `resources/js/` — the Inertia app uses [`resources/css/app.scss`](../css/app.scss) and colocated component SCSS only.
+
+### Blade CSS naming
+
+| Pattern                                                      | Use                                           |
+| ------------------------------------------------------------ | --------------------------------------------- |
+| `.BladePage`, `.BladePage-inner`                             | Secondary page shell (`/search`, `/calendar`) |
+| `.BladePage--panel`                                          | White content panel on off-white layout       |
+| `.BladePage--centered`                                       | Centered title, lead, and forms               |
+| `.BladePage-title`, `.BladePage-lead`                        | Page heading and intro copy                   |
+| `.BladeForm`, `.BladeForm-input`, `.BladeForm-select`        | GET search and date forms                     |
+| `.BladeResultGroup`, `.BladeResultLink`, `.BladeResultBadge` | Search result lists                           |
+| `.btn.btn--primary`                                          | Actions on Blade pages (non-hero)             |
+| `.HeroSection-btn--*`                                        | Hero CTAs only (dark backdrop)                |
+| `@include stage`                                             | Horizontal max-width + padding (via layout)   |
+| `.static-breadcrumb`                                         | Breadcrumb on secondary pages                 |
+
+Homepage marketing sections keep their own BEM blocks (`HeroSection-*`, `FindRegulationsSection-*`, etc.).
 
 ## Conventions
 

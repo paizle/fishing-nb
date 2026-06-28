@@ -85,8 +85,8 @@ class SmartFishController extends Controller
 			: $regionModel->name;
 
 		$canonicalPath = $waterModel
-			? route('fish.region.water', ['region' => $region, 'water' => $water], false)
-			: route('fish.region', ['region' => $region], false);
+			? route('regulations.region.water', ['region' => $region, 'water' => $water], false)
+			: route('regulations.region', ['region' => $region], false);
 
 		View::share([
 			'staticRestrictions' => $staticRestrictions,

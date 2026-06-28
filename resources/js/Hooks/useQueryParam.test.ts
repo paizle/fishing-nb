@@ -34,7 +34,7 @@ describe('applyQueryParam', () => {
 describe('applyPathname', () => {
 	it('changes pathname and keeps search params', () => {
 		expect(
-			applyPathname('/smart-fish?species=brook-trout', '/fish/chaleur/jacquet-river'),
-		).toBe('/fish/chaleur/jacquet-river?species=brook-trout')
+			applyPathname('/smart-fish?species=brook-trout', '/regulations/chaleur/jacquet-river'),
+		).toBe('/regulations/chaleur/jacquet-river?species=brook-trout')
 	})
 })

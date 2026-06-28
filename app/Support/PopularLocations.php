@@ -10,11 +10,11 @@ class PopularLocations
 		return [
 			[
 				'label' => 'Miramichi River',
-				'url' => route('fish.region.water', ['region' => 'miramichi', 'water' => 'miramichi-river']),
+				'url' => route('regulations.region.water', ['region' => 'miramichi', 'water' => 'miramichi-river']),
 			],
 			[
 				'label' => 'Grand Lake',
-				'url' => route('fish.region.water', ['region' => 'lower-saint-john', 'water' => 'grand-lake']),
+				'url' => route('regulations.region.water', ['region' => 'lower-saint-john', 'water' => 'grand-lake']),
 			],
 			[
 				'label' => 'Brook Trout',
@@ -26,11 +26,11 @@ class PopularLocations
 			],
 			[
 				'label' => 'Chaleur',
-				'url' => route('fish.region', ['region' => 'chaleur']),
+				'url' => route('regulations.region', ['region' => 'chaleur']),
 			],
 			[
 				'label' => 'Miramichi',
-				'url' => route('fish.region', ['region' => 'miramichi']),
+				'url' => route('regulations.region', ['region' => 'miramichi']),
 			],
 		];
 	}

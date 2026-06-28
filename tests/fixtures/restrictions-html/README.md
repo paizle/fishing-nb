@@ -13,10 +13,10 @@ renders the same fish names, season dates, and limit values as the React app.
 
 Current baselines:
 
-| Slug                 | URL                        |
-| -------------------- | -------------------------- |
-| `chaleur-bass-river` | `/fish/chaleur/bass-river` |
-| `chaleur`            | `/fish/chaleur`            |
+| Slug                 | URL                               |
+| -------------------- | --------------------------------- |
+| `chaleur-bass-river` | `/regulations/chaleur/bass-river` |
+| `chaleur`            | `/regulations/chaleur`            |
 
 ## How to capture a React baseline
 

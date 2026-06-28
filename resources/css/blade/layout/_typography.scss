@@ -1,0 +1,45 @@
+@use '../../redesign-tokens' as *;
+
+.BladePage-title {
+	@include redesign-heading;
+	font-size: 1.75rem;
+	margin: 0 0 0.5rem;
+}
+
+.BladePage-lead {
+	margin: 0 0 1.25rem;
+	color: var(--redesign-text-muted);
+	font-size: 1rem;
+	line-height: 1.6;
+}
+
+.BladePage--centered .BladePage-title,
+.BladePage--centered .BladePage-lead,
+.BladePage--centered .BladeForm,
+.FindRegulationsSection.BladePage--centered .BladeForm {
+	text-align: center;
+}
+
+.BladePage--centered .BladeForm,
+.FindRegulationsSection.BladePage--centered .BladeForm {
+	justify-content: center;
+}
+
+.BladePage-meta {
+	margin: 0 0 1.25rem;
+	color: var(--redesign-text-muted);
+	font-size: 0.95rem;
+	line-height: 1.5;
+}
+
+.BladePage-hint {
+	margin: 0;
+	color: var(--redesign-text-muted);
+	font-size: 0.95rem;
+}
+
+.BladePage-empty {
+	margin: 0;
+	color: var(--redesign-text-muted);
+	font-size: 0.95rem;
+}

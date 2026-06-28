@@ -31,6 +31,23 @@
 	text-decoration: underline;
 }
 
+.site-directory-nav__list a[aria-current='page'] {
+	font-weight: 600;
+	color: var(--redesign-forest-dark);
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
+
 .static-breadcrumb {
 	font-size: 0.9rem;
 	margin-bottom: 0.75rem;
@@ -44,4 +61,9 @@
 
 .static-breadcrumb a:hover {
 	text-decoration: underline;
+}
+
+.static-breadcrumb-separator {
+	margin: 0 0.35rem;
+	color: var(--redesign-text-muted);
 }

@@ -1,0 +1,37 @@
+{
+	"groups": {
+		"trout": {
+			"display_name": "Trout",
+			"members": ["Brook Trout", "Brown Trout", "Rainbow Trout", "Lake Trout", "Arctic Char"],
+			"status_merge": "optimistic"
+		},
+		"non_sport_fish": {
+			"display_name": "Non-Sport Fish",
+			"members": [
+				"Burbot",
+				"Chain Pickerel",
+				"Eel",
+				"Gaspereau",
+				"Muskellunge",
+				"Rainbow Smelt",
+				"Shad",
+				"Striped Bass",
+				"Sturgeon",
+				"White Perch",
+				"Whitefish",
+				"Yellow Perch"
+			],
+			"status_merge": "optimistic"
+		}
+	},
+	"featured": [
+		{ "group": "trout" },
+		{ "species": "Smallmouth Bass" },
+		{ "group": "non_sport_fish" },
+		{ "species": "Landlocked Salmon" },
+		{
+			"display_name": "Atlantic Salmon",
+			"match_names": ["Bright Salmon", "Spring Kelt"]
+		}
+	]
+}

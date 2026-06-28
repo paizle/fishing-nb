@@ -2,7 +2,7 @@ import './WatersMap.scss'
 import React, { useState, useEffect } from 'react'
 import { Head } from '@inertiajs/react'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
-import PublicNav from '@/Layouts/PublicLayout/PublicNav'
+import SiteHeader from '@/Layouts/SiteHeader/SiteHeader'
 import FeaturesMap from './Components/FeaturesMap/FeaturesMap'
 import Sidebar from './Components/Sidebar/Sidebar'
 import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
@@ -20,7 +20,6 @@ export default function WatersMap({ apiLastModified }) {
 				const url = Number.isNaN(nocache)
 					? '/waters.geojson'
 					: `/waters.geojson?nocache=${nocache}`
-				// Avoid serving a stale cached 404 (e.g. before waters.geojson was on Hostinger).
 				const response = await fetch(url, { cache: 'no-store' })
 				if (!response.ok) {
 					setLoadError(`Could not load waters map data (HTTP ${response.status}).`)
@@ -48,13 +47,7 @@ export default function WatersMap({ apiLastModified }) {
 	return (
 		<PublicLayout className="WatersMap">
 			<Head title="Waters Map" />
-			<header>
-				<PublicNav>
-					<h1 className="hero">
-						Smart <span>Fish</span>
-					</h1>
-				</PublicNav>
-			</header>
+			<SiteHeader />
 			<main>
 				<FeaturesMap geoJson={selectedFeature} highlightedGeoJson={hoveredFeature} />
 				<Sidebar>

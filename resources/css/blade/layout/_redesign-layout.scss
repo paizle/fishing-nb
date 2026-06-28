@@ -16,7 +16,7 @@ body {
 		flex-grow: 1;
 	}
 
-	height: 100%;
+	min-height: 100%;
 	background-color: var(--redesign-off-white);
 	font-family: 'Outfit', 'Poppins', sans-serif;
 	color: var(--redesign-text);
@@ -29,7 +29,7 @@ body {
 		top: 0;
 		height: var(--nav-height);
 		width: 100%;
-		background-color: var(--redesign-forest-dark);
+		background-color: var(--redesign-forest);
 		z-index: 1;
 	}
 	.RedesignNav {
@@ -60,6 +60,7 @@ body {
 }
 
 .RedesignLayout-main {
+	.BladePage-inner,
 	.HeroSection-inner,
 	.FindRegulationsSection-inner,
 	.MapPreviewSection-inner,

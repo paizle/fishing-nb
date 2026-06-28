@@ -1,0 +1,43 @@
+@use '../../redesign-tokens' as *;
+
+.BladeResultGroup {
+	margin-top: 1.5rem;
+}
+
+.BladeResultGroup-title {
+	@include redesign-heading;
+	font-size: 1.1rem;
+	margin: 0 0 0.5rem;
+}
+
+.BladeResultList {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.BladeResultItem {
+	margin: 0.35rem 0;
+}
+
+.BladeResultLink {
+	color: var(--redesign-forest-light);
+	font-weight: 500;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.BladeResultBadge {
+	font-size: 0.8rem;
+	color: var(--redesign-text-muted);
+	margin-left: 0.35rem;
+}
+
+.BladeResultMeta {
+	margin: 0 0 1rem;
+	color: var(--redesign-text-muted);
+	font-size: 0.95rem;
+}
