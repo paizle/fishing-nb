@@ -117,7 +117,7 @@ return [
 		'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
 		'store' => env('APP_MAINTENANCE_STORE', 'database'),
 	],
-	'api_last_modified' => '15 Jun 2026 01:00:00 GMT',
+	'api_last_modified' => '29 Jun 2026 01:00:00 GMT',
 
 	'react_islands_on' => filter_var(env('REACT_ISLANDS_ON', false), FILTER_VALIDATE_BOOL),
 ];

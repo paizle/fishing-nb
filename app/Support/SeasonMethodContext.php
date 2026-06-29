@@ -163,11 +163,16 @@ class SeasonMethodContext
 
 	private function primaryIsOpen(NormalizedRecord $record): bool
 	{
-		return $record->bagLimit === null || $record->bagLimit > 0;
+		if ($record->bagLimit !== null && $record->bagLimit > 0) {
+			return true;
+		}
+
+		return $record->bagLimit === null && ($record->hookLimit ?? 0) === 0;
 	}
 
 	private function primaryIsCatchRelease(NormalizedRecord $record): bool
 	{
-		return $record->bagLimit === 0 && ($record->hookLimit ?? 0) > 0;
+		return ($record->bagLimit === 0 || $record->bagLimit === null)
+			&& ($record->hookLimit ?? 0) > 0;
 	}
 }

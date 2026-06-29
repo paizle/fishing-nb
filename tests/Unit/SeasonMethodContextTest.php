@@ -82,4 +82,26 @@ class SeasonMethodContextTest extends TestCase
 
 		$this->assertNull($context->methodLabelFor(1, self::d('2026-06-01'), SeasonStatus::CLOSED));
 	}
+
+	public function test_null_bag_with_hook_limit_counts_as_catch_release(): void
+	{
+		$primary = self::record([
+			'id' => 250,
+			'fishId' => 1,
+			'seasonStart' => self::d('2026-01-01'),
+			'seasonEnd' => self::d('2026-12-31'),
+			'waterId' => 98,
+			'bagLimit' => null,
+			'hookLimit' => 4,
+		]);
+
+		$context = SeasonMethodContext::fromCollections(
+			collect([1 => [$primary]]),
+			collect(),
+		);
+
+		$label = $context->methodLabelFor(1, self::d('2026-06-29'), SeasonStatus::CATCH_RELEASE);
+
+		$this->assertNull($label);
+	}
 }
