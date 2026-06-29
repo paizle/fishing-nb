@@ -20,6 +20,104 @@
 	font-family: 'Outfit', 'Poppins', sans-serif;
 	color: var(--redesign-text);
 	background-color: var(--redesign-off-white);
+
+	&.restrictions-prerender {
+		.FishRestrictionsTable {
+			border-collapse: collapse;
+			width: fit-content;
+			max-width: 100%;
+			margin-inline: auto;
+			margin-bottom: 1.5rem;
+			background: var(--redesign-white);
+		}
+
+		caption {
+			padding: 0.4rem 0;
+			caption-side: top;
+
+			.fish-name {
+				@include redesign-heading;
+				display: block;
+				text-align: center;
+				padding: 0.25em 0.5em;
+				margin: 2em 0 0;
+				font-size: 1.25rem;
+			}
+
+			.fish-image {
+				text-align: center;
+
+				img {
+					display: block;
+					padding: 1em;
+					margin-inline: auto;
+				}
+			}
+		}
+
+		th,
+		td {
+			border: 1px solid var(--redesign-off-white-dark);
+			padding: 0.35rem 0.5rem;
+			text-align: left;
+			vertical-align: top;
+		}
+
+		th:not(:first-child),
+		td.bag-limit,
+		td.min-size,
+		td.max-size {
+			text-align: center;
+		}
+
+		th {
+			background: var(--redesign-off-white);
+			color: var(--redesign-forest-dark);
+		}
+
+		.exceptions-heading td {
+			background: rgba(214, 158, 46, 0.12);
+			font-style: italic;
+		}
+
+		.exception-row td {
+			background: var(--redesign-white);
+		}
+
+		.water-group-continue td {
+			border-top: none;
+		}
+
+		.water-description {
+			color: var(--redesign-text-muted);
+			font-style: italic;
+			display: block;
+			font-size: 0.9em;
+		}
+
+		.limit-placeholder {
+			color: var(--redesign-text-muted);
+		}
+
+		.exception-marker {
+			color: var(--redesign-warning);
+		}
+
+		.note-indicator {
+			color: var(--redesign-closed);
+			font-size: 0.9em;
+			cursor: help;
+		}
+
+		.hook-limit {
+			font-size: 0.85em;
+			color: var(--redesign-text-muted);
+		}
+
+		.undated-exceptions ul {
+			padding-left: 1.25rem;
+		}
+	}
 }
 
 .static-page-shell h1,
@@ -112,74 +210,4 @@
 	font-size: 0.8rem;
 	color: var(--redesign-text-muted);
 	margin-left: 0.35rem;
-}
-
-.restrictions-prerender .FishRestrictionsTable {
-	border-collapse: collapse;
-	width: 100%;
-	margin-bottom: 1.5rem;
-	background: var(--redesign-white);
-}
-
-.restrictions-prerender caption {
-	@include redesign-heading;
-	text-align: left;
-	padding: 0.4rem 0;
-	font-size: 1rem;
-}
-
-.restrictions-prerender th,
-.restrictions-prerender td {
-	border: 1px solid var(--redesign-off-white-dark);
-	padding: 0.35rem 0.5rem;
-	text-align: left;
-	vertical-align: top;
-}
-
-.restrictions-prerender th {
-	background: var(--redesign-off-white);
-	color: var(--redesign-forest-dark);
-}
-
-.restrictions-prerender .exceptions-heading td {
-	background: rgba(214, 158, 46, 0.12);
-	font-style: italic;
-}
-
-.restrictions-prerender .exception-row td {
-	background: var(--redesign-white);
-}
-
-.restrictions-prerender .water-group-continue td {
-	border-top: none;
-}
-
-.restrictions-prerender .water-description {
-	color: var(--redesign-text-muted);
-	font-style: italic;
-	display: block;
-	font-size: 0.9em;
-}
-
-.restrictions-prerender .limit-placeholder {
-	color: var(--redesign-text-muted);
-}
-
-.restrictions-prerender .exception-marker {
-	color: var(--redesign-warning);
-}
-
-.restrictions-prerender .note-indicator {
-	color: var(--redesign-closed);
-	font-size: 0.9em;
-	cursor: help;
-}
-
-.restrictions-prerender .hook-limit {
-	font-size: 0.85em;
-	color: var(--redesign-text-muted);
-}
-
-.restrictions-prerender .undated-exceptions ul {
-	padding-left: 1.25rem;
 }

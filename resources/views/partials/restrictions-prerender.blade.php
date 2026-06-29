@@ -35,6 +35,13 @@
                 <table class="FishRestrictionsTable">
                     <caption>
                         <strong class="fish-name">{{ $fishTable['fishName'] }}</strong>
+                        <div class="fish-image">
+                            <img
+                                src="{{ \App\Support\FishImageUrl::fromName($fishTable['fishName']) }}"
+                                alt=""
+                                loading="lazy"
+                            >
+                        </div>
                     </caption>
                     <thead>
                         <tr>
