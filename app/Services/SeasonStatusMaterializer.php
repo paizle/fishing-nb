@@ -116,12 +116,18 @@ class SeasonStatusMaterializer
 
 	private function statusFromRestriction(FishingRestriction $rule): SeasonStatus
 	{
-		if ($rule->bag_limit === null || $rule->bag_limit > 0) {
-			return SeasonStatus::OPEN;
-		}
-
 		if ($rule->bag_limit === 0 && ($rule->hook_release_limit ?? 0) > 0) {
 			return SeasonStatus::CATCH_RELEASE;
+		}
+
+		if ($rule->bag_limit === null) {
+			return ($rule->hook_release_limit ?? 0) > 0
+				? SeasonStatus::CATCH_RELEASE
+				: SeasonStatus::OPEN;
+		}
+
+		if ($rule->bag_limit > 0) {
+			return SeasonStatus::OPEN;
 		}
 
 		return SeasonStatus::CLOSED;
