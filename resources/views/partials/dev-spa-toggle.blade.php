@@ -65,7 +65,7 @@
         .dev-spa-toggle {
             position: fixed;
             top: 0.75rem;
-            right: 0.75rem;
+            left: 0.75rem;
             z-index: 10000;
             display: flex;
             align-items: center;

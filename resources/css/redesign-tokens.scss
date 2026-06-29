@@ -13,6 +13,34 @@ $redesign-open: #2d6a4f;
 $redesign-closed: #c53030;
 $redesign-warning: #d69e2e;
 
+// Waters map (nb-waters-8) — surfaces, accents, heat rings
+$map-surface: rgba(255, 255, 255, 0.95);
+$map-surface-solid: #ffffff;
+$map-surface-border: #cbd5e1;
+$map-text-primary: #0f172a;
+$map-text-muted: #64748b;
+$map-bg: #f8fafc;
+$map-accent: #0891b2;
+$map-accent-selected: #0d9488;
+$map-accent-selected-contrast: #ffffff;
+$map-hover-surface: #e0f2fe;
+$map-hover-selected-surface: #ccfbf1;
+$map-heat-ring-inner: rgba(34, 211, 238, 0.3);
+$map-heat-ring-outer: #0d9488;
+
+$map-surface-dark: rgba(30, 41, 59, 0.95);
+$map-surface-solid-dark: #1e293b;
+$map-surface-border-dark: #475569;
+$map-text-primary-dark: #f1f5f9;
+$map-text-muted-dark: #94a3b8;
+$map-bg-dark: #0f172a;
+$map-accent-dark: #22d3ee;
+$map-accent-selected-dark: #2dd4bf;
+$map-hover-surface-dark: rgba(34, 211, 238, 0.12);
+$map-hover-selected-surface-dark: rgba(45, 212, 191, 0.18);
+$map-heat-ring-inner-dark: rgba(45, 212, 191, 0.35);
+$map-heat-ring-outer-dark: #2dd4bf;
+
 :root {
 	--redesign-forest: #{$redesign-forest};
 	--redesign-forest-dark: #{$redesign-forest-dark};
@@ -27,6 +55,35 @@ $redesign-warning: #d69e2e;
 	--redesign-warning: #{$redesign-warning};
 	--redesign-max-width: 72rem;
 	--redesign-section-padding: 3rem 1.25rem;
+
+	--surface: #{$map-surface};
+	--surface-solid: #{$map-surface-solid};
+	--surface-border: #{$map-surface-border};
+	--text-primary: #{$map-text-primary};
+	--text-muted: #{$map-text-muted};
+	--map-bg: #{$map-bg};
+	--accent: #{$map-accent};
+	--accent-selected: #{$map-accent-selected};
+	--accent-selected-contrast: #{$map-accent-selected-contrast};
+	--hover-surface: #{$map-hover-surface};
+	--hover-selected-surface: #{$map-hover-selected-surface};
+	--heat-ring-inner: #{$map-heat-ring-inner};
+	--heat-ring-outer: #{$map-heat-ring-outer};
+}
+
+[data-theme='dark'] {
+	--surface: #{$map-surface-dark};
+	--surface-solid: #{$map-surface-solid-dark};
+	--surface-border: #{$map-surface-border-dark};
+	--text-primary: #{$map-text-primary-dark};
+	--text-muted: #{$map-text-muted-dark};
+	--map-bg: #{$map-bg-dark};
+	--accent: #{$map-accent-dark};
+	--accent-selected: #{$map-accent-selected-dark};
+	--hover-surface: #{$map-hover-surface-dark};
+	--hover-selected-surface: #{$map-hover-selected-surface-dark};
+	--heat-ring-inner: #{$map-heat-ring-inner-dark};
+	--heat-ring-outer: #{$map-heat-ring-outer-dark};
 }
 
 @mixin redesign-section {

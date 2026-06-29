@@ -19,7 +19,7 @@
                 <ul>
                     <li><a href="{{ route('maps.waters') }}">Waters Map</a></li>
                     <li><a href="{{ route('regulations.page') }}">Regulations</a></li>
-                    <li><a href="{{ route('settings.edit') }}">Settings</a></li>
+                    <li><a href="{{ route('calendar.page') }}">Calendar</a></li>
                 </ul>
             </div>
             <div class="PublicFooter-col" id="about">
