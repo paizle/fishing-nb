@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\SeasonStatusDaily;
 use App\Support\SeasonMethodContext;
 use App\Support\SeasonStatusEntryBuilder;
-use App\Support\WhatsOpenFeatured;
+use App\Support\WhatsOpenNow;
 use Carbon\Carbon;
 
 class WhatsOpenNowService
@@ -40,7 +40,7 @@ class WhatsOpenNowService
 		return [
 			'dateLabel' => $date->format('l, F j, Y'),
 			'anchorDate' => $date->toDateString(),
-			'rows' => WhatsOpenFeatured::pickFeaturedRows($entries),
+			'rows' => WhatsOpenNow::pickRows($entries),
 		];
 	}
 }

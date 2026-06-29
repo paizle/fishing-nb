@@ -1,0 +1,1 @@
+import{r as a}from"./client-DP3ikFuO.js";import s from"./useDebounce-D35D8X6q.js";function i(e,t,n=200){const r=s(t,n);return a.useMemo(()=>{const o=r.trim().toLowerCase();return o?e.filter(u=>u.name.toLowerCase().includes(o)):e},[e,r])}export{i as default};

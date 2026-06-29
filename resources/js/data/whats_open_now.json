@@ -1,0 +1,35 @@
+[
+	{
+		"label": "Smallmouth Bass",
+		"species": ["Smallmouth Bass"]
+	},
+	{
+		"label": "Trout",
+		"species": ["Brook Trout", "Brown Trout", "Rainbow Trout", "Lake Trout", "Arctic Char"]
+	},
+	{
+		"label": "Non-Sport Fish",
+		"species": [
+			"Burbot",
+			"Chain Pickerel",
+			"Eel",
+			"Gaspereau",
+			"Muskellunge",
+			"Rainbow Smelt",
+			"Shad",
+			"Striped Bass",
+			"Sturgeon",
+			"White Perch",
+			"Whitefish",
+			"Yellow Perch"
+		]
+	},
+	{
+		"label": "Landlocked Salmon",
+		"species": ["Landlocked Salmon"]
+	},
+	{
+		"label": "Atlantic Salmon",
+		"species": ["Bright Salmon", "Spring Kelt"]
+	}
+]

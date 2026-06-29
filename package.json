@@ -6,6 +6,7 @@
 		"dev": "vite",
 		"test": "vitest run",
 		"export-restriction-fixtures": "vitest run --config scripts/vitest.fixtures.config.ts",
+		"prepare-waters-data": "node --max-old-space-size=4096 scripts/prepare-waters-data.mjs",
 		"lint": "eslint resources/js --ext .js,.jsx --ignore-path .gitignore --fix",
 		"prepare": "husky"
 	},
@@ -60,9 +61,11 @@
 	},
 	"dependencies": {
 		"@heroicons/react": "^2.2.0",
+		"@tanstack/react-virtual": "^3.14.3",
 		"@turf/turf": "^7.2.0",
 		"date-fns": "^4.1.0",
 		"downshift": "^9.0.8",
+		"idb": "^8.0.3",
 		"leaflet": "^1.9.4",
 		"lodash": "^4.17.21",
 		"react-leaflet": "^4.2.1",

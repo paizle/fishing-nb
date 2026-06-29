@@ -70,16 +70,16 @@ PDF is served with `Content-Type: application/pdf` and `Content-Disposition: inl
 
 Some Blade pages can mount small React trees without Inertia. Enable with `REACT_ISLANDS_ON=true` in `.env` (`config('app.react_islands_on')`).
 
-| Mode                               | Homepage “What’s Open”                                                                                                                                              |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `REACT_ISLANDS_ON=false` (default) | Server-rendered Blade card via [`WhatsOpenNowService`](../../app/Services/WhatsOpenNowService.php) + [`WhatsOpenFeatured`](../../app/Support/WhatsOpenFeatured.php) |
-| `REACT_ISLANDS_ON=true`            | React island on `#whats-open-now-widget`; loads `public-home.jsx`                                                                                                   |
+| Mode                               | Homepage “What’s Open”                                                                                                                                    |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `REACT_ISLANDS_ON=false` (default) | Server-rendered Blade card via [`WhatsOpenNowService`](../../app/Services/WhatsOpenNowService.php) + [`WhatsOpenNow`](../../app/Support/WhatsOpenNow.php) |
+| `REACT_ISLANDS_ON=true`            | React island on `#whats-open-now-widget`; loads `public-home.jsx`                                                                                         |
 
-| File                                                                                                                                     | Role                                                           |
-| ---------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| [`resources/js/public-home.jsx`](public-home.jsx)                                                                                        | Vite entry; mounts on `#whats-open-now-widget` when islands on |
-| [`Pages/Public/SmartFish/Homepage/sections/WhatsOpenNowCardLive.jsx`](Pages/Public/SmartFish/Homepage/sections/WhatsOpenNowCardLive.jsx) | Live “What’s Open Right Now?” card (React mode)                |
-| [`Pages/Public/SmartFish/Homepage/whatsOpenNowFeatured.ts`](Pages/Public/SmartFish/Homepage/whatsOpenNowFeatured.ts)                     | Featured species filter + Atlantic Salmon rollup (React mode)  |
+| File                                                                                                                                     | Role                                                                                                |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| [`resources/js/public-home.jsx`](public-home.jsx)                                                                                        | Vite entry; mounts on `#whats-open-now-widget` when islands on                                      |
+| [`Pages/Public/SmartFish/Homepage/sections/WhatsOpenNowCardLive.jsx`](Pages/Public/SmartFish/Homepage/sections/WhatsOpenNowCardLive.jsx) | Live “What’s Open Right Now?” card (React mode)                                                     |
+| [`Pages/Public/SmartFish/Homepage/whatsOpenNow.ts`](Pages/Public/SmartFish/Homepage/whatsOpenNow.ts)                                     | Row config + status merge for React mode (shared [`whats_open_now.json`](data/whats_open_now.json)) |
 
 Homepage Blade ([`pages/home.blade.php`](../../views/pages/home.blade.php)) uses `@section('vite')` to load `public-home.jsx` only when islands are enabled. Other public Blade pages keep CSS-only via the default layout `@vite`.
 
@@ -90,6 +90,18 @@ React mode data: `GET /api/calendar` (today by default) via [`useRest.ts`](Hooks
 The redesign nav partial is rendered server-side and shared as HTML via [`SiteHeaderHtml`](../../app/Support/SiteHeaderHtml.php) → `siteHeader` in [`HandleInertiaRequests`](../../app/Http/Middleware/HandleInertiaRequests.php).
 
 [`Layouts/SiteHeader/SiteHeader.jsx`](Layouts/SiteHeader/SiteHeader.jsx) injects that markup into the SPA header slot. Styles come from [`spa-shell.scss`](../css/spa-shell.scss). Edit links in [`partials/public/nav.blade.php`](../../views/partials/public/nav.blade.php) only.
+
+## Waters map (`/waters-map`)
+
+Ported from [`new-brunswick-waters-8`](../../../../../../projects/wamp/new-brunswick-waters-8). Module lives under [`Pages/Public/WatersMap/nb-waters/`](Pages/Public/WatersMap/nb-waters/).
+
+| Artifact                          | Location                                                          |
+| --------------------------------- | ----------------------------------------------------------------- |
+| Processed index + geometry shards | `public/data/` (served at `/data/…`)                              |
+| Raw GeoJSON (gitignored)          | `data-src/waters.geojson` or `public/waters.geojson`              |
+| Rebuild script                    | `npm run prepare-waters-data` → `scripts/prepare-waters-data.mjs` |
+
+The page loads `index.json` (~1 MB) and fetches geometry cells on demand; IndexedDB caches both. Do not ship the raw ~79 MB GeoJSON to production.
 
 ## Blade static page styles
 

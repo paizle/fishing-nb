@@ -6,8 +6,8 @@
       "_client-DP3ikFuO.js"
     ]
   },
-  "_AuthenticatedLayout-BhevkdVv.js": {
-    "file": "assets/AuthenticatedLayout-BhevkdVv.js",
+  "_AuthenticatedLayout-BS5clXKt.js": {
+    "file": "assets/AuthenticatedLayout-BS5clXKt.js",
     "name": "AuthenticatedLayout",
     "imports": [
       "_client-DP3ikFuO.js",
@@ -16,49 +16,49 @@
       "_transition-BDG3NS6K.js"
     ],
     "css": [
-      "assets/AuthenticatedLayout-C_YlTUQh.css"
+      "assets/AuthenticatedLayout-CsSYRuNZ.css"
     ]
   },
-  "_AuthenticatedLayout-C_YlTUQh.css": {
-    "file": "assets/AuthenticatedLayout-C_YlTUQh.css",
-    "src": "_AuthenticatedLayout-C_YlTUQh.css"
+  "_AuthenticatedLayout-CsSYRuNZ.css": {
+    "file": "assets/AuthenticatedLayout-CsSYRuNZ.css",
+    "src": "_AuthenticatedLayout-CsSYRuNZ.css"
   },
-  "_FishRestrictionsExceptionsTable-BsqWZTOI.js": {
-    "file": "assets/FishRestrictionsExceptionsTable-BsqWZTOI.js",
+  "_FishRestrictionsExceptionsTable-BMZwcNTm.js": {
+    "file": "assets/FishRestrictionsExceptionsTable-BMZwcNTm.js",
     "name": "FishRestrictionsExceptionsTable",
     "isDynamicEntry": true,
     "imports": [
       "_client-DP3ikFuO.js",
-      "_useSingleClick-SVKqmJNd.js",
+      "_useSingleClick-IML684zc.js",
       "_index-BzY9QePg.js",
       "_format-6k-ph54I.js"
     ]
   },
-  "_FishingRestrictions-DiVnpFew.css": {
-    "file": "assets/FishingRestrictions-DiVnpFew.css",
-    "src": "_FishingRestrictions-DiVnpFew.css"
+  "_FishingRestrictions-Bgmt3wFX.css": {
+    "file": "assets/FishingRestrictions-Bgmt3wFX.css",
+    "src": "_FishingRestrictions-Bgmt3wFX.css"
   },
-  "_FishingRestrictions-DxRfhcOQ.js": {
-    "file": "assets/FishingRestrictions-DxRfhcOQ.js",
+  "_FishingRestrictions-CjCC9rKK.js": {
+    "file": "assets/FishingRestrictions-CjCC9rKK.js",
     "name": "FishingRestrictions",
     "isDynamicEntry": true,
     "imports": [
       "_client-DP3ikFuO.js",
       "_index-BzY9QePg.js",
-      "_FishRestrictionsExceptionsTable-BsqWZTOI.js",
+      "_FishRestrictionsExceptionsTable-BMZwcNTm.js",
       "_format-6k-ph54I.js",
-      "_useSingleClick-SVKqmJNd.js",
+      "_useSingleClick-IML684zc.js",
       "resources/js/Pages/Public/SmartFish/FishingRestrictions/FishRestrictionsTable.jsx",
       "_LoadingSpinner-BDj4NtqJ.js",
       "resources/js/app.jsx",
       "_index-AnYbBuHA.js"
     ],
     "css": [
-      "assets/FishingRestrictions-DiVnpFew.css"
+      "assets/FishingRestrictions-Bgmt3wFX.css"
     ]
   },
-  "_GuestLayout-DPWehB1u.js": {
-    "file": "assets/GuestLayout-DPWehB1u.js",
+  "_GuestLayout-BSWMmWde.js": {
+    "file": "assets/GuestLayout-BSWMmWde.js",
     "name": "GuestLayout",
     "imports": [
       "_client-DP3ikFuO.js",
@@ -87,14 +87,15 @@
     "file": "assets/LoadingSpinner-D_ilQkls.css",
     "src": "_LoadingSpinner-D_ilQkls.css"
   },
-  "_LocationCombobox-CflyJceE.js": {
-    "file": "assets/LocationCombobox-CflyJceE.js",
+  "_LocationCombobox-CQlbKlA2.js": {
+    "file": "assets/LocationCombobox-CQlbKlA2.js",
     "name": "LocationCombobox",
     "isDynamicEntry": true,
     "imports": [
       "_client-DP3ikFuO.js",
-      "_index-BzY9QePg.js",
+      "_downshift.esm-CVQeONct.js",
       "resources/js/app.jsx",
+      "_MapPinIcon-Djodoy7x.js",
       "_XCircleIcon-ANe5nYkl.js"
     ],
     "css": [
@@ -105,6 +106,27 @@
     "file": "assets/LocationCombobox-cQcmF1I7.css",
     "src": "_LocationCombobox-cQcmF1I7.css"
   },
+  "_MapPinIcon-Djodoy7x.js": {
+    "file": "assets/MapPinIcon-Djodoy7x.js",
+    "name": "MapPinIcon",
+    "imports": [
+      "_client-DP3ikFuO.js"
+    ]
+  },
+  "_MapToolbar-CDzQPYvP.js": {
+    "file": "assets/MapToolbar-CDzQPYvP.js",
+    "name": "MapToolbar",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "_coordinates-DnYEdw09.js",
+      "_waterName-BK_kicBx.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/WaterName.jsx",
+      "_nearestWatersUtils-W4QY4wwD.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/MapControlButton.jsx",
+      "_MapPinIcon-Djodoy7x.js"
+    ]
+  },
   "_PrimaryButton-D6svU4st.js": {
     "file": "assets/PrimaryButton-D6svU4st.js",
     "name": "PrimaryButton",
@@ -112,19 +134,19 @@
       "_client-DP3ikFuO.js"
     ]
   },
-  "_SiteHeader-Bo1aVkeA.css": {
-    "file": "assets/SiteHeader-Bo1aVkeA.css",
-    "src": "_SiteHeader-Bo1aVkeA.css"
+  "_SiteHeader-BHjmOITo.css": {
+    "file": "assets/SiteHeader-BHjmOITo.css",
+    "src": "_SiteHeader-BHjmOITo.css"
   },
-  "_SiteHeader-C5Y3lFYB.js": {
-    "file": "assets/SiteHeader-C5Y3lFYB.js",
+  "_SiteHeader-DLpjHJmF.js": {
+    "file": "assets/SiteHeader-DLpjHJmF.js",
     "name": "SiteHeader",
     "imports": [
       "_client-DP3ikFuO.js",
       "resources/js/app.jsx"
     ],
     "css": [
-      "assets/SiteHeader-Bo1aVkeA.css"
+      "assets/SiteHeader-BHjmOITo.css"
     ]
   },
   "_TextInput-iDavPaH8.js": {
@@ -145,9 +167,39 @@
     "file": "assets/client-DP3ikFuO.js",
     "name": "client"
   },
+  "_coordinates-DnYEdw09.js": {
+    "file": "assets/coordinates-DnYEdw09.js",
+    "name": "coordinates"
+  },
+  "_downshift.esm-CVQeONct.js": {
+    "file": "assets/downshift.esm-CVQeONct.js",
+    "name": "downshift.esm",
+    "imports": [
+      "_index-BzY9QePg.js",
+      "_client-DP3ikFuO.js"
+    ]
+  },
   "_format-6k-ph54I.js": {
     "file": "assets/format-6k-ph54I.js",
     "name": "format"
+  },
+  "_geometry-CiLMqfka.js": {
+    "file": "assets/geometry-CiLMqfka.js",
+    "name": "geometry",
+    "imports": [
+      "_manifest-DsYxArU1.js"
+    ]
+  },
+  "_gpsSessionCache-Q_sqBLl_.js": {
+    "file": "assets/gpsSessionCache-Q_sqBLl_.js",
+    "name": "gpsSessionCache"
+  },
+  "_hooks-CQRTYib-.js": {
+    "file": "assets/hooks-CQRTYib-.js",
+    "name": "hooks",
+    "imports": [
+      "_client-DP3ikFuO.js"
+    ]
   },
   "_index-AnYbBuHA.js": {
     "file": "assets/index-AnYbBuHA.js",
@@ -161,6 +213,24 @@
     "name": "index",
     "imports": [
       "_client-DP3ikFuO.js"
+    ]
+  },
+  "_leaflet-src-DZJKmNp-.js": {
+    "file": "assets/leaflet-src-DZJKmNp-.js",
+    "name": "leaflet-src",
+    "imports": [
+      "_client-DP3ikFuO.js"
+    ]
+  },
+  "_manifest-DsYxArU1.js": {
+    "file": "assets/manifest-DsYxArU1.js",
+    "name": "manifest"
+  },
+  "_nearestWatersUtils-W4QY4wwD.js": {
+    "file": "assets/nearestWatersUtils-W4QY4wwD.js",
+    "name": "nearestWatersUtils",
+    "imports": [
+      "_coordinates-DnYEdw09.js"
     ]
   },
   "_transition-BDG3NS6K.js": {
@@ -177,19 +247,23 @@
       "_client-DP3ikFuO.js"
     ]
   },
-  "_useSingleClick-SVKqmJNd.js": {
-    "file": "assets/useSingleClick-SVKqmJNd.js",
+  "_useSingleClick-CNNQyx0J.css": {
+    "file": "assets/useSingleClick-CNNQyx0J.css",
+    "src": "_useSingleClick-CNNQyx0J.css"
+  },
+  "_useSingleClick-IML684zc.js": {
+    "file": "assets/useSingleClick-IML684zc.js",
     "name": "useSingleClick",
     "imports": [
       "_client-DP3ikFuO.js"
     ],
     "css": [
-      "assets/useSingleClick-p3wLFDkC.css"
+      "assets/useSingleClick-CNNQyx0J.css"
     ]
   },
-  "_useSingleClick-p3wLFDkC.css": {
-    "file": "assets/useSingleClick-p3wLFDkC.css",
-    "src": "_useSingleClick-p3wLFDkC.css"
+  "_waterName-BK_kicBx.js": {
+    "file": "assets/waterName-BK_kicBx.js",
+    "name": "waterName"
   },
   "node_modules/leaflet/dist/images/layers-2x.png": {
     "file": "assets/layers-2x-Bpkbi35X.png",
@@ -203,22 +277,18 @@
     "file": "assets/marker-icon-hN30_KVU.png",
     "src": "node_modules/leaflet/dist/images/marker-icon.png"
   },
-  "node_modules/leaflet/dist/images/marker-shadow.png": {
-    "file": "assets/marker-shadow-f7SaPCxT.png",
-    "src": "node_modules/leaflet/dist/images/marker-shadow.png"
-  },
   "resources/css/public-pages.scss": {
-    "file": "assets/public-pages-BjiWOniV.css",
+    "file": "assets/public-pages-C6Vvg_j2.css",
     "src": "resources/css/public-pages.scss",
     "isEntry": true
   },
   "resources/css/spa-shell.scss": {
-    "file": "assets/spa-shell-Cny1uiQW.css",
+    "file": "assets/spa-shell-OgplGiyc.css",
     "src": "resources/css/spa-shell.scss",
     "isEntry": true
   },
   "resources/js/Pages/Auth/ConfirmPassword.jsx": {
-    "file": "assets/ConfirmPassword-C-PPwGKx.js",
+    "file": "assets/ConfirmPassword-SoEav9PW.js",
     "name": "ConfirmPassword",
     "src": "resources/js/Pages/Auth/ConfirmPassword.jsx",
     "isDynamicEntry": true,
@@ -227,13 +297,13 @@
       "_TextInput-iDavPaH8.js",
       "_InputLabel-DPDwhBRL.js",
       "_PrimaryButton-D6svU4st.js",
-      "_GuestLayout-DPWehB1u.js",
+      "_GuestLayout-BSWMmWde.js",
       "resources/js/app.jsx",
       "_ApplicationLogo-D1fyklQ8.js"
     ]
   },
   "resources/js/Pages/Auth/ForgotPassword.jsx": {
-    "file": "assets/ForgotPassword-DjsH8d6V.js",
+    "file": "assets/ForgotPassword-CFiw8hgs.js",
     "name": "ForgotPassword",
     "src": "resources/js/Pages/Auth/ForgotPassword.jsx",
     "isDynamicEntry": true,
@@ -241,13 +311,13 @@
       "_client-DP3ikFuO.js",
       "_TextInput-iDavPaH8.js",
       "_PrimaryButton-D6svU4st.js",
-      "_GuestLayout-DPWehB1u.js",
+      "_GuestLayout-BSWMmWde.js",
       "resources/js/app.jsx",
       "_ApplicationLogo-D1fyklQ8.js"
     ]
   },
   "resources/js/Pages/Auth/Login.jsx": {
-    "file": "assets/Login-3mH4x6zs.js",
+    "file": "assets/Login-BVjGkgD9.js",
     "name": "Login",
     "src": "resources/js/Pages/Auth/Login.jsx",
     "isDynamicEntry": true,
@@ -256,13 +326,13 @@
       "_TextInput-iDavPaH8.js",
       "_InputLabel-DPDwhBRL.js",
       "_PrimaryButton-D6svU4st.js",
-      "_GuestLayout-DPWehB1u.js",
+      "_GuestLayout-BSWMmWde.js",
       "resources/js/app.jsx",
       "_ApplicationLogo-D1fyklQ8.js"
     ]
   },
   "resources/js/Pages/Auth/Register.jsx": {
-    "file": "assets/Register-D3Wt-8mk.js",
+    "file": "assets/Register-B3OF3Rtd.js",
     "name": "Register",
     "src": "resources/js/Pages/Auth/Register.jsx",
     "isDynamicEntry": true,
@@ -271,13 +341,13 @@
       "_TextInput-iDavPaH8.js",
       "_InputLabel-DPDwhBRL.js",
       "_PrimaryButton-D6svU4st.js",
-      "_GuestLayout-DPWehB1u.js",
+      "_GuestLayout-BSWMmWde.js",
       "resources/js/app.jsx",
       "_ApplicationLogo-D1fyklQ8.js"
     ]
   },
   "resources/js/Pages/Auth/ResetPassword.jsx": {
-    "file": "assets/ResetPassword-qiRwFgJz.js",
+    "file": "assets/ResetPassword-Dxw0aT32.js",
     "name": "ResetPassword",
     "src": "resources/js/Pages/Auth/ResetPassword.jsx",
     "isDynamicEntry": true,
@@ -286,45 +356,45 @@
       "_TextInput-iDavPaH8.js",
       "_InputLabel-DPDwhBRL.js",
       "_PrimaryButton-D6svU4st.js",
-      "_GuestLayout-DPWehB1u.js",
+      "_GuestLayout-BSWMmWde.js",
       "resources/js/app.jsx",
       "_ApplicationLogo-D1fyklQ8.js"
     ]
   },
   "resources/js/Pages/Auth/VerifyEmail.jsx": {
-    "file": "assets/VerifyEmail-DM65NJVz.js",
+    "file": "assets/VerifyEmail-B-jZRF6J.js",
     "name": "VerifyEmail",
     "src": "resources/js/Pages/Auth/VerifyEmail.jsx",
     "isDynamicEntry": true,
     "imports": [
       "_client-DP3ikFuO.js",
       "_PrimaryButton-D6svU4st.js",
-      "_GuestLayout-DPWehB1u.js",
+      "_GuestLayout-BSWMmWde.js",
       "resources/js/app.jsx",
       "_ApplicationLogo-D1fyklQ8.js"
     ]
   },
   "resources/js/Pages/Dashboard.jsx": {
-    "file": "assets/Dashboard-CpywPX7c.js",
+    "file": "assets/Dashboard-DO8DTX18.js",
     "name": "Dashboard",
     "src": "resources/js/Pages/Dashboard.jsx",
     "isDynamicEntry": true,
     "imports": [
       "_client-DP3ikFuO.js",
-      "_AuthenticatedLayout-BhevkdVv.js",
+      "_AuthenticatedLayout-BS5clXKt.js",
       "resources/js/app.jsx",
       "_ApplicationLogo-D1fyklQ8.js",
       "_transition-BDG3NS6K.js"
     ]
   },
   "resources/js/Pages/Profile/Edit.jsx": {
-    "file": "assets/Edit-Dmyk4KMN.js",
+    "file": "assets/Edit-C3UPauhr.js",
     "name": "Edit",
     "src": "resources/js/Pages/Profile/Edit.jsx",
     "isDynamicEntry": true,
     "imports": [
       "_client-DP3ikFuO.js",
-      "_AuthenticatedLayout-BhevkdVv.js",
+      "_AuthenticatedLayout-BS5clXKt.js",
       "resources/js/app.jsx",
       "resources/js/Pages/Profile/Partials/DeleteUserForm.jsx",
       "resources/js/Pages/Profile/Partials/UpdatePasswordForm.jsx",
@@ -338,7 +408,7 @@
     ]
   },
   "resources/js/Pages/Profile/Partials/DeleteUserForm.jsx": {
-    "file": "assets/DeleteUserForm-Bhmf5kzb.js",
+    "file": "assets/DeleteUserForm-DxH3Vgdk.js",
     "name": "DeleteUserForm",
     "src": "resources/js/Pages/Profile/Partials/DeleteUserForm.jsx",
     "isDynamicEntry": true,
@@ -352,7 +422,7 @@
     ]
   },
   "resources/js/Pages/Profile/Partials/UpdatePasswordForm.jsx": {
-    "file": "assets/UpdatePasswordForm-Bmehujrb.js",
+    "file": "assets/UpdatePasswordForm-4hdqT2Im.js",
     "name": "UpdatePasswordForm",
     "src": "resources/js/Pages/Profile/Partials/UpdatePasswordForm.jsx",
     "isDynamicEntry": true,
@@ -366,7 +436,7 @@
     ]
   },
   "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.jsx": {
-    "file": "assets/UpdateProfileInformationForm-DD7q3P70.js",
+    "file": "assets/UpdateProfileInformationForm-CWav9sz2.js",
     "name": "UpdateProfileInformationForm",
     "src": "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.jsx",
     "isDynamicEntry": true,
@@ -380,13 +450,13 @@
     ]
   },
   "resources/js/Pages/Public/Settings/Settings.jsx": {
-    "file": "assets/Settings-D7UQmnHt.js",
+    "file": "assets/Settings-CQRlhE5l.js",
     "name": "Settings",
     "src": "resources/js/Pages/Public/Settings/Settings.jsx",
     "isDynamicEntry": true,
     "imports": [
       "_client-DP3ikFuO.js",
-      "_SiteHeader-C5Y3lFYB.js",
+      "_SiteHeader-DLpjHJmF.js",
       "resources/js/app.jsx"
     ],
     "css": [
@@ -394,19 +464,19 @@
     ]
   },
   "resources/js/Pages/Public/SmartFish/FishingRestrictions/FishRestrictionsTable.jsx": {
-    "file": "assets/FishRestrictionsTable-B6-znrix.js",
+    "file": "assets/FishRestrictionsTable-BskQjo1o.js",
     "name": "FishRestrictionsTable",
     "src": "resources/js/Pages/Public/SmartFish/FishingRestrictions/FishRestrictionsTable.jsx",
     "isDynamicEntry": true,
     "imports": [
       "_client-DP3ikFuO.js",
-      "_useSingleClick-SVKqmJNd.js",
+      "_useSingleClick-IML684zc.js",
       "_index-BzY9QePg.js",
       "_format-6k-ph54I.js"
     ]
   },
   "resources/js/Pages/Public/SmartFish/Homepage/sections/WhatsOpenNowCardLive.jsx": {
-    "file": "assets/WhatsOpenNowCardLive-Nk4wPw6J.js",
+    "file": "assets/WhatsOpenNowCardLive-DhjBqSnK.js",
     "name": "WhatsOpenNowCardLive",
     "src": "resources/js/Pages/Public/SmartFish/Homepage/sections/WhatsOpenNowCardLive.jsx",
     "isDynamicEntry": true,
@@ -417,7 +487,7 @@
     ]
   },
   "resources/js/Pages/Public/SmartFish/Map/Map.jsx": {
-    "file": "assets/Map-B8AZGbKq.js",
+    "file": "assets/Map-DY0NerSA.js",
     "name": "Map",
     "src": "resources/js/Pages/Public/SmartFish/Map/Map.jsx",
     "isDynamicEntry": true,
@@ -426,26 +496,28 @@
       "_XCircleIcon-ANe5nYkl.js"
     ],
     "css": [
-      "assets/Map-BTu_3cby.css"
+      "assets/Map-C_FOfwX3.css"
     ]
   },
   "resources/js/Pages/Public/SmartFish/SmartFish.jsx": {
-    "file": "assets/SmartFish-CpCUoL_S.js",
+    "file": "assets/SmartFish-CdLOztN8.js",
     "name": "SmartFish",
     "src": "resources/js/Pages/Public/SmartFish/SmartFish.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
       "_client-DP3ikFuO.js",
-      "_LocationCombobox-CflyJceE.js",
+      "_LocationCombobox-CQlbKlA2.js",
       "_useRest-Ck3u6CVj.js",
-      "_FishingRestrictions-DxRfhcOQ.js",
-      "_SiteHeader-C5Y3lFYB.js",
+      "_FishingRestrictions-CjCC9rKK.js",
+      "_SiteHeader-DLpjHJmF.js",
       "_LoadingSpinner-BDj4NtqJ.js",
+      "_downshift.esm-CVQeONct.js",
       "_index-BzY9QePg.js",
+      "_MapPinIcon-Djodoy7x.js",
       "_XCircleIcon-ANe5nYkl.js",
-      "_FishRestrictionsExceptionsTable-BsqWZTOI.js",
-      "_useSingleClick-SVKqmJNd.js",
+      "_FishRestrictionsExceptionsTable-BMZwcNTm.js",
+      "_useSingleClick-IML684zc.js",
       "_format-6k-ph54I.js",
       "resources/js/Pages/Public/SmartFish/FishingRestrictions/FishRestrictionsTable.jsx",
       "_index-AnYbBuHA.js"
@@ -454,60 +526,366 @@
       "resources/js/Pages/Public/SmartFish/Map/Map.jsx"
     ],
     "css": [
-      "assets/SmartFish-COfXnllI.css"
-    ]
-  },
-  "resources/js/Pages/Public/WatersMap/Components/FeaturesMap/FeaturesMap.jsx": {
-    "file": "assets/FeaturesMap-DiTlja3I.js",
-    "name": "FeaturesMap",
-    "src": "resources/js/Pages/Public/WatersMap/Components/FeaturesMap/FeaturesMap.jsx",
-    "isDynamicEntry": true,
-    "imports": [
-      "_client-DP3ikFuO.js",
-      "_index-AnYbBuHA.js"
-    ],
-    "css": [
-      "assets/FeaturesMap-erb7FZJS.css"
-    ],
-    "assets": [
-      "assets/marker-icon-hN30_KVU.png",
-      "assets/marker-shadow-f7SaPCxT.png",
-      "assets/layers-BWBAp2CZ.png",
-      "assets/layers-2x-Bpkbi35X.png"
-    ]
-  },
-  "resources/js/Pages/Public/WatersMap/Components/Sidebar/Sidebar.jsx": {
-    "file": "assets/Sidebar-BbIX18hd.js",
-    "name": "Sidebar",
-    "src": "resources/js/Pages/Public/WatersMap/Components/Sidebar/Sidebar.jsx",
-    "isDynamicEntry": true,
-    "imports": [
-      "_client-DP3ikFuO.js"
-    ],
-    "css": [
-      "assets/Sidebar-D2K0gjmX.css"
+      "assets/SmartFish-D5yB5-WO.css"
     ]
   },
   "resources/js/Pages/Public/WatersMap/WatersMap.jsx": {
-    "file": "assets/WatersMap-Cd6lwo6S.js",
+    "file": "assets/WatersMap-C0XHUZAN.js",
     "name": "WatersMap",
     "src": "resources/js/Pages/Public/WatersMap/WatersMap.jsx",
     "isDynamicEntry": true,
     "imports": [
       "_client-DP3ikFuO.js",
       "resources/js/app.jsx",
-      "_SiteHeader-C5Y3lFYB.js",
-      "resources/js/Pages/Public/WatersMap/Components/FeaturesMap/FeaturesMap.jsx",
-      "resources/js/Pages/Public/WatersMap/Components/Sidebar/Sidebar.jsx",
+      "_SiteHeader-DLpjHJmF.js",
       "_LoadingSpinner-BDj4NtqJ.js",
-      "_index-AnYbBuHA.js"
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/MapView.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Footer/Footer.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/SelectWater/SelectWater.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useWaterIndex.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useGeolocation.jsx",
+      "_gpsSessionCache-Q_sqBLl_.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useDeviceProperties.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/WaterMarkers.jsx",
+      "_leaflet-src-DZJKmNp-.js",
+      "_waterName-BK_kicBx.js",
+      "_hooks-CQRTYib-.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/ViewportOutlines.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useViewportGeometry.jsx",
+      "_geometry-CiLMqfka.js",
+      "_manifest-DsYxArU1.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/SelectedWater.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useFeatureGeometry.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/PositionPin.jsx",
+      "_MapToolbar-CDzQPYvP.js",
+      "_coordinates-DnYEdw09.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/WaterName.jsx",
+      "_nearestWatersUtils-W4QY4wwD.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/MapControlButton.jsx",
+      "_MapPinIcon-Djodoy7x.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/GpsTrackingOverlay.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/GpsController.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/SelectedWaterOverlay.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/WaterDirectionLabel.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/NearestWaters.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useNearestWaters.jsx",
+      "_index-AnYbBuHA.js",
+      "_downshift.esm-CVQeONct.js",
+      "_index-BzY9QePg.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useWaterSearch.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useDebounce.jsx",
+      "_XCircleIcon-ANe5nYkl.js"
     ],
     "css": [
-      "assets/WatersMap-DsZiCvNY.css"
+      "assets/WatersMap-IVpLJDa8.css"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Components/Footer/Footer.jsx": {
+    "file": "assets/Footer-P57poGUM.js",
+    "name": "Footer",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Components/Footer/Footer.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js"
+    ],
+    "css": [
+      "assets/Footer-BqsSvvGC.css"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/GpsController.jsx": {
+    "file": "assets/GpsController-CNg1iMfm.js",
+    "name": "GpsController",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/GpsController.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "_gpsSessionCache-Q_sqBLl_.js",
+      "_hooks-CQRTYib-.js"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/GpsTrackingOverlay.jsx": {
+    "file": "assets/GpsTrackingOverlay-D4D0zyDv.js",
+    "name": "GpsTrackingOverlay",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/GpsTrackingOverlay.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "_coordinates-DnYEdw09.js",
+      "_nearestWatersUtils-W4QY4wwD.js"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/MapControlButton.jsx": {
+    "file": "assets/MapControlButton-D8r5EF7p.js",
+    "name": "MapControlButton",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/MapControlButton.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "_LoadingSpinner-BDj4NtqJ.js"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/MapView.jsx": {
+    "file": "assets/MapView-CZnSdF22.js",
+    "name": "MapView",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/MapView.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useGeolocation.jsx",
+      "_gpsSessionCache-Q_sqBLl_.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useDeviceProperties.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/WaterMarkers.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/ViewportOutlines.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/SelectedWater.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/PositionPin.jsx",
+      "_MapToolbar-CDzQPYvP.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/GpsTrackingOverlay.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/GpsController.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/SelectedWaterOverlay.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/NearestWaters.jsx",
+      "_leaflet-src-DZJKmNp-.js",
+      "_hooks-CQRTYib-.js",
+      "_index-AnYbBuHA.js",
+      "_waterName-BK_kicBx.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useViewportGeometry.jsx",
+      "_geometry-CiLMqfka.js",
+      "_manifest-DsYxArU1.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useFeatureGeometry.jsx",
+      "_coordinates-DnYEdw09.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/WaterName.jsx",
+      "_nearestWatersUtils-W4QY4wwD.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/MapControlButton.jsx",
+      "_LoadingSpinner-BDj4NtqJ.js",
+      "_MapPinIcon-Djodoy7x.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/WaterDirectionLabel.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useNearestWaters.jsx"
+    ],
+    "css": [
+      "assets/MapView-Bu1EM_lJ.css"
+    ],
+    "assets": [
+      "assets/layers-BWBAp2CZ.png",
+      "assets/layers-2x-Bpkbi35X.png",
+      "assets/marker-icon-hN30_KVU.png"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/NearestWaters.jsx": {
+    "file": "assets/NearestWaters-D_5_9iUq.js",
+    "name": "NearestWaters",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/NearestWaters.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/MapControlButton.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useNearestWaters.jsx",
+      "_coordinates-DnYEdw09.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/WaterName.jsx",
+      "_waterName-BK_kicBx.js",
+      "_nearestWatersUtils-W4QY4wwD.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/WaterDirectionLabel.jsx",
+      "_LoadingSpinner-BDj4NtqJ.js"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/PositionPin.jsx": {
+    "file": "assets/PositionPin-B1OCxUSh.js",
+    "name": "PositionPin",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/PositionPin.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "_leaflet-src-DZJKmNp-.js",
+      "_hooks-CQRTYib-.js"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/SelectedWater.jsx": {
+    "file": "assets/SelectedWater-CZPGs44X.js",
+    "name": "SelectedWater",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/SelectedWater.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "_leaflet-src-DZJKmNp-.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useFeatureGeometry.jsx",
+      "_hooks-CQRTYib-.js",
+      "_geometry-CiLMqfka.js",
+      "_manifest-DsYxArU1.js"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/SelectedWaterOverlay.jsx": {
+    "file": "assets/SelectedWaterOverlay-DaUDy0V0.js",
+    "name": "SelectedWaterOverlay",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/SelectedWaterOverlay.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "_waterName-BK_kicBx.js",
+      "_nearestWatersUtils-W4QY4wwD.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/WaterDirectionLabel.jsx",
+      "_coordinates-DnYEdw09.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/WaterName.jsx"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/ViewportOutlines.jsx": {
+    "file": "assets/ViewportOutlines-BQUS7J-R.js",
+    "name": "ViewportOutlines",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/ViewportOutlines.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "_leaflet-src-DZJKmNp-.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useViewportGeometry.jsx",
+      "_waterName-BK_kicBx.js",
+      "_hooks-CQRTYib-.js",
+      "_geometry-CiLMqfka.js",
+      "_manifest-DsYxArU1.js"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/WaterDirectionLabel.jsx": {
+    "file": "assets/WaterDirectionLabel-Dc2uVUZO.js",
+    "name": "WaterDirectionLabel",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/WaterDirectionLabel.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/WaterName.jsx",
+      "_nearestWatersUtils-W4QY4wwD.js",
+      "_waterName-BK_kicBx.js",
+      "_coordinates-DnYEdw09.js"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/WaterMarkers.jsx": {
+    "file": "assets/WaterMarkers-DYYGwrS0.js",
+    "name": "WaterMarkers",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/WaterMarkers.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "_leaflet-src-DZJKmNp-.js",
+      "_waterName-BK_kicBx.js",
+      "_hooks-CQRTYib-.js"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Components/SelectWater/SelectWater.jsx": {
+    "file": "assets/SelectWater-D0HhXUMr.js",
+    "name": "SelectWater",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Components/SelectWater/SelectWater.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "_downshift.esm-CVQeONct.js",
+      "_index-AnYbBuHA.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useWaterSearch.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/WaterName.jsx",
+      "_waterName-BK_kicBx.js",
+      "_XCircleIcon-ANe5nYkl.js",
+      "_index-BzY9QePg.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useDebounce.jsx"
+    ],
+    "css": [
+      "assets/SelectWater-CUCuGSp6.css"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Components/WaterName.jsx": {
+    "file": "assets/WaterName-hD4OQ6fd.js",
+    "name": "WaterName",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Components/WaterName.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "_waterName-BK_kicBx.js"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/ThemeProvider.jsx": {
+    "file": "assets/ThemeProvider-D5OPeNdj.js",
+    "name": "ThemeProvider",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/ThemeProvider.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useDebounce.jsx": {
+    "file": "assets/useDebounce-D35D8X6q.js",
+    "name": "useDebounce",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useDebounce.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useDeviceProperties.jsx": {
+    "file": "assets/useDeviceProperties-C-ElnXGC.js",
+    "name": "useDeviceProperties",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useDeviceProperties.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useFeatureGeometry.jsx": {
+    "file": "assets/useFeatureGeometry-PygWTxEU.js",
+    "name": "useFeatureGeometry",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useFeatureGeometry.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "_geometry-CiLMqfka.js",
+      "_manifest-DsYxArU1.js"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useGeolocation.jsx": {
+    "file": "assets/useGeolocation-B1utQIVL.js",
+    "name": "useGeolocation",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useGeolocation.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "_gpsSessionCache-Q_sqBLl_.js"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useNearestWaters.jsx": {
+    "file": "assets/useNearestWaters-CZUja9v_.js",
+    "name": "useNearestWaters",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useNearestWaters.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "_coordinates-DnYEdw09.js"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useViewportGeometry.jsx": {
+    "file": "assets/useViewportGeometry-B-jL2Kav.js",
+    "name": "useViewportGeometry",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useViewportGeometry.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "_geometry-CiLMqfka.js",
+      "_manifest-DsYxArU1.js"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useWaterIndex.jsx": {
+    "file": "assets/useWaterIndex-CqQJoKT-.js",
+    "name": "useWaterIndex",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useWaterIndex.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "_manifest-DsYxArU1.js"
+    ]
+  },
+  "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useWaterSearch.jsx": {
+    "file": "assets/useWaterSearch-CgE4w87z.js",
+    "name": "useWaterSearch",
+    "src": "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useWaterSearch.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-DP3ikFuO.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useDebounce.jsx"
     ]
   },
   "resources/js/Pages/Welcome.jsx": {
-    "file": "assets/Welcome-Csl020w3.js",
+    "file": "assets/Welcome-DPJtuq8m.js",
     "name": "Welcome",
     "src": "resources/js/Pages/Welcome.jsx",
     "isDynamicEntry": true,
@@ -517,7 +895,7 @@
     ]
   },
   "resources/js/app.jsx": {
-    "file": "assets/app--dkcrKDU.js",
+    "file": "assets/app-3HhLDCgV.js",
     "name": "app",
     "src": "resources/js/app.jsx",
     "isEntry": true,
@@ -537,24 +915,46 @@
       "resources/js/Pages/Profile/Partials/UpdatePasswordForm.jsx",
       "resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.jsx",
       "resources/js/Pages/Public/Settings/Settings.jsx",
-      "_FishRestrictionsExceptionsTable-BsqWZTOI.js",
+      "_FishRestrictionsExceptionsTable-BMZwcNTm.js",
       "resources/js/Pages/Public/SmartFish/FishingRestrictions/FishRestrictionsTable.jsx",
-      "_FishingRestrictions-DxRfhcOQ.js",
+      "_FishingRestrictions-CjCC9rKK.js",
       "resources/js/Pages/Public/SmartFish/Homepage/sections/WhatsOpenNowCardLive.jsx",
-      "_LocationCombobox-CflyJceE.js",
+      "_LocationCombobox-CQlbKlA2.js",
       "resources/js/Pages/Public/SmartFish/Map/Map.jsx",
       "resources/js/Pages/Public/SmartFish/SmartFish.jsx",
-      "resources/js/Pages/Public/WatersMap/Components/FeaturesMap/FeaturesMap.jsx",
-      "resources/js/Pages/Public/WatersMap/Components/Sidebar/Sidebar.jsx",
       "resources/js/Pages/Public/WatersMap/WatersMap.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Footer/Footer.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/GpsController.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/GpsTrackingOverlay.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/MapControlButton.jsx",
+      "_MapToolbar-CDzQPYvP.js",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/MapView.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/NearestWaters.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/PositionPin.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/SelectedWater.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/SelectedWaterOverlay.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/ViewportOutlines.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/WaterDirectionLabel.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/Map/WaterMarkers.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/SelectWater/SelectWater.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Components/WaterName.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/ThemeProvider.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useDebounce.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useDeviceProperties.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useFeatureGeometry.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useGeolocation.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useNearestWaters.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useViewportGeometry.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useWaterIndex.jsx",
+      "resources/js/Pages/Public/WatersMap/nb-waters/Hooks/useWaterSearch.jsx",
       "resources/js/Pages/Welcome.jsx"
     ],
     "css": [
-      "assets/app-vpyaLwlo.css"
+      "assets/app-CrqN1Ws6.css"
     ]
   },
   "resources/js/public-home.jsx": {
-    "file": "assets/public-home-DwDaJuEL.js",
+    "file": "assets/public-home-KgeXUsO_.js",
     "name": "public-home",
     "src": "resources/js/public-home.jsx",
     "isEntry": true,

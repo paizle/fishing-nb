@@ -30,9 +30,7 @@ class PublicController extends Controller
 
 	public function waters_map()
 	{
-		return Inertia::render('Public/WatersMap/WatersMap', [
-			'apiLastModified' => config('app.api_last_modified'),
-		]);
+		return Inertia::render('Public/WatersMap/WatersMap');
 	}
 
 	public function settings()

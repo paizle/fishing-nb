@@ -5,17 +5,20 @@
 ])
 
 <form class="BladeForm" method="get" action="{{ route('search.page') }}">
-    <label class="sr-only" for="search-q">Search query</label>
-    <input
-        type="search"
-        id="search-q"
-        name="q"
-        value="{{ $query }}"
-        class="BladeForm-input"
-        minlength="2"
-        placeholder="Search waterbodies, species, or regions…"
-        required
-    >
+    <div class="BladeForm-searchWrap">
+        <x-ui-icon name="magnifying-glass" class="BladeForm-searchIcon" />
+        <label class="sr-only" for="search-q">Search query</label>
+        <input
+            type="search"
+            id="search-q"
+            name="q"
+            value="{{ $query }}"
+            class="BladeForm-input BladeForm-input--withIcon"
+            minlength="2"
+            placeholder="Search waterbodies, species, or regions…"
+            required
+        >
+    </div>
 
     @if ($scopeLabels)
         <label class="sr-only" for="search-scope">Search scope</label>

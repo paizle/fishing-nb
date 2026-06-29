@@ -1,0 +1,1 @@
+import{r as e}from"./client-DP3ikFuO.js";function c(){const[t,o]=e.useState();return e.useEffect(()=>{const r=window.matchMedia("(pointer: coarse)").matches||window.matchMedia("(hover: none)").matches;o({isTouch:r})},[]),t}export{c as default};

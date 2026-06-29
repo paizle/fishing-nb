@@ -1,13 +1,16 @@
 <footer class="RedesignLayout-footer">
     <div class="PublicFooter">
         <div class="PublicFooter-notice">
-            <strong>Important notice:</strong> Smart Fish summarizes fishing regulations from
-            official New Brunswick sources. Regulations change — always verify current rules
-            with the
-            <a href="https://www2.gnb.ca/" target="_blank" rel="noopener noreferrer">Department of Natural Resources</a>
-            and
-            <a href="https://www.dfo-mpo.gc.ca/" target="_blank" rel="noopener noreferrer">Fisheries and Oceans Canada</a>
-            before fishing. Anglers are responsible for compliance.
+            <x-ui-icon name="exclamation-triangle" class="PublicFooter-noticeIcon" />
+            <p>
+                <strong>Important notice:</strong> Smart Fish summarizes fishing regulations from
+                official New Brunswick sources. Regulations change — always verify current rules
+                with the
+                <a href="https://www2.gnb.ca/" target="_blank" rel="noopener noreferrer">Department of Natural Resources</a>
+                and
+                <a href="https://www.dfo-mpo.gc.ca/" target="_blank" rel="noopener noreferrer">Fisheries and Oceans Canada</a>
+                before fishing. Anglers are responsible for compliance.
+            </p>
         </div>
 
         <div class="PublicFooter-grid">

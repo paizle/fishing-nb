@@ -25,8 +25,14 @@
                         all in one place. Plan your next trip with confidence.
                     </p>
                     <div class="HeroSection-actions">
-                        <a href="{{ route('search.page') }}" class="HeroSection-btn HeroSection-btn--primary">Search a Waterbody</a>
-                        <a href="{{ route('maps.waters') }}" class="HeroSection-btn HeroSection-btn--outline">Open Interactive Map</a>
+                        <a href="{{ route('search.page') }}" class="HeroSection-btn HeroSection-btn--primary">
+                            <x-ui-icon name="magnifying-glass" class="HeroSection-btnIcon" />
+                            Search a Waterbody
+                        </a>
+                        <a href="{{ route('maps.waters') }}" class="HeroSection-btn HeroSection-btn--outline">
+                            <x-ui-icon name="map" class="HeroSection-btnIcon" />
+                            Open Interactive Map
+                        </a>
                     </div>
                     <p class="HeroSection-disclaimer">
                         Data sourced from official NB fishing regulations. Always verify before you fish.
@@ -46,12 +52,13 @@
                             <ul class="WhatsOpenNowCard-list">
                                 @foreach ($whatsOpenNow['rows'] as $row)
                                     <li class="WhatsOpenNowCard-item is-{{ $row['statusClass'] }}">
+                                        <x-whats-open-status-icon :status-class="$row['statusClass']" />
                                         <span class="WhatsOpenNowCard-name">{{ $row['fishName'] }}</span>
                                         <span class="WhatsOpenNowCard-status">{{ $row['statusLabel'] }}</span>
                                     </li>
                                 @endforeach
                             </ul>
-                            <a href="/calendar" class="WhatsOpenNowCard-link">View All Seasons</a>
+                            <a href="/calendar" class="WhatsOpenNowCard-link">View All Seasons →</a>
                         </aside>
                     @endif
                 </div>
@@ -88,7 +95,10 @@
                             <li>{{ $feature }}</li>
                         @endforeach
                     </ul>
-                    <a href="{{ route('maps.waters') }}" class="MapPreviewSection-cta">Launch Map</a>
+                    <a href="{{ route('maps.waters') }}" class="MapPreviewSection-cta">
+                        <x-ui-icon name="map" />
+                        Launch Map
+                    </a>
                 </div>
                 <div class="MapPreviewSection-visual">
                     <img src="/images/redesign/map-preview.png" alt="Preview of the New Brunswick waters map" class="MapPreviewSection-image">
@@ -105,14 +115,14 @@
                 <div class="SpeciesGridSection-grid">
                     @foreach ($speciesList as $name)
                         <article class="SpeciesGridSection-card">
-                            <div class="FishIconPlaceholder" aria-hidden="true">
-                                <svg viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M4 16c8-8 20-10 32-6-4 2-6 6-6 10s2 8 6 10C24 26 12 24 4 16z" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                                    <circle cx="10" cy="14" r="1.5" fill="currentColor"/>
-                                    <path d="M36 10l4 6-4 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                                </svg>
-                                <span class="FishIconPlaceholder-initial">{{ strtoupper(substr($name, 0, 1)) }}</span>
-                            </div>
+                            <img
+                                src="{{ \App\Support\FishImageUrl::fromName($name) }}"
+                                alt=""
+                                class="SpeciesGridSection-fishImg"
+                                loading="lazy"
+                                width="64"
+                                height="48"
+                            >
                             <h3 class="SpeciesGridSection-name">{{ $name }}</h3>
                             <a href="{{ \App\Support\RegulationUrl::speciesSearchHref($name) }}" class="SpeciesGridSection-link">View Regulations</a>
                         </article>

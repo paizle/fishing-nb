@@ -1,0 +1,107 @@
+.SelectWater {
+	position: relative;
+	width: auto;
+	margin: 0 auto 0 3em;
+
+	@screen sm {
+		width: 80%;
+		margin: 0 auto;
+	}
+
+	.input {
+		position: relative;
+		display: flex;
+		align-items: center;
+		background: var(--surface-solid);
+		border: 1px solid var(--surface-border);
+		border-radius: 9999px;
+		color: var(--text-muted);
+		box-shadow: 0 6px 20px rgba(15, 23, 42, 0.18);
+		padding: 0 0.5rem;
+
+		input {
+			flex: 1 1 auto;
+			border: none;
+			outline: none;
+			background: transparent;
+			padding: 0.6rem 0.25rem;
+			font-size: 1rem;
+			width: 1000%;
+		}
+
+		.icon {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			border: none;
+			background: transparent;
+			cursor: pointer;
+			padding: 0.25rem;
+			color: #64748b;
+
+			svg {
+				width: 1.25rem;
+				height: 1.25rem;
+			}
+
+			&.clear:hover svg {
+				color: #0f172a;
+			}
+		}
+	}
+
+	.menu {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: calc(100% + 0.5rem);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		max-height: 18rem;
+		overflow-y: auto;
+		overflow-x: hidden;
+		background: #ffffff;
+		border-radius: 0.75rem;
+		box-shadow: 0 10px 30px rgba(15, 23, 42, 0.25);
+		display: none;
+
+		&.open {
+			display: block;
+		}
+
+		.menu-spacer {
+			position: relative;
+			width: 100%;
+			list-style: none;
+		}
+
+		.option {
+			position: absolute;
+			left: 0;
+			right: 0;
+			display: flex;
+			align-items: center;
+			padding: 0 0.85rem;
+			font-size: 0.95rem;
+			line-height: 1.2;
+			cursor: pointer;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+
+			&.highlighted {
+				background: #e0f2fe;
+			}
+
+			&.selected {
+				background: var(--accent-selected);
+				color: var(--accent-selected-contrast);
+
+				.water-id-label {
+					color: rgba(255, 255, 255, 0.85);
+				}
+			}
+		}
+	}
+}

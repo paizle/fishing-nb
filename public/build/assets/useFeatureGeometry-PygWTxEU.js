@@ -1,0 +1,1 @@
+import{r as u}from"./client-DP3ikFuO.js";import{a as f}from"./geometry-CiLMqfka.js";import"./manifest-DsYxArU1.js";function c(e){const[a,t]=u.useState(null);return u.useEffect(()=>{let r=!0;if(!e){t(null);return}return f(e.id,e.lat,e.lng).then(o=>{r&&t(o)}),()=>{r=!1}},[e]),a}export{c as default};

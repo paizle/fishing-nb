@@ -1,87 +1,45 @@
 import './WatersMap.scss'
-import React, { useState, useEffect } from 'react'
+import { useMemo, useState } from 'react'
 import { Head } from '@inertiajs/react'
 import PublicLayout from '@/Layouts/PublicLayout/PublicLayout'
 import SiteHeader from '@/Layouts/SiteHeader/SiteHeader'
-import FeaturesMap from './Components/FeaturesMap/FeaturesMap'
-import Sidebar from './Components/Sidebar/Sidebar'
 import LoadingSpinner from '@/Components/LoadingSpinner/LoadingSpinner'
+import MapView from './nb-waters/Components/Map/MapView'
+import Footer from './nb-waters/Components/Footer/Footer'
+import SelectWater from './nb-waters/Components/SelectWater/SelectWater'
+import useWaterIndex from './nb-waters/Hooks/useWaterIndex'
 
-export default function WatersMap({ apiLastModified }) {
-	const [geoJson, setGeojson] = useState(null)
-	const [loadError, setLoadError] = useState(null)
-	const [selectedFeature, setSelectedFeature] = useState()
-	const [hoveredFeature, setHovereadFeature] = useState()
+export default function WatersMap() {
+	const { items, isLoading } = useWaterIndex()
+	const [selectedId, setSelectedId] = useState(null)
 
-	useEffect(() => {
-		async function load() {
-			try {
-				const nocache = Date.parse(apiLastModified)
-				const url = Number.isNaN(nocache)
-					? '/waters.geojson'
-					: `/waters.geojson?nocache=${nocache}`
-				const response = await fetch(url, { cache: 'no-store' })
-				if (!response.ok) {
-					setLoadError(`Could not load waters map data (HTTP ${response.status}).`)
-					return
-				}
-				const data = await response.json()
-				setGeojson(data)
-			} catch {
-				setLoadError('Could not load waters map data.')
-			}
-		}
-		load()
-	}, [apiLastModified])
-
-	const selectFeature = (id) => {
-		const feature = geoJson.features.find((feature) => feature.properties.OBJECTID === id)
-		setSelectedFeature(feature)
-	}
-
-	const hoverFeature = (id) => {
-		const feature = geoJson.features.find((feature) => feature.properties.OBJECTID === id)
-		setHovereadFeature(feature)
-	}
+	const selectedItem = useMemo(
+		() => items.find((item) => item.id === selectedId) ?? null,
+		[items, selectedId],
+	)
 
 	return (
 		<PublicLayout className="WatersMap">
 			<Head title="Waters Map" />
 			<SiteHeader />
 			<main>
-				<FeaturesMap geoJson={selectedFeature} highlightedGeoJson={hoveredFeature} />
-				<Sidebar>
-					{loadError ? (
-						<p className="load-error">{loadError}</p>
-					) : geoJson ? (
-						<ul onMouseLeave={() => setHovereadFeature(null)}>
-							{geoJson.features.map((feature) => (
-								<li key={feature.properties.OBJECTID}>
-									<button
-										className={
-											feature.properties.NAME1 || feature.properties.LOCALNAME
-												? ''
-												: 'no-name'
-										}
-										onClick={() => selectFeature(feature.properties.OBJECTID)}
-										onMouseEnter={() =>
-											hoverFeature(feature.properties.OBJECTID)
-										}
-										onMouseDown={() =>
-											hoverFeature(feature.properties.OBJECTID)
-										}
-									>
-										{feature.properties.NAME1 ||
-											feature.properties.LOCALNAME ||
-											`NID: ${feature.properties.NID}`}
-									</button>
-								</li>
-							))}
-						</ul>
-					) : (
-						<LoadingSpinner />
-					)}
-				</Sidebar>
+				<div className="WatersMap-body">
+					<MapView items={items} selectedItem={selectedItem} onSelect={setSelectedId} />
+					<Footer>
+						{isLoading ? (
+							<div className="WatersMap-loading">
+								<LoadingSpinner />
+								<span>Loading waters…</span>
+							</div>
+						) : (
+							<SelectWater
+								items={items}
+								selectedId={selectedId}
+								onSelect={setSelectedId}
+							/>
+						)}
+					</Footer>
+				</div>
 			</main>
 		</PublicLayout>
 	)

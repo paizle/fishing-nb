@@ -1,10 +1,8 @@
+import WhatsOpenStatusIcon from '@/Components/WhatsOpenStatusIcon/WhatsOpenStatusIcon'
 import useRest from '@/Hooks/useRest'
 import { format, parseISO } from 'date-fns'
 import { useEffect, useMemo } from 'react'
-import {
-	findTodayEntries,
-	pickFeaturedRows,
-} from '@/Pages/Public/SmartFish/Homepage/whatsOpenNowFeatured'
+import { findTodayEntries, pickWhatsOpenRows } from '@/Pages/Public/SmartFish/Homepage/whatsOpenNow'
 
 export default function WhatsOpenNowCardLive({ apiLastModified = '' }) {
 	const { state, get } = useRest(apiLastModified)
@@ -18,7 +16,7 @@ export default function WhatsOpenNowCardLive({ apiLastModified = '' }) {
 			return []
 		}
 
-		return pickFeaturedRows(findTodayEntries(state.data))
+		return pickWhatsOpenRows(findTodayEntries(state.data))
 	}, [state.data])
 
 	const dateLabel = state.data?.anchorDate
@@ -43,6 +41,7 @@ export default function WhatsOpenNowCardLive({ apiLastModified = '' }) {
 							key={row.fishName}
 							className={`WhatsOpenNowCard-item is-${row.statusClass}`}
 						>
+							<WhatsOpenStatusIcon statusClass={row.statusClass} />
 							<span className="WhatsOpenNowCard-name">{row.fishName}</span>
 							<span className="WhatsOpenNowCard-status">{row.statusLabel}</span>
 						</li>
@@ -50,8 +49,8 @@ export default function WhatsOpenNowCardLive({ apiLastModified = '' }) {
 				</ul>
 			)}
 
-			<a href="#species" className="WhatsOpenNowCard-link">
-				View All Seasons
+			<a href="/calendar" className="WhatsOpenNowCard-link">
+				View All Seasons →
 			</a>
 		</aside>
 	)

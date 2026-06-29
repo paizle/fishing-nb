@@ -37,7 +37,6 @@
 	align-items: center;
 	gap: 0.5rem;
 	padding: 0.5rem 0;
-	border-bottom: 1px solid var(--redesign-off-white-dark);
 	font-size: 0.875rem;
 
 	&:last-child {
@@ -45,39 +44,75 @@
 	}
 }
 
-.WhatsOpenNowCard-item.is-open .WhatsOpenNowCard-status {
-	color: var(--redesign-open);
-	font-weight: 600;
+.WhatsOpenNowCard-statusIcon {
+	display: inline-flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+
+	svg {
+		width: 100%;
+		height: 100%;
+	}
 }
 
-.WhatsOpenNowCard-item.is-catch-release .WhatsOpenNowCard-status {
+.WhatsOpenNowCard-statusIcon--open,
+.WhatsOpenNowCard-statusIcon--closed,
+.WhatsOpenNowCard-statusIcon--warning {
+	width: 1.1rem;
+	height: 1.1rem;
+	border-radius: 50%;
+	color: var(--redesign-white);
+
+	svg {
+		width: 0.7rem;
+		height: 0.7rem;
+		stroke-width: 3;
+	}
+}
+
+.WhatsOpenNowCard-statusIcon--open {
+	background-color: var(--redesign-open);
+}
+
+.WhatsOpenNowCard-statusIcon--closed {
+	background-color: var(--redesign-closed);
+}
+
+.WhatsOpenNowCard-statusIcon--warning {
 	color: var(--redesign-warning);
-	font-weight: 600;
-	font-size: 0.75rem;
-	text-align: right;
+	font-weight: 900;
+
+	svg {
+		display: block;
+		width: 110%;
+		height: 110%;
+		transform: scale(1.25);
+		transform-origin: center;
+
+		stroke-width: 4;
+	}
 }
 
-.WhatsOpenNowCard-item.is-warning .WhatsOpenNowCard-status {
-	color: var(--redesign-warning);
-	font-weight: 600;
-	font-size: 0.75rem;
+.WhatsOpenNowCard-item .WhatsOpenNowCard-status {
 	text-align: right;
-}
-
-.WhatsOpenNowCard-item.is-closed .WhatsOpenNowCard-status {
-	color: var(--redesign-closed);
-	font-weight: 600;
 }
 
 .WhatsOpenNowCard-name {
-	font-weight: 500;
+	flex: 1;
+	font-weight: 600;
 	color: var(--redesign-forest-dark);
 }
 
 .WhatsOpenNowCard-link {
+	@include redesign-btn-outline;
+	display: block;
+	text-align: center;
 	font-size: 0.875rem;
 	font-weight: 600;
-	color: var(--redesign-forest-light);
+	color: var(--redesign-forest-dark);
+	border-color: var(--redesign-forest-dark);
+	border-width: 1px;
 	text-decoration: none;
 
 	&:hover {

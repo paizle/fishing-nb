@@ -1,0 +1,1 @@
+import{r as c}from"./client-DP3ikFuO.js";import{h as u}from"./coordinates-DnYEdw09.js";function f(n,r,s=5){return c.useMemo(()=>{if(!(r!=null&&r.bounds)||!n.length)return[];const e=r.bounds.getCenter(),o={lat:e.lat,lng:e.lng};return n.map(t=>({...t,distance:u(o,t)})).sort((t,a)=>t.distance-a.distance).slice(0,s)},[n,r,s])}export{f as default};
