@@ -25,6 +25,10 @@ Route::middleware('auth')->group(function () {
 // -------------------------------------------------------------------------
 Route::redirect('/home', '/', 301);
 
+// Must be registered before /regulations/{region} — otherwise "Fish.pdf" is treated as a region slug.
+Route::get('/regulations/Fish.pdf', [PublicController::class, 'regulationPdf'])
+	->name('regulations.fish_pdf');
+
 Route::controller(SmartFishController::class)->group(function () {
 	Route::get('/', 'index')->name('smart_fish.page');
 	Route::get('/search', 'search')->name('search.page');
@@ -50,12 +54,6 @@ Route::controller(\App\Http\Controllers\SeoController::class)->group(function ()
 	Route::get('/sitemap.xml', 'sitemap')->name('sitemap');
 	Route::get('/robots.txt', 'robots')->name('robots');
 });
-
-// -------------------------------------------------------------------------
-// Non-Inertia web routes — Blade utilities (no React shell).
-// -------------------------------------------------------------------------
-Route::get('/regulations/Fish.pdf', [PublicController::class, 'regulationPdf'])
-	->name('regulations.fish_pdf');
 
 Route::get('/verify-source', [PublicController::class, 'verifySource'])
 	->name('verify.source');

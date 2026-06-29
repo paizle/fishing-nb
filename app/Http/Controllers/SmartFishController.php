@@ -10,6 +10,7 @@ use App\Services\RestrictionsService;
 use App\Services\WhatsOpenNowService;
 use App\Support\LocationSlug;
 use App\Support\PopularLocations;
+use App\Support\SearchScope;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\View\View as ViewResponse;
@@ -118,11 +119,7 @@ class SmartFishController extends Controller
 	public function search(Request $request): ViewResponse
 	{
 		$query = trim((string) $request->query('q', ''));
-		$scope = (string) $request->query('scope', 'all');
-		$allowedScopes = ['all', 'waterbody', 'species', 'region'];
-		if (! in_array($scope, $allowedScopes, true)) {
-			$scope = 'all';
-		}
+		$scope = SearchScope::normalize((string) $request->query('scope', SearchScope::DEFAULT));
 
 		$results = strlen($query) >= 2
 			? $this->searchService->search($query, $scope)
@@ -135,12 +132,7 @@ class SmartFishController extends Controller
 				'query' => $query,
 				'scope' => $scope,
 				'results' => $results,
-				'scopeLabels' => [
-					'all' => 'Search All',
-					'waterbody' => 'Waterbody',
-					'species' => 'Species',
-					'region' => 'Region',
-				],
+				'scopeLabels' => SearchScope::labels(),
 			],
 			'directoryNav' => $this->directoryNav->build(),
 		]);

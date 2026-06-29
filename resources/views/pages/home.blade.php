@@ -70,6 +70,8 @@
             <div class="FindRegulationsSection-inner">
                 <h2 id="find-regulations-heading" class="FindRegulationsSection-heading">Find Regulations Fast</h2>
 
+                @include('partials.public.search-scope-chips')
+
                 @include('partials.public.search-form')
 
                 <div class="FindRegulationsSection-tags">

@@ -4,12 +4,14 @@
 @use 'blade/layout/page-shell';
 @use 'blade/layout/typography';
 @use 'blade/layout/forms';
+@use 'blade/layout/search-bar';
 @use 'blade/layout/lists';
 @use 'blade/layout/buttons';
 @use 'blade/pages/homepage';
 @use 'blade/sections/hero-section';
 @use 'blade/sections/whats-open-now-card';
 @use 'blade/sections/find-regulations-section';
+@use 'blade/sections/search-scope-chips';
 @use 'blade/sections/map-preview-section';
 @use 'blade/sections/species-grid-section';
 @use 'blade/sections/how-it-works-section';

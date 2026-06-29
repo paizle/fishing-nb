@@ -4,34 +4,42 @@ namespace App\Support;
 
 class PopularLocations
 {
-	/** Curated popular links (mirrors popularTags.ts). */
+	/** Curated popular search shortcuts for the homepage. */
 	public static function tags(): array
 	{
 		return [
 			[
 				'label' => 'Miramichi River',
-				'url' => route('regulations.region.water', ['region' => 'miramichi', 'water' => 'miramichi-river']),
+				'url' => self::searchUrl('Miramichi River', 'waterbody'),
 			],
 			[
 				'label' => 'Grand Lake',
-				'url' => route('regulations.region.water', ['region' => 'lower-saint-john', 'water' => 'grand-lake']),
+				'url' => self::searchUrl('Grand Lake', 'waterbody'),
 			],
 			[
 				'label' => 'Brook Trout',
-				'url' => '/search?' . http_build_query(['q' => 'Brook Trout', 'scope' => 'species']),
+				'url' => self::searchUrl('Brook Trout', 'species'),
 			],
 			[
 				'label' => 'Smallmouth Bass',
-				'url' => '/search?' . http_build_query(['q' => 'Smallmouth Bass', 'scope' => 'species']),
+				'url' => self::searchUrl('Smallmouth Bass', 'species'),
 			],
 			[
 				'label' => 'Chaleur',
-				'url' => route('regulations.region', ['region' => 'chaleur']),
+				'url' => self::searchUrl('Chaleur', 'region'),
 			],
 			[
 				'label' => 'Miramichi',
-				'url' => route('regulations.region', ['region' => 'miramichi']),
+				'url' => self::searchUrl('Miramichi', 'region'),
 			],
 		];
+	}
+
+	private static function searchUrl(string $query, string $scope): string
+	{
+		return route('search.page', [
+			'q' => $query,
+			'scope' => SearchScope::normalize($scope),
+		]);
 	}
 }

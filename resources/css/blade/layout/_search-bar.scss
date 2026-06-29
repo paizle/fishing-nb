@@ -1,0 +1,112 @@
+@use '../../redesign-tokens' as *;
+
+.BladeSearchForm {
+	margin: 1rem 0;
+	display: flex;
+	justify-content: flex-start;
+}
+
+.BladePage--centered .BladeSearchForm,
+.FindRegulationsSection .BladeSearchForm {
+	justify-content: center;
+}
+
+.BladeSearchBar {
+	display: inline-flex;
+	align-items: stretch;
+	width: 100%;
+	max-width: 36rem;
+	border: 1px solid var(--redesign-off-white-dark);
+	border-radius: 0.375rem;
+	overflow: hidden;
+	background-color: var(--redesign-white);
+
+	&:focus-within {
+		border-color: var(--redesign-forest-light);
+		box-shadow: 0 0 0 2px rgba(45, 106, 79, 0.15);
+	}
+}
+
+.BladeSearchBar-query {
+	position: relative;
+	display: flex;
+	align-items: center;
+	flex: 1 1 auto;
+	min-width: 0;
+	border-right: 1px solid var(--redesign-off-white-dark);
+}
+
+.BladeSearchBar-icon {
+	position: absolute;
+	left: 0.75rem;
+	width: 1.125rem;
+	height: 1.125rem;
+	color: var(--redesign-text-muted);
+	pointer-events: none;
+}
+
+.BladeSearchBar-input {
+	width: 100%;
+	min-width: 0;
+	padding: 0.625rem 0.75rem 0.625rem 2.25rem;
+	border: 0;
+	border-radius: 0;
+	font-size: 1rem;
+	font-family: inherit;
+	background: transparent;
+	color: var(--redesign-text);
+
+	&:focus {
+		outline: none;
+	}
+}
+
+.BladeSearchBar-select {
+	flex: 0 0 auto;
+	padding: 0.625rem 2rem 0.625rem 0.75rem;
+	border: 0;
+	border-right: 1px solid var(--redesign-off-white-dark);
+	border-radius: 0;
+	font-size: 0.95rem;
+	font-family: inherit;
+	background-color: var(--redesign-white);
+	color: var(--redesign-text);
+	cursor: pointer;
+	min-width: 8.5rem;
+
+	&:focus {
+		outline: none;
+	}
+}
+
+.BladeSearchBar-submit {
+	@include redesign-btn-primary;
+	flex: 0 0 auto;
+	border: 0;
+	border-radius: 0;
+	padding: 0.625rem 1.25rem;
+	font-size: 0.95rem;
+	white-space: nowrap;
+
+	&:focus-visible {
+		outline: 2px solid var(--redesign-white);
+		outline-offset: -2px;
+	}
+}
+
+@media (max-width: 640px) {
+	.BladeSearchBar {
+		flex-direction: column;
+		max-width: 24rem;
+	}
+
+	.BladeSearchBar-query,
+	.BladeSearchBar-select {
+		border-right: 0;
+		border-bottom: 1px solid var(--redesign-off-white-dark);
+	}
+
+	.BladeSearchBar-select {
+		width: 100%;
+	}
+}

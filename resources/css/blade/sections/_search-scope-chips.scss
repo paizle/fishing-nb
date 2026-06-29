@@ -1,0 +1,45 @@
+@use '../../redesign-tokens' as *;
+
+.SearchScopeChips {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.5rem;
+	margin: 0 0 1rem;
+}
+
+.SearchScopeChips-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.4rem 0.85rem;
+	border-radius: 9999px;
+	border: 1px solid var(--redesign-off-white-dark);
+	background: var(--redesign-white);
+	font-size: 0.8rem;
+	font-weight: 500;
+	color: var(--redesign-forest);
+	text-decoration: none;
+	transition:
+		background-color 0.15s,
+		border-color 0.15s,
+		color 0.15s;
+
+	&:hover {
+		border-color: var(--redesign-forest-light);
+		color: var(--redesign-forest-dark);
+		text-decoration: none;
+	}
+
+	&.is-active {
+		background: rgba(45, 106, 79, 0.1);
+		border-color: var(--redesign-forest-light);
+		color: var(--redesign-forest-dark);
+	}
+}
+
+.SearchScopeChips-icon {
+	width: 0.95rem;
+	height: 0.95rem;
+	flex-shrink: 0;
+}

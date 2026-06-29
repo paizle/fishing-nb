@@ -5,7 +5,7 @@
         $query = $search['query'] ?? '';
         $scope = $search['scope'] ?? 'all';
         $results = $search['results'] ?? [];
-        $scopeLabels = $search['scopeLabels'] ?? [];
+        $scopeLabels = $search['scopeLabels'] ?? \App\Support\SearchScope::labels();
 
         $grouped = ['Regions' => [], 'Waterbodies' => [], 'Species by location' => []];
         foreach ($results as $result) {
@@ -30,7 +30,6 @@
             @include('partials.public.search-form', [
                 'query' => $query,
                 'scope' => $scope,
-                'scopeLabels' => $scopeLabels,
             ])
 
             @if (strlen($query) >= 2)
