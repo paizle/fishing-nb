@@ -22,7 +22,7 @@ export default function WatersMap() {
 		<PublicLayout className="WatersMap">
 			<Head title="Waters Map" />
 			<SiteHeader />
-			<main>
+			<div className="main">
 				<div className="WatersMap-body">
 					<MapView items={items} selectedItem={selectedItem} onSelect={setSelectedId} />
 					<Footer>
@@ -40,7 +40,7 @@ export default function WatersMap() {
 						)}
 					</Footer>
 				</div>
-			</main>
+			</div>
 		</PublicLayout>
 	)
 }
