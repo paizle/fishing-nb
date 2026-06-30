@@ -1,6 +1,7 @@
 @use '../../redesign-tokens' as *;
 
 .RedesignNav {
+	position: relative;
 	padding-top: 0.75rem;
 	padding-bottom: 0.75rem;
 }
@@ -122,13 +123,19 @@
 	background: transparent;
 	cursor: pointer;
 	border-radius: 0.25rem;
+	position: relative;
+	z-index: 20;
+	color: inherit;
 
 	@media (min-width: 900px) {
 		display: none;
 	}
 
-	&:hover {
+	&:hover,
+	&:focus-visible {
 		background-color: rgba(255, 255, 255, 0.1);
+		outline: 2px solid rgba(255, 255, 255, 0.65);
+		outline-offset: 2px;
 	}
 }
 
@@ -159,32 +166,54 @@
 	}
 }
 
-.RedesignNav-menuIcon.is-open {
-	background-color: transparent;
+.RedesignNav--open {
+	.RedesignNav-menuIcon {
+		background-color: transparent;
 
-	&::before {
-		transform: translateY(6px) rotate(45deg);
+		&::before {
+			transform: translateY(6px) rotate(45deg);
+		}
+
+		&::after {
+			transform: translateY(-6px) rotate(-45deg);
+		}
 	}
 
-	&::after {
-		transform: translateY(-6px) rotate(-45deg);
+	&::before {
+		content: '';
+		position: fixed;
+		inset: 0;
+		z-index: 40;
+		background-color: rgba(0, 0, 0, 0.35);
+		pointer-events: auto;
+	}
+
+	.RedesignNav-mobile {
+		display: flex;
 	}
 }
 
 .RedesignNav-mobile {
-	display: flex;
+	display: none;
 	flex-direction: column;
-	padding: 0.5rem 0 1rem;
-	border-top: 1px solid rgba(255, 255, 255, 0.15);
-	margin-top: 0.5rem;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	z-index: 50;
+	padding: 0.5rem 0 0.75rem;
+	background-color: var(--redesign-forest-dark);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+	max-height: calc(100vh - var(--nav-height, 4.5rem));
+	overflow-y: auto;
 
 	@media (min-width: 900px) {
-		display: none;
+		display: none !important;
 	}
 }
 
 .RedesignNav-mobileLink {
-	padding: 0.75rem 0;
+	padding: 0.75rem 1rem;
 	color: var(--redesign-white);
 	text-decoration: none;
 	font-weight: 500;
@@ -192,6 +221,14 @@
 
 	&:hover {
 		text-decoration: none;
-		opacity: 0.9;
+		background-color: rgba(255, 255, 255, 0.08);
 	}
+
+	&:last-child {
+		border-bottom: none;
+	}
+}
+
+body.RedesignNav-menuOpen {
+	overflow: hidden;
 }

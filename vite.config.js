@@ -9,6 +9,7 @@ export default defineConfig({
 			input: [
 				'resources/js/app.jsx',
 				'resources/js/public-home.jsx',
+				'resources/js/redesign-nav.js',
 				'resources/css/public-pages.scss',
 				'resources/css/spa-shell.scss',
 			],

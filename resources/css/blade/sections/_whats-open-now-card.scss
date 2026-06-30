@@ -33,15 +33,12 @@
 
 .WhatsOpenNowCard-item {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
 	gap: 0.5rem;
 	padding: 0.5rem 0;
 	font-size: 0.875rem;
-
-	&:last-child {
-		border-bottom: none;
-	}
 }
 
 .WhatsOpenNowCard-statusIcon {
@@ -94,14 +91,11 @@
 	}
 }
 
-.WhatsOpenNowCard-item .WhatsOpenNowCard-status {
-	text-align: right;
-}
-
 .WhatsOpenNowCard-name {
 	flex: 1;
 	font-weight: 600;
 	color: var(--redesign-forest-dark);
+	white-space: nowrap;
 }
 
 .WhatsOpenNowCard-link {

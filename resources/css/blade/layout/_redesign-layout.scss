@@ -35,13 +35,14 @@ body {
 	.RedesignNav {
 		position: relative;
 		z-index: 10;
-		position: relative;
 		background-color: rgba(50, 0, 0, 0.1);
 		transition: background-color 0.3s ease;
 		&:hover {
 			background-color: rgba(50, 0, 0, 0.3);
 		}
 		.RedesignNav-inner {
+			position: relative;
+			z-index: 20;
 			@include stage;
 		}
 	}
