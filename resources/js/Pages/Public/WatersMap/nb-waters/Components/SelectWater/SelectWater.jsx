@@ -43,10 +43,14 @@ export default function SelectWater({ items, selectedId, onSelect }) {
 		onSelectedItemChange: ({ selectedItem }) => {
 			if (selectedItem) {
 				onSelect(selectedItem.id)
-				inputRef?.current?.blur()
+				requestAnimationFrame(() => {
+					inputRef.current?.blur()
+				})
+				setTimeout(() => {
+					inputRef.current?.blur()
+				}, 50)
 			}
 		},
-		ref: inputRef,
 	})
 
 	const rowVirtualizer = useVirtualizer({
@@ -88,7 +92,7 @@ export default function SelectWater({ items, selectedId, onSelect }) {
 							const isSelected = item.id === selectedId
 							const isHighlighted = highlightedIndex === row.index
 							return (
-								<div
+								<button
 									key={item.id}
 									className={`option ${isSelected ? 'selected' : ''} ${isHighlighted ? 'highlighted' : ''}`}
 									style={{
@@ -98,7 +102,7 @@ export default function SelectWater({ items, selectedId, onSelect }) {
 									{...getItemProps({ item, index: row.index })}
 								>
 									<WaterName item={item} />
-								</div>
+								</button>
 							)
 						})}
 					</li>
