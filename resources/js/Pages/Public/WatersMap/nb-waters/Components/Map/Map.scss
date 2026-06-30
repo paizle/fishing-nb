@@ -493,6 +493,7 @@
 		line-height: 1.2;
 		display: flex;
 		flex-direction: row;
+		flex-wrap: wrap;
 		align-items: center;
 		gap: 0.35rem;
 		white-space: normal;
@@ -509,11 +510,6 @@
 		.water-id,
 		.water-id-value {
 			flex: 1;
-			min-width: 0;
-			white-space: normal;
-			overflow: visible;
-			text-overflow: unset;
-			word-break: break-word;
 			color: var(--accent-selected);
 			display: block;
 			max-width: 100%;
