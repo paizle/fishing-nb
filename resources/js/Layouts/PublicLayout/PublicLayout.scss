@@ -28,17 +28,29 @@
 		}
 	}
 
-	> header {
-		grid-area: header;
+	.underlay {
 		position: relative;
-		z-index: 10000;
-		height: var(--nav-height);
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+		.SiteHeader {
+			position: relative;
+			z-index: 10000;
+			height: var(--nav-height);
+		}
+
+		.main {
+			flex-grow: 1;
+			position: relative;
+			z-index: 2;
+		}
 	}
 
-	.main {
-		position: relative;
-		z-index: 2;
-		grid-area: main;
-		height: calc(100% - var(--nav-height));
+	.Footer {
+		position: absolute;
+		height: 100dvh;
+		bottom: 0;
+		display: flex;
+		align-items: end;
 	}
 }

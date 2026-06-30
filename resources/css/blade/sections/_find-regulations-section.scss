@@ -1,5 +1,9 @@
 @use '../../redesign-tokens' as *;
 
+.FindRegulationsSection .BladeSearchBar .BladeSearchBar-select {
+	text-align: center;
+}
+
 .FindRegulationsSection {
 	background-color: var(--redesign-white);
 	padding: 3rem 0;

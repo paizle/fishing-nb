@@ -9,7 +9,7 @@ class SearchScope
 	public static function labels(): array
 	{
 		return [
-			'all' => 'Search All',
+			'all' => 'All',
 			'waterbody' => 'Waterbody',
 			'species' => 'Species',
 			'region' => 'Region',
