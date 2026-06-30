@@ -20,7 +20,7 @@
         @hasSection('vite')
             @yield('vite')
         @else
-            @vite(['resources/css/public-pages.scss'])
+            @vite(['resources/css/public-pages.scss', 'resources/js/redesign-nav.js'])
         @endif
     </head>
     <body>

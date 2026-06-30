@@ -6,6 +6,7 @@
     @endif
     @vite(array_values(array_filter([
         'resources/css/public-pages.scss',
+        'resources/js/redesign-nav.js',
         config('app.react_islands_on') ? 'resources/js/public-home.jsx' : null,
     ])))
 @endsection
