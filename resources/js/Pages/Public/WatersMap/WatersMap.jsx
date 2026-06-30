@@ -21,26 +21,28 @@ export default function WatersMap() {
 	return (
 		<PublicLayout className="WatersMap">
 			<Head title="Waters Map" />
-			<SiteHeader />
-			<div className="main">
-				<div className="WatersMap-body">
-					<MapView items={items} selectedItem={selectedItem} onSelect={setSelectedId} />
-					<Footer>
-						{isLoading ? (
-							<div className="WatersMap-loading">
-								<LoadingSpinner />
-								<span>Loading waters…</span>
-							</div>
-						) : (
-							<SelectWater
-								items={items}
-								selectedId={selectedId}
-								onSelect={setSelectedId}
-							/>
-						)}
-					</Footer>
+			<div className="underlay">
+				<SiteHeader />
+				<div className="main">
+					<div className="WatersMap-body">
+						<MapView
+							items={items}
+							selectedItem={selectedItem}
+							onSelect={setSelectedId}
+						/>
+					</div>
 				</div>
 			</div>
+			<Footer>
+				{isLoading ? (
+					<div className="WatersMap-loading">
+						<LoadingSpinner />
+						<span>Loading waters…</span>
+					</div>
+				) : (
+					<SelectWater items={items} selectedId={selectedId} onSelect={setSelectedId} />
+				)}
+			</Footer>
 		</PublicLayout>
 	)
 }
