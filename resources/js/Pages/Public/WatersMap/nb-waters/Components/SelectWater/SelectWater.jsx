@@ -43,7 +43,7 @@ export default function SelectWater({ items, selectedId, onSelect }) {
 		onSelectedItemChange: ({ selectedItem }) => {
 			if (selectedItem) {
 				onSelect(selectedItem.id)
-				inputRef.current.blur()
+				inputRef?.current?.blur()
 			}
 		},
 		ref: inputRef,
