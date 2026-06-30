@@ -114,7 +114,7 @@ export default function SelectWater({ items, selectedId, onSelect }) {
 				>
 					<MagnifyingGlassIcon />
 				</button>
-				<input {...getInputProps()} placeholder={placeholder} />
+				<input {...getInputProps({ ref: inputRef })} placeholder={placeholder} />
 				{inputValue && (
 					<button
 						type="button"
