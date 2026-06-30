@@ -1,5 +1,13 @@
 @use '/resources/css/app.scss';
 
+.PublicLayout.WatersMap header {
+	z-index: 1100;
+}
+
+.PublicLayout .RedesignNav-inner {
+	padding: 0 1rem;
+}
+
 .PublicLayout {
 	height: 100%;
 	width: 100%;
