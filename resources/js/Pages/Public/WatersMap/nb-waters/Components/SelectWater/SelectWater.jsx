@@ -18,6 +18,7 @@ export default function SelectWater({ items, selectedId, onSelect }) {
 	const [inputValue, setInputValue] = useState('')
 	const filtered = useWaterSearch(items, inputValue)
 	const listRef = useRef(null)
+	const inputRef = useRef(null)
 
 	// Reflect external selection (e.g. clicking the map) in the input.
 	useEffect(() => {
@@ -40,8 +41,12 @@ export default function SelectWater({ items, selectedId, onSelect }) {
 			if (type === useCombobox.stateChangeTypes.InputChange) setInputValue(value ?? '')
 		},
 		onSelectedItemChange: ({ selectedItem }) => {
-			if (selectedItem) onSelect(selectedItem.id)
+			if (selectedItem) {
+				onSelect(selectedItem.id)
+				inputRef.current.blur()
+			}
 		},
+		ref: inputRef,
 	})
 
 	const rowVirtualizer = useVirtualizer({
